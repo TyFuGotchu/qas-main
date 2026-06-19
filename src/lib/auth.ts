@@ -1,16 +1,13 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import { getAuthSecret } from "@/lib/env";
 import { type UserSession } from "@/types";
 
 const SESSION_COOKIE = "qs_session";
 const SESSION_DURATION = 60 * 60 * 24 * 7; // 7 days
 
 function getJwtSecret(): Uint8Array {
-  const secret = process.env.JWT_SECRET;
-  if (!secret) {
-    throw new Error("JWT_SECRET environment variable is not set");
-  }
-  return new TextEncoder().encode(secret);
+  return new TextEncoder().encode(getAuthSecret());
 }
 
 export async function createSessionToken(user: UserSession): Promise<string> {

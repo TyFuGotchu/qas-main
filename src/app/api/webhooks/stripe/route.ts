@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import type Stripe from "stripe";
+import { validateStripeWebhookEnv } from "@/lib/env";
 import { getStripe, getStripeWebhookSecret } from "@/lib/stripe";
 import {
   handleCheckoutSessionCompleted,
@@ -10,9 +11,34 @@ import {
 
 export const runtime = "nodejs";
 
+function misconfigurationResponse(message: string): NextResponse {
+  console.error("[stripe-webhook] Configuration error:", message);
+  return NextResponse.json(
+    { error: "Stripe webhook misconfigured", message },
+    { status: 503 }
+  );
+}
+
 export async function POST(request: NextRequest) {
-  const stripe = getStripe();
-  const webhookSecret = getStripeWebhookSecret();
+  const envCheck = validateStripeWebhookEnv();
+  if (!envCheck.valid && envCheck.message) {
+    return misconfigurationResponse(envCheck.message);
+  }
+
+  let stripe: Stripe;
+  let webhookSecret: string;
+
+  try {
+    stripe = getStripe();
+    webhookSecret = getStripeWebhookSecret();
+  } catch (error) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : "Stripe environment variables are not configured";
+    return misconfigurationResponse(message);
+  }
+
   const signature = request.headers.get("stripe-signature");
 
   if (!signature) {
@@ -29,8 +55,10 @@ export async function POST(request: NextRequest) {
     event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret);
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : "Webhook signature verification failed";
-    console.error("Stripe webhook verification error:", message);
+      error instanceof Error
+        ? error.message
+        : "Webhook signature verification failed";
+    console.error("[stripe-webhook] Verification error:", message);
     return NextResponse.json({ error: message }, { status: 400 });
   }
 
@@ -49,9 +77,9 @@ export async function POST(request: NextRequest) {
         syncMessage = result.message;
 
         if (!result.success) {
-          console.warn("Stripe checkout sync warning:", result);
+          console.warn("[stripe-webhook] Checkout sync warning:", result);
         } else {
-          console.log("Stripe checkout sync success:", result);
+          console.log("[stripe-webhook] Checkout sync success:", result);
         }
         break;
       }
@@ -91,7 +119,7 @@ export async function POST(request: NextRequest) {
       message: syncMessage,
     });
   } catch (error) {
-    console.error("Stripe webhook handler error:", error);
+    console.error("[stripe-webhook] Handler error:", error);
     const message =
       error instanceof Error ? error.message : "Webhook processing failed";
     return NextResponse.json({ error: message }, { status: 500 });

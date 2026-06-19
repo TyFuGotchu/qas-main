@@ -3,6 +3,7 @@ import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
 import { ACCOUNT_TIERS, type AccountTier } from "@/types";
 import { canAccessTools } from "@/lib/tiers";
+import { getAuthSecret, validateCoreProductionEnv } from "@/lib/env";
 
 const PUBLIC_ROUTES = ["/", "/login", "/register"];
 const AUTH_ROUTES = ["/login", "/register"];
@@ -17,9 +18,26 @@ interface SessionPayload {
 }
 
 function getJwtSecret(): Uint8Array {
-  const secret =
-    process.env.JWT_SECRET ?? "quicksilver-dev-secret-change-in-production";
-  return new TextEncoder().encode(secret);
+  return new TextEncoder().encode(getAuthSecret());
+}
+
+function productionConfigErrorResponse(
+  request: NextRequest,
+  message: string
+): NextResponse {
+  const { pathname } = request.nextUrl;
+
+  if (pathname.startsWith("/api/")) {
+    return NextResponse.json(
+      { error: "Server misconfiguration", message },
+      { status: 503 }
+    );
+  }
+
+  return new NextResponse(
+    `Service Unavailable: ${message}`,
+    { status: 503, headers: { "Content-Type": "text/plain" } }
+  );
 }
 
 async function getSessionFromRequest(
@@ -78,6 +96,13 @@ function isLegacyPricingRoute(pathname: string): boolean {
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  const envCheck = validateCoreProductionEnv();
+  if (!envCheck.valid && envCheck.message) {
+    console.error("[middleware] Production env validation failed:", envCheck.message);
+    return productionConfigErrorResponse(request, envCheck.message);
+  }
+
   const session = await getSessionFromRequest(request);
 
   if (
