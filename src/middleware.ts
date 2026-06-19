@@ -1,0 +1,199 @@
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { jwtVerify } from "jose";
+import { ACCOUNT_TIERS, type AccountTier } from "@/types";
+import { canAccessTools } from "@/lib/tiers";
+
+const PUBLIC_ROUTES = ["/", "/login", "/register"];
+const AUTH_ROUTES = ["/login", "/register"];
+const ONBOARDING_ROUTES_PREFIX = "/onboarding";
+const TIER1_ROUTES = ["/dashboard", "/dashboard/bot", "/dashboard/upgrade"];
+const PREMIUM_ROUTES_PREFIX = ["/dashboard/tools", "/dashboard/discord"];
+
+interface SessionPayload {
+  accountTier: AccountTier;
+  isAdmin: boolean;
+  onboardingComplete: boolean;
+}
+
+function getJwtSecret(): Uint8Array {
+  const secret =
+    process.env.JWT_SECRET ?? "quicksilver-dev-secret-change-in-production";
+  return new TextEncoder().encode(secret);
+}
+
+async function getSessionFromRequest(
+  request: NextRequest
+): Promise<SessionPayload | null> {
+  const token = request.cookies.get("qs_session")?.value;
+  if (!token) return null;
+
+  try {
+    const { payload } = await jwtVerify(token, getJwtSecret());
+    return {
+      accountTier: payload.accountTier as AccountTier,
+      isAdmin: Boolean(payload.isAdmin),
+      onboardingComplete: Boolean(payload.onboardingComplete),
+    };
+  } catch {
+    return null;
+  }
+}
+
+function isPublicRoute(pathname: string): boolean {
+  return PUBLIC_ROUTES.some((route) => {
+    if (route === "/") return pathname === "/";
+    return pathname === route || pathname.startsWith(`${route}/`);
+  });
+}
+
+function isAuthRoute(pathname: string): boolean {
+  return AUTH_ROUTES.some((route) => pathname === route);
+}
+
+function isOnboardingRoute(pathname: string): boolean {
+  return (
+    pathname === ONBOARDING_ROUTES_PREFIX ||
+    pathname.startsWith(`${ONBOARDING_ROUTES_PREFIX}/`)
+  );
+}
+
+function isAdminRoute(pathname: string): boolean {
+  return pathname.startsWith("/admin");
+}
+
+function isPremiumRoute(pathname: string): boolean {
+  return PREMIUM_ROUTES_PREFIX.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
+  );
+}
+
+function isDashboardRoute(pathname: string): boolean {
+  return pathname.startsWith("/dashboard");
+}
+
+function isLegacyPricingRoute(pathname: string): boolean {
+  return pathname === "/pricing" || pathname.startsWith("/pricing/");
+}
+
+export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  const session = await getSessionFromRequest(request);
+
+  if (
+    pathname.startsWith("/api/auth") ||
+    pathname.startsWith("/api/webhooks/stripe")
+  ) {
+    return NextResponse.next();
+  }
+
+  if (isLegacyPricingRoute(pathname)) {
+    if (!session) {
+      return NextResponse.redirect(new URL("/register", request.url));
+    }
+    if (!session.onboardingComplete) {
+      return NextResponse.redirect(
+        new URL("/onboarding/pricing", request.url)
+      );
+    }
+    return NextResponse.redirect(new URL("/dashboard/upgrade", request.url));
+  }
+
+  if (isAdminRoute(pathname)) {
+    if (!session) {
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("redirect", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+    if (!session.isAdmin) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+    return NextResponse.next();
+  }
+
+  if (isPublicRoute(pathname) && !isDashboardRoute(pathname) && !isOnboardingRoute(pathname)) {
+    if (session && isAuthRoute(pathname)) {
+      const dest = session.onboardingComplete
+        ? "/dashboard"
+        : "/onboarding/pricing";
+      return NextResponse.redirect(new URL(dest, request.url));
+    }
+    return NextResponse.next();
+  }
+
+  if (isOnboardingRoute(pathname)) {
+    if (!session) {
+      return NextResponse.redirect(new URL("/register", request.url));
+    }
+    if (session.onboardingComplete) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+    return NextResponse.next();
+  }
+
+  if (pathname.startsWith("/api/onboarding")) {
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    return NextResponse.next();
+  }
+
+  if (pathname.startsWith("/api/admin")) {
+    if (!session || !session.isAdmin) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+    return NextResponse.next();
+  }
+
+  if (isDashboardRoute(pathname) || pathname.startsWith("/api/")) {
+    if (!session) {
+      if (pathname.startsWith("/api/")) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      }
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("redirect", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    if (!session.onboardingComplete && isDashboardRoute(pathname)) {
+      return NextResponse.redirect(
+        new URL("/onboarding/pricing", request.url)
+      );
+    }
+
+    if (isPremiumRoute(pathname)) {
+      if (!canAccessTools(session.accountTier)) {
+        return NextResponse.redirect(
+          new URL("/dashboard/upgrade", request.url)
+        );
+      }
+    }
+
+    if (
+      session.accountTier === ACCOUNT_TIERS.BOT_ONLY &&
+      pathname.startsWith("/dashboard") &&
+      !TIER1_ROUTES.some(
+        (route) => pathname === route || pathname.startsWith(`${route}/`)
+      ) &&
+      !isPremiumRoute(pathname)
+    ) {
+      const allowed =
+        pathname === "/dashboard" ||
+        pathname.startsWith("/dashboard/bot") ||
+        pathname.startsWith("/dashboard/upgrade");
+      if (!allowed) {
+        return NextResponse.redirect(
+          new URL("/dashboard/upgrade", request.url)
+        );
+      }
+    }
+  }
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+  ],
+};
