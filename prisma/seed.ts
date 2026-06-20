@@ -41,6 +41,7 @@ async function main() {
     await prisma.user.upsert({
       where: { email: user.email },
       update: {
+        passwordHash,
         isAdmin: user.isAdmin,
         onboardingComplete: user.onboardingComplete,
         accountTier: user.accountTier,

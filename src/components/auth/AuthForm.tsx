@@ -33,7 +33,7 @@ export function AuthForm({ mode }: AuthFormProps) {
   }) {
     if (redirectParam) return redirectParam;
     if (!user.onboardingComplete) return "/onboarding/pricing";
-    if (user.isAdmin) return "/dashboard";
+    if (user.isAdmin) return "/admin/dashboard";
     return "/dashboard";
   }
 
