@@ -2,5 +2,5 @@
 buildCommand = "npm run build"
 
 [deploy]
+preDeployCommand = "npm run db:deploy"
 startCommand = "npm start"
-preDeployCommand = "npx prisma db push && npx tsx prisma/seed.ts"
