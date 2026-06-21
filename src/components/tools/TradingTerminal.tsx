@@ -1,82 +1,52 @@
 "use client";
 
 import Link from "next/link";
-import { MasterChart } from "@/components/charts/MasterChart";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { GlassPanel } from "@/components/ui/GlassPanel";
-import { useMarketDataContext } from "@/providers/MarketDataProvider";
 import { TOOLS, TOOL_COUNT } from "@/lib/tools-registry";
-import { cn } from "@/lib/utils";
 
 export function TradingTerminal() {
-  const {
-    quotes,
-    activeSymbol,
-    setActiveSymbol,
-    activeCandles,
-    symbols,
-    source,
-    loading,
-    lastUpdated,
-  } = useMarketDataContext();
-
   return (
     <div className="space-y-8">
       <GlassPanel className="p-6" glow>
-        <h2 className="font-mono text-2xl font-bold text-slate-100">
-          Quicksilver Trading Terminal
-        </h2>
-        <p className="mt-2 font-mono text-sm text-slate-500">
-          {TOOL_COUNT} institutional instruments · 5 core assets · smart REST
-          polling (90s) · no brokerage required
-        </p>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h2 className="font-mono text-2xl font-bold text-slate-100">
+              Quicksilver Systems Toolkit
+            </h2>
+            <p className="mt-2 max-w-2xl font-mono text-sm text-slate-500">
+              {TOOL_COUNT} proprietary institutional engines — exclusive to Quicksilver
+              Algo Systems. No external market feeds. No brokerage required. Pure
+              QS protocol intelligence.
+            </p>
+          </div>
+          <Badge variant="success" className="shrink-0">
+            QS EXCLUSIVE
+          </Badge>
+        </div>
       </GlassPanel>
 
-      <div className="grid gap-2 sm:grid-cols-5">
-        {quotes.map((q) => (
-          <button
-            key={q.symbol}
-            type="button"
-            onClick={() => setActiveSymbol(q.symbol)}
-            className={cn(
-              "rounded-lg border px-3 py-2 text-left transition-all",
-              activeSymbol === q.symbol
-                ? "border-cyan-accent/40 bg-cyan-accent/5"
-                : "border-white/5 bg-slate-950/60 hover:border-slate-600"
-            )}
-          >
-            <p className="font-mono text-[10px] text-slate-500">{q.symbol}</p>
-            <p className="font-mono text-sm font-bold text-slate-200">
-              {q.price.toLocaleString()}
+      <div className="grid gap-3 sm:grid-cols-3">
+        {[
+          { label: "Proprietary Engines", value: String(TOOL_COUNT) },
+          { label: "External APIs", value: "0" },
+          { label: "QS Protocol Layers", value: "7+" },
+        ].map((stat) => (
+          <GlassPanel key={stat.label} className="p-4 text-center">
+            <p className="font-mono text-[10px] uppercase tracking-widest text-slate-600">
+              {stat.label}
             </p>
-            <p
-              className={cn(
-                "font-mono text-[10px]",
-                q.changePercent >= 0 ? "text-emerald-400" : "text-red-400"
-              )}
-            >
-              {q.changePercent >= 0 ? "+" : ""}
-              {q.changePercent}%
+            <p className="mt-1 font-mono text-2xl font-bold text-cyan-accent">
+              {stat.value}
             </p>
-          </button>
+          </GlassPanel>
         ))}
       </div>
 
-      <MasterChart
-        candles={activeCandles}
-        quotes={quotes}
-        activeSymbol={activeSymbol}
-        onSymbolChange={setActiveSymbol}
-        symbols={symbols}
-        source={source}
-        loading={loading}
-        lastUpdated={lastUpdated}
-      />
-
       <div>
         <h3 className="mb-4 font-mono text-sm font-semibold uppercase tracking-widest text-slate-400">
-          Toolkit Modules
+          QS Institutional Modules
         </h3>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {TOOLS.map((tool) => {

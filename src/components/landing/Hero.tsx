@@ -22,8 +22,8 @@ export function Hero() {
 
           <p className="mx-auto mt-6 max-w-2xl text-lg text-slate-400">
             Institutional-grade algorithmic execution infrastructure. Deploy
-            battle-tested automated strategies with proprietary risk matrices,
-            real-time correlation monitoring, and quant-grade tooling built for
+            battle-tested automated strategies with proprietary QS engines,
+            institutional risk matrices, and exclusive quant tooling built for
             prop firm challenges and live capital deployment.
           </p>
 
@@ -46,7 +46,7 @@ export function Hero() {
             {
               icon: BarChart3,
               title: "6 Master Tools",
-              desc: "Live sentiment matrix, decoupling heatmap, Monte Carlo simulator & more",
+              desc: "QS Edge Confluence, Risk Matrix, Execution Protocol & proprietary engines",
             },
             {
               icon: Activity,
