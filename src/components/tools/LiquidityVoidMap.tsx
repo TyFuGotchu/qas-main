@@ -8,10 +8,9 @@ import { detectLiquidityVoids } from "@/lib/market-data/analytics";
 import { useMarketDataContext } from "@/providers/MarketDataProvider";
 import { cn } from "@/lib/utils";
 
-const LightweightChart = dynamic(
-  () =>
-    import("@/components/charts/LightweightChart").then((m) => m.LightweightChart),
-  { ssr: false, loading: () => <div className="h-[420px] animate-pulse rounded bg-slate-900" /> }
+const MarketChart = dynamic(
+  () => import("@/components/charts/MarketChart").then((m) => m.MarketChart),
+  { ssr: false, loading: () => <div className="h-[420px] animate-pulse rounded bg-slate-950" /> }
 );
 
 export function LiquidityVoidMap() {
@@ -68,7 +67,13 @@ export function LiquidityVoidMap() {
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2">
           <TerminalPanel title={`${activeSymbol} — Void Overlay`} status="online">
-            <LightweightChart candles={chartCandles} height={420} priceLines={priceLines} />
+            <MarketChart
+              key={activeSymbol}
+              symbol={activeSymbol}
+              candles={chartCandles}
+              height={420}
+              priceLines={priceLines}
+            />
           </TerminalPanel>
         </div>
 

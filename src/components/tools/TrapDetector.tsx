@@ -10,10 +10,9 @@ import type { MarketSymbol } from "@/lib/market-data/types";
 import { useMarketDataContext } from "@/providers/MarketDataProvider";
 import { cn } from "@/lib/utils";
 
-const LightweightChart = dynamic(
-  () =>
-    import("@/components/charts/LightweightChart").then((m) => m.LightweightChart),
-  { ssr: false, loading: () => <div className="h-[380px] animate-pulse rounded bg-slate-900" /> }
+const MarketChart = dynamic(
+  () => import("@/components/charts/MarketChart").then((m) => m.MarketChart),
+  { ssr: false, loading: () => <div className="h-[380px] animate-pulse rounded bg-slate-950" /> }
 );
 
 const TRAP_SYMBOLS: MarketSymbol[] = ["XAUUSD", "NAS100", "US30"];
@@ -80,7 +79,13 @@ export function TrapDetector() {
       <div className="grid gap-6 lg:grid-cols-5">
         <div className="lg:col-span-3">
           <TerminalPanel title={`${selectedSymbol} — Trap Overlay`} status="online">
-            <LightweightChart candles={chartCandles} height={380} priceLines={priceLines} />
+            <MarketChart
+              key={selectedSymbol}
+              symbol={selectedSymbol}
+              candles={chartCandles}
+              height={380}
+              priceLines={priceLines}
+            />
           </TerminalPanel>
         </div>
 

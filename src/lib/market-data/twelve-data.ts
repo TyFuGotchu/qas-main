@@ -62,7 +62,12 @@ interface TwelveAtrResponse {
 }
 
 function toUnixTime(datetime: string): number {
-  const ms = Date.parse(datetime.replace(" ", "T") + "Z");
+  const iso = datetime.includes("T")
+    ? datetime.endsWith("Z")
+      ? datetime
+      : `${datetime}Z`
+    : `${datetime.replace(" ", "T")}Z`;
+  const ms = Date.parse(iso);
   return Number.isNaN(ms) ? Math.floor(Date.now() / 1000) : Math.floor(ms / 1000);
 }
 

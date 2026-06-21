@@ -7,13 +7,14 @@ import { SYMBOL_LABELS } from "@/lib/market-data/symbols";
 import type { Candle, MarketSymbol, Quote } from "@/lib/market-data/types";
 import { cn } from "@/lib/utils";
 
-const LightweightChart = dynamic(
-  () =>
-    import("@/components/charts/LightweightChart").then((m) => m.LightweightChart),
+const MarketChart = dynamic(
+  () => import("@/components/charts/MarketChart").then((m) => m.MarketChart),
   {
     ssr: false,
     loading: () => (
-      <div className="h-[420px] animate-pulse rounded-lg bg-slate-900/80" />
+      <div className="flex h-[420px] items-center justify-center rounded-lg bg-slate-950">
+        <p className="font-mono text-xs text-slate-500">Initializing native chart…</p>
+      </div>
     ),
   }
 );
@@ -42,11 +43,11 @@ export function MasterChart({
   const quote = quotes.find((q) => q.symbol === activeSymbol);
 
   return (
-    <GlassPanel className="overflow-hidden p-0" glow>
+    <GlassPanel className="overflow-hidden border-white/5 bg-slate-950 p-0" glow>
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 px-4 py-3">
         <div>
           <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500">
-            Master Terminal Chart
+            Master Terminal Chart · Native lightweight-charts
           </p>
           {quote && (
             <div className="mt-1 flex items-baseline gap-3">
@@ -67,7 +68,7 @@ export function MasterChart({
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant={source === "mock" ? "warning" : "success"}>
-            {source === "mock" ? "MOCK" : "LIVE"} · 5min REST
+            {source === "mock" ? "MOCK" : "LIVE"} · REST polled
           </Badge>
           {lastUpdated ? (
             <span className="font-mono text-[10px] text-slate-600">
@@ -99,7 +100,13 @@ export function MasterChart({
       </div>
 
       <div className="p-2">
-        <LightweightChart candles={candles} height={420} />
+        <MarketChart
+          key={activeSymbol}
+          symbol={activeSymbol}
+          candles={candles}
+          height={420}
+          loading={loading}
+        />
       </div>
     </GlassPanel>
   );
