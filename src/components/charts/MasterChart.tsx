@@ -47,7 +47,10 @@ export function MasterChart({
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 px-4 py-3">
         <div>
           <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500">
-            Master Terminal Chart · Native lightweight-charts
+            Master Terminal Chart · {SYMBOL_LABELS[activeSymbol]}
+            {(activeSymbol === "NAS100" || activeSymbol === "US30") && (
+              <span className="text-slate-600"> · ETF proxy</span>
+            )}
           </p>
           {quote && (
             <div className="mt-1 flex items-baseline gap-3">
@@ -101,7 +104,6 @@ export function MasterChart({
 
       <div className="p-2">
         <MarketChart
-          key={activeSymbol}
           symbol={activeSymbol}
           candles={candles}
           height={420}

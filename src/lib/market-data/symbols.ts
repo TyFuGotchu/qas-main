@@ -26,18 +26,19 @@ export const CORRELATION_SYMBOLS: MarketSymbol[] = [
 export const SYMBOL_LABELS: Record<MarketSymbol, string> = {
   XAUUSD: "Gold",
   XAGUSD: "Silver",
-  NAS100: "Nasdaq 100",
-  US30: "Dow 30",
+  NAS100: "Nasdaq (QQQ)",
+  US30: "Dow (DIA)",
   BTCUSD: "Bitcoin",
 };
 
+/** Fallback mock anchors — kept near live levels (ETF proxies for indices). */
 export const SYMBOL_META: Record<
   MarketSymbol,
   { label: string; basePrice: number; volatility: number }
 > = {
-  XAUUSD: { label: "Gold", basePrice: 2342.5, volatility: 0.0012 },
-  XAGUSD: { label: "Silver", basePrice: 27.85, volatility: 0.0018 },
-  NAS100: { label: "Nasdaq 100", basePrice: 18245.0, volatility: 0.0009 },
-  US30: { label: "Dow 30", basePrice: 39500.0, volatility: 0.0008 },
-  BTCUSD: { label: "Bitcoin", basePrice: 67250.0, volatility: 0.0025 },
+  XAUUSD: { label: "Gold", basePrice: 4156, volatility: 0.0012 },
+  XAGUSD: { label: "Silver", basePrice: 36.5, volatility: 0.0018 },
+  NAS100: { label: "Nasdaq (QQQ)", basePrice: 740, volatility: 0.0009 },
+  US30: { label: "Dow (DIA)", basePrice: 515, volatility: 0.0008 },
+  BTCUSD: { label: "Bitcoin", basePrice: 67000, volatility: 0.0025 },
 };

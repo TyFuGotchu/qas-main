@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useLayoutEffect, useMemo, useRef } from "react";
 import {
   createChart,
   CandlestickSeries,
@@ -42,16 +42,31 @@ export function MarketChart({
   const chartRef = useRef<IChartApi | null>(null);
   const seriesRef = useRef<ISeriesApi<"Candlestick"> | null>(null);
   const priceLineRefs = useRef<IPriceLine[]>([]);
-  const prevSymbolRef = useRef<MarketSymbol | null>(null);
+  const chartDataRef = useRef<CandlestickData[]>([]);
 
   const chartData = useMemo(() => formatCandlesForChart(candles), [candles]);
+  chartDataRef.current = chartData;
 
-  // Initialize native lightweight-charts instance (no iframe, no external embed)
-  useEffect(() => {
-    if (!containerRef.current) return;
+  const applyChartData = (data: CandlestickData[]) => {
+    const series = seriesRef.current;
+    const chart = chartRef.current;
+    if (!series || !chart) return;
 
-    const chart = createChart(containerRef.current, {
-      width: containerRef.current.clientWidth,
+    if (data.length === 0) {
+      series.setData([]);
+      return;
+    }
+
+    series.setData(data);
+    chart.timeScale().fitContent();
+  };
+
+  useLayoutEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const chart = createChart(container, {
+      width: container.clientWidth,
       height,
       layout: {
         background: { type: ColorType.Solid, color: "#020617" },
@@ -89,13 +104,18 @@ export function MarketChart({
     chartRef.current = chart;
     seriesRef.current = series;
 
+    if (chartDataRef.current.length > 0) {
+      series.setData(chartDataRef.current);
+      chart.timeScale().fitContent();
+    }
+
     const resizeObserver = new ResizeObserver((entries) => {
       const entry = entries[0];
       if (entry && chartRef.current) {
         chartRef.current.applyOptions({ width: entry.contentRect.width });
       }
     });
-    resizeObserver.observe(containerRef.current);
+    resizeObserver.observe(container);
 
     return () => {
       resizeObserver.disconnect();
@@ -103,32 +123,14 @@ export function MarketChart({
       chartRef.current = null;
       seriesRef.current = null;
       priceLineRefs.current = [];
-      prevSymbolRef.current = null;
     };
-  }, [height]);
+  }, [height, symbol]);
 
-  // Wire polled data + clear on asset toggle
-  useEffect(() => {
-    const series = seriesRef.current;
-    const chart = chartRef.current;
-    if (!series || !chart) return;
-
-    if (prevSymbolRef.current !== symbol) {
-      series.setData([]);
-      prevSymbolRef.current = symbol;
-    }
-
-    if (chartData.length === 0) {
-      series.setData([]);
-      return;
-    }
-
-    series.setData(chartData as CandlestickData[]);
-    chart.timeScale().fitContent();
+  useLayoutEffect(() => {
+    applyChartData(chartData);
   }, [chartData, symbol]);
 
-  // Overlay price lines (liquidity voids, trap zones)
-  useEffect(() => {
+  useLayoutEffect(() => {
     const series = seriesRef.current;
     if (!series) return;
 

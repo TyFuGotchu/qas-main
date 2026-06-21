@@ -3,9 +3,13 @@ import {
   MARKET_CANDLE_COUNT,
   MARKET_CANDLE_INTERVAL,
 } from "@/lib/market-data/config";
-import { fetchCandles, fetchQuotes, getDataSource } from "@/lib/market-data/provider";
+import {
+  fetchCandlesForSymbols,
+  fetchQuotes,
+  getDataSource,
+} from "@/lib/market-data/provider";
 import { CORRELATION_SYMBOLS, MARKET_SYMBOLS } from "@/lib/market-data/symbols";
-import type { Candle, MarketSymbol, Quote } from "@/lib/market-data/types";
+import type { MarketSymbol } from "@/lib/market-data/types";
 
 export const dynamic = "force-dynamic";
 
@@ -15,27 +19,20 @@ export async function GET(request: NextRequest) {
   const fetchAll = params.get("all") === "true";
 
   const candleSymbols: MarketSymbol[] = fetchAll
-    ? [...CORRELATION_SYMBOLS, "BTCUSD"]
+    ? (Array.from(new Set([...CORRELATION_SYMBOLS, "BTCUSD"])) as MarketSymbol[])
     : candleSymbolsParam
     ? (candleSymbolsParam.split(",").filter((s) =>
         MARKET_SYMBOLS.includes(s as MarketSymbol)
       ) as MarketSymbol[])
     : (["XAUUSD"] as MarketSymbol[]);
 
-  const [quotes, ...candleResults] = await Promise.all([
+  const [quotes, candles] = await Promise.all([
     fetchQuotes(),
-    ...candleSymbols.map((symbol) =>
-      fetchCandles(symbol, MARKET_CANDLE_COUNT, MARKET_CANDLE_INTERVAL)
-    ),
+    fetchCandlesForSymbols(candleSymbols, MARKET_CANDLE_COUNT, MARKET_CANDLE_INTERVAL),
   ]);
 
-  const candles: Partial<Record<MarketSymbol, Candle[]>> = {};
-  candleSymbols.forEach((symbol, i) => {
-    candles[symbol] = candleResults[i] as Candle[];
-  });
-
   return NextResponse.json({
-    quotes: quotes as Quote[],
+    quotes,
     candles,
     source: getDataSource(),
     polledAt: Date.now(),

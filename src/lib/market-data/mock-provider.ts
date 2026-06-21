@@ -45,12 +45,13 @@ export function getMockQuotes(): Quote[] {
 export function getMockCandles(
   symbol: MarketSymbol,
   count = 120,
-  intervalMinutes = 5
+  intervalMinutes = 5,
+  anchorPrice?: number
 ): Candle[] {
   const meta = SYMBOL_META[symbol];
   const now = Math.floor(Date.now() / 1000);
   const interval = intervalMinutes * 60;
-  let price = meta.basePrice;
+  let price = anchorPrice ?? meta.basePrice;
   const candles: Candle[] = [];
 
   for (let i = count - 1; i >= 0; i--) {
