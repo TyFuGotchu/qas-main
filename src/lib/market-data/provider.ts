@@ -53,30 +53,42 @@ export async function fetchQuotes(): Promise<Quote[]> {
 
 export async function fetchCandles(
   symbol: MarketSymbol,
-  count = 120
+  count = 120,
+  interval = "5min"
 ): Promise<Candle[]> {
   if (hasTwelveDataKey()) {
-    const live = await fetchTwelveCandles(symbol, count);
+    const live = await fetchTwelveCandles(symbol, count, interval);
     if (live.length > 0) return live;
   }
-  return getMockCandles(symbol, count);
+  const intervalMinutes = interval === "1min" ? 1 : 5;
+  return getMockCandles(symbol, count, intervalMinutes);
 }
 
 export async function fetchCorrelationMatrix(): Promise<CorrelationCell[]> {
   if (hasTwelveDataKey()) {
-    const seriesEntries = await Promise.all(
+    const candleEntries = await Promise.all(
       CORRELATION_SYMBOLS.map(async (symbol) => {
-        const candles = await fetchTwelveCandles(symbol, 90, "15min");
-        return [symbol, returnsFromCandles(candles)] as const;
+        const candles = await fetchTwelveCandles(symbol, 90, "5min");
+        return [symbol, candles] as const;
       })
     );
 
-    const hasData = seriesEntries.every(([, returns]) => returns.length >= 10);
+    const hasData = candleEntries.every(([, candles]) => candles.length >= 10);
     if (hasData) {
-      const series = Object.fromEntries(seriesEntries) as Partial<
-        Record<MarketSymbol, number[]>
+      const candlesBySymbol = Object.fromEntries(candleEntries) as Partial<
+        Record<MarketSymbol, Candle[]>
       >;
-      return buildCorrelationMatrix(series, CORRELATION_SYMBOLS);
+      const series = Object.fromEntries(
+        candleEntries.map(([symbol, candles]) => [
+          symbol,
+          returnsFromCandles(candles),
+        ])
+      ) as Partial<Record<MarketSymbol, number[]>>;
+      return buildCorrelationMatrix(
+        series,
+        CORRELATION_SYMBOLS,
+        candlesBySymbol
+      );
     }
   }
   return getMockCorrelationMatrix();
@@ -105,7 +117,7 @@ export async function fetchLiquidityZones(
 }
 
 export async function fetchTrapZones(): Promise<TrapZone[]> {
-  const symbols: MarketSymbol[] = ["XAUUSD", "NAS100"];
+  const symbols: MarketSymbol[] = ["XAUUSD", "XAGUSD", "NAS100", "US30"];
   const traps: TrapZone[] = [];
 
   for (const symbol of symbols) {
@@ -134,13 +146,14 @@ export async function fetchSessions(): Promise<MarketSessions> {
   let nyAtr = 0;
 
   if (hasTwelveDataKey()) {
-    const [xauAtr, nasAtr, xagAtr] = await Promise.all([
+    const [xauAtr, nasAtr, xagAtr, us30Atr] = await Promise.all([
       fetchTwelveAtr("XAUUSD"),
       fetchTwelveAtr("NAS100"),
       fetchTwelveAtr("XAGUSD"),
+      fetchTwelveAtr("US30"),
     ]);
     londonAtr = Math.round(xauAtr || 0);
-    nyAtr = Math.round(nasAtr || 0);
+    nyAtr = Math.round(((nasAtr || 0) + (us30Atr || 0)) / 2);
     asiaAtr = Math.round(xagAtr || xauAtr * 0.6 || 0);
     compositeAtr = Math.round((londonAtr + nyAtr + asiaAtr) / 3);
   }

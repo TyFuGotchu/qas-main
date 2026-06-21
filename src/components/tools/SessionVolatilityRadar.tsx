@@ -1,11 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { Badge } from "@/components/ui/Badge";
 import { TerminalPanel } from "@/components/ui/TerminalPanel";
 import Button from "@/components/ui/Button";
-import type { MarketSessions } from "@/lib/market-data/types";
+import { computeAtr } from "@/lib/market-data/analytics";
+import { useMarketDataContext } from "@/providers/MarketDataProvider";
 import { cn } from "@/lib/utils";
 import { Volume2, VolumeX } from "lucide-react";
 
@@ -16,17 +17,34 @@ const SESSION_COLORS = {
 };
 
 export function SessionVolatilityRadar() {
-  const [sessions, setSessions] = useState<MarketSessions | null>(null);
+  const { candles, source } = useMarketDataContext();
   const [audioEnabled, setAudioEnabled] = useState(false);
   const alertedRef = useRef(false);
   const audioCtxRef = useRef<AudioContext | null>(null);
 
+  const utcHour = new Date().getUTCHours();
+  const asiaOpen = utcHour >= 0 && utcHour < 8;
+  const londonOpen = utcHour >= 7 && utcHour < 16;
+  const nyOpen = utcHour >= 13 && utcHour < 22;
+  const overlapActive = londonOpen && nyOpen;
+
+  const atrMetrics = useMemo(() => {
+    const xau = computeAtr(candles.XAUUSD ?? []);
+    const xag = computeAtr(candles.XAGUSD ?? []);
+    const nas = computeAtr(candles.NAS100 ?? []);
+    const us30 = computeAtr(candles.US30 ?? []);
+    const londonAtr = Math.round(xau);
+    const asiaAtr = Math.round(xag || xau * 0.6);
+    const nyAtr = Math.round((nas + us30) / 2);
+    let composite = Math.round((londonAtr + nyAtr + asiaAtr) / 3);
+    if (overlapActive) composite = Math.round(composite * 1.35);
+    return { londonAtr, asiaAtr, nyAtr, composite };
+  }, [candles, overlapActive]);
+
   const playAlert = useCallback(() => {
     if (!audioEnabled) return;
     try {
-      if (!audioCtxRef.current) {
-        audioCtxRef.current = new AudioContext();
-      }
+      if (!audioCtxRef.current) audioCtxRef.current = new AudioContext();
       const ctx = audioCtxRef.current;
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
@@ -38,40 +56,32 @@ export function SessionVolatilityRadar() {
       osc.start(ctx.currentTime);
       osc.stop(ctx.currentTime + 0.4);
     } catch {
-      // Audio not available
+      // ignore
     }
   }, [audioEnabled]);
 
   useEffect(() => {
-    async function load() {
-      const res = await fetch("/api/market/sessions");
-      const data: MarketSessions = await res.json();
-      setSessions(data);
-
-      if (data.overlapActive && data.compositeAtr >= 45 && !alertedRef.current) {
-        playAlert();
-        alertedRef.current = true;
-      }
-      if (!data.overlapActive) {
-        alertedRef.current = false;
-      }
+    if (overlapActive && atrMetrics.composite >= 8 && !alertedRef.current) {
+      playAlert();
+      alertedRef.current = true;
     }
-    load();
-    const interval = setInterval(load, 30_000);
-    return () => clearInterval(interval);
-  }, [playAlert]);
+    if (!overlapActive) alertedRef.current = false;
+  }, [overlapActive, atrMetrics.composite, playAlert]);
 
   const utcNow = new Date();
   const clockAngle = ((utcNow.getUTCHours() + utcNow.getUTCMinutes() / 60) / 24) * 360;
 
+  const sessions = [
+    { name: "Asia" as const, open: asiaOpen, atr: atrMetrics.asiaAtr },
+    { name: "London" as const, open: londonOpen, atr: atrMetrics.londonAtr },
+    { name: "NewYork" as const, open: nyOpen, atr: atrMetrics.nyAtr },
+  ];
+
   return (
     <div className="space-y-6">
       <GlassPanel
-        className={cn(
-          "p-6 transition-all",
-          sessions?.overlapActive && "border-glow-cyan animate-pulse-glow"
-        )}
-        glow={sessions?.overlapActive}
+        className={cn("p-6 transition-all", overlapActive && "animate-pulse-glow border-glow-cyan")}
+        glow={overlapActive}
       >
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
@@ -79,19 +89,12 @@ export function SessionVolatilityRadar() {
               Session Volatility Radar
             </h3>
             <p className="font-mono text-xs text-slate-500">
-              UTC {utcNow.toISOString().slice(11, 19)} · Composite ATR{" "}
-              {sessions?.compositeAtr ?? "—"}
+              ATR from {source} polled data · Composite {atrMetrics.composite}
             </p>
           </div>
           <div className="flex items-center gap-3">
-            {sessions?.overlapActive && (
-              <Badge variant="success">OVERLAP ACTIVE</Badge>
-            )}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setAudioEnabled((v) => !v)}
-            >
+            {overlapActive && <Badge variant="success">OVERLAP ACTIVE</Badge>}
+            <Button variant="ghost" size="sm" onClick={() => setAudioEnabled((v) => !v)}>
               {audioEnabled ? (
                 <Volume2 className="h-4 w-4 text-cyan-accent" />
               ) : (
@@ -111,45 +114,38 @@ export function SessionVolatilityRadar() {
               style={{ transform: `translateX(-50%) rotate(${clockAngle}deg)` }}
             />
             <div className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-accent" />
-
-            {(["Asia", "London", "NewYork"] as const).map((name, i) => {
+            {sessions.map((s, i) => {
               const angle = i * 120 - 90;
               const rad = (angle * Math.PI) / 180;
               const x = 50 + Math.cos(rad) * 38;
               const y = 50 + Math.sin(rad) * 38;
-              const session = sessions?.sessions.find((s) => s.name === name);
               return (
                 <div
-                  key={name}
+                  key={s.name}
                   className={cn(
                     "absolute flex flex-col items-center rounded-lg border px-2 py-1 font-mono text-[10px]",
-                    session?.open
+                    s.open
                       ? "border-cyan-accent/50 bg-cyan-accent/10 text-cyan-accent"
                       : "border-slate-700 text-slate-600"
                   )}
-                  style={{
-                    left: `${x}%`,
-                    top: `${y}%`,
-                    transform: "translate(-50%, -50%)",
-                  }}
+                  style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -50%)" }}
                 >
-                  <span className="font-bold">{name}</span>
-                  <span>ATR {session?.atr ?? "—"}</span>
+                  <span className="font-bold">{s.name}</span>
+                  <span>ATR {s.atr}</span>
                 </div>
               );
             })}
           </div>
-
-          {sessions?.overlapLabel && (
+          {overlapActive && (
             <p className="mt-4 text-center font-mono text-sm text-cyan-accent terminal-glow">
-              {sessions.overlapLabel} overlap — volatility expansion detected
+              London × New York overlap — volatility expansion
             </p>
           )}
         </TerminalPanel>
 
         <TerminalPanel title="ATR Volatility Bands" status="warning">
           <div className="space-y-4">
-            {sessions?.sessions.map((s) => (
+            {sessions.map((s) => (
               <div key={s.name}>
                 <div className="mb-1 flex justify-between font-mono text-xs">
                   <span className="text-slate-400">{s.name}</span>
@@ -169,18 +165,6 @@ export function SessionVolatilityRadar() {
                 </div>
               </div>
             ))}
-
-            <GlassPanel className="mt-4 p-4">
-              <p className="font-mono text-[10px] uppercase text-slate-500">
-                Composite Volatility Index
-              </p>
-              <p className="font-mono text-3xl font-bold text-cyan-accent">
-                {sessions?.compositeAtr ?? "—"}
-              </p>
-              <p className="mt-1 font-mono text-[10px] text-slate-500">
-                Threshold for audio alert: ATR ≥ 45 during session overlap
-              </p>
-            </GlassPanel>
           </div>
         </TerminalPanel>
       </div>

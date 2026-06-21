@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { Badge } from "@/components/ui/Badge";
 import { TerminalPanel } from "@/components/ui/TerminalPanel";
-import type { CorrelationCell, Quote } from "@/lib/market-data/types";
+import { buildCorrelationMatrix, returnsFromCandles } from "@/lib/market-data/analytics";
+import { CORRELATION_SYMBOLS } from "@/lib/market-data/symbols";
+import { useMarketDataContext } from "@/providers/MarketDataProvider";
 import { cn } from "@/lib/utils";
 import { AlertTriangle } from "lucide-react";
 
@@ -17,31 +19,23 @@ function corrColor(value: number) {
 }
 
 export function DecouplingHeatmap() {
-  const [matrix, setMatrix] = useState<CorrelationCell[]>([]);
-  const [quotes, setQuotes] = useState<Quote[]>([]);
-  const [alert, setAlert] = useState<CorrelationCell | null>(null);
+  const { quotes, candles, source, loading } = useMarketDataContext();
 
-  useEffect(() => {
-    async function load() {
-      const [corrRes, quoteRes] = await Promise.all([
-        fetch("/api/market/correlation"),
-        fetch("/api/market/quotes"),
-      ]);
-      const corrData = await corrRes.json();
-      const quoteData = await quoteRes.json();
-      const cells: CorrelationCell[] = corrData.matrix ?? [];
-      setMatrix(cells);
-      setQuotes(quoteData.quotes ?? []);
-      setAlert(cells.find((c) => c.decoupled) ?? null);
-    }
-    load();
-    const interval = setInterval(load, 15_000);
-    return () => clearInterval(interval);
-  }, []);
+  const matrix = useMemo(() => {
+    const series = Object.fromEntries(
+      CORRELATION_SYMBOLS.map((symbol) => [
+        symbol,
+        returnsFromCandles(candles[symbol] ?? []),
+      ])
+    ) as Partial<Record<(typeof CORRELATION_SYMBOLS)[number], number[]>>;
 
-  const assets = ["XAUUSD", "XAGUSD", "NAS100"] as const;
+    return buildCorrelationMatrix(series, CORRELATION_SYMBOLS, candles);
+  }, [candles]);
 
-  function getCell(a: string, b: string): CorrelationCell | undefined {
+  const alert = matrix.find((c) => c.decoupled) ?? null;
+  const assets = CORRELATION_SYMBOLS;
+
+  function getCell(a: string, b: string) {
     if (a === b) return undefined;
     return matrix.find(
       (c) =>
@@ -53,7 +47,7 @@ export function DecouplingHeatmap() {
   return (
     <div className="space-y-6">
       {alert && (
-        <GlassPanel className="border-red-500/50 bg-red-500/10 p-4 animate-pulse-glow" glow>
+        <GlassPanel className="animate-pulse-glow border-red-500/50 bg-red-500/10 p-4" glow>
           <div className="flex items-center gap-3">
             <AlertTriangle className="h-6 w-6 text-red-400" />
             <div>
@@ -61,22 +55,20 @@ export function DecouplingHeatmap() {
                 DIVERGENCE ALERT — {alert.assetA} / {alert.assetB}
               </p>
               <p className="font-mono text-xs text-slate-400">
-                Correlation collapsed {alert.previousCorrelation.toFixed(2)} →{" "}
-                {alert.correlation.toFixed(2)}. Latency arbitrage window open.
+                Latest closes moved opposite · correlation {alert.correlation.toFixed(2)}{" "}
+                (was {alert.previousCorrelation.toFixed(2)})
               </p>
             </div>
           </div>
         </GlassPanel>
       )}
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {quotes
           .filter((q) => assets.includes(q.symbol as (typeof assets)[number]))
           .map((q) => (
             <GlassPanel key={q.symbol} className="p-4">
-              <p className="font-mono text-[10px] uppercase text-slate-500">
-                {q.symbol}
-              </p>
+              <p className="font-mono text-[10px] uppercase text-slate-500">{q.symbol}</p>
               <p className="font-mono text-xl font-bold text-slate-100">
                 {q.price.toLocaleString()}
               </p>
@@ -93,9 +85,12 @@ export function DecouplingHeatmap() {
           ))}
       </div>
 
-      <TerminalPanel title="Cross-Asset Correlation Matrix" status="online">
+      <TerminalPanel
+        title={`Cross-Asset Matrix · ${source.toUpperCase()} · ${loading ? "syncing" : "synced"}`}
+        status="online"
+      >
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[360px] border-collapse font-mono text-sm">
+          <table className="w-full min-w-[420px] border-collapse font-mono text-sm">
             <thead>
               <tr>
                 <th className="p-2 text-left text-slate-500" />
@@ -126,7 +121,8 @@ export function DecouplingHeatmap() {
                           className={cn(
                             "mx-auto flex h-12 w-12 flex-col items-center justify-center rounded border transition-all",
                             corrColor(val),
-                            cell?.decoupled && "animate-pulse border-red-400 ring-2 ring-red-400/50"
+                            cell?.decoupled &&
+                              "animate-pulse border-red-400 ring-2 ring-red-400/50"
                           )}
                         >
                           <span className="text-xs font-bold text-white">

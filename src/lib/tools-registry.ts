@@ -35,7 +35,7 @@ export const TOOLS: ToolDefinition[] = [
     href: "/dashboard/tools/decoupling-heatmap",
     name: "Cross-Asset Decoupling Heatmap",
     shortName: "Decoupling Heatmap",
-    desc: "Real-time correlation matrix for XAUUSD, XAGUSD, and NAS100 with divergence alerts.",
+    desc: "Rolling correlation matrix for XAUUSD, XAGUSD, NAS100, and US30 with divergence alerts.",
     icon: Activity,
     tag: "Arbitrage",
   },

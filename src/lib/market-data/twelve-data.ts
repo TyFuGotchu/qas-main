@@ -72,6 +72,7 @@ function mapSymbol(symbol: MarketSymbol): string {
 
 const SYMBOL_FALLBACKS: Partial<Record<MarketSymbol, string[]>> = {
   NAS100: ["QQQ", "NDX"],
+  US30: ["DIA", "DJI"],
 };
 
 async function fetchWithFallback<T>(
@@ -115,7 +116,7 @@ export async function fetchTwelveQuote(symbol: MarketSymbol): Promise<Quote | nu
     timestamp: Date.now(),
   };
 
-  return setCached(cacheKey, quote, 30_000);
+  return setCached(cacheKey, quote, 120_000);
 }
 
 export async function fetchTwelveQuotes(

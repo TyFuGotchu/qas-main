@@ -44,7 +44,7 @@ export function EventHorizon() {
       setLoading(false);
     }
     load();
-    const interval = setInterval(load, 60_000);
+    const interval = setInterval(load, 300_000);
     return () => clearInterval(interval);
   }, []);
 
@@ -70,9 +70,9 @@ export function EventHorizon() {
         {loading ? (
           <p className="font-mono text-sm text-slate-500">Scanning global events...</p>
         ) : (
-          <div className="space-y-4">
+          <div className="relative space-y-4 pl-6 before:absolute before:bottom-0 before:left-2 before:top-0 before:w-px before:bg-cyan-accent/20">
             {events.map((event) => (
-              <GlassPanel key={event.id} className="p-4">
+              <GlassPanel key={event.id} className="relative p-4 before:absolute before:-left-[17px] before:top-6 before:h-2.5 before:w-2.5 before:rounded-full before:bg-cyan-accent before:shadow-[0_0_8px_#00E5FF]">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="flex-1">
                     <div className="flex items-center gap-2">

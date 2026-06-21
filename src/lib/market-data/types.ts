@@ -1,4 +1,9 @@
-export type MarketSymbol = "XAUUSD" | "XAGUSD" | "NAS100" | "BTCUSD";
+export type MarketSymbol =
+  | "XAUUSD"
+  | "XAGUSD"
+  | "NAS100"
+  | "US30"
+  | "BTCUSD";
 
 export interface Quote {
   symbol: MarketSymbol;

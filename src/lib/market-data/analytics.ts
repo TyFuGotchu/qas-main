@@ -26,9 +26,22 @@ export function pearsonCorrelation(a: number[], b: number[]): number {
   return den === 0 ? 0 : num / den;
 }
 
+function lastCloseReturnsOpposite(
+  candlesA: Candle[],
+  candlesB: Candle[]
+): boolean {
+  if (candlesA.length < 2 || candlesB.length < 2) return false;
+  const retA =
+    (candlesA.at(-1)!.close - candlesA.at(-2)!.close) / candlesA.at(-2)!.close;
+  const retB =
+    (candlesB.at(-1)!.close - candlesB.at(-2)!.close) / candlesB.at(-2)!.close;
+  return retA * retB < 0 && Math.abs(retA) > 0.0004 && Math.abs(retB) > 0.0004;
+}
+
 export function buildCorrelationMatrix(
   series: Partial<Record<MarketSymbol, number[]>>,
-  symbols: MarketSymbol[]
+  symbols: MarketSymbol[],
+  candlesBySymbol?: Partial<Record<MarketSymbol, Candle[]>>
 ): CorrelationCell[] {
   const cells: CorrelationCell[] = [];
   const window = 30;
@@ -52,7 +65,15 @@ export function buildCorrelationMatrix(
         pearsonCorrelation(priorA, priorB).toFixed(3)
       );
 
+      const oppositeLastCandle = candlesBySymbol
+        ? lastCloseReturnsOpposite(
+            candlesBySymbol[assetA] ?? [],
+            candlesBySymbol[assetB] ?? []
+          )
+        : false;
+
       const decoupled =
+        oppositeLastCandle ||
         (Math.abs(correlation) < 0.3 && Math.abs(previousCorrelation) > 0.55) ||
         (Math.abs(correlation - previousCorrelation) > 0.45 &&
           Math.abs(recentA.at(-1) ?? 0) > 0.003 &&
@@ -139,10 +160,16 @@ export function detectTrapZones(
 ): TrapZone[] {
   const traps: TrapZone[] = [];
   const recent = candles.slice(-25);
+  const avgVolume =
+    recent.reduce((s, c) => s + (c.volume || 0), 0) / Math.max(recent.length, 1);
 
   recent.forEach((candle, idx) => {
     const range = candle.high - candle.low;
     if (range <= 0) return;
+
+    const volume = candle.volume || 0;
+    const highVolume = volume > avgVolume * 1.35;
+    if (!highVolume) return;
 
     const bodyTop = Math.max(candle.open, candle.close);
     const bodyBottom = Math.min(candle.open, candle.close);
@@ -150,6 +177,7 @@ export function detectTrapZones(
     const lowerWick = bodyBottom - candle.low;
     const upperRatio = upperWick / range;
     const lowerRatio = lowerWick / range;
+    const volBoost = Math.min(20, Math.round((volume / avgVolume) * 8));
 
     if (upperRatio > 0.55 && candle.close < bodyTop) {
       traps.push({
@@ -157,10 +185,10 @@ export function detectTrapZones(
         symbol,
         price: parseFloat(candle.high.toFixed(2)),
         direction: "long_trap",
-        strength: Math.min(99, Math.round(upperRatio * 100)),
+        strength: Math.min(99, Math.round(upperRatio * 100) + volBoost),
         detectedAt: new Date(candle.time * 1000).toISOString(),
         description:
-          "Upper wick rejection — retail buyers trapped at session peak",
+          "High-volume upper wick — retail bought the top and is trapped offside",
       });
     }
 
@@ -170,10 +198,10 @@ export function detectTrapZones(
         symbol,
         price: parseFloat(candle.low.toFixed(2)),
         direction: "short_trap",
-        strength: Math.min(99, Math.round(lowerRatio * 100)),
+        strength: Math.min(99, Math.round(lowerRatio * 100) + volBoost),
         detectedAt: new Date(candle.time * 1000).toISOString(),
         description:
-          "Lower wick sweep — retail sellers trapped at liquidity flush low",
+          "High-volume lower wick — retail sold the bottom and is trapped offside",
       });
     }
   });
