@@ -45,8 +45,8 @@ export function Hero() {
             },
             {
               icon: BarChart3,
-              title: "5 Quant Tools",
-              desc: "Drawdown simulators, correlation monitors, and preset generators",
+              title: "6 Master Tools",
+              desc: "Live sentiment matrix, decoupling heatmap, Monte Carlo simulator & more",
             },
             {
               icon: Activity,

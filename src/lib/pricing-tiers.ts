@@ -21,7 +21,7 @@ export const PRICING_TIERS: PricingTier[] = [
     period: "/ Month",
     features: [
       "Full bot access",
-      "5 exclusive internal web tools",
+      "6 institutional trading toolkit widgets",
       "VIP Discord integration",
       "Live trading guidance",
       "Pre-programmed setting presets",

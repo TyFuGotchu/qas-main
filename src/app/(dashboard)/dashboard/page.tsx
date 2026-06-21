@@ -6,6 +6,7 @@ import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { RecommendedBrokerCard } from "@/components/broker/RecommendedBrokerCard";
 import { AnnouncementBanner } from "@/components/announcements/AnnouncementBanner";
+import { TOOL_COUNT } from "@/lib/tools-registry";
 import {
   Bot,
   Wrench,
@@ -30,7 +31,7 @@ export default async function DashboardPage() {
       href: "/dashboard/tools",
       label: "Trading Tools",
       icon: Wrench,
-      desc: "5 exclusive quant instruments",
+      desc: `${TOOL_COUNT} institutional trading instruments`,
       locked: !hasPremium,
     },
     {
@@ -83,7 +84,7 @@ export default async function DashboardPage() {
         {[
           { label: "Active Sessions", value: "1", status: "online" },
           { label: "Bot Status", value: "Ready", status: "online" },
-          { label: "Tools Available", value: hasPremium ? "5" : "0", status: hasPremium ? "online" : "warning" },
+          { label: "Tools Available", value: hasPremium ? String(TOOL_COUNT) : "0", status: hasPremium ? "online" : "warning" },
           { label: "Account Tier", value: user?.accountTier ?? "—", status: "online" },
         ].map((stat) => (
           <Card key={stat.label}>

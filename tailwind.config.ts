@@ -17,6 +17,7 @@ const config: Config = {
         },
         cyan: {
           terminal: "#66FCF1",
+          accent: "#00E5FF",
         },
         emerald: {
           terminal: "#45A29E",
@@ -36,11 +37,16 @@ const config: Config = {
       animation: {
         "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         glow: "glow 2s ease-in-out infinite alternate",
+        "pulse-glow": "pulseGlow 2s ease-in-out infinite",
       },
       keyframes: {
         glow: {
           "0%": { boxShadow: "0 0 5px rgba(102,252,241,0.2)" },
           "100%": { boxShadow: "0 0 20px rgba(102,252,241,0.4)" },
+        },
+        pulseGlow: {
+          "0%, 100%": { boxShadow: "0 0 8px rgba(0,229,255,0.15)" },
+          "50%": { boxShadow: "0 0 28px rgba(0,229,255,0.45)" },
         },
       },
     },

@@ -8,6 +8,7 @@
   --background: #0B0C10;
   --foreground: #C5C6C7;
   --cyan-terminal: #66FCF1;
+  --cyan-accent: #00E5FF;
   --emerald-terminal: #45A29E;
   --obsidian-800: #1F2833;
   --obsidian-950: #0B0C10;
@@ -39,6 +40,14 @@ body {
 
   .border-glow {
     box-shadow: 0 0 15px rgba(102, 252, 241, 0.1);
+  }
+
+  .border-glow-cyan {
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+  }
+
+  .text-cyan-accent {
+    color: var(--cyan-accent);
   }
 }
 
