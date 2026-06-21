@@ -33,12 +33,14 @@ function scoreBar(score: number) {
 export function EventHorizon() {
   const [events, setEvents] = useState<MacroEvent[]>([]);
   const [loading, setLoading] = useState(true);
+  const [source, setSource] = useState<"live" | "mock" | "hybrid">("mock");
 
   useEffect(() => {
     async function load() {
       const res = await fetch("/api/market/calendar");
       const data = await res.json();
       setEvents(data.events ?? []);
+      setSource(data.source ?? "mock");
       setLoading(false);
     }
     load();
@@ -58,7 +60,9 @@ export function EventHorizon() {
               Volatility Impact Score (−100 to +100) · AI sentiment derived
             </p>
           </div>
-          <Badge variant="success">LIVE FEED</Badge>
+          <Badge variant={source === "mock" ? "warning" : "success"}>
+            {source === "mock" ? "MOCK FEED" : "LIVE FEED"}
+          </Badge>
         </div>
       </GlassPanel>
 

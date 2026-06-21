@@ -7,6 +7,15 @@ export const MARKET_SYMBOLS: MarketSymbol[] = [
   "BTCUSD",
 ];
 
+export const TWELVE_DATA_SYMBOLS: Record<MarketSymbol, string> = {
+  XAUUSD: "XAU/USD",
+  XAGUSD: "XAG/USD",
+  NAS100: "QQQ",
+  BTCUSD: "BTC/USD",
+};
+
+export const CORRELATION_SYMBOLS: MarketSymbol[] = ["XAUUSD", "XAGUSD", "NAS100"];
+
 export const SYMBOL_META: Record<
   MarketSymbol,
   { label: string; basePrice: number; volatility: number }

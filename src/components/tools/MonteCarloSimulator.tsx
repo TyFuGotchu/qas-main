@@ -26,7 +26,7 @@ export function MonteCarloSimulator() {
       startingBalance: Number(startingBalance),
       maxDrawdownPercent: Number(maxDrawdown),
       dailyLossLimitPercent: Number(dailyLossLimit),
-      simulations: 2000,
+      simulations: 10000,
       horizonDays: 30,
     });
   }, [
@@ -60,7 +60,7 @@ export function MonteCarloSimulator() {
           <Input label="Max Drawdown (%)" value={maxDrawdown} onChange={(e) => setMaxDrawdown(e.target.value)} type="number" />
           <Input label="Daily Loss Limit (%)" value={dailyLossLimit} onChange={(e) => setDailyLossLimit(e.target.value)} type="number" />
           <Button variant="primary" className="w-full" onClick={() => setRunKey((k) => k + 1)}>
-            Run 2,000 Simulations
+            Run 10,000 Simulations
           </Button>
         </div>
       </GlassPanel>

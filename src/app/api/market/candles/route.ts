@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { fetchCandles } from "@/lib/market-data/provider";
+import { fetchCandles, getDataSource } from "@/lib/market-data/provider";
 import { MARKET_SYMBOLS } from "@/lib/market-data/symbols";
 import type { MarketSymbol } from "@/lib/market-data/types";
 
@@ -14,5 +14,5 @@ export async function GET(request: NextRequest) {
   }
 
   const candles = await fetchCandles(symbol, count);
-  return NextResponse.json({ symbol, candles });
+  return NextResponse.json({ symbol, candles, source: getDataSource() });
 }

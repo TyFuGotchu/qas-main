@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { fetchLiquidityZones } from "@/lib/market-data/provider";
+import { fetchLiquidityZones, getDataSource } from "@/lib/market-data/provider";
 import { MARKET_SYMBOLS } from "@/lib/market-data/symbols";
 import type { MarketSymbol } from "@/lib/market-data/types";
 
@@ -13,5 +13,5 @@ export async function GET(request: NextRequest) {
   }
 
   const zones = await fetchLiquidityZones(symbol);
-  return NextResponse.json({ symbol, zones });
+  return NextResponse.json({ symbol, zones, source: getDataSource() });
 }
