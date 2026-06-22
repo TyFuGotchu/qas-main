@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { getSession } from "@/lib/auth";
 import { SessionProvider } from "@/providers/SessionProvider";
 
@@ -32,6 +33,7 @@ export default async function RootLayout({
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} bg-obsidian-950 text-slate-300 antialiased`}
       >
+        <GoogleAnalytics />
         <SessionProvider initialUser={user}>{children}</SessionProvider>
       </body>
     </html>
