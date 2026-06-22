@@ -26,8 +26,8 @@ export default async function DashboardPage() {
       href: "/lessons",
       label: "Chart Academy",
       icon: BookOpen,
-      desc: "Learn charts, candlesticks, Fibonacci, and trading styles",
-      locked: false,
+      desc: "89 lessons + prop firm 1-week guide — Premium Quant only",
+      locked: !hasPremium,
     },
     {
       href: "/dashboard/trade-together",
@@ -80,11 +80,11 @@ export default async function DashboardPage() {
             <AlertTriangle className="h-6 w-6 shrink-0 text-amber-400" />
             <div className="flex-1">
               <p className="font-mono text-sm text-amber-300">
-                Bot Only tier active — Premium tools are locked
+                Bot Only tier active — Premium features are locked
               </p>
               <p className="mt-1 text-xs text-slate-500">
-                Upgrade to Premium Quant or Lifetime Alpha to unlock the full
-                trading suite.
+                Upgrade to Premium Quant ($199.99/mo) or Lifetime Alpha to unlock
+                Chart Academy, 6 planning tools, and VIP Discord.
               </p>
             </div>
             <Link href="/dashboard/upgrade">

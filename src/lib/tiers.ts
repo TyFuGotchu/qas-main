@@ -7,7 +7,18 @@ export function isPremiumTier(tier: AccountTier): boolean {
   );
 }
 
+/** Premium Quant ($199.99/mo) and Lifetime Alpha */
 export function canAccessTools(tier: AccountTier): boolean {
+  return isPremiumTier(tier);
+}
+
+/** Lessons, guides, and Chart Academy — $199 tier and above */
+export function canAccessAcademy(tier: AccountTier): boolean {
+  return isPremiumTier(tier);
+}
+
+/** VIP Discord — $199 tier and above only (not Bot Only) */
+export function canAccessDiscord(tier: AccountTier): boolean {
   return isPremiumTier(tier);
 }
 

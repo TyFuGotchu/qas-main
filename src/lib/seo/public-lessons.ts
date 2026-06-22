@@ -1,6 +1,9 @@
 import { ACADEMY_CATEGORIES } from "@/lib/academy/content";
+import { PROP_FIRM_ONE_WEEK_GUIDE } from "@/lib/academy/content/prop-firm-one-week";
 import type { AcademyLesson } from "@/lib/academy/types";
 import { TOOLS } from "@/lib/tools-registry";
+
+export { PROP_FIRM_ONE_WEEK_GUIDE };
 
 export interface PublicLesson {
   slug: string;
@@ -25,6 +28,7 @@ const CATEGORY_TOOL_MAP: Record<string, string> = {
 };
 
 const LESSON_TOOL_OVERRIDES: Record<string, string> = {
+  "prop-firm-one-week": "prop-survival",
   "prop-firm": "prop-survival",
   journal: "alpha-durability",
   risk: "risk-matrix",
@@ -93,8 +97,15 @@ export function getLessonBySlug(slug: string): PublicLesson | undefined {
 
 export function getRelatedTool(slug: string) {
   const lesson = getLessonBySlug(slug);
-  if (!lesson) return undefined;
-  return TOOLS.find((t) => t.slug === lesson.relatedToolSlug);
+  if (lesson) {
+    return TOOLS.find((t) => t.slug === lesson.relatedToolSlug);
+  }
+  for (const [key, toolSlug] of Object.entries(LESSON_TOOL_OVERRIDES)) {
+    if (slug === key || slug.includes(key)) {
+      return TOOLS.find((t) => t.slug === toolSlug);
+    }
+  }
+  return undefined;
 }
 
 export interface ChartingGuide {
@@ -105,33 +116,52 @@ export interface ChartingGuide {
   lessonCount: number;
   highlights: string[];
   faqs: { question: string; answer: string }[];
+  featured?: boolean;
+  badge?: string;
 }
 
-export const CHARTING_GUIDES: ChartingGuide[] = ACADEMY_CATEGORIES.map(
-  (cat) => ({
-    slug: cat.id,
-    title: cat.title,
-    description: cat.description,
-    sectionCount: cat.sections.length,
-    lessonCount: cat.sections.reduce((n, s) => n + s.lessons.length, 0),
-    highlights: cat.sections.map((s) => s.title),
-    faqs: [
-      {
-        question: `What will I learn in the ${cat.title} guide?`,
-        answer: cat.description,
-      },
-      {
-        question: `How many lessons are in ${cat.title}?`,
-        answer: `${cat.sections.length} sections with ${cat.sections.reduce((n, s) => n + s.lessons.length, 0)} in-depth lessons for manual traders.`,
-      },
-      {
-        question: `Do I need a paid subscription to read ${cat.title}?`,
-        answer:
-          "No. All charting guides and lessons are free. Premium unlocks interactive QS Planning Modules for setup scoring, risk planning, and trade planning.",
-      },
-    ],
-  })
-);
+const CATEGORY_GUIDES: ChartingGuide[] = ACADEMY_CATEGORIES.map((cat) => ({
+  slug: cat.id,
+  title: cat.title,
+  description: cat.description,
+  sectionCount: cat.sections.length,
+  lessonCount: cat.sections.reduce((n, s) => n + s.lessons.length, 0),
+  highlights: cat.sections.map((s) => s.title),
+  faqs: [
+    {
+      question: `What will I learn in the ${cat.title} guide?`,
+      answer: cat.description,
+    },
+    {
+      question: `How many lessons are in ${cat.title}?`,
+      answer: `${cat.sections.length} sections with ${cat.sections.reduce((n, s) => n + s.lessons.length, 0)} in-depth lessons for manual traders.`,
+    },
+    {
+      question: `Who can access the ${cat.title} guide?`,
+      answer:
+        "Chart Academy guides and lessons require Premium Quant ($199.99/mo) or Lifetime Alpha. Bot Only members can upgrade to unlock the full library.",
+    },
+  ],
+}));
+
+const PROP_FIRM_GUIDE_ENTRY: ChartingGuide = {
+  slug: PROP_FIRM_ONE_WEEK_GUIDE.slug,
+  title: PROP_FIRM_ONE_WEEK_GUIDE.title,
+  description: PROP_FIRM_ONE_WEEK_GUIDE.description,
+  sectionCount: 1,
+  lessonCount: 7,
+  highlights: PROP_FIRM_ONE_WEEK_GUIDE.dailyPlans.map(
+    (d) => `Day ${d.day}: ${d.title}`
+  ),
+  faqs: PROP_FIRM_ONE_WEEK_GUIDE.faqs,
+  featured: true,
+  badge: "Prop Challenge",
+};
+
+export const CHARTING_GUIDES: ChartingGuide[] = [
+  PROP_FIRM_GUIDE_ENTRY,
+  ...CATEGORY_GUIDES,
+];
 
 export function getGuideBySlug(slug: string): ChartingGuide | undefined {
   return CHARTING_GUIDES.find((g) => g.slug === slug);

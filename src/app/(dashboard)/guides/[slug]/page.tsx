@@ -5,13 +5,17 @@ import {
   CHARTING_GUIDES,
   getGuideBySlug,
   getLessonsForGuide,
+  PROP_FIRM_ONE_WEEK_GUIDE,
 } from "@/lib/seo/public-lessons";
 import { guideArticleJsonLd, faqJsonLd } from "@/lib/seo/json-ld";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
 import { PremiumLessonCTA } from "@/components/seo/PremiumLessonCTA";
+import { PropFirmOneWeekGuide } from "@/components/academy/PropFirmOneWeekGuide";
 import { TOOLS } from "@/lib/tools-registry";
+import { Badge } from "@/components/ui/Badge";
 
 const GUIDE_TOOL_MAP: Record<string, string> = {
+  "prop-firm-one-week": "prop-survival",
   "chart-reading": "edge-confluence",
   candlesticks: "edge-confluence",
   "trading-styles": "regime-oracle",
@@ -40,6 +44,10 @@ export default function GuidePage({ params }: { params: { slug: string } }) {
   const guide = getGuideBySlug(params.slug);
   if (!guide) notFound();
 
+  if (params.slug === PROP_FIRM_ONE_WEEK_GUIDE.slug) {
+    return <PropFirmOneWeekGuide />;
+  }
+
   const lessons = getLessonsForGuide(guide.slug);
   const toolSlug = GUIDE_TOOL_MAP[guide.slug] ?? "edge-confluence";
   const sampleLesson = lessons[0]?.slug ?? `${guide.slug}-intro`;
@@ -63,6 +71,11 @@ export default function GuidePage({ params }: { params: { slug: string } }) {
         <Link href="/guides" className="font-mono text-xs text-cyan-accent hover:underline">
           ← All Guides
         </Link>
+        {guide.badge && (
+          <Badge variant="warning" className="mt-3">
+            {guide.badge}
+          </Badge>
+        )}
         <h1 className="mt-4 font-mono text-3xl font-bold text-slate-100">
           {guide.title}
         </h1>
@@ -106,9 +119,7 @@ export default function GuidePage({ params }: { params: { slug: string } }) {
         </div>
       </section>
 
-      {tool && (
-        <PremiumLessonCTA lessonSlug={sampleLesson} />
-      )}
+      {tool && <PremiumLessonCTA lessonSlug={sampleLesson} />}
 
       <section>
         <h2 className="mb-4 font-mono text-sm font-bold uppercase tracking-widest text-slate-500">

@@ -30,7 +30,7 @@ const ONBOARDING_STEPS = [
           <li>Check portfolio heat and Kelly-adjusted risk</li>
           <li>Build your trade plan in the Manual Trade Planner</li>
         </ol>
-        <p style="color:#64748b;font-size:12px;">Free chart lessons remain at quicksilveralgo.com/lessons</p>
+        <p style="color:#64748b;font-size:12px;">Chart Academy and the prop firm 1-week guide are in your dashboard → Chart Academy</p>
       </div>`,
   },
   {

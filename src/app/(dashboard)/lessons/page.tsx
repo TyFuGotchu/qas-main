@@ -4,25 +4,25 @@ import { CHARTING_GUIDES, PUBLIC_LESSONS } from "@/lib/seo/public-lessons";
 import { Badge } from "@/components/ui/Badge";
 
 export const metadata: Metadata = {
-  title: "Free Trading Lessons | Quicksilver Algo Lesson Center",
+  title: "Chart Academy | Quicksilver Algo Lesson Center",
   description:
-    "Free chart reading, candlestick pattern, Fibonacci, and trading style lessons for manual traders. Learn on any platform — unlock premium QS Planning Modules when ready.",
+    "Premium chart reading, candlestick, Fibonacci, and trading style lessons for Premium Quant and Lifetime Alpha members.",
 };
 
 export default function LessonsIndexPage() {
   return (
     <div className="space-y-10">
       <header>
-        <Badge variant="success" className="mb-3">
-          Free · SEO Lesson Center
+        <Badge variant="warning" className="mb-3">
+          Premium Quant · $199/mo+
         </Badge>
         <h1 className="font-mono text-3xl font-bold text-slate-100 sm:text-4xl">
           Quicksilver Lesson Center
         </h1>
         <p className="mt-3 max-w-2xl text-slate-400">
-          {PUBLIC_LESSONS.length} free lessons on chart reading, candlesticks,
-          Fibonacci zones, and trading styles — built for manual traders on any
-          broker or charting platform.
+          {PUBLIC_LESSONS.length} lessons on chart reading, candlesticks,
+          Fibonacci zones, and trading styles — included with Premium Quant and
+          Lifetime Alpha.
         </p>
       </header>
 
@@ -37,10 +37,19 @@ export default function LessonsIndexPage() {
               href={`/guides/${guide.slug}`}
               className="rounded-lg border border-slate-800/60 bg-slate-900/40 p-4 transition-colors hover:border-cyan-accent/30"
             >
-              <h3 className="font-mono text-sm font-semibold text-slate-200">
-                {guide.title}
-              </h3>
-              <p className="mt-1 text-xs text-slate-500">{guide.lessonCount} lessons</p>
+              <div className="flex items-center gap-2">
+                <h3 className="font-mono text-sm font-semibold text-slate-200">
+                  {guide.title}
+                </h3>
+                {guide.featured && (
+                  <Badge variant="warning" className="text-[9px]">
+                    Featured
+                  </Badge>
+                )}
+              </div>
+              <p className="mt-1 text-xs text-slate-500">
+                {guide.lessonCount} lessons
+              </p>
             </Link>
           ))}
         </div>

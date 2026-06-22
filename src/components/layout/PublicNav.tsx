@@ -6,11 +6,7 @@ import { cn } from "@/lib/utils";
 import Button from "@/components/ui/Button";
 import { Zap } from "lucide-react";
 
-const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/lessons", label: "Lessons" },
-  { href: "/guides", label: "Guides" },
-];
+const navLinks = [{ href: "/", label: "Home" }];
 
 export function PublicNav() {
   const pathname = usePathname();

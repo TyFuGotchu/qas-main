@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Lock, Zap } from "lucide-react";
+import { ArrowRight, Zap } from "lucide-react";
 import { getRelatedTool } from "@/lib/seo/public-lessons";
 import Button from "@/components/ui/Button";
 import { GlassPanel } from "@/components/ui/GlassPanel";
@@ -18,11 +18,8 @@ export function PremiumLessonCTA({ lessonSlug }: PremiumLessonCTAProps) {
 
   return (
     <GlassPanel className="relative overflow-hidden border-cyan-accent/25 bg-gradient-to-br from-slate-950 via-slate-950 to-cyan-accent/5 p-8">
-      <div className="absolute right-4 top-4 opacity-20">
-        <Lock className="h-16 w-16 text-cyan-accent" />
-      </div>
-      <Badge variant="warning" className="mb-4">
-        Premium Planning Module
+      <Badge variant="success" className="mb-4">
+        QS Planning Module
       </Badge>
       <div className="flex flex-wrap items-start gap-4">
         <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-cyan-accent/30 bg-cyan-accent/10">
@@ -30,27 +27,27 @@ export function PremiumLessonCTA({ lessonSlug }: PremiumLessonCTAProps) {
         </div>
         <div className="max-w-xl flex-1">
           <h3 className="font-mono text-xl font-bold text-slate-100">
-            Unlock the interactive {tool.shortName} module
+            Apply this with {tool.shortName}
           </h3>
           <p className="mt-2 text-sm leading-relaxed text-slate-400">
-            You have learned the theory — now score, plan, and analyze with the
+            You have the theory — now score, plan, and analyze with the
             proprietary <strong className="text-slate-300">{tool.name}</strong>.
-            Premium members get full access to all 6 QS Planning Modules. Manual
-            trading only — no broker connection required.
+            Manual trading only — no broker connection required.
           </p>
           <p className="mt-2 font-mono text-xs text-slate-500">{tool.desc}</p>
         </div>
       </div>
       <div className="mt-6 flex flex-wrap gap-3">
-        <Link href="/register">
+        <Link href={`/dashboard/tools/${tool.slug}`}>
           <Button variant="primary" size="lg">
             <Zap className="h-4 w-4" />
-            Subscribe to Unlock
+            Open {tool.shortName}
           </Button>
         </Link>
-        <Link href="/onboarding/pricing">
+        <Link href="/dashboard/tools">
           <Button variant="ghost" size="lg">
-            View Pricing Tiers
+            <ArrowRight className="h-4 w-4" />
+            All Planning Modules
           </Button>
         </Link>
       </div>

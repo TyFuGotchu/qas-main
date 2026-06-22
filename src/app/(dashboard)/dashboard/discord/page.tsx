@@ -13,7 +13,7 @@ export default function DiscordPortalPage() {
           Discord Verification Portal
         </h2>
         <p className="mt-1 font-mono text-sm text-slate-500">
-          VIP community access and live trading guidance channel
+          VIP community access — Premium Quant ($199.99/mo) and Lifetime Alpha only
         </p>
       </div>
 

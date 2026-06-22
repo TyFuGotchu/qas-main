@@ -6,7 +6,6 @@ import { canAccessTools } from "@/lib/tiers";
 import { getAuthSecret, validateCoreProductionEnv } from "@/lib/env";
 
 const PUBLIC_ROUTES = ["/", "/login", "/register"];
-const SEO_PUBLIC_PREFIXES = ["/lessons", "/guides"];
 const AUTH_ROUTES = ["/login", "/register"];
 const ONBOARDING_ROUTES_PREFIX = "/onboarding";
 const TIER1_ROUTES = [
@@ -15,7 +14,12 @@ const TIER1_ROUTES = [
   "/dashboard/upgrade",
   "/dashboard/trade-together",
 ];
-const PREMIUM_ROUTES_PREFIX = ["/dashboard/tools", "/dashboard/discord"];
+const PREMIUM_ROUTES_PREFIX = [
+  "/dashboard/tools",
+  "/dashboard/discord",
+  "/lessons",
+  "/guides",
+];
 
 interface SessionPayload {
   accountTier: AccountTier;
@@ -96,10 +100,17 @@ function isDashboardRoute(pathname: string): boolean {
   return pathname.startsWith("/dashboard");
 }
 
-function isSeoPublicRoute(pathname: string): boolean {
-  return SEO_PUBLIC_PREFIXES.some(
-    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
+function isAcademyRoute(pathname: string): boolean {
+  return (
+    pathname === "/lessons" ||
+    pathname.startsWith("/lessons/") ||
+    pathname === "/guides" ||
+    pathname.startsWith("/guides/")
   );
+}
+
+function isProtectedMemberRoute(pathname: string): boolean {
+  return isDashboardRoute(pathname) || isAcademyRoute(pathname);
 }
 
 function isLegacyPricingRoute(pathname: string): boolean {
@@ -116,10 +127,6 @@ export async function middleware(request: NextRequest) {
   }
 
   const session = await getSessionFromRequest(request);
-
-  if (isSeoPublicRoute(pathname)) {
-    return NextResponse.next();
-  }
 
   if (
     pathname === "/dashboard/academy" ||
@@ -193,7 +200,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (isDashboardRoute(pathname) || pathname.startsWith("/api/")) {
+  if (isProtectedMemberRoute(pathname) || pathname.startsWith("/api/")) {
     if (!session) {
       if (pathname.startsWith("/api/")) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -203,7 +210,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(loginUrl);
     }
 
-    if (!session.onboardingComplete && isDashboardRoute(pathname)) {
+    if (!session.onboardingComplete && isProtectedMemberRoute(pathname)) {
       return NextResponse.redirect(
         new URL("/onboarding/pricing", request.url)
       );
@@ -212,7 +219,8 @@ export async function middleware(request: NextRequest) {
     if (isPremiumRoute(pathname)) {
       if (!canAccessTools(session.accountTier)) {
         const pricingUrl = new URL("/dashboard/upgrade", request.url);
-        pricingUrl.searchParams.set("paywall", "tools");
+        const paywall = isAcademyRoute(pathname) ? "academy" : "tools";
+        pricingUrl.searchParams.set("paywall", paywall);
         return NextResponse.redirect(pricingUrl);
       }
     }

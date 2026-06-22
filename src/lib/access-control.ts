@@ -6,7 +6,7 @@ import {
   setSessionCookie,
 } from "@/lib/auth";
 import { toUserSession } from "@/lib/session-user";
-import { canAccessTools } from "@/lib/tiers";
+import { canAccessAcademy, canAccessDiscord, canAccessTools } from "@/lib/tiers";
 import type { UserSession } from "@/types";
 
 function sessionNeedsRefresh(
@@ -54,12 +54,34 @@ export async function enforceAuthenticatedDashboardAccess(): Promise<UserSession
   return user;
 }
 
-/** Strict paywall for the 6 QS Planning Modules — paid tiers only. */
+/** Premium Quant ($199) and Lifetime Alpha — tools, academy, Discord */
 export async function requirePremiumAccess(): Promise<UserSession> {
   const user = await enforceAuthenticatedDashboardAccess();
 
   if (!canAccessTools(user.accountTier)) {
     redirect("/dashboard/upgrade?paywall=tools");
+  }
+
+  return user;
+}
+
+/** Chart Academy — lessons and guides ($199 tier and above) */
+export async function requireAcademyAccess(): Promise<UserSession> {
+  const user = await enforceAuthenticatedDashboardAccess();
+
+  if (!canAccessAcademy(user.accountTier)) {
+    redirect("/dashboard/upgrade?paywall=academy");
+  }
+
+  return user;
+}
+
+/** VIP Discord portal ($199 tier and above) */
+export async function requireDiscordAccess(): Promise<UserSession> {
+  const user = await enforceAuthenticatedDashboardAccess();
+
+  if (!canAccessDiscord(user.accountTier)) {
+    redirect("/dashboard/upgrade?paywall=discord");
   }
 
   return user;
