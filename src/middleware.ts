@@ -8,7 +8,13 @@ import { getAuthSecret, validateCoreProductionEnv } from "@/lib/env";
 const PUBLIC_ROUTES = ["/", "/login", "/register"];
 const AUTH_ROUTES = ["/login", "/register"];
 const ONBOARDING_ROUTES_PREFIX = "/onboarding";
-const TIER1_ROUTES = ["/dashboard", "/dashboard/bot", "/dashboard/upgrade"];
+const TIER1_ROUTES = [
+  "/dashboard",
+  "/dashboard/bot",
+  "/dashboard/upgrade",
+  "/dashboard/academy",
+  "/dashboard/trade-together",
+];
 const PREMIUM_ROUTES_PREFIX = ["/dashboard/tools", "/dashboard/discord"];
 
 interface SessionPayload {
@@ -202,10 +208,9 @@ export async function middleware(request: NextRequest) {
       ) &&
       !isPremiumRoute(pathname)
     ) {
-      const allowed =
-        pathname === "/dashboard" ||
-        pathname.startsWith("/dashboard/bot") ||
-        pathname.startsWith("/dashboard/upgrade");
+      const allowed = TIER1_ROUTES.some(
+        (route) => pathname === route || pathname.startsWith(`${route}/`)
+      );
       if (!allowed) {
         return NextResponse.redirect(
           new URL("/dashboard/upgrade", request.url)

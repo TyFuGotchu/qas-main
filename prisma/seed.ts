@@ -71,6 +71,55 @@ async function main() {
     }
   }
 
+  if (admin) {
+    const starterThreads = [
+      {
+        title: "Welcome — introduce yourself and your markets",
+        topic: "general",
+        description:
+          "Tell us what you trade manually and which sessions you focus on.",
+        pinned: true,
+      },
+      {
+        title: "XAUUSD / Gold — London & NY setup discussion",
+        topic: "gold",
+        description: "Share gold reads, levels, and session plans. Manual trading only.",
+        pinned: false,
+      },
+      {
+        title: "Chart & Pattern Help — ask the community",
+        topic: "education",
+        description: "Post screenshots or describe patterns you are learning.",
+        pinned: false,
+      },
+    ];
+
+    for (const t of starterThreads) {
+      const exists = await prisma.forumThread.findFirst({
+        where: { title: t.title },
+      });
+      if (!exists) {
+        const thread = await prisma.forumThread.create({
+          data: {
+            title: t.title,
+            topic: t.topic,
+            description: t.description,
+            pinned: t.pinned,
+            authorId: admin.id,
+          },
+        });
+        await prisma.forumMessage.create({
+          data: {
+            threadId: thread.id,
+            authorId: admin.id,
+            content:
+              "Welcome to Trade Together — use this thread to connect with other manual traders on any platform.",
+          },
+        });
+      }
+    }
+  }
+
   console.log("Seeded demo users (password: password123)");
   console.log("  admin@quicksilver.demo  → Admin + Lifetime Alpha");
   console.log("  bot@quicksilver.demo    → Bot Only");

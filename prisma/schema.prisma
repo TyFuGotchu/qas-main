@@ -22,6 +22,8 @@ model User {
   updatedAt          DateTime       @updatedAt
   sessions           Session[]
   announcements      Announcement[]
+  forumThreads       ForumThread[]
+  forumMessages      ForumMessage[]
 }
 
 model Session {
@@ -48,4 +50,33 @@ model StripeWebhookEvent {
   id          String   @id
   type        String
   processedAt DateTime @default(now())
+}
+
+model ForumThread {
+  id          String         @id @default(cuid())
+  title       String
+  topic       String
+  description String?
+  authorId    String
+  author      User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  pinned      Boolean        @default(false)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  messages    ForumMessage[]
+
+  @@index([topic])
+  @@index([updatedAt])
+}
+
+model ForumMessage {
+  id        String      @id @default(cuid())
+  threadId  String
+  thread    ForumThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  content   String
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  @@index([threadId, createdAt])
 }

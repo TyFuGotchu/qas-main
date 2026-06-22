@@ -13,6 +13,8 @@ import {
   MessageSquare,
   TrendingUp,
   AlertTriangle,
+  BookOpen,
+  Users,
 } from "lucide-react";
 
 export default async function DashboardPage() {
@@ -20,6 +22,20 @@ export default async function DashboardPage() {
   const hasPremium = user ? canAccessTools(user.accountTier) : false;
 
   const quickLinks = [
+    {
+      href: "/dashboard/academy",
+      label: "Chart Academy",
+      icon: BookOpen,
+      desc: "Learn charts, candlesticks, Fibonacci, and trading styles",
+      locked: false,
+    },
+    {
+      href: "/dashboard/trade-together",
+      label: "Trade Together",
+      icon: Users,
+      desc: "Community threads — discuss setups and markets with other traders",
+      locked: false,
+    },
     {
       href: "/dashboard/bot",
       label: "Bot Activation",
@@ -100,7 +116,7 @@ export default async function DashboardPage() {
         ))}
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {quickLinks.map((link) => {
           const Icon = link.icon;
           return (
