@@ -11,6 +11,7 @@ async function main() {
       email: "admin@quicksilver.demo",
       name: "System Admin",
       accountTier: "Lifetime Alpha",
+      subscriptionTier: "LIFETIME" as const,
       isAdmin: true,
       onboardingComplete: true,
     },
@@ -18,6 +19,7 @@ async function main() {
       email: "bot@quicksilver.demo",
       name: "Bot Trader",
       accountTier: "Bot Only",
+      subscriptionTier: "TIER_1" as const,
       isAdmin: false,
       onboardingComplete: true,
     },
@@ -25,6 +27,7 @@ async function main() {
       email: "quant@quicksilver.demo",
       name: "Premium Quant",
       accountTier: "Premium Quant",
+      subscriptionTier: "TIER_2" as const,
       isAdmin: false,
       onboardingComplete: true,
     },
@@ -32,6 +35,7 @@ async function main() {
       email: "alpha@quicksilver.demo",
       name: "Lifetime Alpha",
       accountTier: "Lifetime Alpha",
+      subscriptionTier: "LIFETIME" as const,
       isAdmin: false,
       onboardingComplete: true,
     },
@@ -45,6 +49,7 @@ async function main() {
         isAdmin: user.isAdmin,
         onboardingComplete: user.onboardingComplete,
         accountTier: user.accountTier,
+        subscriptionTier: user.subscriptionTier,
       },
       create: { ...user, passwordHash },
     });
@@ -121,10 +126,10 @@ async function main() {
   }
 
   console.log("Seeded demo users (password: password123)");
-  console.log("  admin@quicksilver.demo  → Admin + Lifetime Alpha");
-  console.log("  bot@quicksilver.demo    → Bot Only");
-  console.log("  quant@quicksilver.demo  → Premium Quant");
-  console.log("  alpha@quicksilver.demo  → Lifetime Alpha");
+  console.log("  admin@quicksilver.demo  → Admin + LIFETIME");
+  console.log("  bot@quicksilver.demo    → TIER_1");
+  console.log("  quant@quicksilver.demo  → TIER_2");
+  console.log("  alpha@quicksilver.demo  → LIFETIME");
 }
 
 main()

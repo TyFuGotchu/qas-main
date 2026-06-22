@@ -17,22 +17,23 @@ export default function LandingPage() {
       <section className="border-t border-slate-800/60 px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl text-center">
           <h2 className="font-mono text-2xl font-bold text-slate-200">
-            Premium Chart Academy
+            Freemium Chart Academy
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-slate-500">
-            89 chart lessons, category guides, and a 1-week prop firm challenge
-            playbook — included with Premium Quant ($199.99/mo) and Lifetime
-            Alpha. Pass your evaluation while keeping consistency at 20%.
+            Every lesson and guide is SEO-indexed with a free preview. Unlock
+            full content and interactive QS Planning Modules as you upgrade —
+            1 free lesson, 2 at Tier 1 ($24.99), unlimited at Premium
+            ($199.99).
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <Link href="/register">
+            <Link href="/lessons">
               <Button variant="secondary" size="lg">
-                Get Premium Access
+                Browse Lesson Previews
               </Button>
             </Link>
-            <Link href="/onboarding/pricing">
+            <Link href="/register">
               <Button variant="ghost" size="lg">
-                View Pricing
+                Create Free Account
               </Button>
             </Link>
           </div>

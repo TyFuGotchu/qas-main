@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
-import { ACCOUNT_TIERS, type AccountTier } from "@/types";
-import { canAccessTools } from "@/lib/tiers";
+import { ACCOUNT_TIERS, type AccountTier, type SubscriptionTier } from "@/types";
+import { canAccessDiscord } from "@/lib/tiers";
 import { getAuthSecret, validateCoreProductionEnv } from "@/lib/env";
 
 const PUBLIC_ROUTES = ["/", "/login", "/register"];
+const SEO_PUBLIC_PREFIXES = ["/lessons", "/guides"];
 const AUTH_ROUTES = ["/login", "/register"];
 const ONBOARDING_ROUTES_PREFIX = "/onboarding";
 const TIER1_ROUTES = [
@@ -13,15 +14,12 @@ const TIER1_ROUTES = [
   "/dashboard/bot",
   "/dashboard/upgrade",
   "/dashboard/trade-together",
-];
-const PREMIUM_ROUTES_PREFIX = [
   "/dashboard/tools",
-  "/dashboard/discord",
-  "/lessons",
-  "/guides",
 ];
+const DISCORD_ROUTES_PREFIX = "/dashboard/discord";
 
 interface SessionPayload {
+  subscriptionTier: SubscriptionTier;
   accountTier: AccountTier;
   isAdmin: boolean;
   onboardingComplete: boolean;
@@ -59,6 +57,8 @@ async function getSessionFromRequest(
   try {
     const { payload } = await jwtVerify(token, getJwtSecret());
     return {
+      subscriptionTier:
+        (payload.subscriptionTier as SubscriptionTier) ?? "FREE",
       accountTier: payload.accountTier as AccountTier,
       isAdmin: Boolean(payload.isAdmin),
       onboardingComplete: Boolean(payload.onboardingComplete),
@@ -73,6 +73,12 @@ function isPublicRoute(pathname: string): boolean {
     if (route === "/") return pathname === "/";
     return pathname === route || pathname.startsWith(`${route}/`);
   });
+}
+
+function isSeoPublicRoute(pathname: string): boolean {
+  return SEO_PUBLIC_PREFIXES.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
+  );
 }
 
 function isAuthRoute(pathname: string): boolean {
@@ -90,27 +96,15 @@ function isAdminRoute(pathname: string): boolean {
   return pathname.startsWith("/admin");
 }
 
-function isPremiumRoute(pathname: string): boolean {
-  return PREMIUM_ROUTES_PREFIX.some(
-    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
+function isDiscordRoute(pathname: string): boolean {
+  return (
+    pathname === DISCORD_ROUTES_PREFIX ||
+    pathname.startsWith(`${DISCORD_ROUTES_PREFIX}/`)
   );
 }
 
 function isDashboardRoute(pathname: string): boolean {
   return pathname.startsWith("/dashboard");
-}
-
-function isAcademyRoute(pathname: string): boolean {
-  return (
-    pathname === "/lessons" ||
-    pathname.startsWith("/lessons/") ||
-    pathname === "/guides" ||
-    pathname.startsWith("/guides/")
-  );
-}
-
-function isProtectedMemberRoute(pathname: string): boolean {
-  return isDashboardRoute(pathname) || isAcademyRoute(pathname);
 }
 
 function isLegacyPricingRoute(pathname: string): boolean {
@@ -127,6 +121,10 @@ export async function middleware(request: NextRequest) {
   }
 
   const session = await getSessionFromRequest(request);
+
+  if (isSeoPublicRoute(pathname)) {
+    return NextResponse.next();
+  }
 
   if (
     pathname === "/dashboard/academy" ||
@@ -200,7 +198,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (isProtectedMemberRoute(pathname) || pathname.startsWith("/api/")) {
+  if (isDashboardRoute(pathname) || pathname.startsWith("/api/")) {
     if (!session) {
       if (pathname.startsWith("/api/")) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -210,19 +208,16 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(loginUrl);
     }
 
-    if (!session.onboardingComplete && isProtectedMemberRoute(pathname)) {
+    if (!session.onboardingComplete && isDashboardRoute(pathname)) {
       return NextResponse.redirect(
         new URL("/onboarding/pricing", request.url)
       );
     }
 
-    if (isPremiumRoute(pathname)) {
-      if (!canAccessTools(session.accountTier)) {
-        const pricingUrl = new URL("/dashboard/upgrade", request.url);
-        const paywall = isAcademyRoute(pathname) ? "academy" : "tools";
-        pricingUrl.searchParams.set("paywall", paywall);
-        return NextResponse.redirect(pricingUrl);
-      }
+    if (isDiscordRoute(pathname) && !canAccessDiscord(session.subscriptionTier)) {
+      const pricingUrl = new URL("/dashboard/upgrade", request.url);
+      pricingUrl.searchParams.set("paywall", "discord");
+      return NextResponse.redirect(pricingUrl);
     }
 
     if (
@@ -231,16 +226,11 @@ export async function middleware(request: NextRequest) {
       !TIER1_ROUTES.some(
         (route) => pathname === route || pathname.startsWith(`${route}/`)
       ) &&
-      !isPremiumRoute(pathname)
+      !isDiscordRoute(pathname)
     ) {
-      const allowed = TIER1_ROUTES.some(
-        (route) => pathname === route || pathname.startsWith(`${route}/`)
+      return NextResponse.redirect(
+        new URL("/dashboard/upgrade", request.url)
       );
-      if (!allowed) {
-        return NextResponse.redirect(
-          new URL("/dashboard/upgrade", request.url)
-        );
-      }
     }
   }
 

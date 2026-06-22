@@ -9,7 +9,14 @@ import {
 import { articleJsonLd, faqJsonLd } from "@/lib/seo/json-ld";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
 import { PremiumLessonCTA } from "@/components/seo/PremiumLessonCTA";
+import { FadedPreview } from "@/components/seo/FadedPreview";
+import { FreemiumTierCTA } from "@/components/seo/FreemiumTierCTA";
 import { Badge } from "@/components/ui/Badge";
+import { getFreshSession } from "@/lib/access-control";
+import {
+  checkResourceAccess,
+  getPreviewParagraphs,
+} from "@/lib/accessControl";
 
 export function generateStaticParams() {
   return PUBLIC_LESSONS.map((lesson) => ({ slug: lesson.slug }));
@@ -34,9 +41,21 @@ export function generateMetadata({
   };
 }
 
-export default function LessonPage({ params }: { params: { slug: string } }) {
+export default async function LessonPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const lesson = getLessonBySlug(params.slug);
   if (!lesson) notFound();
+
+  const user = await getFreshSession();
+  const access = checkResourceAccess(
+    user?.subscriptionTier,
+    "lesson",
+    params.slug
+  );
+  const hasFullAccess = access.allowed;
 
   const related = getLessonsForGuide(lesson.categoryId)
     .filter((l) => l.slug !== lesson.slug)
@@ -54,6 +73,18 @@ export default function LessonPage({ params }: { params: { slug: string } }) {
   ];
 
   const { lesson: content } = lesson;
+  const preview = getPreviewParagraphs(content.body, 300);
+  const bodyParagraphs = hasFullAccess ? content.body : preview.paragraphs;
+
+  const bodySection = (
+    <div className="prose prose-invert max-w-none space-y-4">
+      {bodyParagraphs.map((para, i) => (
+        <p key={i} className="leading-relaxed text-slate-400">
+          {para}
+        </p>
+      ))}
+    </div>
+  );
 
   return (
     <article className="space-y-8">
@@ -71,6 +102,9 @@ export default function LessonPage({ params }: { params: { slug: string } }) {
           {content.difficulty && (
             <Badge variant="warning">{content.difficulty}</Badge>
           )}
+          {!hasFullAccess && (
+            <Badge variant="warning">Preview · {access.requiredTier}</Badge>
+          )}
         </div>
         <h1 className="mt-4 font-mono text-3xl font-bold text-slate-100">
           {lesson.title}
@@ -78,15 +112,21 @@ export default function LessonPage({ params }: { params: { slug: string } }) {
         <p className="mt-3 text-lg text-slate-400">{lesson.summary}</p>
       </header>
 
-      <div className="prose prose-invert max-w-none space-y-4">
-        {content.body.map((para, i) => (
-          <p key={i} className="leading-relaxed text-slate-400">
-            {para}
-          </p>
-        ))}
-      </div>
+      {hasFullAccess ? (
+        bodySection
+      ) : (
+        <>
+          <FadedPreview>{bodySection}</FadedPreview>
+          <FreemiumTierCTA
+            resourceType="lesson"
+            resourceId={params.slug}
+            requiredTier={access.requiredTier}
+            resourceTitle={lesson.title}
+          />
+        </>
+      )}
 
-      {content.keyPoints && (
+      {hasFullAccess && content.keyPoints && (
         <section className="rounded-lg border border-slate-800/60 bg-slate-900/30 p-6">
           <h2 className="font-mono text-sm font-bold uppercase tracking-widest text-cyan-accent">
             Key Points
@@ -101,7 +141,7 @@ export default function LessonPage({ params }: { params: { slug: string } }) {
         </section>
       )}
 
-      {content.manualTips && (
+      {hasFullAccess && content.manualTips && (
         <section className="rounded-lg border border-cyan-accent/20 bg-cyan-accent/5 p-6">
           <h2 className="font-mono text-sm font-bold uppercase tracking-widest text-cyan-accent">
             Manual Trading Tips
@@ -116,28 +156,30 @@ export default function LessonPage({ params }: { params: { slug: string } }) {
         </section>
       )}
 
-      <section>
-        <h2 className="mb-4 font-mono text-sm font-bold uppercase tracking-widest text-slate-500">
-          Frequently Asked Questions
-        </h2>
-        <div className="space-y-4">
-          {lesson.faqs.map((faq) => (
-            <div
-              key={faq.question}
-              className="rounded-lg border border-slate-800/40 p-4"
-            >
-              <h3 className="font-mono text-sm font-semibold text-slate-200">
-                {faq.question}
-              </h3>
-              <p className="mt-2 text-sm text-slate-400">{faq.answer}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      {hasFullAccess && (
+        <section>
+          <h2 className="mb-4 font-mono text-sm font-bold uppercase tracking-widest text-slate-500">
+            Frequently Asked Questions
+          </h2>
+          <div className="space-y-4">
+            {lesson.faqs.map((faq) => (
+              <div
+                key={faq.question}
+                className="rounded-lg border border-slate-800/40 p-4"
+              >
+                <h3 className="font-mono text-sm font-semibold text-slate-200">
+                  {faq.question}
+                </h3>
+                <p className="mt-2 text-sm text-slate-400">{faq.answer}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
-      <PremiumLessonCTA lessonSlug={lesson.slug} />
+      {hasFullAccess && <PremiumLessonCTA lessonSlug={lesson.slug} />}
 
-      {related.length > 0 && (
+      {hasFullAccess && related.length > 0 && (
         <section>
           <h2 className="mb-3 font-mono text-sm font-semibold uppercase tracking-widest text-slate-500">
             More in {lesson.categoryTitle}

@@ -3,6 +3,9 @@ import { ChevronLeft, Info } from "lucide-react";
 import type { ToolDefinition } from "@/lib/tools-registry";
 import { Badge } from "@/components/ui/Badge";
 import { ExportModuleButton } from "@/components/tools/ExportModuleButton";
+import { ToolLockedOverlay } from "@/components/tools/ToolLockedOverlay";
+import { getFreshSession } from "@/lib/access-control";
+import { checkResourceAccess } from "@/lib/accessControl";
 import { MANUAL_TRADING_DISCLAIMER, MANUAL_TRADING_SHORT } from "@/lib/quicksilver/disclaimer";
 
 interface ToolPageShellProps {
@@ -10,8 +13,16 @@ interface ToolPageShellProps {
   children: React.ReactNode;
 }
 
-export function ToolPageShell({ tool, children }: ToolPageShellProps) {
+export async function ToolPageShell({ tool, children }: ToolPageShellProps) {
+  const user = await getFreshSession();
+  const access = checkResourceAccess(
+    user?.subscriptionTier,
+    "tool",
+    tool.slug
+  );
+
   const Icon = tool.icon;
+
   return (
     <div className="space-y-6">
       <div>
@@ -50,14 +61,23 @@ export function ToolPageShell({ tool, children }: ToolPageShellProps) {
         </p>
       </div>
 
-      <div className="flex items-center justify-between gap-3">
-        <p className="font-mono text-[10px] text-slate-600">
-          Share manually — export adds a QuicksilverAlgo.com watermark
-        </p>
-        <ExportModuleButton filename={tool.slug} />
-      </div>
-
-      <div id="qs-module-export">{children}</div>
+      {!access.allowed ? (
+        <ToolLockedOverlay
+          tool={tool}
+          requiredTier={access.requiredTier}
+          userTier={access.userTier}
+        />
+      ) : (
+        <>
+          <div className="flex items-center justify-between gap-3">
+            <p className="font-mono text-[10px] text-slate-600">
+              Share manually — export adds a QuicksilverAlgo.com watermark
+            </p>
+            <ExportModuleButton filename={tool.slug} />
+          </div>
+          <div id="qs-module-export">{children}</div>
+        </>
+      )}
     </div>
   );
 }

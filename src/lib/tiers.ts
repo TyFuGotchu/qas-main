@@ -1,4 +1,9 @@
-import { ACCOUNT_TIERS, type AccountTier } from "@/types";
+import {
+  canAccessDiscord as canAccessDiscordTier,
+  hasUnlimitedAccess,
+  tierMeetsRequirement,
+} from "@/lib/accessControl";
+import { ACCOUNT_TIERS, type AccountTier, type SubscriptionTier } from "@/types";
 
 export function isPremiumTier(tier: AccountTier): boolean {
   return (
@@ -7,22 +12,33 @@ export function isPremiumTier(tier: AccountTier): boolean {
   );
 }
 
-/** Premium Quant ($199.99/mo) and Lifetime Alpha */
-export function canAccessTools(tier: AccountTier): boolean {
-  return isPremiumTier(tier);
+export function isPremiumSubscription(tier: SubscriptionTier): boolean {
+  return tier === "TIER_2" || tier === "LIFETIME";
 }
 
-/** Lessons, guides, and Chart Academy — $199 tier and above */
-export function canAccessAcademy(tier: AccountTier): boolean {
-  return isPremiumTier(tier);
+export function canAccessTools(tier: AccountTier | SubscriptionTier): boolean {
+  if (typeof tier === "string" && tier.startsWith("TIER")) {
+    return hasUnlimitedAccess(tier as SubscriptionTier);
+  }
+  return isPremiumTier(tier as AccountTier);
 }
 
-/** VIP Discord — $199 tier and above only (not Bot Only) */
-export function canAccessDiscord(tier: AccountTier): boolean {
-  return isPremiumTier(tier);
+export function canAccessToolsBySubscription(tier: SubscriptionTier): boolean {
+  return hasUnlimitedAccess(tier);
 }
 
-export function canAccessBot(tier: AccountTier): boolean {
+export function canAccessAcademy(tier: SubscriptionTier): boolean {
+  return tierMeetsRequirement(tier, "FREE");
+}
+
+export function canAccessDiscord(tier: SubscriptionTier): boolean {
+  return canAccessDiscordTier(tier);
+}
+
+export function canAccessBot(tier: AccountTier | SubscriptionTier): boolean {
+  if (typeof tier === "string" && ["FREE", "TIER_1", "TIER_2", "LIFETIME"].includes(tier)) {
+    return tier !== "FREE";
+  }
   return (
     tier === ACCOUNT_TIERS.BOT_ONLY ||
     tier === ACCOUNT_TIERS.PREMIUM_QUANT ||
@@ -37,18 +53,22 @@ export function getTierBadgeColor(tier: AccountTier): string {
     case ACCOUNT_TIERS.PREMIUM_QUANT:
       return "bg-cyan-500/20 text-cyan-400 border-cyan-500/40";
     case ACCOUNT_TIERS.BOT_ONLY:
-    default:
       return "bg-emerald-500/20 text-emerald-400 border-emerald-500/40";
+    case ACCOUNT_TIERS.FREE:
+    default:
+      return "bg-slate-500/20 text-slate-400 border-slate-500/40";
   }
 }
 
 export function getTierLevel(tier: AccountTier): number {
   switch (tier) {
     case ACCOUNT_TIERS.LIFETIME_ALPHA:
-      return 3;
+      return 4;
     case ACCOUNT_TIERS.PREMIUM_QUANT:
-      return 2;
+      return 3;
     case ACCOUNT_TIERS.BOT_ONLY:
+      return 2;
+    case ACCOUNT_TIERS.FREE:
     default:
       return 1;
   }

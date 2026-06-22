@@ -4,24 +4,24 @@ import { CHARTING_GUIDES } from "@/lib/seo/public-lessons";
 import { Badge } from "@/components/ui/Badge";
 
 export const metadata: Metadata = {
-  title: "Charting Guides | Quicksilver Algo",
+  title: "Charting Guides Preview | Quicksilver Algo",
   description:
-    "Premium charting guides including the 1-week prop firm challenge playbook — Premium Quant and Lifetime Alpha members only.",
+    "Freemium charting guide previews including the prop firm 1-week challenge playbook. Upgrade for full access.",
 };
 
 export default function GuidesIndexPage() {
   return (
     <div className="space-y-8">
       <header>
-        <Badge variant="warning" className="mb-3">
-          Premium Quant · $199/mo+
+        <Badge variant="success" className="mb-3">
+          Freemium · SEO Guides
         </Badge>
         <h1 className="font-mono text-3xl font-bold text-slate-100">
           Charting Guides
         </h1>
         <p className="mt-3 text-slate-400">
-          Category playbooks and the prop firm 1-week challenge guide — unlocked
-          with Premium Quant or Lifetime Alpha.
+          Preview every guide for organic traffic. Free: 1 guide · Tier 1:
+          2 guides · Premium: unlimited.
         </p>
       </header>
       <div className="grid gap-4 sm:grid-cols-2">

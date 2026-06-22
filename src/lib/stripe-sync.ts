@@ -1,7 +1,7 @@
 import type Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
 import { getStripe } from "@/lib/stripe";
-import { getTierFromStripePriceId } from "@/lib/stripe-tiers";
+import { getStripeMappingFromPriceId } from "@/lib/stripe-tiers";
 import { triggerOnboardingSequence } from "@/lib/email/onboarding-sequence";
 import { isPremiumTier } from "@/lib/tiers";
 import type { AccountTier } from "@/types";
@@ -37,9 +37,9 @@ export async function syncUserTierFromStripePriceId(params: {
     };
   }
 
-  const accountTier = getTierFromStripePriceId(params.priceId);
+  const mapping = getStripeMappingFromPriceId(params.priceId);
 
-  if (!accountTier) {
+  if (!mapping) {
     return {
       success: false,
       email,
@@ -48,6 +48,8 @@ export async function syncUserTierFromStripePriceId(params: {
       message: `Unmapped Stripe price ID: ${params.priceId}`,
     };
   }
+
+  const { tier: accountTier, subscriptionTier } = mapping;
 
   const user = await prisma.user.findUnique({
     where: { email },
@@ -67,6 +69,7 @@ export async function syncUserTierFromStripePriceId(params: {
     where: { id: user.id },
     data: {
       accountTier,
+      subscriptionTier,
       onboardingComplete: true,
       stripeCustomerId: params.stripeCustomerId ?? user.stripeCustomerId,
       stripePriceId: params.priceId,

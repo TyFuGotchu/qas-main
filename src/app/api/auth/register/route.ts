@@ -42,7 +42,8 @@ export async function POST(request: NextRequest) {
         email,
         name: name.trim(),
         passwordHash,
-        accountTier: "Bot Only",
+        accountTier: "Free",
+        subscriptionTier: "FREE",
         onboardingComplete: false,
       },
     });

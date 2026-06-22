@@ -6,7 +6,7 @@ import {
   setSessionCookie,
 } from "@/lib/auth";
 import { toUserSession } from "@/lib/session-user";
-import { canAccessAcademy, canAccessDiscord, canAccessTools } from "@/lib/tiers";
+import { canAccessDiscord, canAccessToolsBySubscription } from "@/lib/tiers";
 import type { UserSession } from "@/types";
 
 function sessionNeedsRefresh(
@@ -14,6 +14,7 @@ function sessionNeedsRefresh(
   freshSession: UserSession
 ): boolean {
   return (
+    jwtSession.subscriptionTier !== freshSession.subscriptionTier ||
     jwtSession.accountTier !== freshSession.accountTier ||
     jwtSession.onboardingComplete !== freshSession.onboardingComplete ||
     jwtSession.isAdmin !== freshSession.isAdmin
@@ -54,33 +55,22 @@ export async function enforceAuthenticatedDashboardAccess(): Promise<UserSession
   return user;
 }
 
-/** Premium Quant ($199) and Lifetime Alpha — tools, academy, Discord */
+/** Unlimited tools access — TIER_2 and LIFETIME */
 export async function requirePremiumAccess(): Promise<UserSession> {
   const user = await enforceAuthenticatedDashboardAccess();
 
-  if (!canAccessTools(user.accountTier)) {
+  if (!canAccessToolsBySubscription(user.subscriptionTier)) {
     redirect("/dashboard/upgrade?paywall=tools");
   }
 
   return user;
 }
 
-/** Chart Academy — lessons and guides ($199 tier and above) */
-export async function requireAcademyAccess(): Promise<UserSession> {
-  const user = await enforceAuthenticatedDashboardAccess();
-
-  if (!canAccessAcademy(user.accountTier)) {
-    redirect("/dashboard/upgrade?paywall=academy");
-  }
-
-  return user;
-}
-
-/** VIP Discord portal ($199 tier and above) */
+/** VIP Discord portal — TIER_2 and LIFETIME only */
 export async function requireDiscordAccess(): Promise<UserSession> {
   const user = await enforceAuthenticatedDashboardAccess();
 
-  if (!canAccessDiscord(user.accountTier)) {
+  if (!canAccessDiscord(user.subscriptionTier)) {
     redirect("/dashboard/upgrade?paywall=discord");
   }
 

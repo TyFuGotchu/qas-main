@@ -1,5 +1,5 @@
 import { getFreshSession } from "@/lib/access-control";
-import { canAccessTools } from "@/lib/tiers";
+import { canAccessDiscord, canAccessToolsBySubscription } from "@/lib/tiers";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import Link from "next/link";
@@ -19,15 +19,16 @@ import {
 
 export default async function DashboardPage() {
   const user = await getFreshSession();
-  const hasPremium = user ? canAccessTools(user.accountTier) : false;
+  const hasPremium = user ? canAccessToolsBySubscription(user.subscriptionTier) : false;
+  const hasDiscord = user ? canAccessDiscord(user.subscriptionTier) : false;
 
   const quickLinks = [
     {
       href: "/lessons",
       label: "Chart Academy",
       icon: BookOpen,
-      desc: "89 lessons + prop firm 1-week guide — Premium Quant only",
-      locked: !hasPremium,
+      desc: "89 lessons — freemium previews, full access by tier",
+      locked: false,
     },
     {
       href: "/dashboard/trade-together",
@@ -48,14 +49,14 @@ export default async function DashboardPage() {
       label: "Trading Tools",
       icon: Wrench,
       desc: `${TOOL_COUNT} manual trading planning tools`,
-      locked: !hasPremium,
+      locked: false,
     },
     {
       href: "/dashboard/discord",
       label: "Discord Portal",
       icon: MessageSquare,
       desc: "VIP verification and community access",
-      locked: !hasPremium,
+      locked: !hasDiscord,
     },
   ];
 
@@ -74,17 +75,19 @@ export default async function DashboardPage() {
 
       <RecommendedBrokerCard />
 
-      {!hasPremium && (
+      {user && !hasPremium && (
         <Card className="border-amber-500/30 bg-amber-500/5">
           <CardContent className="flex items-center gap-4 py-4">
             <AlertTriangle className="h-6 w-6 shrink-0 text-amber-400" />
             <div className="flex-1">
               <p className="font-mono text-sm text-amber-300">
-                Bot Only tier active — Premium features are locked
+                {user?.subscriptionTier === "FREE"
+                  ? "Free tier — preview lessons & unlock tools as you upgrade"
+                  : "Tier 1 active — upgrade for unlimited academy & tools"}
               </p>
               <p className="mt-1 text-xs text-slate-500">
-                Upgrade to Premium Quant ($199.99/mo) or Lifetime Alpha to unlock
-                Chart Academy, 6 planning tools, and VIP Discord.
+                Free: 1 lesson, 1 guide, Setup Scorer · Tier 1 ($24.99): +Risk
+                Matrix · Premium ($199.99): everything + Discord.
               </p>
             </div>
             <Link href="/dashboard/upgrade">

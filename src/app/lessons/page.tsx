@@ -4,25 +4,25 @@ import { CHARTING_GUIDES, PUBLIC_LESSONS } from "@/lib/seo/public-lessons";
 import { Badge } from "@/components/ui/Badge";
 
 export const metadata: Metadata = {
-  title: "Chart Academy | Quicksilver Algo Lesson Center",
+  title: "Free Trading Lessons Preview | Quicksilver Algo Lesson Center",
   description:
-    "Premium chart reading, candlestick, Fibonacci, and trading style lessons for Premium Quant and Lifetime Alpha members.",
+    "SEO-friendly lesson previews on chart reading, candlesticks, Fibonacci, and trading styles. Unlock full access with Premium Quant.",
 };
 
 export default function LessonsIndexPage() {
   return (
     <div className="space-y-10">
       <header>
-        <Badge variant="warning" className="mb-3">
-          Premium Quant · $199/mo+
+        <Badge variant="success" className="mb-3">
+          Freemium · SEO Lesson Center
         </Badge>
         <h1 className="font-mono text-3xl font-bold text-slate-100 sm:text-4xl">
           Quicksilver Lesson Center
         </h1>
         <p className="mt-3 max-w-2xl text-slate-400">
-          {PUBLIC_LESSONS.length} lessons on chart reading, candlesticks,
-          Fibonacci zones, and trading styles — included with Premium Quant and
-          Lifetime Alpha.
+          {PUBLIC_LESSONS.length} lessons — preview any page for SEO. Free tier
+          unlocks 1 lesson; Tier 1 ($24.99) unlocks 2; Premium ($199.99)
+          unlocks all.
         </p>
       </header>
 

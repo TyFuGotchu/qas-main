@@ -15,6 +15,7 @@ export async function createSessionToken(user: UserSession): Promise<string> {
     id: user.id,
     email: user.email,
     name: user.name,
+    subscriptionTier: user.subscriptionTier,
     accountTier: user.accountTier,
     isAdmin: user.isAdmin,
     onboardingComplete: user.onboardingComplete,
@@ -34,6 +35,9 @@ export async function verifySessionToken(
       id: payload.id as string,
       email: payload.email as string,
       name: (payload.name as string | null) ?? null,
+      subscriptionTier:
+        (payload.subscriptionTier as UserSession["subscriptionTier"]) ??
+        "FREE",
       accountTier: payload.accountTier as UserSession["accountTier"],
       isAdmin: Boolean(payload.isAdmin),
       onboardingComplete: Boolean(payload.onboardingComplete),

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useSession } from "@/providers/SessionProvider";
-import { canAccessTools } from "@/lib/tiers";
+import { canAccessDiscord } from "@/lib/tiers";
 import {
   LayoutDashboard,
   Bot,
@@ -26,10 +26,10 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/lessons", label: "Chart Academy", icon: BookOpen, premiumOnly: true },
+  { href: "/lessons", label: "Chart Academy", icon: BookOpen },
   { href: "/dashboard/trade-together", label: "Trade Together", icon: Users },
   { href: "/dashboard/bot", label: "Bot Activation", icon: Bot },
-  { href: "/dashboard/tools", label: "Trading Tools", icon: Wrench, premiumOnly: true },
+  { href: "/dashboard/tools", label: "Trading Tools", icon: Wrench },
   { href: "/dashboard/discord", label: "Discord Portal", icon: MessageSquare, premiumOnly: true },
   { href: "/dashboard/upgrade", label: "Upgrade Tier", icon: ArrowUpCircle },
 ];
@@ -37,7 +37,7 @@ const navItems: NavItem[] = [
 export function Sidebar() {
   const pathname = usePathname();
   const { user } = useSession();
-  const hasPremium = user ? canAccessTools(user.accountTier) : false;
+  const hasDiscord = user ? canAccessDiscord(user.subscriptionTier) : false;
 
   return (
     <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col border-r border-slate-800/60 bg-obsidian-950">
@@ -55,7 +55,7 @@ export function Sidebar() {
           const isActive =
             pathname === item.href ||
             (item.href !== "/dashboard" && pathname.startsWith(item.href));
-          const isLocked = item.premiumOnly && !hasPremium;
+          const isLocked = item.premiumOnly && !hasDiscord;
           const Icon = item.icon;
 
           return (

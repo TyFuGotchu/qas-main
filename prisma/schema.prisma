@@ -7,12 +7,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum SubscriptionTier {
+  FREE
+  TIER_1
+  TIER_2
+  LIFETIME
+}
+
 model User {
-  id                 String         @id @default(cuid())
-  email              String         @unique
+  id                 String           @id @default(cuid())
+  email              String           @unique
   name               String?
   passwordHash       String
-  accountTier        String         @default("Bot Only")
+  subscriptionTier   SubscriptionTier @default(FREE)
+  accountTier        String         @default("Free")
   isAdmin            Boolean        @default(false)
   onboardingComplete Boolean        @default(false)
   stripeCustomerId   String?
