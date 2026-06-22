@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ChevronLeft, Info } from "lucide-react";
 import type { ToolDefinition } from "@/lib/tools-registry";
 import { Badge } from "@/components/ui/Badge";
+import { ExportModuleButton } from "@/components/tools/ExportModuleButton";
 import { MANUAL_TRADING_DISCLAIMER, MANUAL_TRADING_SHORT } from "@/lib/quicksilver/disclaimer";
 
 interface ToolPageShellProps {
@@ -49,7 +50,14 @@ export function ToolPageShell({ tool, children }: ToolPageShellProps) {
         </p>
       </div>
 
-      {children}
+      <div className="flex items-center justify-between gap-3">
+        <p className="font-mono text-[10px] text-slate-600">
+          Share manually — export adds a QuicksilverAlgo.com watermark
+        </p>
+        <ExportModuleButton filename={tool.slug} />
+      </div>
+
+      <div id="qs-module-export">{children}</div>
     </div>
   );
 }

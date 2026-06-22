@@ -23,7 +23,7 @@ export default async function DashboardPage() {
 
   const quickLinks = [
     {
-      href: "/dashboard/academy",
+      href: "/lessons",
       label: "Chart Academy",
       icon: BookOpen,
       desc: "Learn charts, candlesticks, Fibonacci, and trading styles",

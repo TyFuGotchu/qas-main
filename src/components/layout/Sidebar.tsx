@@ -26,7 +26,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/dashboard/academy", label: "Chart Academy", icon: BookOpen },
+  { href: "/lessons", label: "Chart Academy", icon: BookOpen },
   { href: "/dashboard/trade-together", label: "Trade Together", icon: Users },
   { href: "/dashboard/bot", label: "Bot Activation", icon: Bot },
   { href: "/dashboard/tools", label: "Trading Tools", icon: Wrench, premiumOnly: true },

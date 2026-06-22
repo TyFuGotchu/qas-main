@@ -2,6 +2,8 @@ import type Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
 import { getStripe } from "@/lib/stripe";
 import { getTierFromStripePriceId } from "@/lib/stripe-tiers";
+import { triggerOnboardingSequence } from "@/lib/email/onboarding-sequence";
+import { isPremiumTier } from "@/lib/tiers";
 import type { AccountTier } from "@/types";
 
 export interface TierSyncResult {
@@ -72,11 +74,24 @@ export async function syncUserTierFromStripePriceId(params: {
     },
   });
 
+  const tier = updatedUser.accountTier as AccountTier;
+
+  if (isPremiumTier(tier)) {
+    triggerOnboardingSequence({
+      userId: updatedUser.id,
+      email: updatedUser.email,
+      name: updatedUser.name,
+      accountTier: tier,
+    }).catch((err) =>
+      console.error("[stripe-sync] Onboarding email error:", err)
+    );
+  }
+
   return {
     success: true,
     email,
     priceId: params.priceId,
-    accountTier: updatedUser.accountTier as AccountTier,
+    accountTier: tier,
     userId: updatedUser.id,
     message: `User tier updated to ${updatedUser.accountTier}`,
   };

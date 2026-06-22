@@ -6,13 +6,13 @@ import { canAccessTools } from "@/lib/tiers";
 import { getAuthSecret, validateCoreProductionEnv } from "@/lib/env";
 
 const PUBLIC_ROUTES = ["/", "/login", "/register"];
+const SEO_PUBLIC_PREFIXES = ["/lessons", "/guides"];
 const AUTH_ROUTES = ["/login", "/register"];
 const ONBOARDING_ROUTES_PREFIX = "/onboarding";
 const TIER1_ROUTES = [
   "/dashboard",
   "/dashboard/bot",
   "/dashboard/upgrade",
-  "/dashboard/academy",
   "/dashboard/trade-together",
 ];
 const PREMIUM_ROUTES_PREFIX = ["/dashboard/tools", "/dashboard/discord"];
@@ -96,6 +96,12 @@ function isDashboardRoute(pathname: string): boolean {
   return pathname.startsWith("/dashboard");
 }
 
+function isSeoPublicRoute(pathname: string): boolean {
+  return SEO_PUBLIC_PREFIXES.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
+  );
+}
+
 function isLegacyPricingRoute(pathname: string): boolean {
   return pathname === "/pricing" || pathname.startsWith("/pricing/");
 }
@@ -110,6 +116,17 @@ export async function middleware(request: NextRequest) {
   }
 
   const session = await getSessionFromRequest(request);
+
+  if (isSeoPublicRoute(pathname)) {
+    return NextResponse.next();
+  }
+
+  if (
+    pathname === "/dashboard/academy" ||
+    pathname.startsWith("/dashboard/academy/")
+  ) {
+    return NextResponse.redirect(new URL("/lessons", request.url));
+  }
 
   if (
     pathname.startsWith("/api/auth") ||
@@ -194,9 +211,9 @@ export async function middleware(request: NextRequest) {
 
     if (isPremiumRoute(pathname)) {
       if (!canAccessTools(session.accountTier)) {
-        return NextResponse.redirect(
-          new URL("/dashboard/upgrade", request.url)
-        );
+        const pricingUrl = new URL("/dashboard/upgrade", request.url);
+        pricingUrl.searchParams.set("paywall", "tools");
+        return NextResponse.redirect(pricingUrl);
       }
     }
 

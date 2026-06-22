@@ -54,11 +54,12 @@ export async function enforceAuthenticatedDashboardAccess(): Promise<UserSession
   return user;
 }
 
+/** Strict paywall for the 6 QS Planning Modules — paid tiers only. */
 export async function requirePremiumAccess(): Promise<UserSession> {
   const user = await enforceAuthenticatedDashboardAccess();
 
   if (!canAccessTools(user.accountTier)) {
-    redirect("/dashboard/upgrade");
+    redirect("/dashboard/upgrade?paywall=tools");
   }
 
   return user;

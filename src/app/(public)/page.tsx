@@ -14,6 +14,30 @@ export default function LandingPage() {
         </div>
       </section>
       <Stats />
+      <section className="border-t border-slate-800/60 px-4 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-5xl text-center">
+          <h2 className="font-mono text-2xl font-bold text-slate-200">
+            Free Chart Academy
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-slate-500">
+            Learn candlestick patterns, Fibonacci zones, market structure, and
+            trading styles — no subscription required. When you are ready, unlock
+            the 6 proprietary QS Planning Modules behind premium.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <Link href="/lessons">
+              <Button variant="secondary" size="lg">
+                Browse Lesson Center
+              </Button>
+            </Link>
+            <Link href="/guides">
+              <Button variant="ghost" size="lg">
+                Charting Guides
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
       <section className="px-4 py-24 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="font-mono text-2xl font-bold text-slate-200">

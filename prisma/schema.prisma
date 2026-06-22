@@ -22,8 +22,9 @@ model User {
   updatedAt          DateTime       @updatedAt
   sessions           Session[]
   announcements      Announcement[]
-  forumThreads       ForumThread[]
-  forumMessages      ForumMessage[]
+  forumThreads         ForumThread[]
+  forumMessages        ForumMessage[]
+  onboardingEmailLogs  OnboardingEmailLog[]
 }
 
 model Session {
@@ -66,6 +67,16 @@ model ForumThread {
 
   @@index([topic])
   @@index([updatedAt])
+}
+
+model OnboardingEmailLog {
+  id     String   @id @default(cuid())
+  userId String
+  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  step   Int
+  sentAt DateTime @default(now())
+
+  @@unique([userId, step])
 }
 
 model ForumMessage {
