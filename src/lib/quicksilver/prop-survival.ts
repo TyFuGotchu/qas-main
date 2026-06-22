@@ -20,7 +20,7 @@ export interface PropSurvivalResult {
   survivalGrade: "A+" | "A" | "B" | "C" | "F";
   dailyLotChecklist: { day: number; maxLots: number; riskBudget: number }[];
   breachScenarios: string[];
-  qsVerdict: "DEPLOY" | "OPTIMIZE" | "HALT";
+  qsVerdict: "FAVORABLE" | "REFINE" | "UNFAVORABLE";
 }
 
 function mulberry32(seed: number) {
@@ -124,13 +124,13 @@ export function computePropSurvival(input: PropSurvivalInput): PropSurvivalResul
 
   const breachScenarios: string[] = [];
   if (probabilityOfRuin > 20) {
-    breachScenarios.push("Ruin probability exceeds QS institutional threshold (20%).");
+    breachScenarios.push("Ruin probability exceeds 20% — tighten manual risk rules.");
   }
   if (probabilityOfPass < 40) {
-    breachScenarios.push("Pass rate below 40% — strategy parameters need optimization.");
+    breachScenarios.push("Pass rate below 40% — adjust your planned trade frequency or R:R.");
   }
   if (winRate < 50 && riskReward < 2) {
-    breachScenarios.push("Insufficient edge density for prop firm survival.");
+    breachScenarios.push("Low edge density — revisit strategy before a prop challenge.");
   }
 
   const survivalGrade: PropSurvivalResult["survivalGrade"] =
@@ -146,10 +146,10 @@ export function computePropSurvival(input: PropSurvivalInput): PropSurvivalResul
 
   const qsVerdict: PropSurvivalResult["qsVerdict"] =
     survivalGrade === "A+" || survivalGrade === "A"
-      ? "DEPLOY"
+      ? "FAVORABLE"
       : survivalGrade === "B" || survivalGrade === "C"
-      ? "OPTIMIZE"
-      : "HALT";
+      ? "REFINE"
+      : "UNFAVORABLE";
 
   return {
     probabilityOfRuin,

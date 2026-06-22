@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Info } from "lucide-react";
 import type { ToolDefinition } from "@/lib/tools-registry";
 import { Badge } from "@/components/ui/Badge";
+import { MANUAL_TRADING_DISCLAIMER, MANUAL_TRADING_SHORT } from "@/lib/quicksilver/disclaimer";
 
 interface ToolPageShellProps {
   tool: ToolDefinition;
@@ -34,9 +35,20 @@ export function ToolPageShell({ tool, children }: ToolPageShellProps) {
             <p className="mt-1 max-w-2xl font-mono text-sm text-slate-500">
               {tool.desc}
             </p>
+            <p className="mt-2 font-mono text-[10px] uppercase tracking-widest text-slate-600">
+              {MANUAL_TRADING_SHORT}
+            </p>
           </div>
         </div>
       </div>
+
+      <div className="flex items-start gap-3 rounded-lg border border-slate-700/50 bg-slate-900/40 px-4 py-3">
+        <Info className="mt-0.5 h-4 w-4 shrink-0 text-cyan-accent/70" />
+        <p className="font-mono text-xs leading-relaxed text-slate-400">
+          {MANUAL_TRADING_DISCLAIMER}
+        </p>
+      </div>
+
       {children}
     </div>
   );

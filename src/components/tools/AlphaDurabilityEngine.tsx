@@ -41,7 +41,7 @@ export function AlphaDurabilityEngine() {
     <div className="grid gap-6 lg:grid-cols-2">
       <GlassPanel className="p-6">
         <h3 className="font-mono text-sm font-bold uppercase tracking-widest text-cyan-accent">
-          Strategy Track Record
+          Journal Stats (your trade history)
         </h3>
         <div className="mt-4 space-y-4">
           <Input label="Total Trades" value={totalTrades} onChange={(e) => setTotalTrades(e.target.value)} type="number" />

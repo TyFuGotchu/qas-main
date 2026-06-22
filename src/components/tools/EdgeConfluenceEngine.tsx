@@ -40,18 +40,25 @@ export function EdgeConfluenceEngine() {
     [structure, momentum, volatility, session, riskReward, liquidity, htfBias, direction]
   );
 
+  const verdictLabels = {
+    STRONG: "Strong Setup",
+    REDUCE_SIZE: "Reduce Size",
+    WAIT: "Wait",
+    SKIP: "Skip",
+  };
+
   const verdictColor = {
-    EXECUTE: "text-emerald-400",
-    SCALE_DOWN: "text-cyan-accent",
+    STRONG: "text-emerald-400",
+    REDUCE_SIZE: "text-cyan-accent",
     WAIT: "text-amber-400",
-    AVOID: "text-red-400",
+    SKIP: "text-red-400",
   }[result.verdict];
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
       <GlassPanel className="p-6">
         <h3 className="font-mono text-sm font-bold uppercase tracking-widest text-cyan-accent">
-          Setup Parameters
+          Your Setup (manual inputs)
         </h3>
         <div className="mt-4 space-y-4">
           <Input label="Structure Alignment (1-5)" value={structure} onChange={(e) => setStructure(e.target.value)} type="number" />
@@ -110,7 +117,7 @@ export function EdgeConfluenceEngine() {
             <ScoreRing score={result.qsEdgeScore} label="Edge Score" grade={result.grade} />
             <div className="text-center">
               <p className="font-mono text-[10px] uppercase text-slate-500">Verdict</p>
-              <p className={cn("mt-1 font-mono text-2xl font-bold", verdictColor)}>{result.verdict}</p>
+              <p className={cn("mt-1 font-mono text-2xl font-bold", verdictColor)}>{verdictLabels[result.verdict]}</p>
               <Badge variant="success" className="mt-3">{result.confluenceLayers}/7 layers active</Badge>
               <p className="mt-2 font-mono text-xs text-slate-500">Asymmetry: {result.asymmetryRating}</p>
             </div>
@@ -125,7 +132,7 @@ export function EdgeConfluenceEngine() {
           </div>
         </TerminalPanel>
 
-        <TerminalPanel title="QS Protocol Directives" status="warning">
+        <TerminalPanel title="Planning Notes" status="warning">
           <ul className="space-y-2">
             {result.protocolNotes.map((note, i) => (
               <li key={i} className="font-mono text-xs text-slate-400">→ {note}</li>

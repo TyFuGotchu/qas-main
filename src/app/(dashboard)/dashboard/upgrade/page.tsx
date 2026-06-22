@@ -25,7 +25,7 @@ export default function UpgradePage() {
             <p className="mt-2 text-sm text-slate-500">
               Your current Bot Only tier provides standalone bot access and
               optimized runtime parameters. Upgrade to Premium Quant or Lifetime
-              Alpha to unlock all 6 proprietary QS trading engines, VIP Discord
+              Alpha to unlock all 6 manual trading planning tools, VIP Discord
               integration, live trading guidance, MQL5 source files, and preset
               libraries.
             </p>

@@ -87,7 +87,7 @@ export function RegimeOracle() {
           <p className="mt-3 font-mono text-xs text-slate-500">{result.sessionBias}</p>
         </TerminalPanel>
 
-        <TerminalPanel title="Protocol Directives" status="warning">
+        <TerminalPanel title="Planning Guidance" status="warning">
           <ul className="space-y-2">
             {result.protocolDirectives.map((d, i) => (
               <li key={i} className={cn("font-mono text-xs", result.primaryRegime === "chaos" ? "text-red-300" : "text-slate-400")}>

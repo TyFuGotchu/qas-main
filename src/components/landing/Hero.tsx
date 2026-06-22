@@ -46,7 +46,7 @@ export function Hero() {
             {
               icon: BarChart3,
               title: "6 Master Tools",
-              desc: "QS Edge Confluence, Risk Matrix, Execution Protocol & proprietary engines",
+              desc: "Manual planning tools — confluence scoring, risk matrix, trade planner & more",
             },
             {
               icon: Activity,

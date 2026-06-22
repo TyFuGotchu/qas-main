@@ -35,7 +35,7 @@ export function ExecutionProtocol() {
     <div className="grid gap-6 lg:grid-cols-2">
       <GlassPanel className="p-6">
         <h3 className="font-mono text-sm font-bold uppercase tracking-widest text-cyan-accent">
-          Trade Setup
+          Planned Trade (your inputs)
         </h3>
         <div className="mt-4 space-y-4">
           <div className="flex gap-2">
@@ -52,30 +52,30 @@ export function ExecutionProtocol() {
           <Input label="Scale-Out Levels (2-3)" value={scaleLevels} onChange={(e) => setScaleLevels(e.target.value)} type="number" />
           <label className="flex items-center gap-2 font-mono text-xs text-slate-400">
             <input type="checkbox" checked={trailing} onChange={(e) => setTrailing(e.target.checked)} className="rounded border-slate-600" />
-            Enable QS trailing stop
+            Include trailing-stop plan
           </label>
         </div>
       </GlassPanel>
 
       <div className="space-y-6">
-        <TerminalPanel title="QS Execution Protocol™" status="online">
+        <TerminalPanel title="Trade Plan Summary" status="online">
           <div className="grid gap-3 sm:grid-cols-3">
             <GlassPanel className="p-3 text-center">
-              <p className="font-mono text-[10px] text-slate-500">Position Size</p>
+              <p className="font-mono text-[10px] text-slate-500">Suggested Size (units)</p>
               <p className="font-mono text-lg font-bold text-cyan-accent">{result.positionSize}</p>
             </GlassPanel>
             <GlassPanel className="p-3 text-center">
-              <p className="font-mono text-[10px] text-slate-500">Dollar Risk</p>
+              <p className="font-mono text-[10px] text-slate-500">Planned Risk ($)</p>
               <p className="font-mono text-lg font-bold text-slate-200">${result.dollarRisk.toLocaleString()}</p>
             </GlassPanel>
             <GlassPanel className="p-3 text-center">
-              <p className="font-mono text-[10px] text-slate-500">Protocol Tier</p>
+              <p className="font-mono text-[10px] text-slate-500">Planning Tier</p>
               <Badge variant="success" className="mt-1">{result.protocolTier}</Badge>
             </GlassPanel>
           </div>
         </TerminalPanel>
 
-        <TerminalPanel title="Entry Ladder">
+        <TerminalPanel title="Planned Entry Levels">
           <div className="space-y-2">
             {result.entryLadder.map((level) => (
               <div key={level.label} className="flex items-center justify-between rounded border border-slate-700/40 bg-slate-900/50 px-4 py-2">
@@ -92,7 +92,7 @@ export function ExecutionProtocol() {
           </div>
         </TerminalPanel>
 
-        <TerminalPanel title="Take-Profit Ladder">
+        <TerminalPanel title="Planned Take-Profit Levels">
           <div className="space-y-2">
             {result.takeProfitLadder.map((level) => (
               <div key={level.label} className="flex items-center justify-between rounded border border-emerald-500/20 bg-emerald-500/5 px-4 py-2">
@@ -109,7 +109,7 @@ export function ExecutionProtocol() {
           </div>
         </TerminalPanel>
 
-        <TerminalPanel title="Protocol Directives" status="warning">
+        <TerminalPanel title="Manual Planning Notes" status="warning">
           <ul className="space-y-2">
             {result.executionNotes.map((note, i) => (
               <li key={i} className="font-mono text-xs text-slate-400">→ {note}</li>

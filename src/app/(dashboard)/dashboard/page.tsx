@@ -31,7 +31,7 @@ export default async function DashboardPage() {
       href: "/dashboard/tools",
       label: "Trading Tools",
       icon: Wrench,
-      desc: `${TOOL_COUNT} institutional trading instruments`,
+      desc: `${TOOL_COUNT} manual trading planning tools`,
       locked: !hasPremium,
     },
     {

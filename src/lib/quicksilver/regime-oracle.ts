@@ -118,7 +118,7 @@ export function computeRegimeOracle(
     distribution: "Take profits into strength — avoid new longs at highs, watch for reversal signatures.",
     accumulation: "Scale entries at range lows — build position with tight invalidation.",
     reversal: "Counter-trend only with QS confluence A+ — half size, fast invalidation.",
-    chaos: "Stand aside — no QS protocol execution until regime clarifies.",
+    chaos: "Stand aside — wait for regime clarity before planning manual entries.",
   };
 
   const sessionBiases: Record<RegimeOracleInput["sessionPhase"], string> = {
@@ -129,19 +129,19 @@ export function computeRegimeOracle(
   };
 
   const protocolDirectives: string[] = [
-    `QS Regime Oracle: ${REGIME_LABELS[primaryRegime]} (${confidence}% confidence).`,
-    `Risk multiplier: ${riskMultiplier}x standard QS allocation.`,
+    `Regime read: ${REGIME_LABELS[primaryRegime]} (${confidence}% confidence).`,
+    `Suggested size multiplier: ${riskMultiplier}x your normal manual risk.`,
     playbooks[primaryRegime],
   ];
 
   if (primaryRegime === "chaos") {
     protocolDirectives.push(
-      "MANDATORY: Halt automated execution until compression or expansion returns."
+      "Chaos regime — avoid new manual entries until compression or expansion returns."
     );
   }
   if (sessionPhase === "overnight") {
     protocolDirectives.push(
-      "Overnight session — widen spread tolerance, halve position size."
+      "Overnight session — consider wider spreads and half your usual planned size."
     );
   }
 

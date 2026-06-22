@@ -44,10 +44,10 @@ export function RiskMatrix() {
     <div className="grid gap-6 lg:grid-cols-2">
       <GlassPanel className="p-6">
         <h3 className="font-mono text-sm font-bold uppercase tracking-widest text-cyan-accent">
-          Portfolio Parameters
+          Your Risk Inputs (not linked to any account)
         </h3>
         <div className="mt-4 space-y-4">
-          <Input label="Account Size ($)" value={accountSize} onChange={(e) => setAccountSize(e.target.value)} type="number" />
+          <Input label="Trading Capital ($)" value={accountSize} onChange={(e) => setAccountSize(e.target.value)} type="number" />
           <Input label="Risk Per Trade (%)" value={riskPerTrade} onChange={(e) => setRiskPerTrade(e.target.value)} type="number" />
           <Input label="Open Positions" value={openPositions} onChange={(e) => setOpenPositions(e.target.value)} type="number" />
           <Input label="Avg Position Correlation (0-1)" value={correlation} onChange={(e) => setCorrelation(e.target.value)} type="number" />

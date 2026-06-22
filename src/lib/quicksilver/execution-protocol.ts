@@ -59,21 +59,21 @@ export function computeExecutionProtocol(
       price: entryPrice,
       sizePercent: 60,
       rMultiple: 0,
-      action: "Execute at QS anchor zone",
+      action: "Plan primary entry at anchor zone",
     },
     {
       label: "Add-On Pullback",
       price: parseFloat((entryPrice - sign * riskPerUnit * 0.35).toFixed(4)),
       sizePercent: 25,
       rMultiple: -0.35,
-      action: "Scale in on retest confirmation",
+      action: "Optional add on retest — manual confirmation required",
     },
     {
       label: "Final Scale",
       price: parseFloat((entryPrice - sign * riskPerUnit * 0.6).toFixed(4)),
       sizePercent: 15,
       rMultiple: -0.6,
-      action: "Last add — abort if not filled before +1R",
+      action: "Final planned add — skip if price reaches +1R first",
     },
   ];
 
@@ -86,7 +86,7 @@ export function computeExecutionProtocol(
     price: parseFloat((entryPrice + sign * riskPerUnit * r).toFixed(4)),
     sizePercent: Math.round(tpFractions[i] * 100),
     rMultiple: r,
-    action: i === tpMultiples.length - 1 ? "Runner / trail remainder" : "Partial scale-out",
+    action: i === tpMultiples.length - 1 ? "Trail runner manually" : "Plan partial take-profit",
   }));
 
   const invalidationPrice = parseFloat(
@@ -103,25 +103,25 @@ export function computeExecutionProtocol(
     riskPercent <= 1 ? "A" : riskPercent <= 2 ? "B" : "C";
 
   const executionNotes: string[] = [
-    `QS Protocol Tier ${protocolTier}: ${scaleOutLevels}-stage scale-out ladder active.`,
-    `Move stop to break-even at ${breakEvenTrigger} (+0.8R).`,
+    `Planning tier ${protocolTier}: ${scaleOutLevels}-stage scale-out ladder for manual use.`,
+    `Consider moving stop to break-even near ${breakEvenTrigger} (+0.8R).`,
   ];
 
   if (useTrailingStop) {
     executionNotes.push(
-      `Activate QS trailing engine at ${trailingActivation} (+1.5R) — 0.75R trail distance.`
+      `Optional trailing plan from ${trailingActivation} (+1.5R) — 0.75R trail distance.`
     );
   }
 
   executionNotes.push(
-    `Hard invalidation below ${invalidationPrice} — no re-entry same session.`
+    `Invalidation reference: ${invalidationPrice} — reassess before re-planning same session.`
   );
 
   const timeStopMinutes =
     scaleOutLevels >= 3 ? 240 : 180;
 
   executionNotes.push(
-    `Time stop: flatten if +1R not achieved within ${timeStopMinutes} minutes.`
+    `Time guideline: review trade if +1R not reached within ${timeStopMinutes} minutes.`
   );
 
   return {

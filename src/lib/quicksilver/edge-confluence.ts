@@ -34,7 +34,7 @@ export interface FactorScore {
 export interface EdgeConfluenceResult {
   qsEdgeScore: number;
   grade: "A+" | "A" | "B" | "C" | "F";
-  verdict: "EXECUTE" | "SCALE_DOWN" | "WAIT" | "AVOID";
+  verdict: "STRONG" | "REDUCE_SIZE" | "WAIT" | "SKIP";
   factors: FactorScore[];
   confluenceLayers: number;
   asymmetryRating: string;
@@ -72,10 +72,10 @@ function gradeFromScore(score: number): EdgeConfluenceResult["grade"] {
 }
 
 function verdictFromScore(score: number): EdgeConfluenceResult["verdict"] {
-  if (score >= 82) return "EXECUTE";
-  if (score >= 68) return "SCALE_DOWN";
+  if (score >= 82) return "STRONG";
+  if (score >= 68) return "REDUCE_SIZE";
   if (score >= 50) return "WAIT";
-  return "AVOID";
+  return "SKIP";
 }
 
 export function computeEdgeConfluence(
@@ -158,26 +158,26 @@ export function computeEdgeConfluence(
   const protocolNotes: string[] = [];
   if (!biasAligned) {
     protocolNotes.push(
-      "QS Protocol: Counter-HTF setups require 50% size reduction and tighter invalidation."
+      "Counter-HTF setup — consider 50% smaller size and a tighter manual stop."
     );
   }
   if (input.volatilityRegime === "extreme") {
     protocolNotes.push(
-      "QS Protocol: Extreme volatility — widen stops or defer until compression returns."
+      "Extreme volatility — widen stops or wait for compression before planning entries."
     );
   }
   if (confluenceLayers >= 5) {
     protocolNotes.push(
-      "QS Protocol: Full confluence stack — eligible for protocol A execution tier."
+      "Full confluence stack — strong manual setup on paper; verify on your platform."
     );
   } else if (confluenceLayers <= 2) {
     protocolNotes.push(
-      "QS Protocol: Thin confluence — paper validate before capital deployment."
+      "Thin confluence — demo or journal the setup before risking real capital."
     );
   }
   if (input.sessionContext === "london_ny_overlap") {
     protocolNotes.push(
-      "QS Protocol: Overlap window — prioritize momentum continuation plays."
+      "Overlap window — momentum continuation setups often score higher here."
     );
   }
 

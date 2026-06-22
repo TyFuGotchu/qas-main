@@ -34,28 +34,34 @@ export function PropSurvivalEngine() {
     });
   }, [winRate, riskReward, tradesPerMonth, startingBalance, maxDrawdown, dailyLossLimit, profitTarget, runKey]);
 
+  const verdictLabels = {
+    FAVORABLE: "Favorable",
+    REFINE: "Refine Plan",
+    UNFAVORABLE: "Unfavorable",
+  };
+
   const verdictColor = {
-    DEPLOY: "text-emerald-400",
-    OPTIMIZE: "text-amber-400",
-    HALT: "text-red-400",
+    FAVORABLE: "text-emerald-400",
+    REFINE: "text-amber-400",
+    UNFAVORABLE: "text-red-400",
   }[result.qsVerdict];
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
       <GlassPanel className="p-6">
         <h3 className="font-mono text-sm font-bold uppercase tracking-widest text-cyan-accent">
-          Prop Firm Parameters
+          Challenge Rules (your inputs)
         </h3>
         <div className="mt-4 space-y-4">
           <Input label="Win Rate (%)" value={winRate} onChange={(e) => setWinRate(e.target.value)} type="number" />
           <Input label="Risk : Reward" value={riskReward} onChange={(e) => setRiskReward(e.target.value)} type="number" />
           <Input label="Trades / Month" value={tradesPerMonth} onChange={(e) => setTradesPerMonth(e.target.value)} type="number" />
-          <Input label="Account Size ($)" value={startingBalance} onChange={(e) => setStartingBalance(e.target.value)} type="number" />
+          <Input label="Starting Balance ($)" value={startingBalance} onChange={(e) => setStartingBalance(e.target.value)} type="number" />
           <Input label="Max Drawdown (%)" value={maxDrawdown} onChange={(e) => setMaxDrawdown(e.target.value)} type="number" />
           <Input label="Daily Loss Limit (%)" value={dailyLossLimit} onChange={(e) => setDailyLossLimit(e.target.value)} type="number" />
           <Input label="Profit Target (%)" value={profitTarget} onChange={(e) => setProfitTarget(e.target.value)} type="number" />
           <Button variant="primary" className="w-full" onClick={() => setRunKey((k) => k + 1)}>
-            Run 10,000 QS Simulations
+            Run 10,000 Simulations
           </Button>
         </div>
       </GlassPanel>
@@ -71,7 +77,7 @@ export function PropSurvivalEngine() {
                   {result.probabilityOfRuin}%
                 </p>
               </div>
-              <p className={cn("font-mono text-lg font-bold", verdictColor)}>{result.qsVerdict}</p>
+              <p className={cn("font-mono text-lg font-bold", verdictColor)}>{verdictLabels[result.qsVerdict]}</p>
             </div>
           </div>
         </TerminalPanel>
@@ -96,7 +102,7 @@ export function PropSurvivalEngine() {
           <p className="font-mono text-2xl font-bold text-slate-200">{result.expectedDaysToTarget} days</p>
         </GlassPanel>
 
-        <TerminalPanel title="Daily Lot-Size Checklist" status="warning">
+        <TerminalPanel title="Daily Risk Checklist (manual reference)" status="warning">
           <div className="space-y-2">
             {result.dailyLotChecklist.map((row) => (
               <div key={row.day} className="flex items-center justify-between rounded border border-slate-700/40 bg-slate-900/50 px-4 py-2">

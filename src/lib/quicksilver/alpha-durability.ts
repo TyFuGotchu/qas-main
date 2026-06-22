@@ -121,12 +121,12 @@ export function computeAlphaDurability(
   }
   if (expectancy <= 0) {
     diagnostics.push(
-      "Negative expectancy — QS systems recommend halting live deployment."
+      "Negative expectancy — journal review recommended before sizing up manually."
     );
   }
   if (qsAlphaIndex >= 72 && sampleAdequacy !== "INSUFFICIENT") {
     diagnostics.push(
-      "Edge validated — eligible for QS capital allocation tier II."
+      "Statistically supportive edge — suitable for disciplined manual sizing."
     );
   }
 
