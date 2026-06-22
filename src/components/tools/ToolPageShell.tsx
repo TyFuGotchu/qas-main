@@ -33,15 +33,15 @@ export async function ToolPageShell({ tool, children }: ToolPageShellProps) {
           <ChevronLeft className="h-3 w-3" />
           Back to Toolkit
         </Link>
-        <div className="flex items-start gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-cyan-accent/30 bg-cyan-accent/10 shadow-[0_0_20px_rgba(0,229,255,0.15)]">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-cyan-accent/30 bg-cyan-accent/10 shadow-[0_0_20px_rgba(0,229,255,0.15)]">
             <Icon className="h-6 w-6 text-cyan-accent" />
           </div>
-          <div>
+          <div className="min-w-0">
             <Badge variant="success" className="mb-2">
               {tool.tag}
             </Badge>
-            <h2 className="font-mono text-2xl font-bold text-slate-100">
+            <h2 className="font-mono text-xl font-bold text-slate-100 sm:text-2xl">
               {tool.name}
             </h2>
             <p className="mt-1 max-w-2xl font-mono text-sm text-slate-500">
@@ -69,7 +69,7 @@ export async function ToolPageShell({ tool, children }: ToolPageShellProps) {
         />
       ) : (
         <>
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <p className="font-mono text-[10px] text-slate-600">
               Share manually — export adds a QuicksilverAlgo.com watermark
             </p>

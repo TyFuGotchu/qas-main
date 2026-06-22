@@ -15,6 +15,7 @@ import {
   Lock,
   BookOpen,
   Users,
+  X,
 } from "lucide-react";
 
 interface NavItem {
@@ -34,20 +35,40 @@ const navItems: NavItem[] = [
   { href: "/dashboard/upgrade", label: "Upgrade Tier", icon: ArrowUpCircle },
 ];
 
-export function Sidebar() {
+interface SidebarProps {
+  mobileOpen?: boolean;
+  onNavigate?: () => void;
+}
+
+export function Sidebar({ mobileOpen = false, onNavigate }: SidebarProps) {
   const pathname = usePathname();
   const { user } = useSession();
   const hasDiscord = user ? canAccessDiscord(user.subscriptionTier) : false;
 
   return (
-    <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col border-r border-slate-800/60 bg-obsidian-950">
-      <div className="flex h-16 items-center gap-2 border-b border-slate-800/60 px-6">
-        <div className="flex h-8 w-8 items-center justify-center rounded border border-cyan-500/40 bg-cyan-500/10">
-          <Zap className="h-4 w-4 text-cyan-400" />
+    <aside
+      className={cn(
+        "fixed left-0 top-0 z-50 flex h-screen w-64 max-w-[min(16rem,85vw)] flex-col border-r border-slate-800/60 bg-obsidian-950 transition-transform duration-300 ease-in-out lg:translate-x-0",
+        mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+      )}
+    >
+      <div className="flex h-16 items-center justify-between border-b border-slate-800/60 px-4 sm:px-6">
+        <div className="flex items-center gap-2">
+          <div className="flex h-8 w-8 items-center justify-center rounded border border-cyan-500/40 bg-cyan-500/10">
+            <Zap className="h-4 w-4 text-cyan-400" />
+          </div>
+          <span className="font-mono text-xs font-bold tracking-wider text-slate-200">
+            QS<span className="text-cyan-400">.ALGO</span>
+          </span>
         </div>
-        <span className="font-mono text-xs font-bold tracking-wider text-slate-200">
-          QS<span className="text-cyan-400">.ALGO</span>
-        </span>
+        <button
+          type="button"
+          className="rounded-lg p-2 text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 lg:hidden"
+          aria-label="Close menu"
+          onClick={onNavigate}
+        >
+          <X className="h-5 w-5" />
+        </button>
       </div>
 
       <nav className="flex-1 space-y-1 overflow-y-auto p-4">
@@ -62,11 +83,12 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={isLocked ? "/dashboard/upgrade" : item.href}
+              onClick={onNavigate}
               className={cn(
                 "flex items-center gap-3 rounded-lg px-3 py-2.5 font-mono text-xs uppercase tracking-wider transition-all",
                 isActive
-                  ? "bg-cyan-500/10 text-cyan-400 border border-cyan-500/30"
-                  : "text-slate-500 hover:bg-slate-800/50 hover:text-slate-300 border border-transparent",
+                  ? "border border-cyan-500/30 bg-cyan-500/10 text-cyan-400"
+                  : "border border-transparent text-slate-500 hover:bg-slate-800/50 hover:text-slate-300",
                 isLocked && "opacity-60"
               )}
             >
@@ -84,7 +106,7 @@ export function Sidebar() {
             System Status
           </p>
           <div className="mt-2 flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
             <span className="font-mono text-xs text-emerald-400">Operational</span>
           </div>
         </div>

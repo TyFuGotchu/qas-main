@@ -106,7 +106,7 @@ export default async function LessonPage({
             <Badge variant="warning">Preview · {access.requiredTier}</Badge>
           )}
         </div>
-        <h1 className="mt-4 font-mono text-3xl font-bold text-slate-100">
+        <h1 className="mt-4 font-mono text-2xl font-bold text-slate-100 sm:text-3xl">
           {lesson.title}
         </h1>
         <p className="mt-3 text-lg text-slate-400">{lesson.summary}</p>

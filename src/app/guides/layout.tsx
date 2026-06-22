@@ -9,7 +9,9 @@ export default function GuidesLayout({
   return (
     <div className="min-h-screen bg-obsidian-950">
       <PublicNav />
-      <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6">{children}</main>
+      <main className="mx-auto max-w-4xl overflow-x-hidden px-4 py-8 pt-14 sm:px-6 sm:py-10 sm:pt-16">
+        {children}
+      </main>
       <footer className="border-t border-slate-800/60 px-4 py-8 text-center">
         <p className="font-mono text-xs text-slate-600">
           <Link href="/guides" className="text-cyan-accent hover:underline">

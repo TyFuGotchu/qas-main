@@ -8,7 +8,7 @@ export default function PublicLayout({
   return (
     <div className="min-h-screen bg-obsidian-950 bg-grid-pattern bg-grid">
       <PublicNav />
-      <main className="pt-16">{children}</main>
+      <main className="overflow-x-hidden pt-14 sm:pt-16">{children}</main>
     </div>
   );
 }

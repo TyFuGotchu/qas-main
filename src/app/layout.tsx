@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
@@ -21,6 +21,13 @@ export const metadata: Metadata = {
     "Premium algorithmic trading SaaS platform with proprietary bot access, quant tools, and institutional-grade execution systems.",
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#0B0C10",
+};
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -31,7 +38,7 @@ export default async function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} bg-obsidian-950 text-slate-300 antialiased`}
+        className={`${inter.variable} ${jetbrainsMono.variable} overflow-x-hidden bg-obsidian-950 text-slate-300 antialiased`}
       >
         <GoogleAnalytics />
         <SessionProvider initialUser={user}>{children}</SessionProvider>

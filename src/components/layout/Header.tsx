@@ -4,12 +4,17 @@ import { useEffect } from "react";
 import { useSession } from "@/providers/SessionProvider";
 import { getTierBadgeColor } from "@/lib/tiers";
 import { cn } from "@/lib/utils";
-import { LogOut, User, Shield } from "lucide-react";
+import { LogOut, User, Shield, Menu, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 
-export function Header() {
+interface HeaderProps {
+  onMenuToggle?: () => void;
+  menuOpen?: boolean;
+}
+
+export function Header({ onMenuToggle, menuOpen = false }: HeaderProps) {
   const { user, setUser, refreshSession } = useSession();
   const router = useRouter();
 
@@ -24,25 +29,36 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-slate-800/60 bg-obsidian-950/90 px-6 backdrop-blur-md">
-      <div>
-        <h1 className="font-mono text-sm font-semibold text-slate-200">
-          Quicksilver Algo System
-        </h1>
-        <p className="font-mono text-[10px] uppercase tracking-widest text-slate-600">
-          Institutional Terminal v2.4
-        </p>
+    <header className="sticky top-0 z-30 flex h-14 min-h-14 items-center justify-between gap-3 border-b border-slate-800/60 bg-obsidian-950/90 px-4 backdrop-blur-md sm:h-16 sm:px-6">
+      <div className="flex min-w-0 flex-1 items-center gap-3">
+        <button
+          type="button"
+          className="shrink-0 rounded-lg border border-slate-700/50 p-2 text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 lg:hidden"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+          onClick={onMenuToggle}
+        >
+          {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
+        <div className="min-w-0">
+          <h1 className="truncate font-mono text-xs font-semibold text-slate-200 sm:text-sm">
+            Quicksilver Algo System
+          </h1>
+          <p className="hidden font-mono text-[10px] uppercase tracking-widest text-slate-600 sm:block">
+            Institutional Terminal v2.4
+          </p>
+        </div>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex shrink-0 items-center gap-2 sm:gap-4">
         {user && (
           <>
-            <div className="hidden items-center gap-3 sm:flex">
+            <div className="hidden items-center gap-3 md:flex">
               <div className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-700 bg-obsidian-800">
                 <User className="h-4 w-4 text-slate-400" />
               </div>
-              <div className="text-right">
-                <p className="font-mono text-xs text-slate-300">
+              <div className="max-w-[10rem] text-right lg:max-w-none">
+                <p className="truncate font-mono text-xs text-slate-300">
                   {user.name ?? user.email}
                 </p>
                 <span

@@ -4,7 +4,7 @@ import { Activity, BarChart3, Cpu, Shield } from "lucide-react";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden px-4 py-24 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
       <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 via-transparent to-transparent" />
       <div className="relative mx-auto max-w-7xl">
         <div className="text-center">
@@ -15,12 +15,12 @@ export function Hero() {
             </span>
           </div>
 
-          <h1 className="mx-auto max-w-4xl font-mono text-4xl font-bold tracking-tight text-slate-100 sm:text-5xl lg:text-6xl">
+          <h1 className="mx-auto max-w-4xl font-mono text-3xl font-bold tracking-tight text-slate-100 sm:text-5xl lg:text-6xl">
             <span className="terminal-glow text-cyan-terminal">Quicksilver</span>{" "}
             Algo System
           </h1>
 
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-slate-400">
+          <p className="mx-auto mt-6 max-w-2xl text-base text-slate-400 sm:text-lg">
             Institutional-grade algorithmic execution infrastructure. Deploy
             battle-tested automated strategies with proprietary QS engines,
             institutional risk matrices, and exclusive quant tooling built for
