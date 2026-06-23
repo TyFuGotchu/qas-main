@@ -37,10 +37,12 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className="dark">
+      <head>
+        <GoogleAnalytics />
+      </head>
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} overflow-x-hidden bg-obsidian-950 text-slate-300 antialiased`}
       >
-        <GoogleAnalytics />
         <SessionProvider initialUser={user}>{children}</SessionProvider>
       </body>
     </html>
