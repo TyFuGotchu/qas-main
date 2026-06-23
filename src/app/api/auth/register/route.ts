@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { createSessionToken, setSessionCookie } from "@/lib/auth";
 import { toUserSession } from "@/lib/session-user";
-import { isAllowedOrigin, normalizeEmail } from "@/lib/security/origin";
+import { normalizeEmail } from "@/lib/security/origin";
 import { validatePassword } from "@/lib/security/password";
 import {
   enforceRateLimit,
@@ -15,10 +15,6 @@ const REGISTER_WINDOW_MS = 15 * 60 * 1000;
 
 export async function POST(request: NextRequest) {
   try {
-    if (!isAllowedOrigin(request)) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
-
     const rateLimit = enforceRateLimit(
       request,
       "auth-register",
@@ -95,3 +91,4 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
