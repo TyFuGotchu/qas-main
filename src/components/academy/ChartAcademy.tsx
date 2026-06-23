@@ -36,7 +36,13 @@ function LessonCard({
         )}
       </div>
       <p className="font-mono text-xs text-slate-500">{lesson.summary}</p>
-      <LessonInteractivePanel categoryId={categoryId} lessonId={lesson.id} title={lesson.title} />
+      <LessonInteractivePanel
+        categoryId={categoryId}
+        lessonId={lesson.id}
+        title={lesson.title}
+        lessonSlug={`${categoryId}-${lesson.id}`}
+        isLoggedIn
+      />
       <div className="space-y-2">
         {lesson.body.map((para, i) => (
           <p key={i} className="text-sm leading-relaxed text-slate-400">

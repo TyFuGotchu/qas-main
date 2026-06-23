@@ -4,6 +4,7 @@ import { RecommendedBrokerCard } from "@/components/broker/RecommendedBrokerCard
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { ConversionHeroDemo } from "@/components/engagement/ConversionHeroDemo";
+import { LearningPathTracker } from "@/components/engagement/LearningPathTracker";
 
 export default function LandingPage() {
   return (
@@ -16,8 +17,9 @@ export default function LandingPage() {
       </section>
       <Stats />
       <section className="px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto max-w-5xl space-y-8">
           <ConversionHeroDemo />
+          <LearningPathTracker />
         </div>
       </section>
       <section className="border-t border-slate-800/60 px-4 py-20 sm:px-6 lg:px-8">

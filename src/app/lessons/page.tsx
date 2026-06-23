@@ -4,6 +4,7 @@ import { CHARTING_GUIDES, PUBLIC_LESSONS } from "@/lib/seo/public-lessons";
 import { Badge } from "@/components/ui/Badge";
 import { LessonProgressBadge } from "@/components/engagement/LessonProgressBadge";
 import { ConversionHeroDemo } from "@/components/engagement/ConversionHeroDemo";
+import { LearningPathTracker } from "@/components/engagement/LearningPathTracker";
 
 export const metadata: Metadata = {
   title: "Free Trading Lessons Preview | Quicksilver Algo Lesson Center",
@@ -30,6 +31,8 @@ export default function LessonsIndexPage() {
       </header>
 
       <ConversionHeroDemo />
+
+      <LearningPathTracker />
 
       <section>
         <h2 className="mb-4 font-mono text-sm font-semibold uppercase tracking-widest text-slate-500">

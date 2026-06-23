@@ -7,6 +7,7 @@ import { getTierCheckoutUrl, TIER_LABELS } from "@/lib/accessControl";
 import type { SubscriptionTier } from "@/types";
 import Button from "@/components/ui/Button";
 import { TierValueProps } from "@/components/engagement/TierValueProps";
+import { getStickyBarDelayMs } from "@/lib/engagement/ab-test";
 
 interface StickyUpgradeBarProps {
   requiredTier: SubscriptionTier;
@@ -25,7 +26,8 @@ export function StickyUpgradeBar({
   useEffect(() => {
     const dismissed = sessionStorage.getItem(dismissedKey);
     if (!dismissed) {
-      const timer = setTimeout(() => setVisible(true), 8000);
+      const delay = getStickyBarDelayMs();
+      const timer = setTimeout(() => setVisible(true), delay);
       return () => clearTimeout(timer);
     }
   }, [dismissedKey]);
@@ -48,7 +50,9 @@ export function StickyUpgradeBar({
             Unlock full access to {resourceTitle}
           </p>
           <p className="font-mono text-[10px] text-slate-500">
-            {expanded ? "Everything you need to trade like an institution" : `${tierLabel} · 89 lessons · 6 tools`}
+            {expanded
+              ? "Everything you need to trade like an institution"
+              : `${tierLabel} · 89 lessons · 6 tools`}
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-2">

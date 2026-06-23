@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BarChart3, Layers, PlayCircle } from "lucide-react";
 import { LessonWalkthrough } from "@/components/academy/LessonWalkthrough";
 import { LessonLiveChart } from "@/components/academy/LessonLiveChart";
 import { CandlestickDiagram } from "@/components/academy/visuals/CandlestickDiagram";
 import { ChartDiagram } from "@/components/academy/visuals/ChartDiagram";
 import { getLessonVisual } from "@/lib/academy/visual-registry";
+import { hasEmailCapture } from "@/lib/academy/lesson-progress";
+import { EmailCaptureGate } from "@/components/engagement/EmailCaptureGate";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { cn } from "@/lib/utils";
 
@@ -16,19 +18,32 @@ interface LessonInteractivePanelProps {
   categoryId: string;
   lessonId: string;
   title?: string;
+  lessonSlug: string;
+  isLoggedIn?: boolean;
 }
 
 export function LessonInteractivePanel({
   categoryId,
   lessonId,
   title,
+  lessonSlug,
+  isLoggedIn = false,
 }: LessonInteractivePanelProps) {
   const [tab, setTab] = useState<Tab>("walkthrough");
-  const config = getLessonVisual(categoryId, lessonId);
+  const [unlocked, setUnlocked] = useState(isLoggedIn);
 
-  const tabs: { id: Tab; label: string; icon: typeof PlayCircle }[] = [
-    { id: "walkthrough", label: "Walkthrough", icon: PlayCircle },
-    { id: "chart", label: "Live Chart", icon: BarChart3 },
+  useEffect(() => {
+    if (isLoggedIn || hasEmailCapture()) {
+      setUnlocked(true);
+    }
+  }, [isLoggedIn]);
+
+  const config = getLessonVisual(categoryId, lessonId);
+  const gatedTab = tab === "walkthrough" || tab === "chart";
+
+  const tabs: { id: Tab; label: string; icon: typeof PlayCircle; gated?: boolean }[] = [
+    { id: "walkthrough", label: "Walkthrough", icon: PlayCircle, gated: true },
+    { id: "chart", label: "Live Chart", icon: BarChart3, gated: true },
     { id: "diagram", label: "Diagram", icon: Layers },
   ];
 
@@ -55,18 +70,31 @@ export function LessonInteractivePanel({
               >
                 <Icon className="h-3 w-3" />
                 {t.label}
+                {t.gated && !unlocked && (
+                  <span className="text-amber-400">*</span>
+                )}
               </button>
             );
           })}
         </div>
       </div>
 
-      {tab === "walkthrough" && (
-        <LessonWalkthrough categoryId={categoryId} lessonId={lessonId} />
+      {gatedTab && !unlocked ? (
+        <EmailCaptureGate
+          lessonSlug={lessonSlug}
+          onUnlocked={() => setUnlocked(true)}
+        />
+      ) : (
+        <>
+          {tab === "walkthrough" && (
+            <LessonWalkthrough categoryId={categoryId} lessonId={lessonId} />
+          )}
+          {tab === "chart" && (
+            <LessonLiveChart categoryId={categoryId} lessonId={lessonId} />
+          )}
+        </>
       )}
-      {tab === "chart" && (
-        <LessonLiveChart categoryId={categoryId} lessonId={lessonId} />
-      )}
+
       {tab === "diagram" && (
         <div>
           {config.kind === "candle" ? (
@@ -87,6 +115,12 @@ export function LessonInteractivePanel({
           )}
         </div>
       )}
+
+      {!unlocked && (
+        <p className="mt-3 text-center font-mono text-[10px] text-slate-600">
+          * Walkthrough & live chart require free email signup to save progress
+        </p>
+      )}
     </GlassPanel>
   );
 }
@@ -94,9 +128,11 @@ export function LessonInteractivePanel({
 export function LessonInteractivePanelBySlug({
   slug,
   title,
+  isLoggedIn,
 }: {
   slug: string;
   title?: string;
+  isLoggedIn?: boolean;
 }) {
   const prefix = [
     "chart-reading",
@@ -112,6 +148,8 @@ export function LessonInteractivePanelBySlug({
       categoryId={prefix}
       lessonId={slug.slice(prefix.length + 1)}
       title={title}
+      lessonSlug={slug}
+      isLoggedIn={isLoggedIn}
     />
   );
 }

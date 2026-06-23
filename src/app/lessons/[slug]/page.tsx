@@ -17,6 +17,8 @@ import { LessonEngagementTracker } from "@/components/engagement/LessonEngagemen
 import { StickyUpgradeBar } from "@/components/engagement/StickyUpgradeBar";
 import { ToolTeaserCard } from "@/components/engagement/ToolTeaserCard";
 import { MarkLessonComplete } from "@/components/engagement/MarkLessonComplete";
+import { NextStepCTA } from "@/components/engagement/NextStepCTA";
+import { LearningPathTracker } from "@/components/engagement/LearningPathTracker";
 import { getFreshSession } from "@/lib/access-control";
 import {
   checkResourceAccess,
@@ -94,7 +96,7 @@ export default async function LessonPage({
   return (
     <article className="space-y-8 pb-24">
       <JsonLdScript data={jsonLd} />
-      <LessonEngagementTracker slug={params.slug} />
+      <LessonEngagementTracker slug={params.slug} userEmail={user?.email} />
 
       <header>
         <Link
@@ -118,7 +120,11 @@ export default async function LessonPage({
         <p className="mt-3 text-lg text-slate-400">{lesson.summary}</p>
       </header>
 
-      <LessonInteractivePanelBySlug slug={params.slug} title={lesson.title} />
+      <LessonInteractivePanelBySlug
+        slug={params.slug}
+        title={lesson.title}
+        isLoggedIn={Boolean(user)}
+      />
 
       {hasFullAccess ? (
         bodySection
@@ -197,6 +203,15 @@ export default async function LessonPage({
         <div className="flex flex-wrap items-center gap-4">
           <MarkLessonComplete slug={params.slug} />
         </div>
+      )}
+
+      <NextStepCTA
+        currentSlug={params.slug}
+        userTier={user?.subscriptionTier ?? "FREE"}
+      />
+
+      {!hasFullAccess && (
+        <LearningPathTracker userTier={user?.subscriptionTier ?? "FREE"} compact />
       )}
 
       {hasFullAccess && <PremiumLessonCTA lessonSlug={lesson.slug} />}

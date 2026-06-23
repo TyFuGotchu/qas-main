@@ -87,6 +87,31 @@ model OnboardingEmailLog {
   @@unique([userId, step])
 }
 
+model EngagementLead {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  viewedLessons  Json     @default("[]")
+  source         String?
+  abStickyBucket String?
+  dripStep       Int      @default(0)
+  lastDripAt     DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  dripLogs       EngagementDripLog[]
+
+  @@index([dripStep, lastDripAt])
+}
+
+model EngagementDripLog {
+  id     String         @id @default(cuid())
+  leadId String
+  lead   EngagementLead @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  step   Int
+  sentAt DateTime       @default(now())
+
+  @@unique([leadId, step])
+}
+
 model ForumMessage {
   id        String      @id @default(cuid())
   threadId  String
