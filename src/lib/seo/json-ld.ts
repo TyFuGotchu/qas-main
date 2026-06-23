@@ -64,6 +64,29 @@ export function faqJsonLd(faqs: { question: string; answer: string }[]) {
   };
 }
 
+export function landingPageJsonLd(params: {
+  title: string;
+  description: string;
+  slug: string;
+  publishedAt: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: params.title,
+    description: params.description,
+    url: `${SITE_URL}/solutions/${params.slug}`,
+    datePublished: params.publishedAt,
+    dateModified: params.publishedAt,
+    publisher: PUBLISHER,
+    isPartOf: {
+      "@type": "WebSite",
+      name: "Quicksilver Algo System",
+      url: SITE_URL,
+    },
+  };
+}
+
 export function serializeJsonLd(data: object | object[]) {
   return JSON.stringify(data);
 }

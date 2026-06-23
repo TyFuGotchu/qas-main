@@ -6,7 +6,7 @@ import { canAccessDiscord } from "@/lib/tiers";
 import { getAuthSecret, validateCoreProductionEnv } from "@/lib/env";
 
 const PUBLIC_ROUTES = ["/", "/login", "/register"];
-const SEO_PUBLIC_PREFIXES = ["/lessons", "/guides"];
+const SEO_PUBLIC_PREFIXES = ["/lessons", "/guides", "/solutions"];
 const AUTH_ROUTES = ["/login", "/register"];
 const ONBOARDING_ROUTES_PREFIX = "/onboarding";
 const TIER1_ROUTES = [

@@ -26,9 +26,14 @@ export default function LandingPage() {
             ($199.99).
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <Link href="/lessons">
+            <Link href="/solutions">
               <Button variant="secondary" size="lg">
-                Browse Lesson Previews
+                Try Free Trading Demos
+              </Button>
+            </Link>
+            <Link href="/lessons">
+              <Button variant="ghost" size="lg">
+                Lesson Previews
               </Button>
             </Link>
             <Link href="/register">
