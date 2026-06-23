@@ -14,13 +14,13 @@ export default function GuidesIndexPage() {
     <div className="space-y-8">
       <header>
         <Badge variant="success" className="mb-3">
-          Freemium · SEO Guides
+          Freemium · Charting Guides
         </Badge>
         <h1 className="font-mono text-3xl font-bold text-slate-100">
           Charting Guides
         </h1>
         <p className="mt-3 text-slate-400">
-          Preview every guide for organic traffic. Free: 1 guide · Tier 1:
+          Preview every guide for free. Free: 1 guide · Tier 1:
           2 guides · Premium: unlimited.
         </p>
       </header>

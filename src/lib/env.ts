@@ -2,6 +2,8 @@ export function isProduction(): boolean {
   return process.env.NODE_ENV === "production";
 }
 
+const MIN_AUTH_SECRET_LENGTH = 32;
+
 export function getAuthSecret(): string {
   const secret = process.env.NEXTAUTH_SECRET ?? process.env.JWT_SECRET;
 
@@ -12,6 +14,12 @@ export function getAuthSecret(): string {
       );
     }
     return "quicksilver-dev-secret-change-in-production";
+  }
+
+  if (isProduction() && secret.length < MIN_AUTH_SECRET_LENGTH) {
+    throw new Error(
+      `NEXTAUTH_SECRET must be at least ${MIN_AUTH_SECRET_LENGTH} characters in production`
+    );
   }
 
   return secret;

@@ -7,6 +7,11 @@ import Button from "@/components/ui/Button";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { useSession } from "@/providers/SessionProvider";
 import Link from "next/link";
+import {
+  PASSWORD_MIN_LENGTH,
+  PASSWORD_REQUIREMENTS_HINT,
+  validatePassword,
+} from "@/lib/security/password";
 
 interface AuthFormProps {
   mode: "login" | "register";
@@ -41,6 +46,15 @@ export function AuthForm({ mode }: AuthFormProps) {
     e.preventDefault();
     setLoading(true);
     setError("");
+
+    if (mode === "register") {
+      const passwordCheck = validatePassword(form.password);
+      if (!passwordCheck.valid) {
+        setError(passwordCheck.error ?? "Password does not meet requirements");
+        setLoading(false);
+        return;
+      }
+    }
 
     try {
       const endpoint =
@@ -115,11 +129,16 @@ export function AuthForm({ mode }: AuthFormProps) {
             label="Password"
             type="password"
             required
-            minLength={8}
+            minLength={mode === "register" ? PASSWORD_MIN_LENGTH : 1}
             value={form.password}
             onChange={(e) => setForm({ ...form, password: e.target.value })}
             placeholder="••••••••"
           />
+          {mode === "register" && (
+            <p className="font-mono text-[10px] text-slate-600">
+              {PASSWORD_REQUIREMENTS_HINT}
+            </p>
+          )}
 
           {error && (
             <p className="rounded border border-red-500/30 bg-red-500/10 px-3 py-2 font-mono text-xs text-red-400">

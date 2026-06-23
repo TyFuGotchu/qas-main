@@ -12,7 +12,7 @@ import {
 import { Badge } from "@/components/ui/Badge";
 
 export const metadata: Metadata = {
-  title: "Free Manual Trading Tools & SEO Solutions | Quicksilver Algo",
+  title: "Free Manual Trading Tools & Calculators | Quicksilver Algo",
   description: `${SEO_LANDING_COUNT}+ free trading calculators and setup scoring demos for forex, gold, indices, and crypto manual traders.`,
 };
 
@@ -21,7 +21,7 @@ export default function SolutionsHubPage() {
     <div className="space-y-12">
       <header>
         <Badge variant="success" className="mb-3">
-          {SEO_LANDING_COUNT} programmatic SEO pages
+          {SEO_LANDING_COUNT} free tools & calculators
         </Badge>
         <h1 className="font-mono text-3xl font-bold text-slate-100 sm:text-4xl">
           Manual Trading Solutions Hub
@@ -130,7 +130,7 @@ export default function SolutionsHubPage() {
 
       <section>
         <h2 className="mb-4 font-mono text-sm font-semibold uppercase tracking-widest text-slate-500">
-          All landing pages
+          All tools
         </h2>
         <div className="max-h-96 space-y-1 overflow-y-auto rounded-lg border border-slate-800/40 p-4">
           {SEO_LANDING_PAGES.map((p) => (

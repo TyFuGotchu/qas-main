@@ -9,7 +9,7 @@ import { LearningPathTracker } from "@/components/engagement/LearningPathTracker
 export const metadata: Metadata = {
   title: "Free Trading Lessons Preview | Quicksilver Algo Lesson Center",
   description:
-    "SEO-friendly lesson previews on chart reading, candlesticks, Fibonacci, and trading styles. Unlock full access with Premium Quant.",
+    "Free lesson previews on chart reading, candlesticks, Fibonacci, and trading styles. Unlock full access with Premium Quant.",
 };
 
 export default function LessonsIndexPage() {
@@ -17,14 +17,14 @@ export default function LessonsIndexPage() {
     <div className="space-y-10">
       <header>
         <div className="mb-3 flex flex-wrap gap-2">
-          <Badge variant="success">Freemium · SEO Lesson Center</Badge>
+          <Badge variant="success">Freemium · Lesson Center</Badge>
           <LessonProgressBadge totalLessons={PUBLIC_LESSONS.length} />
         </div>
         <h1 className="font-mono text-3xl font-bold text-slate-100 sm:text-4xl">
           Quicksilver Lesson Center
         </h1>
         <p className="mt-3 max-w-2xl text-slate-400">
-          {PUBLIC_LESSONS.length} lessons — preview any page for SEO. Free tier
+          {PUBLIC_LESSONS.length} lessons — preview any page for free. Free tier
           unlocks 1 lesson; Tier 1 ($24.99) unlocks 2; Premium ($199.99)
           unlocks all.
         </p>

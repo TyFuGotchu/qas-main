@@ -1,10 +1,29 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { captureEngagementLead } from "@/lib/email/engagement-drip";
+import { normalizeEmail } from "@/lib/security/origin";
+import {
+  enforceRateLimit,
+  rateLimitResponse,
+} from "@/lib/security/rate-limit";
 
-export async function POST(request: Request) {
+const CAPTURE_LIMIT = 10;
+const CAPTURE_WINDOW_MS = 15 * 60 * 1000;
+
+export async function POST(request: NextRequest) {
   try {
+    const rateLimit = enforceRateLimit(
+      request,
+      "engagement-capture",
+      CAPTURE_LIMIT,
+      CAPTURE_WINDOW_MS
+    );
+    if (!rateLimit.allowed) {
+      return rateLimitResponse(rateLimit.retryAfterSeconds ?? 60);
+    }
+
     const body = await request.json();
-    const email = typeof body.email === "string" ? body.email : "";
+    const rawEmail = typeof body.email === "string" ? body.email : "";
+    const email = normalizeEmail(rawEmail);
     const viewedLessons = Array.isArray(body.viewedLessons)
       ? body.viewedLessons.filter((x: unknown) => typeof x === "string")
       : [];

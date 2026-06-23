@@ -28,7 +28,7 @@ export default function LandingPage() {
             Freemium Chart Academy
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-slate-500">
-            Every lesson and guide is SEO-indexed with a free preview. Unlock
+            Every lesson and guide includes a free preview. Unlock
             full content and interactive QS Planning Modules as you upgrade —
             1 free lesson, 2 at Tier 1 ($24.99), unlimited at Premium
             ($199.99).

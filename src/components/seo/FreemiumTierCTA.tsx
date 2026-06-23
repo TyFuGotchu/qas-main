@@ -61,7 +61,7 @@ export function FreemiumTierCTA({
                   : "lesson")}
           </h3>
           <p className="mt-2 text-sm leading-relaxed text-slate-400">
-            You are viewing a free SEO preview. Upgrade to{" "}
+            You are viewing a free preview. Upgrade to{" "}
             <strong className="text-slate-300">{tierLabel}</strong> to read the
             complete {resourceType}, access all sections, and use the
             interactive{" "}

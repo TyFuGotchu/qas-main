@@ -1,6 +1,6 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
-import { getAuthSecret } from "@/lib/env";
+import { getAuthSecret, isProduction } from "@/lib/env";
 import { type UserSession } from "@/types";
 
 const SESSION_COOKIE = "qs_session";
@@ -51,8 +51,8 @@ export async function setSessionCookie(token: string): Promise<void> {
   const cookieStore = await cookies();
   cookieStore.set(SESSION_COOKIE, token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    secure: isProduction(),
+    sameSite: isProduction() ? "strict" : "lax",
     maxAge: SESSION_DURATION,
     path: "/",
   });
