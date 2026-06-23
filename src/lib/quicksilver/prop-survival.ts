@@ -13,6 +13,7 @@ export interface PropSurvivalInput {
 export interface PropSurvivalResult {
   probabilityOfRuin: number;
   probabilityOfPass: number;
+  probabilityOfTimeout: number;
   medianEndingBalance: number;
   p10EndingBalance: number;
   p90EndingBalance: number;
@@ -21,6 +22,7 @@ export interface PropSurvivalResult {
   dailyLotChecklist: { day: number; maxLots: number; riskBudget: number }[];
   breachScenarios: string[];
   qsVerdict: "FAVORABLE" | "REFINE" | "UNFAVORABLE";
+  balanceDistribution: { label: string; count: number }[];
 }
 
 function mulberry32(seed: number) {
@@ -50,6 +52,7 @@ export function computePropSurvival(input: PropSurvivalInput): PropSurvivalResul
   const profitTarget = startingBalance * (1 + profitTargetPercent / 100);
   let ruinCount = 0;
   let passCount = 0;
+  let timeoutCount = 0;
   let totalDaysToPass = 0;
   const endings: number[] = [];
 
@@ -97,6 +100,8 @@ export function computePropSurvival(input: PropSurvivalInput): PropSurvivalResul
     if (passed) {
       passCount++;
       totalDaysToPass += daysToPass;
+    } else if (balance > 0) {
+      timeoutCount++;
     }
     endings.push(balance);
   }
@@ -151,9 +156,27 @@ export function computePropSurvival(input: PropSurvivalInput): PropSurvivalResul
       ? "REFINE"
       : "UNFAVORABLE";
 
+  const probabilityOfTimeout = parseFloat(
+    ((timeoutCount / simulations) * 100).toFixed(1)
+  );
+
+  const bucketDefs = [
+    { label: "<-10%", min: -Infinity, max: startingBalance * 0.9 },
+    { label: "-10-0%", min: startingBalance * 0.9, max: startingBalance },
+    { label: "0-5%", min: startingBalance, max: startingBalance * 1.05 },
+    { label: "5-10%", min: startingBalance * 1.05, max: profitTarget },
+    { label: "10%+", min: profitTarget, max: Infinity },
+  ];
+
+  const balanceDistribution = bucketDefs.map((b) => ({
+    label: b.label,
+    count: endings.filter((e) => e >= b.min && e < b.max).length,
+  }));
+
   return {
     probabilityOfRuin,
     probabilityOfPass,
+    probabilityOfTimeout,
     medianEndingBalance: p(0.5),
     p10EndingBalance: p(0.1),
     p90EndingBalance: p(0.9),
@@ -162,5 +185,6 @@ export function computePropSurvival(input: PropSurvivalInput): PropSurvivalResul
     dailyLotChecklist,
     breachScenarios,
     qsVerdict,
+    balanceDistribution,
   };
 }

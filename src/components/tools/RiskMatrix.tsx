@@ -5,6 +5,8 @@ import { GlassPanel } from "@/components/ui/GlassPanel";
 import { TerminalPanel } from "@/components/ui/TerminalPanel";
 import Input from "@/components/ui/Input";
 import { Badge } from "@/components/ui/Badge";
+import { HeatGauge } from "@/components/tools/qs/HeatGauge";
+import { ComparisonBars } from "@/components/tools/qs/ComparisonBars";
 import { ScoreRing } from "@/components/tools/qs/ScoreRing";
 import { computeRiskMatrix } from "@/lib/quicksilver/risk-matrix";
 import { cn } from "@/lib/utils";
@@ -72,6 +74,37 @@ export function RiskMatrix() {
                 <p className="font-mono text-[10px] uppercase text-slate-500">Kelly (Half)</p>
                 <p className="font-mono text-lg font-bold text-cyan-accent">{result.kellyAdjusted}%</p>
               </div>
+            </div>
+          </div>
+        </TerminalPanel>
+
+        <TerminalPanel title="Risk Visuals">
+          <div className="flex flex-wrap items-center justify-around gap-6">
+            <HeatGauge
+              value={result.portfolioHeat}
+              label="Portfolio Heat"
+              status={result.heatStatus}
+            />
+            <div className="min-w-[180px] flex-1">
+              <ComparisonBars
+                items={[
+                  {
+                    label: "Your risk / trade",
+                    value: Number(riskPerTrade),
+                    color: "#22d3ee",
+                  },
+                  {
+                    label: "Kelly (half)",
+                    value: result.kellyAdjusted,
+                    color: "#34d399",
+                  },
+                  {
+                    label: "Recommended",
+                    value: result.recommendedRiskPercent,
+                    color: "#fbbf24",
+                  },
+                ]}
+              />
             </div>
           </div>
         </TerminalPanel>

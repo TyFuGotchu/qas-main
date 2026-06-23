@@ -8,8 +8,15 @@ import { AccordionItem } from "@/components/ui/Accordion";
 import { ACADEMY_CATEGORIES } from "@/lib/academy/content";
 import type { AcademyCategory, AcademyLesson } from "@/lib/academy/types";
 import { cn } from "@/lib/utils";
+import { LessonVisual } from "@/components/academy/LessonVisual";
 
-function LessonCard({ lesson }: { lesson: AcademyLesson }) {
+function LessonCard({
+  lesson,
+  categoryId,
+}: {
+  lesson: AcademyLesson;
+  categoryId: string;
+}) {
   const diffColor = {
     beginner: "text-emerald-400",
     intermediate: "text-cyan-accent",
@@ -29,6 +36,7 @@ function LessonCard({ lesson }: { lesson: AcademyLesson }) {
         )}
       </div>
       <p className="font-mono text-xs text-slate-500">{lesson.summary}</p>
+      <LessonVisual categoryId={categoryId} lessonId={lesson.id} title={lesson.title} />
       <div className="space-y-2">
         {lesson.body.map((para, i) => (
           <p key={i} className="text-sm leading-relaxed text-slate-400">
@@ -197,7 +205,11 @@ export function ChartAcademy() {
                       onFocus={() => setOpenSection(section.id)}
                     >
                       {section.lessons.map((lesson) => (
-                        <LessonCard key={lesson.id} lesson={lesson} />
+                        <LessonCard
+                          key={lesson.id}
+                          lesson={lesson}
+                          categoryId={category.id}
+                        />
                       ))}
                     </div>
                   </AccordionItem>

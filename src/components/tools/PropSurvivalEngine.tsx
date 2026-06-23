@@ -5,6 +5,8 @@ import { GlassPanel } from "@/components/ui/GlassPanel";
 import { TerminalPanel } from "@/components/ui/TerminalPanel";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
+import { DistributionHistogram } from "@/components/tools/qs/DistributionHistogram";
+import { DonutChart } from "@/components/tools/qs/DonutChart";
 import { ScoreRing } from "@/components/tools/qs/ScoreRing";
 import { computePropSurvival } from "@/lib/quicksilver/prop-survival";
 import { cn } from "@/lib/utils";
@@ -80,6 +82,21 @@ export function PropSurvivalEngine() {
               <p className={cn("font-mono text-lg font-bold", verdictColor)}>{verdictLabels[result.qsVerdict]}</p>
             </div>
           </div>
+        </TerminalPanel>
+
+        <TerminalPanel title="Simulation Outcomes">
+          <DonutChart
+            centerLabel="10K runs"
+            segments={[
+              { label: "Pass", value: result.probabilityOfPass, color: "#34d399" },
+              { label: "Ruin", value: result.probabilityOfRuin, color: "#f87171" },
+              { label: "Timeout", value: result.probabilityOfTimeout, color: "#64748b" },
+            ]}
+          />
+        </TerminalPanel>
+
+        <TerminalPanel title="Balance Distribution">
+          <DistributionHistogram buckets={result.balanceDistribution} />
         </TerminalPanel>
 
         <div className="grid gap-3 sm:grid-cols-3">

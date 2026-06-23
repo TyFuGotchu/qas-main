@@ -5,6 +5,7 @@ import { GlassPanel } from "@/components/ui/GlassPanel";
 import { TerminalPanel } from "@/components/ui/TerminalPanel";
 import Input from "@/components/ui/Input";
 import { Badge } from "@/components/ui/Badge";
+import { ComparisonBars } from "@/components/tools/qs/ComparisonBars";
 import { ScoreRing } from "@/components/tools/qs/ScoreRing";
 import { computeAlphaDurability } from "@/lib/quicksilver/alpha-durability";
 import { cn } from "@/lib/utils";
@@ -66,6 +67,28 @@ export function AlphaDurabilityEngine() {
               <p className="font-mono text-xs text-slate-500">Expectancy: {result.expectancyPerTrade}R/trade</p>
             </div>
           </div>
+        </TerminalPanel>
+
+        <TerminalPanel title="Win Rate Trend">
+          <ComparisonBars
+            items={[
+              {
+                label: "Historical win rate",
+                value: Number(winRate),
+                color: "#22d3ee",
+              },
+              {
+                label: "Recent win rate",
+                value: Number(recentWinRate),
+                color: Number(recentWinRate) >= Number(winRate) ? "#34d399" : "#f87171",
+              },
+              {
+                label: "Confidence level",
+                value: result.confidenceLevel,
+                color: "#a78bfa",
+              },
+            ]}
+          />
         </TerminalPanel>
 
         <div className="grid gap-3 sm:grid-cols-2">

@@ -5,6 +5,7 @@ import { GlassPanel } from "@/components/ui/GlassPanel";
 import { TerminalPanel } from "@/components/ui/TerminalPanel";
 import Input from "@/components/ui/Input";
 import { Badge } from "@/components/ui/Badge";
+import { PriceLadderChart } from "@/components/tools/qs/PriceLadderChart";
 import { computeExecutionProtocol } from "@/lib/quicksilver/execution-protocol";
 import { cn } from "@/lib/utils";
 
@@ -73,6 +74,43 @@ export function ExecutionProtocol() {
               <Badge variant="success" className="mt-1">{result.protocolTier}</Badge>
             </GlassPanel>
           </div>
+        </TerminalPanel>
+
+        <TerminalPanel title="Price Ladder Visual">
+          <PriceLadderChart
+            direction={direction}
+            levels={[
+              { label: "Stop", price: Number(stop), kind: "stop" },
+              ...result.entryLadder.map((l) => ({
+                label: l.label,
+                price: l.price,
+                rMultiple: l.rMultiple,
+                sizePercent: l.sizePercent,
+                kind: "entry" as const,
+              })),
+              ...result.takeProfitLadder.map((l) => ({
+                label: l.label,
+                price: l.price,
+                rMultiple: l.rMultiple,
+                sizePercent: l.sizePercent,
+                kind: "tp" as const,
+              })),
+              {
+                label: "Break-even",
+                price: result.breakEvenTrigger,
+                kind: "be",
+              },
+              ...(trailing
+                ? [
+                    {
+                      label: "Trail activation",
+                      price: result.trailingActivation,
+                      kind: "trail" as const,
+                    },
+                  ]
+                : []),
+            ]}
+          />
         </TerminalPanel>
 
         <TerminalPanel title="Planned Entry Levels">

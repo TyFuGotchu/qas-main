@@ -6,6 +6,7 @@ import { TerminalPanel } from "@/components/ui/TerminalPanel";
 import Input from "@/components/ui/Input";
 import { Badge } from "@/components/ui/Badge";
 import { FactorBar } from "@/components/tools/qs/FactorBar";
+import { RadarChart } from "@/components/tools/qs/RadarChart";
 import { ScoreRing } from "@/components/tools/qs/ScoreRing";
 import {
   computeEdgeConfluence,
@@ -122,6 +123,13 @@ export function EdgeConfluenceEngine() {
               <p className="mt-2 font-mono text-xs text-slate-500">Asymmetry: {result.asymmetryRating}</p>
             </div>
           </div>
+        </TerminalPanel>
+
+        <TerminalPanel title="Confluence Radar">
+          <RadarChart
+            labels={result.factors.map((f) => f.label)}
+            values={result.factors.map((f) => Math.round(f.score))}
+          />
         </TerminalPanel>
 
         <TerminalPanel title="Confluence Factor Breakdown">

@@ -8,6 +8,8 @@ import type { SubscriptionTier } from "@/types";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import { Target } from "lucide-react";
+import { PropFirmTimeline } from "@/components/academy/PropFirmTimeline";
+import { GlassPanel } from "@/components/ui/GlassPanel";
 
 interface PropFirmOneWeekGuideProps {
   hasFullAccess: boolean;
@@ -33,6 +35,13 @@ export function PropFirmOneWeekGuide({
 
   const bodyContent = (
     <div className="space-y-10">
+      <GlassPanel className="border-cyan-accent/20 p-6">
+        <p className="mb-3 font-mono text-[10px] uppercase tracking-widest text-cyan-accent">
+          Visual roadmap
+        </p>
+        <PropFirmTimeline days={7} />
+      </GlassPanel>
+
       <section className="rounded-xl border border-cyan-accent/20 bg-cyan-accent/5 p-6">
         <h2 className="font-mono text-sm font-bold uppercase tracking-widest text-cyan-accent">
           How This Playbook Works

@@ -12,6 +12,7 @@ import { PremiumLessonCTA } from "@/components/seo/PremiumLessonCTA";
 import { FadedPreview } from "@/components/seo/FadedPreview";
 import { FreemiumTierCTA } from "@/components/seo/FreemiumTierCTA";
 import { Badge } from "@/components/ui/Badge";
+import { LessonVisualBySlug } from "@/components/academy/LessonVisual";
 import { getFreshSession } from "@/lib/access-control";
 import {
   checkResourceAccess,
@@ -111,6 +112,8 @@ export default async function LessonPage({
         </h1>
         <p className="mt-3 text-lg text-slate-400">{lesson.summary}</p>
       </header>
+
+      <LessonVisualBySlug slug={params.slug} title={lesson.title} />
 
       {hasFullAccess ? (
         bodySection

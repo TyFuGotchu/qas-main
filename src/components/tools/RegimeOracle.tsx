@@ -5,7 +5,9 @@ import { GlassPanel } from "@/components/ui/GlassPanel";
 import { TerminalPanel } from "@/components/ui/TerminalPanel";
 import Input from "@/components/ui/Input";
 import { Badge } from "@/components/ui/Badge";
+import { DonutChart } from "@/components/tools/qs/DonutChart";
 import { FactorBar } from "@/components/tools/qs/FactorBar";
+import { ScoreRing } from "@/components/tools/qs/ScoreRing";
 import { computeRegimeOracle } from "@/lib/quicksilver/regime-oracle";
 import { cn } from "@/lib/utils";
 
@@ -60,14 +62,25 @@ export function RegimeOracle() {
 
       <div className="space-y-6">
         <TerminalPanel title="QS Regime Oracle™" status="online">
-          <div className="text-center">
-            <p className="font-mono text-[10px] uppercase text-slate-500">Primary Regime</p>
-            <p className="mt-1 font-mono text-2xl font-bold text-cyan-accent">{result.regimeLabel}</p>
-            <div className="mt-3 flex items-center justify-center gap-3">
-              <Badge variant="success">{result.confidence}% confidence</Badge>
-              <Badge variant="warning">{result.riskMultiplier}x risk</Badge>
+          <div className="flex flex-wrap items-center justify-around gap-6">
+            <ScoreRing score={result.confidence} label="Regime Confidence" />
+            <div className="text-center">
+              <p className="font-mono text-[10px] uppercase text-slate-500">Primary Regime</p>
+              <p className="mt-1 font-mono text-2xl font-bold text-cyan-accent">{result.regimeLabel}</p>
+              <Badge variant="warning" className="mt-3">{result.riskMultiplier}x risk</Badge>
             </div>
           </div>
+        </TerminalPanel>
+
+        <TerminalPanel title="Regime Probability Map">
+          <DonutChart
+            centerLabel={result.regimeLabel}
+            segments={result.signals.map((s, i) => ({
+              label: s.regime.replace("_", " "),
+              value: s.probability,
+              color: ["#22d3ee", "#34d399", "#fbbf24", "#f87171", "#a78bfa", "#64748b"][i % 6],
+            }))}
+          />
         </TerminalPanel>
 
         <TerminalPanel title="Regime Probability Stack">
