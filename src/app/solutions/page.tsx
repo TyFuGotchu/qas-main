@@ -4,8 +4,10 @@ import {
   SEO_LANDING_COUNT,
   SEO_LANDING_PAGES,
   SEO_MARKETS,
+  SEO_PROP_FIRMS,
   SEO_TOPICS,
   getLandingPagesByMarket,
+  getLandingPagesByPropFirm,
 } from "@/lib/seo/landing-pages";
 import { Badge } from "@/components/ui/Badge";
 
@@ -26,7 +28,8 @@ export default function SolutionsHubPage() {
         </h1>
         <p className="mt-3 max-w-2xl text-slate-400">
           Free interactive demos for setup scoring, risk sizing, prop firm
-          consistency, and trade planning — organized by market and strategy topic.
+          consistency, and trade planning — organized by market, prop firm, and
+          strategy topic.
         </p>
       </header>
 
@@ -59,6 +62,45 @@ export default function SolutionsHubPage() {
                   className="mt-2 inline-block font-mono text-xs text-slate-500 hover:text-cyan-accent"
                 >
                   View all {market.shortName} tools →
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section>
+        <h2 className="mb-4 font-mono text-sm font-semibold uppercase tracking-widest text-slate-500">
+          Browse by prop firm
+        </h2>
+        <div className="space-y-8">
+          {SEO_PROP_FIRMS.map((firm) => {
+            const pages = getLandingPagesByPropFirm(firm.slug).slice(0, 5);
+            return (
+              <div key={firm.slug}>
+                <h3 className="font-mono text-base font-semibold text-slate-200">
+                  {firm.name}
+                </h3>
+                <p className="mt-1 text-xs text-slate-500">
+                  {firm.profitTarget} · {firm.maxDrawdown}
+                </p>
+                <ul className="mt-2 grid gap-2 sm:grid-cols-2">
+                  {pages.map((p) => (
+                    <li key={p.slug}>
+                      <Link
+                        href={`/solutions/${p.slug}`}
+                        className="block rounded-lg border border-slate-800/40 px-3 py-2 text-sm text-cyan-accent hover:border-cyan-accent/30"
+                      >
+                        {p.topic.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  href={`/solutions/${firm.slug}-setup-scoring`}
+                  className="mt-2 inline-block font-mono text-xs text-slate-500 hover:text-cyan-accent"
+                >
+                  View all {firm.shortName} tools →
                 </Link>
               </div>
             );

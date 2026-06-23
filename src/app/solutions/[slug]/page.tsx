@@ -66,6 +66,9 @@ export default function SolutionLandingPage({
           {page.market && (
             <Badge variant="success">{page.market.shortName}</Badge>
           )}
+          {page.propFirm && (
+            <Badge variant="success">{page.propFirm.shortName}</Badge>
+          )}
           <Badge variant="warning">{page.topic.name}</Badge>
           <Badge variant="success">Free demo</Badge>
         </div>

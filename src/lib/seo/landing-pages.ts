@@ -21,12 +21,23 @@ export interface SeoTopic {
   keyword: string;
 }
 
+export interface SeoPropFirm {
+  slug: string;
+  name: string;
+  shortName: string;
+  profitTarget: string;
+  maxDrawdown: string;
+  dailyLossLimit: string;
+  consistencyRule: string;
+}
+
 export interface SeoLandingPage {
   slug: string;
   title: string;
   metaDescription: string;
   h1: string;
   market: SeoMarket | null;
+  propFirm: SeoPropFirm | null;
   topic: SeoTopic;
   demo: LandingDemoType;
   toolSlug: string;
@@ -53,6 +64,36 @@ export const SEO_MARKETS: SeoMarket[] = [
   { slug: "oil-wti", name: "Crude Oil WTI", shortName: "Oil", session: "New York energy session" },
   { slug: "natural-gas", name: "Natural Gas", shortName: "Nat Gas", session: "US energy hours" },
   { slug: "dxy", name: "US Dollar Index (DXY)", shortName: "DXY", session: "Global macro sessions" },
+];
+
+export const SEO_PROP_FIRMS: SeoPropFirm[] = [
+  {
+    slug: "ftmo",
+    name: "FTMO",
+    shortName: "FTMO",
+    profitTarget: "10% Phase 1, 5% Phase 2",
+    maxDrawdown: "10% maximum account loss",
+    dailyLossLimit: "5% daily loss limit",
+    consistencyRule: "Best day cannot exceed 20% of total profit target",
+  },
+  {
+    slug: "apex",
+    name: "Apex Trader Funding",
+    shortName: "Apex",
+    profitTarget: "Varies by account size (e.g. $3,000 on $50K)",
+    maxDrawdown: "Trailing drawdown on Rithmic plans",
+    dailyLossLimit: "No hard daily cap on most evaluation plans",
+    consistencyRule: "30% consistency rule on funded payouts",
+  },
+  {
+    slug: "topstep",
+    name: "Topstep",
+    shortName: "Topstep",
+    profitTarget: "Varies by Trading Combine size",
+    maxDrawdown: "Trailing Maximum Loss Limit",
+    dailyLossLimit: "Daily loss limits on Express Funded accounts",
+    consistencyRule: "Consistency Target — cap best-day share of total profit",
+  },
 ];
 
 export const SEO_TOPICS: SeoTopic[] = [
@@ -127,6 +168,74 @@ function buildMarketTopicPage(market: SeoMarket, topic: SeoTopic): SeoLandingPag
     metaDescription,
     h1,
     market,
+    propFirm: null,
+    topic,
+    demo: topic.demo,
+    toolSlug: topic.toolSlug,
+    intro,
+    sections,
+    faqs,
+    relatedSlugs: [],
+    publishedAt: "2026-03-01",
+  };
+}
+
+function buildPropFirmTopicPage(propFirm: SeoPropFirm, topic: SeoTopic): SeoLandingPage {
+  const slug = `${propFirm.slug}-${topic.slug}`;
+  const tool = TOOLS.find((t) => t.slug === topic.toolSlug);
+
+  const title = `${propFirm.shortName} ${topic.name} — Free Prop Firm Trading Tool | Quicksilver`;
+  const metaDescription = `Free ${topic.keyword} tailored for ${propFirm.name} challengers. Profit target: ${propFirm.profitTarget}. Drawdown: ${propFirm.maxDrawdown}. Try the demo and upgrade to full QS planning modules.`;
+  const h1 = `${propFirm.shortName} ${topic.name} for Prop Firm Traders`;
+
+  const intro = `Traders preparing for ${propFirm.name} use ${topic.name.toLowerCase()} to stay inside firm rules: ${propFirm.profitTarget} profit target, ${propFirm.maxDrawdown}, and ${propFirm.consistencyRule.toLowerCase()}. This free Quicksilver page includes an interactive ${topic.demo.replace(/-/g, " ")} demo plus a workflow you can run before every session — no broker connection required.`;
+
+  const sections = [
+    {
+      heading: `Why ${topic.name} matters on ${propFirm.shortName}`,
+      paragraphs: [
+        `${propFirm.name} enforces strict risk parameters. Without structured ${topic.name.toLowerCase()}, traders blow accounts on oversizing, revenge trades, or violating the ${propFirm.consistencyRule.toLowerCase()}.`,
+        `Quicksilver combines chart literacy with proprietary planning modules. Start with the free demo below, then graduate to the full ${tool?.name ?? "QS Planning Module"} for challenge survival simulations and exportable scorecards.`,
+      ],
+    },
+    {
+      heading: `${propFirm.shortName} rules at a glance`,
+      paragraphs: [
+        `Profit target: ${propFirm.profitTarget}. Maximum drawdown: ${propFirm.maxDrawdown}. Daily loss limit: ${propFirm.dailyLossLimit}. Consistency: ${propFirm.consistencyRule}.`,
+        `Run every candidate trade through the demo widget before committing capital. Log outcomes in a journal — win rate, average R:R, and max daily drawdown — so you know whether your edge supports a ${propFirm.shortName} challenge.`,
+      ],
+    },
+    {
+      heading: "Upgrade path: free demo → full QS module",
+      paragraphs: [
+        `The demo on this page is a lightweight preview. Premium members unlock the complete ${tool?.shortName ?? "planning tool"} with exportable scorecards, portfolio heat maps, and challenge survival simulations calibrated to prop firm rules.`,
+        `Free accounts get one lesson, one guide, and the Setup Scorer. Tier 1 ($24.99/mo) adds Risk Matrix. Premium Quant ($199.99/mo) unlocks all six planning modules plus Chart Academy and VIP Discord.`,
+      ],
+    },
+  ];
+
+  const faqs = [
+    {
+      question: `Is this ${propFirm.shortName} ${topic.name.toLowerCase()} tool free?`,
+      answer: `Yes. The interactive demo on this page is free for all visitors. Full ${tool?.shortName ?? "module"} access requires a Quicksilver subscription tier matched to the tool.`,
+    },
+    {
+      question: `What are ${propFirm.name}'s main challenge rules?`,
+      answer: `Key rules: ${propFirm.profitTarget} profit target, ${propFirm.maxDrawdown}, ${propFirm.dailyLossLimit}, and ${propFirm.consistencyRule}. Always verify current rules on the firm's official site before trading.`,
+    },
+    {
+      question: `Does Quicksilver guarantee a ${propFirm.shortName} pass?`,
+      answer: "No. Quicksilver is manual-trading planning software only. It helps you size risk, score setups, and track consistency — you execute trades yourself on any platform.",
+    },
+  ];
+
+  return {
+    slug,
+    title,
+    metaDescription,
+    h1,
+    market: null,
+    propFirm,
     topic,
     demo: topic.demo,
     toolSlug: topic.toolSlug,
@@ -148,6 +257,7 @@ function buildTopicOnlyPage(topic: SeoTopic): SeoLandingPage {
     metaDescription: `Free ${topic.keyword} demo for manual traders. Interactive ${topic.name.toLowerCase()} widget, FAQs, and upgrade path to ${tool?.shortName ?? "premium tools"}.`,
     h1: `Free ${topic.name} Demo`,
     market: null,
+    propFirm: null,
     topic,
     demo: topic.demo,
     toolSlug: topic.toolSlug,
@@ -183,6 +293,7 @@ function buildTopicOnlyPage(topic: SeoTopic): SeoLandingPage {
 
 function attachRelatedSlugs(pages: SeoLandingPage[]): SeoLandingPage[] {
   const byMarket = new Map<string, SeoLandingPage[]>();
+  const byPropFirm = new Map<string, SeoLandingPage[]>();
   const byTopic = new Map<string, SeoLandingPage[]>();
 
   for (const page of pages) {
@@ -190,6 +301,11 @@ function attachRelatedSlugs(pages: SeoLandingPage[]): SeoLandingPage[] {
       const list = byMarket.get(page.market.slug) ?? [];
       list.push(page);
       byMarket.set(page.market.slug, list);
+    }
+    if (page.propFirm) {
+      const list = byPropFirm.get(page.propFirm.slug) ?? [];
+      list.push(page);
+      byPropFirm.set(page.propFirm.slug, list);
     }
     const tList = byTopic.get(page.topic.slug) ?? [];
     tList.push(page);
@@ -200,6 +316,11 @@ function attachRelatedSlugs(pages: SeoLandingPage[]): SeoLandingPage[] {
     const related = new Set<string>();
     if (page.market) {
       for (const p of byMarket.get(page.market.slug) ?? []) {
+        if (p.slug !== page.slug) related.add(p.slug);
+      }
+    }
+    if (page.propFirm) {
+      for (const p of byPropFirm.get(page.propFirm.slug) ?? []) {
         if (p.slug !== page.slug) related.add(p.slug);
       }
     }
@@ -219,6 +340,12 @@ function buildAllLandingPages(): SeoLandingPage[] {
   for (const market of SEO_MARKETS) {
     for (const topic of SEO_TOPICS) {
       pages.push(buildMarketTopicPage(market, topic));
+    }
+  }
+
+  for (const propFirm of SEO_PROP_FIRMS) {
+    for (const topic of SEO_TOPICS) {
+      pages.push(buildPropFirmTopicPage(propFirm, topic));
     }
   }
 
@@ -245,4 +372,8 @@ export function getLandingPagesByTopic(topicSlug: string): SeoLandingPage[] {
   return SEO_LANDING_PAGES.filter(
     (p) => p.topic.slug === topicSlug && p.market !== null
   );
+}
+
+export function getLandingPagesByPropFirm(propFirmSlug: string): SeoLandingPage[] {
+  return SEO_LANDING_PAGES.filter((p) => p.propFirm?.slug === propFirmSlug);
 }
