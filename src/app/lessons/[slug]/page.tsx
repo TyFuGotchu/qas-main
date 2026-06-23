@@ -12,7 +12,11 @@ import { PremiumLessonCTA } from "@/components/seo/PremiumLessonCTA";
 import { FadedPreview } from "@/components/seo/FadedPreview";
 import { FreemiumTierCTA } from "@/components/seo/FreemiumTierCTA";
 import { Badge } from "@/components/ui/Badge";
-import { LessonVisualBySlug } from "@/components/academy/LessonVisual";
+import { LessonInteractivePanelBySlug } from "@/components/academy/LessonInteractivePanel";
+import { LessonEngagementTracker } from "@/components/engagement/LessonEngagementTracker";
+import { StickyUpgradeBar } from "@/components/engagement/StickyUpgradeBar";
+import { ToolTeaserCard } from "@/components/engagement/ToolTeaserCard";
+import { MarkLessonComplete } from "@/components/engagement/MarkLessonComplete";
 import { getFreshSession } from "@/lib/access-control";
 import {
   checkResourceAccess,
@@ -88,8 +92,9 @@ export default async function LessonPage({
   );
 
   return (
-    <article className="space-y-8">
+    <article className="space-y-8 pb-24">
       <JsonLdScript data={jsonLd} />
+      <LessonEngagementTracker slug={params.slug} />
 
       <header>
         <Link
@@ -113,13 +118,14 @@ export default async function LessonPage({
         <p className="mt-3 text-lg text-slate-400">{lesson.summary}</p>
       </header>
 
-      <LessonVisualBySlug slug={params.slug} title={lesson.title} />
+      <LessonInteractivePanelBySlug slug={params.slug} title={lesson.title} />
 
       {hasFullAccess ? (
         bodySection
       ) : (
         <>
           <FadedPreview>{bodySection}</FadedPreview>
+          <ToolTeaserCard lessonSlug={params.slug} />
           <FreemiumTierCTA
             resourceType="lesson"
             resourceId={params.slug}
@@ -127,6 +133,13 @@ export default async function LessonPage({
             resourceTitle={lesson.title}
           />
         </>
+      )}
+
+      {!hasFullAccess && (
+        <StickyUpgradeBar
+          requiredTier={access.requiredTier}
+          resourceTitle={lesson.title}
+        />
       )}
 
       {hasFullAccess && content.keyPoints && (
@@ -178,6 +191,12 @@ export default async function LessonPage({
             ))}
           </div>
         </section>
+      )}
+
+      {hasFullAccess && (
+        <div className="flex flex-wrap items-center gap-4">
+          <MarkLessonComplete slug={params.slug} />
+        </div>
       )}
 
       {hasFullAccess && <PremiumLessonCTA lessonSlug={lesson.slug} />}

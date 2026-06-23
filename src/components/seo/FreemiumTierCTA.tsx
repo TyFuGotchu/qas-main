@@ -11,6 +11,7 @@ import { GlassPanel } from "@/components/ui/GlassPanel";
 import { Badge } from "@/components/ui/Badge";
 import { getRelatedTool } from "@/lib/seo/public-lessons";
 import { getToolBySlug } from "@/lib/tools-registry";
+import { TierValueProps } from "@/components/engagement/TierValueProps";
 
 interface FreemiumTierCTAProps {
   resourceType: ResourceType;
@@ -77,6 +78,10 @@ export function FreemiumTierCTA({
             </p>
           )}
         </div>
+      </div>
+
+      <div className="mt-6 border-t border-slate-800/60 pt-6">
+        <TierValueProps />
       </div>
 
       <div className="mt-6 flex flex-wrap gap-3">

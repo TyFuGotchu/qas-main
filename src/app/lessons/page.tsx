@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CHARTING_GUIDES, PUBLIC_LESSONS } from "@/lib/seo/public-lessons";
 import { Badge } from "@/components/ui/Badge";
+import { LessonProgressBadge } from "@/components/engagement/LessonProgressBadge";
+import { ConversionHeroDemo } from "@/components/engagement/ConversionHeroDemo";
 
 export const metadata: Metadata = {
   title: "Free Trading Lessons Preview | Quicksilver Algo Lesson Center",
@@ -13,9 +15,10 @@ export default function LessonsIndexPage() {
   return (
     <div className="space-y-10">
       <header>
-        <Badge variant="success" className="mb-3">
-          Freemium · SEO Lesson Center
-        </Badge>
+        <div className="mb-3 flex flex-wrap gap-2">
+          <Badge variant="success">Freemium · SEO Lesson Center</Badge>
+          <LessonProgressBadge totalLessons={PUBLIC_LESSONS.length} />
+        </div>
         <h1 className="font-mono text-3xl font-bold text-slate-100 sm:text-4xl">
           Quicksilver Lesson Center
         </h1>
@@ -25,6 +28,8 @@ export default function LessonsIndexPage() {
           unlocks all.
         </p>
       </header>
+
+      <ConversionHeroDemo />
 
       <section>
         <h2 className="mb-4 font-mono text-sm font-semibold uppercase tracking-widest text-slate-500">

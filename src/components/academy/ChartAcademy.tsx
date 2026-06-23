@@ -8,7 +8,7 @@ import { AccordionItem } from "@/components/ui/Accordion";
 import { ACADEMY_CATEGORIES } from "@/lib/academy/content";
 import type { AcademyCategory, AcademyLesson } from "@/lib/academy/types";
 import { cn } from "@/lib/utils";
-import { LessonVisual } from "@/components/academy/LessonVisual";
+import { LessonInteractivePanel } from "@/components/academy/LessonInteractivePanel";
 
 function LessonCard({
   lesson,
@@ -36,7 +36,7 @@ function LessonCard({
         )}
       </div>
       <p className="font-mono text-xs text-slate-500">{lesson.summary}</p>
-      <LessonVisual categoryId={categoryId} lessonId={lesson.id} title={lesson.title} />
+      <LessonInteractivePanel categoryId={categoryId} lessonId={lesson.id} title={lesson.title} />
       <div className="space-y-2">
         {lesson.body.map((para, i) => (
           <p key={i} className="text-sm leading-relaxed text-slate-400">

@@ -3,6 +3,7 @@ import { Stats } from "@/components/landing/Stats";
 import { RecommendedBrokerCard } from "@/components/broker/RecommendedBrokerCard";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
+import { ConversionHeroDemo } from "@/components/engagement/ConversionHeroDemo";
 
 export default function LandingPage() {
   return (
@@ -14,6 +15,11 @@ export default function LandingPage() {
         </div>
       </section>
       <Stats />
+      <section className="px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-5xl">
+          <ConversionHeroDemo />
+        </div>
+      </section>
       <section className="border-t border-slate-800/60 px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl text-center">
           <h2 className="font-mono text-2xl font-bold text-slate-200">

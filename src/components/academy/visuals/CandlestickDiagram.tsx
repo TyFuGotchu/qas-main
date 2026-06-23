@@ -125,14 +125,20 @@ const PATTERN_CANDLES: Record<CandlePattern, { candles: CandleData[]; title: str
   },
 };
 
+export type CandleHighlight = "body" | "upper-wick" | "lower-wick" | "full";
+
 function Candle({
   x,
   data,
   width = 28,
+  highlighted = false,
+  highlightPart = "full",
 }: {
   x: number;
   data: CandleData;
   width?: number;
+  highlighted?: boolean;
+  highlightPart?: CandleHighlight;
 }) {
   const bullish = data.close >= data.open;
   const color = bullish ? "#34d399" : "#f87171";
@@ -140,15 +146,39 @@ function Candle({
   const bodyHeight = Math.max(Math.abs(data.close - data.open), 2);
   const scale = (v: number) => 160 - v * 1.2;
 
+  const pulseClass = highlighted ? "animate-pulse" : "";
+
   return (
     <g>
+      {highlighted && (
+        <rect
+          x={x - 2}
+          y={highlightPart === "lower-wick" ? scale(data.close) : scale(data.high) - 4}
+          width={width + 4}
+          height={
+            highlightPart === "body"
+              ? bodyHeight * 1.2 + 8
+              : highlightPart === "upper-wick"
+                ? scale(data.close) - scale(data.high) + 8
+                : highlightPart === "lower-wick"
+                  ? scale(data.low) - scale(data.close) + 8
+                  : scale(data.low) - scale(data.high) + 8
+          }
+          fill="rgba(34,211,238,0.15)"
+          stroke="#22d3ee"
+          strokeWidth={2}
+          rx={4}
+          className={pulseClass}
+        />
+      )}
       <line
         x1={x + width / 2}
         y1={scale(data.high)}
         x2={x + width / 2}
         y2={scale(data.low)}
         stroke={color}
-        strokeWidth={2}
+        strokeWidth={highlighted ? 3 : 2}
+        opacity={highlighted || highlightPart === "full" || highlightPart.includes("wick") ? 1 : 0.35}
       />
       <rect
         x={x + 4}
@@ -157,6 +187,7 @@ function Candle({
         height={bodyHeight * 1.2}
         fill={color}
         rx={1}
+        opacity={highlighted || highlightPart === "full" || highlightPart === "body" ? 1 : 0.35}
       />
       {data.label && (
         <text
@@ -172,7 +203,15 @@ function Candle({
   );
 }
 
-export function CandlestickDiagram({ pattern }: { pattern: CandlePattern }) {
+export function CandlestickDiagram({
+  pattern,
+  highlightIndex,
+  highlightPart = "full",
+}: {
+  pattern: CandlePattern;
+  highlightIndex?: number;
+  highlightPart?: CandleHighlight;
+}) {
   const config = PATTERN_CANDLES[pattern];
   const spacing = 48;
   const totalWidth = config.candles.length * spacing + 20;
@@ -195,7 +234,13 @@ export function CandlestickDiagram({ pattern }: { pattern: CandlePattern }) {
           strokeWidth={1}
         />
         {config.candles.map((c, i) => (
-          <Candle key={i} x={16 + i * spacing} data={c} />
+          <Candle
+            key={i}
+            x={16 + i * spacing}
+            data={c}
+            highlighted={highlightIndex === i}
+            highlightPart={highlightIndex === i ? highlightPart : "full"}
+          />
         ))}
         <text
           x={totalWidth / 2}
