@@ -26,7 +26,7 @@ export function FreemiumTierCTA({
   requiredTier,
   resourceTitle,
 }: FreemiumTierCTAProps) {
-  const checkoutUrl = getTierCheckoutUrl(requiredTier);
+  const checkoutUrl = getTierCheckoutUrl();
   const tierLabel = TIER_LABELS[requiredTier];
 
   const relatedTool =
@@ -98,7 +98,7 @@ export function FreemiumTierCTA({
         </Link>
         <Link href="/onboarding/pricing">
           <Button variant="secondary" size="lg">
-            Compare All Tiers
+            View Premium Plan
           </Button>
         </Link>
       </div>

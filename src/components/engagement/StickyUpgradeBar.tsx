@@ -34,7 +34,7 @@ export function StickyUpgradeBar({
 
   if (!visible) return null;
 
-  const checkoutUrl = getTierCheckoutUrl(requiredTier);
+  const checkoutUrl = getTierCheckoutUrl();
   const tierLabel = TIER_LABELS[requiredTier].split(" (")[0];
 
   const dismiss = () => {

@@ -81,13 +81,11 @@ export default async function DashboardPage() {
             <AlertTriangle className="h-6 w-6 shrink-0 text-amber-400" />
             <div className="flex-1">
               <p className="font-mono text-sm text-amber-300">
-                {user?.subscriptionTier === "FREE"
-                  ? "Free tier — preview lessons & unlock tools as you upgrade"
-                  : "Tier 1 active — upgrade for unlimited academy & tools"}
+                Free tier — preview 1 lesson, 1 guide & Setup Scorer
               </p>
               <p className="mt-1 text-xs text-slate-500">
-                Free: 1 lesson, 1 guide, Setup Scorer · Tier 1 ($24.99): +Risk
-                Matrix · Premium ($199.99): everything + Discord.
+                Premium ($149.99/mo) unlocks everything — use code FIRST100 for
+                $60 off your first month.
               </p>
             </div>
             <Link href="/dashboard/upgrade">

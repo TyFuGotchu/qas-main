@@ -53,7 +53,7 @@ export function LearningPathTracker({
             Curated learning path
           </p>
           <h3 className="mt-1 font-mono text-lg font-bold text-slate-100">
-            Free → Bot-Only → Premium
+            Free → Premium
           </h3>
           <p className="mt-1 text-sm text-slate-500">
             {doneCount} of {total} milestones · {percent}% complete
@@ -126,7 +126,7 @@ export function LearningPathTracker({
 
       {!compact && userTier === "FREE" && (
         <div className="mt-5 flex flex-wrap gap-2">
-          <a href={getTierCheckoutUrl("TIER_2")} target="_blank" rel="noopener noreferrer">
+          <a href={getTierCheckoutUrl()} target="_blank" rel="noopener noreferrer">
             <Button variant="primary" size="sm">
               <Zap className="h-3.5 w-3.5" />
               Unlock full path

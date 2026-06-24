@@ -139,7 +139,7 @@ const CATEGORY_GUIDES: ChartingGuide[] = ACADEMY_CATEGORIES.map((cat) => ({
     {
       question: `Who can access the ${cat.title} guide?`,
       answer:
-        "Preview any guide for free (first 300 words). Free tier unlocks 1 guide, Tier 1 ($24.99) unlocks 2, and Premium Quant ($199.99) unlocks the full library.",
+        "Preview any guide for free (first 300 words). Free tier unlocks 1 guide; Premium ($149.99/mo) unlocks the full library.",
     },
   ],
 }));

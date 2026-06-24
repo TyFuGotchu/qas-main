@@ -30,7 +30,7 @@ export function TierValueProps({ compact = false }: { compact?: boolean }) {
       <div className="flex items-center gap-2">
         <Sparkles className="h-4 w-4 text-cyan-accent" />
         <p className="font-mono text-sm font-semibold text-slate-200">
-          Premium Quant — {premium?.price}
+          Premium — {premium?.price}
           {premium?.period}
         </p>
       </div>

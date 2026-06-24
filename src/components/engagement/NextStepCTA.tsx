@@ -45,7 +45,7 @@ export function NextStepCTA({ currentSlug, userTier = "FREE" }: NextStepCTAProps
       </p>
       <div className="mt-4 flex flex-wrap gap-2">
         {isLocked ? (
-          <a href={getTierCheckoutUrl(next.requiredTier)} target="_blank" rel="noopener noreferrer">
+          <a href={getTierCheckoutUrl()} target="_blank" rel="noopener noreferrer">
             <Button variant="primary" size="sm">
               <Zap className="h-3.5 w-3.5" />
               {TIER_LABELS[next.requiredTier].split(" (")[0]}

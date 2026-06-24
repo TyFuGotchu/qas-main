@@ -31,8 +31,7 @@ export default function LessonsIndexPage() {
         </h1>
         <p className="mt-3 max-w-2xl text-slate-400">
           {PUBLIC_LESSONS.length} lessons — preview any page for free. Free tier
-          unlocks 1 lesson; Tier 1 ($24.99) unlocks 2; Premium ($199.99)
-          unlocks all.
+          unlocks 1 lesson; Premium ($149.99/mo) unlocks all.
         </p>
       </header>
 

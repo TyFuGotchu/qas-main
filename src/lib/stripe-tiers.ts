@@ -1,3 +1,4 @@
+import { PREMIUM_PRICE } from "@/lib/pricing-tiers";
 import { ACCOUNT_TIERS, SUBSCRIPTION_TIERS, type AccountTier, type SubscriptionTier } from "@/types";
 
 export interface StripeTierMapping {
@@ -7,37 +8,41 @@ export interface StripeTierMapping {
   label: string;
 }
 
+const PREMIUM_LABEL = `Premium (${PREMIUM_PRICE}/mo)`;
+
 export function getStripeTierMappings(): StripeTierMapping[] {
   const mappings: StripeTierMapping[] = [];
 
-  const tier1PriceId = process.env.STRIPE_PRICE_ID_TIER_1;
-  const tier2PriceId = process.env.STRIPE_PRICE_ID_TIER_2;
-  const tier3PriceId = process.env.STRIPE_PRICE_ID_TIER_3;
+  const premiumPriceId =
+    process.env.STRIPE_PRICE_ID_PREMIUM ?? process.env.STRIPE_PRICE_ID_TIER_2;
 
-  if (tier1PriceId) {
+  if (premiumPriceId) {
     mappings.push({
-      priceId: tier1PriceId,
-      tier: ACCOUNT_TIERS.BOT_ONLY,
-      subscriptionTier: SUBSCRIPTION_TIERS.TIER_1,
-      label: "Tier 1 — Bot Only ($24.99/mo)",
-    });
-  }
-
-  if (tier2PriceId) {
-    mappings.push({
-      priceId: tier2PriceId,
+      priceId: premiumPriceId,
       tier: ACCOUNT_TIERS.PREMIUM_QUANT,
       subscriptionTier: SUBSCRIPTION_TIERS.TIER_2,
-      label: "Tier 2 — Premium Quant ($199.99/mo)",
+      label: PREMIUM_LABEL,
     });
   }
 
-  if (tier3PriceId) {
+  const legacyTier1 = process.env.STRIPE_PRICE_ID_TIER_1;
+  const legacyTier3 = process.env.STRIPE_PRICE_ID_TIER_3;
+
+  if (legacyTier1) {
     mappings.push({
-      priceId: tier3PriceId,
-      tier: ACCOUNT_TIERS.LIFETIME_ALPHA,
-      subscriptionTier: SUBSCRIPTION_TIERS.LIFETIME,
-      label: "Tier 3 — Lifetime Alpha ($1,499.99)",
+      priceId: legacyTier1,
+      tier: ACCOUNT_TIERS.PREMIUM_QUANT,
+      subscriptionTier: SUBSCRIPTION_TIERS.TIER_2,
+      label: `${PREMIUM_LABEL} (legacy)`,
+    });
+  }
+
+  if (legacyTier3) {
+    mappings.push({
+      priceId: legacyTier3,
+      tier: ACCOUNT_TIERS.PREMIUM_QUANT,
+      subscriptionTier: SUBSCRIPTION_TIERS.TIER_2,
+      label: `${PREMIUM_LABEL} (legacy lifetime)`,
     });
   }
 

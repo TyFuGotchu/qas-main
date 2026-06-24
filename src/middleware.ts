@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
-import { ACCOUNT_TIERS, type AccountTier, type SubscriptionTier } from "@/types";
+import { type AccountTier, type SubscriptionTier } from "@/types";
 import { canAccessDiscord } from "@/lib/tiers";
 import { getAuthSecret, validateCoreProductionEnv } from "@/lib/env";
 
@@ -9,14 +9,6 @@ const PUBLIC_ROUTES = ["/", "/login", "/register"];
 const SEO_PUBLIC_PREFIXES = ["/lessons", "/guides", "/solutions"];
 const AUTH_ROUTES = ["/login", "/register"];
 const ONBOARDING_ROUTES_PREFIX = "/onboarding";
-const TIER1_ROUTES = [
-  "/dashboard",
-  "/dashboard/academy",
-  "/dashboard/bot",
-  "/dashboard/upgrade",
-  "/dashboard/trade-together",
-  "/dashboard/tools",
-];
 const DISCORD_ROUTES_PREFIX = "/dashboard/discord";
 
 interface SessionPayload {
@@ -219,18 +211,6 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(pricingUrl);
     }
 
-    if (
-      session.accountTier === ACCOUNT_TIERS.BOT_ONLY &&
-      pathname.startsWith("/dashboard") &&
-      !TIER1_ROUTES.some(
-        (route) => pathname === route || pathname.startsWith(`${route}/`)
-      ) &&
-      !isDiscordRoute(pathname)
-    ) {
-      return NextResponse.redirect(
-        new URL("/dashboard/upgrade", request.url)
-      );
-    }
   }
 
   return NextResponse.next();

@@ -32,8 +32,7 @@ export default function LandingPage() {
           <p className="mx-auto mt-4 max-w-2xl text-slate-500">
             Every lesson and guide includes a free preview. Unlock
             full content and interactive QS Planning Modules as you upgrade —
-            1 free lesson, 2 at Tier 1 ($24.99), unlimited at Premium
-            ($199.99).
+            1 free lesson & guide; Premium ($149.99/mo) unlocks everything.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <Link href="/solutions">

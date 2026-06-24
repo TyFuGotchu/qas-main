@@ -20,8 +20,8 @@ export default function GuidesIndexPage() {
           Charting Guides
         </h1>
         <p className="mt-3 text-slate-400">
-          Preview every guide for free. Free: 1 guide · Tier 1:
-          2 guides · Premium: unlimited.
+          Preview every guide for free. Free: 1 guide · Premium ($149.99/mo):
+          unlimited.
         </p>
       </header>
       <div className="grid gap-4 sm:grid-cols-2">

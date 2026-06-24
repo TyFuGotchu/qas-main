@@ -21,7 +21,7 @@ export function ToolLockedOverlay({
   userTier,
 }: ToolLockedOverlayProps) {
   const Icon = tool.icon;
-  const checkoutUrl = getTierCheckoutUrl(requiredTier);
+  const checkoutUrl = getTierCheckoutUrl();
 
   return (
     <div className="relative min-h-[420px]">

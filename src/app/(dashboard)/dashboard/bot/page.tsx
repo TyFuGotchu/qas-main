@@ -67,13 +67,13 @@ export default function BotActivationPage() {
         </CardHeader>
         <CardContent>
           <p className="text-sm leading-relaxed text-slate-500">
-            Additional free bot codes and marketplace strategies for Premium
-            Quant and Lifetime Alpha members are coming soon. Everything will
+              Additional free bot codes and marketplace strategies for Premium
+              members are coming soon. Everything will
             deploy directly through TradeLocker — same connect-and-run flow as
             Quicksilver Quant Protocol.
           </p>
           <Badge variant="warning" className="mt-4">
-            Coming soon · Tier 2+
+              Coming soon · Premium
           </Badge>
         </CardContent>
       </Card>

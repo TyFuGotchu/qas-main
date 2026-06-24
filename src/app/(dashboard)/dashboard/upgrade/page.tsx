@@ -1,15 +1,16 @@
 import { PricingGrid } from "@/components/pricing/PricingGrid";
 import { Card, CardContent } from "@/components/ui/Card";
 import { TOOLS } from "@/lib/tools-registry";
+import { PREMIUM_PRICE, PREMIUM_PROMO_NOTE } from "@/lib/pricing-tiers";
 import { Lock } from "lucide-react";
 
 const PAYWALL_MESSAGES: Record<string, string> = {
   academy:
-    "Chart Academy — lessons, guides, and the prop firm 1-week playbook — requires Premium Quant ($199.99/mo) or Lifetime Alpha.",
+    `Chart Academy — lessons, guides, and the prop firm playbook — requires Premium (${PREMIUM_PRICE}/mo).`,
   discord:
-    "VIP Discord channels and live guidance require Premium Quant ($199.99/mo) or Lifetime Alpha.",
+    `VIP Discord channels and live guidance require Premium (${PREMIUM_PRICE}/mo).`,
   tools:
-    "The 6 QS Planning Modules require Premium Quant ($199.99/mo) or Lifetime Alpha.",
+    `The 6 QS Planning Modules require Premium (${PREMIUM_PRICE}/mo).`,
 };
 
 export default function UpgradePage({
@@ -19,7 +20,7 @@ export default function UpgradePage({
 }) {
   const paywallNote =
     PAYWALL_MESSAGES[searchParams.paywall ?? ""] ??
-    "Premium Quant ($199.99/mo) or Lifetime Alpha unlocks Chart Academy, planning tools, and VIP Discord.";
+    `Premium (${PREMIUM_PRICE}/mo) unlocks Chart Academy, all planning tools, TradeLocker bot, and VIP Discord. ${PREMIUM_PROMO_NOTE}`;
 
   return (
     <div className="space-y-8">
@@ -41,10 +42,9 @@ export default function UpgradePage({
             </h3>
             <p className="mt-2 text-sm text-slate-500">{paywallNote}</p>
             <p className="mt-2 text-sm text-slate-500">
-              Your current Bot Only tier provides TradeLocker bot access and
-              optimized runtime parameters. Upgrade to unlock Chart Academy, all
-              6 manual trading planning tools, VIP Discord, live guidance, and
-              additional TradeLocker bot codes (coming soon).
+              One Premium subscription unlocks everything — Chart Academy, all
+              6 planning modules, TradeLocker bot, live dashboard, VIP Discord,
+              and live guidance. {PREMIUM_PROMO_NOTE}
             </p>
             <ul className="mt-4 space-y-2 text-sm text-slate-400">
               {TOOLS.map((tool) => (

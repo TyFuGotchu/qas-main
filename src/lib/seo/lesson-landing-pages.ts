@@ -63,7 +63,7 @@ function buildMarketLessonPage(
     {
       heading: "Free preview → full lesson unlock",
       paragraphs: [
-        `Every visitor can preview the first section free. Create a Quicksilver profile to track progress — Free tier unlocks 1 lesson, Tier 1 ($24.99) unlocks 2, Premium Quant ($199.99) unlocks all ${PUBLIC_LESSONS.length} lessons plus six planning modules.`,
+        `Every visitor can preview the first section free. Create a Quicksilver profile to track progress — Free tier unlocks 1 lesson; Premium ($149.99/mo) unlocks all ${PUBLIC_LESSONS.length} lessons plus six planning modules.`,
         `Pair this lesson with the ${tool?.name ?? "QS Planning Module"} for institutional-grade scoring, risk planning, and prop firm survival simulations.`,
       ],
     },

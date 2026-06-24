@@ -13,7 +13,7 @@ export default function DiscordPortalPage() {
           Discord Verification Portal
         </h2>
         <p className="mt-1 font-mono text-sm text-slate-500">
-          VIP community access — Premium Quant ($199.99/mo) and Lifetime Alpha only
+          VIP community access — Premium ($149.99/mo) only
         </p>
       </div>
 
@@ -64,7 +64,7 @@ export default function DiscordPortalPage() {
           {
             icon: Users,
             title: "Quant Lounge",
-            desc: "Private channel for Premium Quant and Lifetime Alpha members",
+            desc: "Private channel for Premium members",
             status: "Verified",
           },
           {

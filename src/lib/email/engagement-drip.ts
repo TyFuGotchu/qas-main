@@ -1,19 +1,18 @@
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/email/resend";
 import { CURATED_LEARNING_PATH } from "@/lib/academy/learning-path";
-import { PRICING_TIERS } from "@/lib/pricing-tiers";
+import {
+  PREMIUM_CHECKOUT_URL,
+  PREMIUM_PRICE,
+  PREMIUM_PROMO_NOTE,
+} from "@/lib/pricing-tiers";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ??
   process.env.NEXT_PUBLIC_APP_URL ??
   "https://quicksilveralgo.com";
 
-const BOT_ONLY_CHECKOUT =
-  PRICING_TIERS.find((p) => p.tier === "Bot Only")?.ctaLink ?? "";
-const PREMIUM_CHECKOUT =
-  PRICING_TIERS.find((p) => p.tier === "Premium Quant")?.ctaLink ?? "";
-const PREMIUM_PRICE =
-  PRICING_TIERS.find((p) => p.tier === "Premium Quant")?.price ?? "$199.99";
+const PREMIUM_CHECKOUT = PREMIUM_CHECKOUT_URL;
 
 const DRIP_STEPS = [
   {
@@ -37,18 +36,18 @@ const DRIP_STEPS = [
   {
     step: 2,
     daysAfterSignup: 2,
-    subject: "Day 2: Unlock candle components + Risk Matrix",
+    subject: "Day 2: Unlock the full academy + Risk Matrix",
     buildHtml: () => {
-      const tier1Lesson = `${SITE_URL}/lessons/chart-reading-reading-candle-components`;
+      const lesson = `${SITE_URL}/lessons/chart-reading-reading-candle-components`;
       const riskTool = `${SITE_URL}/dashboard/tools/risk-matrix`;
       return dripShell(`
         <h1 style="color:#00e5ff;font-size:20px;">Level up your edge</h1>
-        <p style="color:#94a3b8;line-height:1.6;">You've explored free lessons — Tier 1 ($24.99/mo) unlocks candle component mastery and the Risk Matrix for position sizing.</p>
+        <p style="color:#94a3b8;line-height:1.6;">You've explored free lessons — Premium (${PREMIUM_PRICE}/mo) unlocks all 89 lessons, 6 planning modules, TradeLocker bot access, and VIP Discord. ${PREMIUM_PROMO_NOTE}</p>
         <ol style="color:#94a3b8;line-height:1.8;">
-          <li><a href="${tier1Lesson}" style="color:#00e5ff;">Reading Candle Components</a></li>
-          <li><a href="${riskTool}" style="color:#00e5ff;">Risk Matrix demo</a></li>
+          <li><a href="${lesson}" style="color:#00e5ff;">Reading Candle Components</a></li>
+          <li><a href="${riskTool}" style="color:#00e5ff;">Risk Matrix</a></li>
         </ol>
-        <p style="margin:24px 0;"><a href="${BOT_ONLY_CHECKOUT}" style="background:#00e5ff;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Upgrade to Bot-Only →</a></p>
+        <p style="margin:24px 0;"><a href="${PREMIUM_CHECKOUT}" style="background:#00e5ff;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Go Premium →</a></p>
       `);
     },
   },
@@ -67,10 +66,10 @@ const DRIP_STEPS = [
       const bos = `${SITE_URL}/lessons/market-structure-what-is-bos`;
       return dripShell(`
         <h1 style="color:#00e5ff;font-size:20px;">Structure + Fib = confluence</h1>
-        <p style="color:#94a3b8;line-height:1.6;">Premium Quant unlocks all 89 lessons, live chart overlays, and 6 planning modules.</p>
+        <p style="color:#94a3b8;line-height:1.6;">Premium (${PREMIUM_PRICE}/mo) unlocks all 89 lessons, live chart overlays, and 6 planning modules.</p>
         ${viewedLinks ? `<p style="color:#94a3b8;">Continue lessons you started:</p><ul style="color:#94a3b8;">${viewedLinks}</ul>` : ""}
         <p style="color:#94a3b8;">Next recommended: <a href="${bos}" style="color:#00e5ff;">Break of Structure</a></p>
-        <p style="margin:24px 0;"><a href="${PREMIUM_CHECKOUT}" style="background:#00e5ff;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Go Premium Quant →</a></p>
+        <p style="margin:24px 0;"><a href="${PREMIUM_CHECKOUT}" style="background:#00e5ff;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Go Premium →</a></p>
       `);
     },
   },

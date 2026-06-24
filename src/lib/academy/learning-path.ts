@@ -1,7 +1,9 @@
 import {
   FREEMIUM_RESOURCES,
   getRequiredTierForResource,
+  getTierRank,
 } from "@/lib/accessControl";
+import { PREMIUM_PRICE } from "@/lib/pricing-tiers";
 import type { SubscriptionTier } from "@/types";
 
 export type LearningPathItemType = "lesson" | "guide" | "tool";
@@ -47,29 +49,29 @@ export const CURATED_LEARNING_PATH: LearningPathItem[] = [
   {
     id: "path-4",
     type: "lesson",
-    slug: FREEMIUM_RESOURCES.lessons.tier1,
+    slug: "chart-reading-reading-candle-components",
     title: "Reading Candle Components",
-    subtitle: "Unlock with Bot-Only ($24.99)",
-    requiredTier: "TIER_1",
-    href: `/lessons/${FREEMIUM_RESOURCES.lessons.tier1}`,
+    subtitle: `Premium (${PREMIUM_PRICE}/mo)`,
+    requiredTier: "TIER_2",
+    href: "/lessons/chart-reading-reading-candle-components",
   },
   {
     id: "path-5",
     type: "tool",
-    slug: FREEMIUM_RESOURCES.tools.tier1,
+    slug: "risk-matrix",
     title: "Risk Matrix",
     subtitle: "Size positions with portfolio heat",
-    requiredTier: "TIER_1",
-    href: `/dashboard/tools/${FREEMIUM_RESOURCES.tools.tier1}`,
+    requiredTier: "TIER_2",
+    href: "/dashboard/tools/risk-matrix",
   },
   {
     id: "path-6",
     type: "guide",
-    slug: FREEMIUM_RESOURCES.guides.tier1,
+    slug: "candlesticks",
     title: "Candlesticks Guide",
     subtitle: "19 pattern lessons",
-    requiredTier: "TIER_1",
-    href: `/guides/${FREEMIUM_RESOURCES.guides.tier1}`,
+    requiredTier: "TIER_2",
+    href: "/guides/candlesticks",
   },
   {
     id: "path-7",
@@ -103,7 +105,7 @@ export const CURATED_LEARNING_PATH: LearningPathItem[] = [
     type: "tool",
     slug: "prop-survival",
     title: "Prop Survival Engine",
-    subtitle: "Monte Carlo challenge sim — Premium",
+    subtitle: "Monte Carlo challenge sim",
     requiredTier: "TIER_2",
     href: "/dashboard/tools/prop-survival",
   },
@@ -122,9 +124,8 @@ export function getNextPathStep(
   completedSlugs: string[],
   userTier: SubscriptionTier
 ): LearningPathItem | undefined {
-  const tierRank = { FREE: 0, TIER_1: 1, TIER_2: 2, LIFETIME: 3 }[userTier];
-  const requiredRank = (t: SubscriptionTier) =>
-    ({ FREE: 0, TIER_1: 1, TIER_2: 2, LIFETIME: 3 })[t];
+  const tierRank = getTierRank(userTier);
+  const requiredRank = (t: SubscriptionTier) => getTierRank(t);
 
   for (const item of CURATED_LEARNING_PATH) {
     const done =

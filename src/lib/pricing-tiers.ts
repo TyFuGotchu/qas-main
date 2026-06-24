@@ -1,5 +1,17 @@
 import type { PricingTier } from "@/types";
 
+export const PREMIUM_CHECKOUT_URL =
+  "https://buy.stripe.com/fZufZhcWo4XY4L7727co00c";
+
+export const PREMIUM_PROMO_CODE = "FIRST100";
+
+export const PREMIUM_PROMO_STRIPE_ID = "promo_1TlzBjDUxwVQyisqks4CyIKy";
+
+export const PREMIUM_PRICE = "$149.99";
+
+export const PREMIUM_PROMO_NOTE =
+  "Use code FIRST100 for $60 off your first month (first 100 users)";
+
 export const PRICING_TIERS: PricingTier[] = [
   {
     id: "tier-free",
@@ -11,51 +23,25 @@ export const PRICING_TIERS: PricingTier[] = [
       "1 lesson preview + 1 charting guide",
       "Setup Scorer planning module",
       "Browse all lesson & tool previews",
-      "Upgrade anytime for full academy access",
+      "Upgrade anytime for full access",
     ],
   },
   {
-    id: "tier-1",
-    name: "Bot-Only Access",
-    tier: "Bot Only",
-    price: "$24.99",
-    period: "/ Month",
-    features: [
-      "Tradelocker Exclusive bot Quicksilver Quant Protocol",
-      "Optimized runtime parameters",
-    ],
-    ctaLink: "https://buy.stripe.com/bJeaEX6y00HIgtP5Y3co00b",
-  },
-  {
-    id: "tier-2",
-    name: "Premium Quant Suite",
+    id: "tier-premium",
+    name: "Premium",
     tier: "Premium Quant",
-    price: "$199.99",
+    price: PREMIUM_PRICE,
     period: "/ Month",
     features: [
-      "Full bot access",
-      "Chart Academy — 89 lessons + prop firm 1-week guide",
-      "6 institutional trading toolkit widgets",
-      "VIP Discord integration",
-      "Live trading guidance",
-      "Pre-programmed TradeLocker bot presets",
-      "Additional free bot codes (coming soon)",
+      "Everything included — one price",
+      "TradeLocker Quicksilver Quant Protocol bot",
+      "Chart Academy — 89 lessons + prop firm guide",
+      "All 6 institutional planning modules",
+      "VIP Discord + live trading guidance",
+      "TradeLocker live dashboard & trading tools",
+      PREMIUM_PROMO_NOTE,
     ],
-    ctaLink: "https://buy.stripe.com/aFa8wP8G8766cdzcmrco007",
+    ctaLink: PREMIUM_CHECKOUT_URL,
     recommended: true,
-  },
-  {
-    id: "tier-3",
-    name: "Lifetime Alpha",
-    tier: "Lifetime Alpha",
-    price: "$1,499.99",
-    period: "One-Time Payment",
-    features: [
-      "Everything in Tier 2",
-      "Perpetual access with zero recurring fees",
-      "1-on-1 priority support",
-      "Dedicated training sessions",
-    ],
-    ctaLink: "https://buy.stripe.com/6oUfZhbSkeyyelH1HNco00a",
   },
 ];

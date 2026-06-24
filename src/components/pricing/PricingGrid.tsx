@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 export function PricingGrid() {
   return (
-    <div className="grid gap-8 lg:grid-cols-3">
+    <div className="mx-auto grid max-w-3xl gap-8 sm:grid-cols-2">
       {PRICING_TIERS.map((tier) => (
         <Card
           key={tier.id}
@@ -47,16 +47,26 @@ export function PricingGrid() {
               ))}
             </ul>
 
-            <a href={tier.ctaLink} target="_blank" rel="noopener noreferrer">
-              <Button
-                variant={tier.recommended ? "primary" : "secondary"}
-                size="lg"
-                className="w-full"
+            {tier.ctaLink ? (
+              <a
+                href={tier.ctaLink}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                Subscribe via Stripe
-                <ExternalLink className="h-4 w-4" />
-              </Button>
-            </a>
+                <Button
+                  variant={tier.recommended ? "primary" : "secondary"}
+                  size="lg"
+                  className="w-full"
+                >
+                  Subscribe via Stripe
+                  <ExternalLink className="h-4 w-4" />
+                </Button>
+              </a>
+            ) : (
+              <p className="text-center font-mono text-[10px] uppercase tracking-widest text-slate-600">
+                No payment required
+              </p>
+            )}
           </CardContent>
         </Card>
       ))}

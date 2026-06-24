@@ -5,12 +5,7 @@ import { toUserSession } from "@/lib/session-user";
 import { accountTierToSubscriptionTier } from "@/lib/accessControl";
 import type { AccountTier } from "@/types";
 
-const VALID_ACCOUNT_TIERS: AccountTier[] = [
-  "Free",
-  "Bot Only",
-  "Premium Quant",
-  "Lifetime Alpha",
-];
+const VALID_ACCOUNT_TIERS: AccountTier[] = ["Free", "Premium Quant"];
 
 export async function POST(request: NextRequest) {
   try {

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { AccountTier } from "@/types";
-import { PRICING_TIERS } from "@/lib/pricing-tiers";
+import { PREMIUM_PROMO_NOTE, PRICING_TIERS } from "@/lib/pricing-tiers";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
@@ -72,12 +72,12 @@ export function ChooseTierForm() {
           Select Your <span className="text-cyan-terminal">Access Tier</span>
         </h1>
         <p className="mx-auto mt-3 max-w-xl font-mono text-sm text-slate-500">
-          Choose a plan to activate your Quicksilver terminal. You can subscribe
-          via Stripe or confirm your selection to enter the dashboard.
+          Choose Free to preview, or Premium for full access. Subscribe via
+          Stripe — {PREMIUM_PROMO_NOTE.toLowerCase()}.
         </p>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="mx-auto grid max-w-3xl gap-6 sm:grid-cols-2">
         {PRICING_TIERS.map((tier) => (
           <button
             key={tier.id}

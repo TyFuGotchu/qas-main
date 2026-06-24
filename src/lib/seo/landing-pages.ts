@@ -63,7 +63,7 @@ function buildMarketTopicPage(market: SeoMarket, topic: SeoTopic): SeoLandingPag
       heading: "Upgrade path: free demo → full QS module",
       paragraphs: [
         `The demo on this page is a lightweight preview. Premium members unlock the complete ${tool?.shortName ?? "planning tool"} with exportable scorecards, portfolio heat maps, and challenge survival simulations.`,
-        `Free accounts get one lesson, one guide, and the Setup Scorer. Tier 1 ($24.99/mo) adds Risk Matrix. Premium Quant ($199.99/mo) unlocks all six planning modules plus Chart Academy and VIP Discord.`,
+        `Free accounts get one lesson, one guide, and the Setup Scorer. Premium ($149.99/mo) unlocks everything — all six planning modules, Chart Academy, TradeLocker bot, and VIP Discord. Use code FIRST100 for $60 off your first month.`,
       ],
     },
   ];
@@ -273,7 +273,7 @@ function buildPropFirmTopicPage(propFirm: SeoPropFirm, topic: SeoTopic): SeoLand
       heading: "Upgrade path: free demo → full QS module",
       paragraphs: [
         `The demo on this page is a lightweight preview. Premium members unlock the complete ${tool?.shortName ?? "planning tool"} with exportable scorecards, portfolio heat maps, and challenge survival simulations calibrated to prop firm rules.`,
-        `Free accounts get one lesson, one guide, and the Setup Scorer. Tier 1 ($24.99/mo) adds Risk Matrix. Premium Quant ($199.99/mo) unlocks all six planning modules plus Chart Academy and VIP Discord.`,
+        `Free accounts get one lesson, one guide, and the Setup Scorer. Premium ($149.99/mo) unlocks everything — all six planning modules, Chart Academy, TradeLocker bot, and VIP Discord. Use code FIRST100 for $60 off your first month.`,
       ],
     },
   ];
