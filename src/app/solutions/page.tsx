@@ -10,6 +10,7 @@ import {
   getLandingPagesByPropFirm,
 } from "@/lib/seo/landing-pages";
 import { LESSON_LANDING_COUNT } from "@/lib/seo/lesson-landing-pages";
+import { PROMO_LANDING_COUNT } from "@/lib/seo/promo-landing-pages";
 import { TOTAL_SEO_LANDING_PAGES } from "@/lib/seo/seo-index";
 import { Badge } from "@/components/ui/Badge";
 
@@ -154,12 +155,20 @@ export default function SolutionsHubPage() {
           {SEO_LANDING_COUNT} tool pages indexed — browse by market, prop firm, or
           topic above.
         </p>
-        <Link
-          href="/learn"
-          className="mt-3 inline-block font-mono text-xs text-cyan-accent hover:underline"
-        >
-          Explore {LESSON_LANDING_COUNT} market-specific lesson guides →
-        </Link>
+        <div className="mt-3 flex flex-col items-center gap-2">
+          <Link
+            href="/offers"
+            className="font-mono text-xs text-emerald-400 hover:underline"
+          >
+            {PROMO_LANDING_COUNT} FIRST100 promo pages — $89.99 first month →
+          </Link>
+          <Link
+            href="/learn"
+            className="font-mono text-xs text-cyan-accent hover:underline"
+          >
+            Explore {LESSON_LANDING_COUNT} market-specific lesson guides →
+          </Link>
+        </div>
       </section>
     </div>
   );

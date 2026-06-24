@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SEO_LANDING_PAGES } from "@/lib/seo/landing-pages";
 import { LESSON_LANDING_PAGES } from "@/lib/seo/lesson-landing-pages";
+import { PROMO_LANDING_PAGES } from "@/lib/seo/promo-landing-pages";
 import { CHARTING_GUIDES, PUBLIC_LESSONS } from "@/lib/seo/public-lessons";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://quicksilveralgo.com";
@@ -12,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/guides`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/solutions`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/learn`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
+    { url: `${SITE_URL}/offers`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.95 },
     { url: `${SITE_URL}/register`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/onboarding/pricing`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
   ];
@@ -44,5 +46,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.72,
   }));
 
-  return [...staticPages, ...guidePages, ...lessonPages, ...solutionPages, ...learnPages];
+  const offerPages: MetadataRoute.Sitemap = PROMO_LANDING_PAGES.map((page) => ({
+    url: `${SITE_URL}/offers/${page.slug}`,
+    lastModified: new Date(page.publishedAt),
+    changeFrequency: "weekly" as const,
+    priority: page.variant === "bundle" ? 0.92 : 0.8,
+  }));
+
+  return [
+    ...staticPages,
+    ...guidePages,
+    ...lessonPages,
+    ...solutionPages,
+    ...learnPages,
+    ...offerPages,
+  ];
 }

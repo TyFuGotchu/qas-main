@@ -35,15 +35,19 @@ export function Hero() {
               </Button>
             </Link>
             <p className="font-mono text-xs text-slate-500">
+              <Link href="/offers" className="text-emerald-400 hover:underline">
+                FIRST100 — $89.99 first month
+              </Link>
+              {" · "}
               <Link href="/learn" className="text-cyan-accent hover:underline">
-                {TOTAL_SEO_LANDING_PAGES}+ free lesson & tool guides
+                {TOTAL_SEO_LANDING_PAGES}+ guides
               </Link>
               {" · "}
               <Link
                 href="/solutions"
                 className="text-cyan-accent hover:underline"
               >
-                Trading calculators
+                Free calculators
               </Link>
             </p>
           </div>

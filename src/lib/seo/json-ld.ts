@@ -89,6 +89,57 @@ export function landingPageJsonLd(params: {
   };
 }
 
+export function promoOfferJsonLd(params: {
+  title: string;
+  description: string;
+  slug: string;
+  publishedAt: string;
+  promoCode: string;
+  fullPrice: string;
+  discountedPrice: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Offer",
+    name: params.title,
+    description: params.description,
+    url: `${SITE_URL}/offers/${params.slug}`,
+    price: params.discountedPrice.replace(/[^0-9.]/g, ""),
+    priceCurrency: "USD",
+    priceValidUntil: "2026-12-31",
+    availability: "https://schema.org/LimitedAvailability",
+    validFrom: params.publishedAt,
+    seller: PUBLISHER,
+    eligibleQuantity: {
+      "@type": "QuantitativeValue",
+      maxValue: 100,
+      unitText: "redemptions",
+    },
+    priceSpecification: {
+      "@type": "UnitPriceSpecification",
+      price: params.discountedPrice.replace(/[^0-9.]/g, ""),
+      priceCurrency: "USD",
+      referenceQuantity: {
+        "@type": "QuantitativeValue",
+        value: 1,
+        unitCode: "MON",
+      },
+    },
+    additionalProperty: [
+      {
+        "@type": "PropertyValue",
+        name: "promoCode",
+        value: params.promoCode,
+      },
+      {
+        "@type": "PropertyValue",
+        name: "regularPrice",
+        value: params.fullPrice,
+      },
+    ],
+  };
+}
+
 export function serializeJsonLd(data: object | object[]) {
   return JSON.stringify(data);
 }
