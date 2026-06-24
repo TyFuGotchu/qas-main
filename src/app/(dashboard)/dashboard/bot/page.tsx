@@ -1,19 +1,9 @@
 import { TRADELOCKER_BOT_URL } from "@/lib/constants";
 import { TradeLockerPanel } from "@/components/tradelocker/TradeLockerPanel";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
-import { TerminalPanel } from "@/components/ui/TerminalPanel";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import { Bot, ExternalLink, Settings, Sparkles } from "lucide-react";
-
-const RUNTIME_PARAMS = [
-  { key: "MaxSpread", value: "2.5", unit: "pips" },
-  { key: "RiskPerTrade", value: "0.5", unit: "%" },
-  { key: "MaxDailyLoss", value: "4.8", unit: "%" },
-  { key: "TrailingDrawdown", value: "9.5", unit: "%" },
-  { key: "SessionFilter", value: "London+NY", unit: "" },
-  { key: "LotMultiplier", value: "1.0", unit: "x" },
-];
 
 export default function BotActivationPage() {
   return (
@@ -49,10 +39,9 @@ export default function BotActivationPage() {
               Quicksilver Quant Protocol — Apex Institutional Engine
             </h3>
             <p className="mt-2 text-sm text-slate-500">
-              Our flagship algorithm on the TradeLocker marketplace. Subscribe
-              through the hub, enable it on your connected account, and run with
-              prop-firm-optimized parameters — no local installs or file
-              downloads required.
+              Our flagship algorithm, hosted live on TradeLocker. Subscribe
+              through the hub, enable it on your account, and manage everything
+              from TradeLocker — no local installs or file downloads required.
             </p>
           </div>
           <a
@@ -69,52 +58,25 @@ export default function BotActivationPage() {
         </CardContent>
       </Card>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <TerminalPanel title="Quicksilver Quant Protocol — Runtime Parameters" status="online">
-          <div className="space-y-2">
-            {RUNTIME_PARAMS.map((param) => (
-              <div
-                key={param.key}
-                className="flex items-center justify-between border-b border-slate-800/60 py-2 last:border-0"
-              >
-                <span className="text-slate-500">{param.key}</span>
-                <span className="text-cyan-terminal">
-                  {param.value}
-                  {param.unit && (
-                    <span className="ml-1 text-slate-600">{param.unit}</span>
-                  )}
-                </span>
-              </div>
-            ))}
-          </div>
-          <div className="mt-4 flex items-center gap-2">
-            <Badge variant="success">Applied via TradeLocker</Badge>
-            <span className="font-mono text-xs text-slate-600">
-              Optimized for prop firm compliance
-            </span>
-          </div>
-        </TerminalPanel>
-
-        <Card className="border-slate-800/60">
-          <CardHeader>
-            <h3 className="flex items-center gap-2 font-mono text-sm font-semibold text-slate-200">
-              <Sparkles className="h-4 w-4 text-amber-400" />
-              More TradeLocker Bots
-            </h3>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm leading-relaxed text-slate-500">
-              Additional free bot codes and marketplace strategies for Premium
-              Quant and Lifetime Alpha members are coming soon. Everything will
-              deploy directly through TradeLocker — same connect-and-run flow as
-              Quicksilver Quant Protocol.
-            </p>
-            <Badge variant="warning" className="mt-4">
-              Coming soon · Tier 2+
-            </Badge>
-          </CardContent>
-        </Card>
-      </div>
+      <Card className="border-slate-800/60">
+        <CardHeader>
+          <h3 className="flex items-center gap-2 font-mono text-sm font-semibold text-slate-200">
+            <Sparkles className="h-4 w-4 text-amber-400" />
+            More TradeLocker Bots
+          </h3>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm leading-relaxed text-slate-500">
+            Additional free bot codes and marketplace strategies for Premium
+            Quant and Lifetime Alpha members are coming soon. Everything will
+            deploy directly through TradeLocker — same connect-and-run flow as
+            Quicksilver Quant Protocol.
+          </p>
+          <Badge variant="warning" className="mt-4">
+            Coming soon · Tier 2+
+          </Badge>
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>
@@ -139,8 +101,7 @@ export default function BotActivationPage() {
             </li>
             <li className="flex gap-3">
               <span className="text-cyan-400">04.</span>
-              Confirm runtime parameters are active and monitor positions in your
-              live dashboard
+              Monitor positions and performance in your live dashboard above
             </li>
           </ol>
         </CardContent>
