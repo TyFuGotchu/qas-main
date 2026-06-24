@@ -69,6 +69,9 @@ export default function SolutionLandingPage({
           {page.propFirm && (
             <Badge variant="success">{page.propFirm.shortName}</Badge>
           )}
+          {page.timeframe && (
+            <Badge variant="warning">{page.timeframe.label}</Badge>
+          )}
           <Badge variant="warning">{page.topic.name}</Badge>
           <Badge variant="success">Free demo</Badge>
         </div>

@@ -2,15 +2,19 @@ import { TOOLS } from "@/lib/tools-registry";
 import {
   SEO_MARKETS,
   SEO_PROP_FIRMS,
+  SEO_TIMEFRAMES,
   SEO_TOPICS,
+  getPropMarketTopics,
+  getTimeframeTopics,
   type LandingDemoType,
   type SeoMarket,
   type SeoPropFirm,
+  type SeoTimeframe,
   type SeoTopic,
 } from "@/lib/seo/landing-data";
 
-export type { LandingDemoType, SeoMarket, SeoPropFirm, SeoTopic };
-export { SEO_MARKETS, SEO_PROP_FIRMS, SEO_TOPICS };
+export type { LandingDemoType, SeoMarket, SeoPropFirm, SeoTimeframe, SeoTopic };
+export { SEO_MARKETS, SEO_PROP_FIRMS, SEO_TIMEFRAMES, SEO_TOPICS };
 
 export interface SeoLandingPage {
   slug: string;
@@ -27,6 +31,7 @@ export interface SeoLandingPage {
   faqs: { question: string; answer: string }[];
   relatedSlugs: string[];
   publishedAt: string;
+  timeframe: SeoTimeframe | null;
 }
 
 function buildMarketTopicPage(market: SeoMarket, topic: SeoTopic): SeoLandingPage {
@@ -93,6 +98,149 @@ function buildMarketTopicPage(market: SeoMarket, topic: SeoTopic): SeoLandingPag
     faqs,
     relatedSlugs: [],
     publishedAt: "2026-03-01",
+    timeframe: null,
+  };
+}
+
+function buildMarketTimeframeTopicPage(
+  market: SeoMarket,
+  timeframe: SeoTimeframe,
+  topic: SeoTopic
+): SeoLandingPage {
+  const slug = `${market.slug}-${timeframe.slug}-${topic.slug}`;
+  const tool = TOOLS.find((t) => t.slug === topic.toolSlug);
+
+  const title = `${market.shortName} ${timeframe.label} ${topic.name} — Free Tool | Quicksilver`;
+  const metaDescription = `Free ${timeframe.label.toLowerCase()} ${topic.keyword} for ${market.name}. ${topic.name} workflow tuned for ${market.session} — interactive demo and upgrade to ${tool?.shortName ?? "QS"} module.`;
+  const h1 = `${market.shortName} ${timeframe.label} ${topic.name}`;
+
+  const intro = `${market.name} traders running ${timeframe.label.toLowerCase()} charts use ${topic.name.toLowerCase()} to stay disciplined during the ${market.session}. This free Quicksilver page includes a ${topic.demo.replace(/-/g, " ")} demo plus a repeatable ${timeframe.shortLabel} workflow — no broker connection required.`;
+
+  const sections = [
+    {
+      heading: `Why ${timeframe.label} ${topic.name} on ${market.shortName}`,
+      paragraphs: [
+        `Lower timeframes on ${market.shortName} punish impulsive entries. A structured ${timeframe.label.toLowerCase()} ${topic.name.toLowerCase()} process filters low-quality setups before you risk capital.`,
+        `Start with the demo below, then upgrade to ${tool?.name ?? "the full QS module"} for exportable scorecards and deeper analytics.`,
+      ],
+    },
+    {
+      heading: `${timeframe.shortLabel} execution checklist`,
+      paragraphs: [
+        `Mark higher-timeframe bias, drop to the ${timeframe.label.toLowerCase()} chart during ${market.session}, then score every candidate through the widget before entry.`,
+        `Log 30+ ${timeframe.shortLabel} trades to validate win rate, average R:R, and daily drawdown against your prop firm or personal rules.`,
+      ],
+    },
+    {
+      heading: "Upgrade path",
+      paragraphs: [
+        `Premium Quant unlocks all six planning modules, Chart Academy, and VIP Discord — built for manual traders scaling from demo accounts to funded capital.`,
+      ],
+    },
+  ];
+
+  const faqs = [
+    {
+      question: `Is this ${market.shortName} ${timeframe.label} tool free?`,
+      answer: "Yes. The demo on this page is free for all visitors. Full module access requires a matched Quicksilver tier.",
+    },
+    {
+      question: `What timeframe works best for ${market.shortName}?`,
+      answer: `Many traders pair ${timeframe.label.toLowerCase()} execution with a higher-timeframe bias, focusing activity around the ${market.session}.`,
+    },
+    {
+      question: "Does Quicksilver place trades?",
+      answer: "No. Quicksilver is manual-trading planning software. You execute on any broker or charting platform.",
+    },
+  ];
+
+  return {
+    slug,
+    title,
+    metaDescription,
+    h1,
+    market,
+    propFirm: null,
+    topic,
+    demo: topic.demo,
+    toolSlug: topic.toolSlug,
+    intro,
+    sections,
+    faqs,
+    relatedSlugs: [],
+    publishedAt: "2026-06-15",
+    timeframe,
+  };
+}
+
+function buildPropFirmMarketTopicPage(
+  propFirm: SeoPropFirm,
+  market: SeoMarket,
+  topic: SeoTopic
+): SeoLandingPage {
+  const slug = `${propFirm.slug}-${market.slug}-${topic.slug}`;
+  const tool = TOOLS.find((t) => t.slug === topic.toolSlug);
+
+  const title = `${propFirm.shortName} ${market.shortName} ${topic.name} — Prop Firm Tool | Quicksilver`;
+  const metaDescription = `${propFirm.name} traders on ${market.name}: free ${topic.keyword}. Profit target ${propFirm.profitTarget}. Try the demo and upgrade to ${tool?.shortName ?? "QS"} challenge tools.`;
+  const h1 = `${propFirm.shortName} ${market.shortName} ${topic.name}`;
+
+  const intro = `Traders attempting ${propFirm.name} while trading ${market.name} need ${topic.name.toLowerCase()} aligned to firm rules (${propFirm.profitTarget}, ${propFirm.maxDrawdown}) and ${market.shortName} session flow (${market.session}). This page includes a free demo and a pre-session workflow.`;
+
+  const sections = [
+    {
+      heading: `${propFirm.shortName} + ${market.shortName} at a glance`,
+      paragraphs: [
+        `Firm rules: ${propFirm.profitTarget}. Drawdown: ${propFirm.maxDrawdown}. Daily loss: ${propFirm.dailyLossLimit}. Consistency: ${propFirm.consistencyRule}.`,
+        `Instrument focus: ${market.name} during the ${market.session}. Run every setup through the demo before committing risk.`,
+      ],
+    },
+    {
+      heading: `Applying ${topic.name} under prop constraints`,
+      paragraphs: [
+        `Oversizing on ${market.shortName} is the fastest way to breach ${propFirm.shortName} daily loss limits. Use ${topic.name.toLowerCase()} to standardize risk and document consistency for payouts.`,
+        `Upgrade to ${tool?.name ?? "QS Prop Survival"} for Monte Carlo challenge simulations and exportable scorecards.`,
+      ],
+    },
+    {
+      heading: "Upgrade path",
+      paragraphs: [
+        "Free accounts get lesson previews and the Setup Scorer. Premium Quant unlocks all planning modules and the full Chart Academy.",
+      ],
+    },
+  ];
+
+  const faqs = [
+    {
+      question: `Can I pass ${propFirm.shortName} trading only ${market.shortName}?`,
+      answer: "Many traders specialize in one or two instruments. Success depends on edge quality, risk sizing, and consistency — not instrument count.",
+    },
+    {
+      question: `What are ${propFirm.name}'s key rules?`,
+      answer: `${propFirm.profitTarget}; ${propFirm.maxDrawdown}; ${propFirm.dailyLossLimit}. Verify current rules on the firm's official site.`,
+    },
+    {
+      question: "Is the demo free?",
+      answer: "Yes. Full prop survival and planning modules require a Quicksilver subscription tier.",
+    },
+  ];
+
+  return {
+    slug,
+    title,
+    metaDescription,
+    h1,
+    market,
+    propFirm,
+    topic,
+    demo: topic.demo,
+    toolSlug: topic.toolSlug,
+    intro,
+    sections,
+    faqs,
+    relatedSlugs: [],
+    publishedAt: "2026-06-15",
+    timeframe: null,
   };
 }
 
@@ -160,6 +308,7 @@ function buildPropFirmTopicPage(propFirm: SeoPropFirm, topic: SeoTopic): SeoLand
     faqs,
     relatedSlugs: [],
     publishedAt: "2026-03-01",
+    timeframe: null,
   };
 }
 
@@ -204,6 +353,7 @@ function buildTopicOnlyPage(topic: SeoTopic): SeoLandingPage {
     ],
     relatedSlugs: [],
     publishedAt: "2026-03-01",
+    timeframe: null,
   };
 }
 
@@ -267,6 +417,24 @@ function buildAllLandingPages(): SeoLandingPage[] {
 
   for (const topic of SEO_TOPICS) {
     pages.push(buildTopicOnlyPage(topic));
+  }
+
+  const timeframeTopics = getTimeframeTopics();
+  for (const market of SEO_MARKETS) {
+    for (const timeframe of SEO_TIMEFRAMES) {
+      for (const topic of timeframeTopics) {
+        pages.push(buildMarketTimeframeTopicPage(market, timeframe, topic));
+      }
+    }
+  }
+
+  const propMarketTopics = getPropMarketTopics();
+  for (const propFirm of SEO_PROP_FIRMS) {
+    for (const market of SEO_MARKETS) {
+      for (const topic of propMarketTopics) {
+        pages.push(buildPropFirmMarketTopicPage(propFirm, market, topic));
+      }
+    }
   }
 
   return attachRelatedSlugs(pages);

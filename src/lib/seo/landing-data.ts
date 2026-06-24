@@ -29,6 +29,23 @@ export interface SeoPropFirm {
   consistencyRule: string;
 }
 
+export interface SeoTimeframe {
+  slug: string;
+  label: string;
+  shortLabel: string;
+}
+
+export const SEO_TIMEFRAMES: SeoTimeframe[] = [
+  { slug: "1m", label: "1-Minute", shortLabel: "1M" },
+  { slug: "5m", label: "5-Minute", shortLabel: "5M" },
+  { slug: "15m", label: "15-Minute", shortLabel: "15M" },
+  { slug: "30m", label: "30-Minute", shortLabel: "30M" },
+  { slug: "1h", label: "1-Hour", shortLabel: "1H" },
+  { slug: "4h", label: "4-Hour", shortLabel: "4H" },
+  { slug: "1d", label: "Daily", shortLabel: "Daily" },
+  { slug: "1w", label: "Weekly", shortLabel: "Weekly" },
+];
+
 export const SEO_MARKETS: SeoMarket[] = [
   { slug: "xauusd", name: "Gold (XAUUSD)", shortName: "Gold", session: "London and New York overlap" },
   { slug: "xagusd", name: "Silver (XAGUSD)", shortName: "Silver", session: "London session" },
@@ -58,21 +75,15 @@ export const SEO_MARKETS: SeoMarket[] = [
   { slug: "copper", name: "Copper", shortName: "Copper", session: "London metals session" },
   { slug: "platinum", name: "Platinum (XPTUSD)", shortName: "Platinum", session: "London and New York" },
   { slug: "palladium", name: "Palladium (XPDUSD)", shortName: "Palladium", session: "London and New York" },
+  { slug: "audjpy", name: "Australian Dollar / Japanese Yen (AUDJPY)", shortName: "AUDJPY", session: "Tokyo and Sydney overlap" },
+  { slug: "cadjpy", name: "Canadian Dollar / Japanese Yen (CADJPY)", shortName: "CADJPY", session: "Tokyo session" },
+  { slug: "chfjpy", name: "Swiss Franc / Japanese Yen (CHFJPY)", shortName: "CHFJPY", session: "Tokyo session" },
+  { slug: "usdmxn", name: "US Dollar / Mexican Peso (USDMXN)", shortName: "USDMXN", session: "New York session" },
+  { slug: "usdsgd", name: "US Dollar / Singapore Dollar (USDSGD)", shortName: "USDSGD", session: "Asian session" },
+  { slug: "usdzar", name: "US Dollar / South African Rand (USDZAR)", shortName: "USDZAR", session: "London open" },
+  { slug: "brent-oil", name: "Brent Crude Oil", shortName: "Brent", session: "London energy session" },
+  { slug: "wheat", name: "Wheat Futures", shortName: "Wheat", session: "Chicago grains session" },
 ];
-
-/** High-traffic markets used for lesson × instrument SEO landing pages */
-export const LESSON_LANDING_MARKET_SLUGS = [
-  "xauusd",
-  "eurusd",
-  "gbpusd",
-  "nas100",
-  "btcusd",
-  "usdjpy",
-  "us30",
-  "oil-wti",
-  "spx500",
-  "ethusd",
-] as const;
 
 export const SEO_PROP_FIRMS: SeoPropFirm[] = [
   {
@@ -165,6 +176,51 @@ export const SEO_PROP_FIRMS: SeoPropFirm[] = [
     dailyLossLimit: "Daily loss limits on evaluation accounts",
     consistencyRule: "Consistency caps on profit withdrawals",
   },
+  {
+    slug: "tradeify",
+    name: "Tradeify",
+    shortName: "Tradeify",
+    profitTarget: "Varies by evaluation and funded plan",
+    maxDrawdown: "Trailing drawdown on funded accounts",
+    dailyLossLimit: "Daily loss limits on evaluation tiers",
+    consistencyRule: "Consistency requirements on payouts",
+  },
+  {
+    slug: "alpha-futures",
+    name: "Alpha Futures",
+    shortName: "Alpha Futures",
+    profitTarget: "Program-specific profit targets",
+    maxDrawdown: "Maximum loss limits by account size",
+    dailyLossLimit: "Daily loss caps during evaluation",
+    consistencyRule: "Payout consistency thresholds",
+  },
+  {
+    slug: "maven-trading",
+    name: "Maven Trading",
+    shortName: "Maven",
+    profitTarget: "Varies by challenge tier",
+    maxDrawdown: "Static or trailing max drawdown",
+    dailyLossLimit: "Daily loss limits on evaluation",
+    consistencyRule: "Best-day consistency on withdrawals",
+  },
+  {
+    slug: "bulenox",
+    name: "Bulenox",
+    shortName: "Bulenox",
+    profitTarget: "Evaluation profit targets by plan",
+    maxDrawdown: "Trailing drawdown on funded accounts",
+    dailyLossLimit: "Daily loss limits during challenges",
+    consistencyRule: "Consistency rules on profit splits",
+  },
+  {
+    slug: "surge-trader",
+    name: "Surge Trader",
+    shortName: "Surge",
+    profitTarget: "Varies by audition and funded program",
+    maxDrawdown: "Maximum account drawdown limits",
+    dailyLossLimit: "Daily loss limits on evaluation",
+    consistencyRule: "Consistency caps on funded payouts",
+  },
 ];
 
 export const SEO_TOPICS: SeoTopic[] = [
@@ -204,9 +260,59 @@ export const SEO_TOPICS: SeoTopic[] = [
   { slug: "vwap-trading", name: "VWAP Trading", demo: "setup-scorer", toolSlug: "edge-confluence", keyword: "VWAP intraday strategy" },
   { slug: "gap-trading", name: "Gap Trading", demo: "rr-planner", toolSlug: "execution-protocol", keyword: "gap fill trade planner" },
   { slug: "correlation-trading", name: "Correlation Trading", demo: "risk-calc", toolSlug: "risk-matrix", keyword: "portfolio correlation risk" },
+  { slug: "double-top-bottom", name: "Double Top & Bottom", demo: "setup-scorer", toolSlug: "edge-confluence", keyword: "double top double bottom trading" },
+  { slug: "head-shoulders", name: "Head & Shoulders", demo: "setup-scorer", toolSlug: "edge-confluence", keyword: "head and shoulders pattern trade" },
+  { slug: "ichimoku-trading", name: "Ichimoku Trading", demo: "setup-scorer", toolSlug: "edge-confluence", keyword: "ichimoku cloud strategy" },
+  { slug: "bollinger-bands", name: "Bollinger Bands Strategy", demo: "setup-scorer", toolSlug: "edge-confluence", keyword: "bollinger bands trading plan" },
+  { slug: "macd-strategy", name: "MACD Strategy", demo: "setup-scorer", toolSlug: "edge-confluence", keyword: "MACD crossover trading" },
+  { slug: "atr-stops", name: "ATR Stop Placement", demo: "risk-calc", toolSlug: "risk-matrix", keyword: "ATR stop loss calculator" },
+  { slug: "fair-value-gaps", name: "Fair Value Gaps", demo: "setup-scorer", toolSlug: "edge-confluence", keyword: "fair value gap trading" },
+  { slug: "break-retest", name: "Break & Retest", demo: "setup-scorer", toolSlug: "edge-confluence", keyword: "break and retest strategy" },
+  { slug: "pullback-trading", name: "Pullback Trading", demo: "rr-planner", toolSlug: "execution-protocol", keyword: "pullback entry trade plan" },
+  { slug: "reversal-trading", name: "Reversal Trading", demo: "setup-scorer", toolSlug: "edge-confluence", keyword: "reversal setup scorecard" },
+  { slug: "momentum-trading", name: "Momentum Trading", demo: "setup-scorer", toolSlug: "regime-oracle", keyword: "momentum breakout plan" },
+  { slug: "mean-reversion", name: "Mean Reversion", demo: "setup-scorer", toolSlug: "edge-confluence", keyword: "mean reversion trading strategy" },
+  { slug: "economic-calendar", name: "Economic Calendar Trading", demo: "risk-calc", toolSlug: "risk-matrix", keyword: "economic calendar risk plan" },
+  { slug: "pre-market-prep", name: "Pre-Market Preparation", demo: "rr-planner", toolSlug: "execution-protocol", keyword: "pre market trading checklist" },
 ];
 
+/** Topics suited for timeframe-specific landing pages */
+export const TIMEFRAME_TOPIC_SLUGS = new Set(
+  SEO_TOPICS.filter(
+    (t) =>
+      !t.slug.startsWith("prop-firm") &&
+      t.slug !== "funded-trader" &&
+      t.slug !== "drawdown-recovery" &&
+      t.slug !== "journal-analytics"
+  ).map((t) => t.slug)
+);
+
+/** Topics for prop firm + market combo pages */
+export function getPropMarketTopics(): SeoTopic[] {
+  const slugs = new Set([
+    "prop-firm-challenge",
+    "prop-firm-consistency",
+    "funded-trader",
+    "prop-firm-payout",
+    "drawdown-recovery",
+    "risk-management",
+    "position-sizing",
+    "scalping-strategy",
+    "session-trading",
+    "setup-scoring",
+    "trade-planning",
+    "stop-loss-placement",
+    "news-trading",
+    "confluence-trading",
+    "candlestick-patterns",
+  ]);
+  return SEO_TOPICS.filter((t) => slugs.has(t.slug));
+}
+
+export function getTimeframeTopics(): SeoTopic[] {
+  return SEO_TOPICS.filter((t) => TIMEFRAME_TOPIC_SLUGS.has(t.slug));
+}
+
 export function getLessonLandingMarkets(): SeoMarket[] {
-  const slugSet = new Set<string>(LESSON_LANDING_MARKET_SLUGS);
-  return SEO_MARKETS.filter((market) => slugSet.has(market.slug));
+  return SEO_MARKETS;
 }

@@ -65,7 +65,12 @@ export default function LessonLandingPage({
           ← Lesson Guides Hub
         </Link>
         <div className="mt-3 flex flex-wrap gap-2">
-          <Badge variant="success">{page.market.shortName}</Badge>
+          {page.market && (
+            <Badge variant="success">{page.market.shortName}</Badge>
+          )}
+          {page.propFirm && (
+            <Badge variant="success">{page.propFirm.shortName}</Badge>
+          )}
           <Badge variant="warning">{page.categoryTitle}</Badge>
           <Badge variant="success">Free preview</Badge>
         </div>
@@ -78,7 +83,10 @@ export default function LessonLandingPage({
       </header>
 
       <section aria-label="Interactive demo">
-        <LandingDemoWidget demo={page.demo} marketName={page.market.name} />
+        <LandingDemoWidget
+          demo={page.demo}
+          marketName={page.market?.name ?? page.propFirm?.name}
+        />
       </section>
 
       {page.sections.map((section) => (

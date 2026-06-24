@@ -1,18 +1,24 @@
 import { TOOLS } from "@/lib/tools-registry";
 import {
+  SEO_PROP_FIRMS,
   getLessonLandingMarkets,
   type SeoMarket,
+  type SeoPropFirm,
 } from "@/lib/seo/landing-data";
 import { toolSlugToDemo } from "@/lib/seo/seo-demo";
 import type { LandingDemoType } from "@/lib/seo/landing-data";
 import { PUBLIC_LESSONS, type PublicLesson } from "@/lib/seo/public-lessons";
+
+export type LessonLandingVariant = "market" | "prop-firm";
 
 export interface LessonLandingPage {
   slug: string;
   title: string;
   metaDescription: string;
   h1: string;
-  market: SeoMarket;
+  variant: LessonLandingVariant;
+  market: SeoMarket | null;
+  propFirm: SeoPropFirm | null;
   lessonSlug: string;
   lessonTitle: string;
   categoryTitle: string;
@@ -83,7 +89,9 @@ function buildMarketLessonPage(
     title,
     metaDescription,
     h1,
+    variant: "market",
     market,
+    propFirm: null,
     lessonSlug: lesson.slug,
     lessonTitle: lesson.title,
     categoryTitle: lesson.categoryTitle,
@@ -93,19 +101,99 @@ function buildMarketLessonPage(
     sections,
     faqs,
     relatedSlugs: [],
-    publishedAt: "2026-06-01",
+    publishedAt: "2026-06-15",
+  };
+}
+
+function buildPropFirmLessonPage(
+  propFirm: SeoPropFirm,
+  lesson: PublicLesson
+): LessonLandingPage {
+  const slug = `${propFirm.slug}-${lesson.slug}`;
+  const tool = TOOLS.find((t) => t.slug === lesson.relatedToolSlug);
+  const demo = toolSlugToDemo(lesson.relatedToolSlug);
+
+  const title = `${propFirm.shortName} ${lesson.title} — Prop Firm Lesson Guide | Quicksilver`;
+  const metaDescription = `${propFirm.name} traders: learn ${lesson.title.toLowerCase()} with free preview, ${lesson.categoryTitle} workflow, and ${tool?.shortName ?? "planning"} demo. Rules: ${propFirm.profitTarget}.`;
+  const h1 = `${lesson.title} for ${propFirm.shortName} Traders`;
+
+  const intro = `Challengers preparing for ${propFirm.name} use ${lesson.title.toLowerCase()} to build repeatable edge while respecting ${propFirm.profitTarget}, ${propFirm.maxDrawdown}, and ${propFirm.consistencyRule.toLowerCase()}. This guide previews the Chart Academy lesson "${lesson.title}" with a free demo and prop-aware workflow.`;
+
+  const sections = [
+    {
+      heading: `Why ${lesson.title} matters for ${propFirm.shortName}`,
+      paragraphs: [
+        `${lesson.summary} Prop traders who skip structured ${lesson.categoryTitle.toLowerCase()} training often violate consistency or daily loss rules before they find an edge.`,
+        `Preview the lesson below, then upgrade to Premium for the full module and ${tool?.name ?? "QS planning tools"}.`,
+      ],
+    },
+    {
+      heading: `${propFirm.shortName} rules reminder`,
+      paragraphs: [
+        `Profit target: ${propFirm.profitTarget}. Max drawdown: ${propFirm.maxDrawdown}. Daily loss: ${propFirm.dailyLossLimit}. Consistency: ${propFirm.consistencyRule}.`,
+        `Apply ${lesson.sectionTitle} concepts in a journal — track win rate, R:R, and best-day share of total profit before scaling size.`,
+      ],
+    },
+    {
+      heading: "Free preview → funded trader path",
+      paragraphs: [
+        `Pair Chart Academy with Prop Survival simulations to stress-test your plan before paying challenge fees. Premium Quant unlocks all lessons and six planning modules.`,
+      ],
+    },
+  ];
+
+  const faqs = [
+    {
+      question: `Is this ${propFirm.shortName} lesson guide free?`,
+      answer: "Yes. Preview content is free. Full lesson access depends on your Quicksilver subscription tier.",
+    },
+    {
+      question: `Does ${lesson.title} help with ${propFirm.name} challenges?`,
+      answer: "Strong chart literacy and planning discipline improve consistency — critical for prop firm profit targets and payout rules.",
+    },
+    {
+      question: "Does Quicksilver guarantee a prop firm pass?",
+      answer: "No. Quicksilver provides education and planning tools. You execute trades yourself on any platform.",
+    },
+  ];
+
+  return {
+    slug,
+    title,
+    metaDescription,
+    h1,
+    variant: "prop-firm",
+    market: null,
+    propFirm,
+    lessonSlug: lesson.slug,
+    lessonTitle: lesson.title,
+    categoryTitle: lesson.categoryTitle,
+    demo,
+    toolSlug: lesson.relatedToolSlug,
+    intro,
+    sections,
+    faqs,
+    relatedSlugs: [],
+    publishedAt: "2026-06-15",
   };
 }
 
 function attachRelatedSlugs(pages: LessonLandingPage[]): LessonLandingPage[] {
   const byMarket = new Map<string, LessonLandingPage[]>();
+  const byPropFirm = new Map<string, LessonLandingPage[]>();
   const byLesson = new Map<string, LessonLandingPage[]>();
 
   for (const page of pages) {
-    const marketList = byMarket.get(page.market.slug) ?? [];
-    marketList.push(page);
-    byMarket.set(page.market.slug, marketList);
-
+    if (page.market) {
+      const marketList = byMarket.get(page.market.slug) ?? [];
+      marketList.push(page);
+      byMarket.set(page.market.slug, marketList);
+    }
+    if (page.propFirm) {
+      const firmList = byPropFirm.get(page.propFirm.slug) ?? [];
+      firmList.push(page);
+      byPropFirm.set(page.propFirm.slug, firmList);
+    }
     const lessonList = byLesson.get(page.lessonSlug) ?? [];
     lessonList.push(page);
     byLesson.set(page.lessonSlug, lessonList);
@@ -114,9 +202,18 @@ function attachRelatedSlugs(pages: LessonLandingPage[]): LessonLandingPage[] {
   return pages.map((page) => {
     const related = new Set<string>();
 
-    for (const p of byMarket.get(page.market.slug) ?? []) {
-      if (p.slug !== page.slug && p.lessonSlug !== page.lessonSlug) {
-        related.add(p.slug);
+    if (page.market) {
+      for (const p of byMarket.get(page.market.slug) ?? []) {
+        if (p.slug !== page.slug && p.lessonSlug !== page.lessonSlug) {
+          related.add(p.slug);
+        }
+      }
+    }
+    if (page.propFirm) {
+      for (const p of byPropFirm.get(page.propFirm.slug) ?? []) {
+        if (p.slug !== page.slug && p.lessonSlug !== page.lessonSlug) {
+          related.add(p.slug);
+        }
       }
     }
     for (const p of byLesson.get(page.lessonSlug) ?? []) {
@@ -140,6 +237,12 @@ function buildAllLessonLandingPages(): LessonLandingPage[] {
     }
   }
 
+  for (const propFirm of SEO_PROP_FIRMS) {
+    for (const lesson of PUBLIC_LESSONS) {
+      pages.push(buildPropFirmLessonPage(propFirm, lesson));
+    }
+  }
+
   return attachRelatedSlugs(pages);
 }
 
@@ -156,7 +259,13 @@ export function getLessonLandingPageBySlug(
 export function getLessonLandingPagesByMarket(
   marketSlug: string
 ): LessonLandingPage[] {
-  return LESSON_LANDING_PAGES.filter((p) => p.market.slug === marketSlug);
+  return LESSON_LANDING_PAGES.filter((p) => p.market?.slug === marketSlug);
+}
+
+export function getLessonLandingPagesByPropFirm(
+  propFirmSlug: string
+): LessonLandingPage[] {
+  return LESSON_LANDING_PAGES.filter((p) => p.propFirm?.slug === propFirmSlug);
 }
 
 export function getLessonLandingPagesForLesson(

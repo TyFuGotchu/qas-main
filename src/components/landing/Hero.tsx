@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Button from "@/components/ui/Button";
+import { TOTAL_SEO_LANDING_PAGES } from "@/lib/seo/seo-index";
 import { Activity, BarChart3, Cpu, Shield } from "lucide-react";
 
 export function Hero() {
@@ -27,12 +28,24 @@ export function Hero() {
             prop firm challenges and live capital deployment.
           </p>
 
-          <div className="mt-10 flex items-center justify-center">
+          <div className="mt-10 flex flex-col items-center gap-4">
             <Link href="/register">
               <Button variant="primary" size="lg">
                 Create Profile to View Access Tiers
               </Button>
             </Link>
+            <p className="font-mono text-xs text-slate-500">
+              <Link href="/learn" className="text-cyan-accent hover:underline">
+                {TOTAL_SEO_LANDING_PAGES}+ free lesson & tool guides
+              </Link>
+              {" · "}
+              <Link
+                href="/solutions"
+                className="text-cyan-accent hover:underline"
+              >
+                Trading calculators
+              </Link>
+            </p>
           </div>
         </div>
 

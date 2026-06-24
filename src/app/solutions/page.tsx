@@ -4,16 +4,18 @@ import {
   SEO_LANDING_COUNT,
   SEO_MARKETS,
   SEO_PROP_FIRMS,
+  SEO_TIMEFRAMES,
   SEO_TOPICS,
   getLandingPagesByMarket,
   getLandingPagesByPropFirm,
 } from "@/lib/seo/landing-pages";
 import { LESSON_LANDING_COUNT } from "@/lib/seo/lesson-landing-pages";
+import { TOTAL_SEO_LANDING_PAGES } from "@/lib/seo/seo-index";
 import { Badge } from "@/components/ui/Badge";
 
 export const metadata: Metadata = {
   title: "Free Manual Trading Tools & Calculators | Quicksilver Algo",
-  description: `${SEO_LANDING_COUNT}+ free trading calculators and setup scoring demos for forex, gold, indices, and crypto manual traders.`,
+  description: `${SEO_LANDING_COUNT}+ free trading calculators — market, timeframe, and prop firm combos for forex, gold, indices, and crypto manual traders.`,
 };
 
 export default function SolutionsHubPage() {
@@ -27,11 +29,30 @@ export default function SolutionsHubPage() {
           Manual Trading Solutions Hub
         </h1>
         <p className="mt-3 max-w-2xl text-slate-400">
-          Free interactive demos for setup scoring, risk sizing, prop firm
-          consistency, and trade planning — organized by market, prop firm, and
-          strategy topic.
+          {SEO_LANDING_COUNT} tool pages — market × topic, timeframe × topic,
+          prop firm × market, and more. Plus {LESSON_LANDING_COUNT} lesson
+          guides ({TOTAL_SEO_LANDING_PAGES} total SEO landing pages).
         </p>
       </header>
+
+      <section>
+        <h2 className="mb-4 font-mono text-sm font-semibold uppercase tracking-widest text-slate-500">
+          Browse by timeframe
+        </h2>
+        <div className="grid gap-3 sm:grid-cols-4 lg:grid-cols-8">
+          {SEO_TIMEFRAMES.map((tf) => (
+            <Link
+              key={tf.slug}
+              href={`/solutions/xauusd-${tf.slug}-setup-scoring`}
+              className="rounded-lg border border-slate-800/60 bg-slate-900/40 px-3 py-2 text-center hover:border-cyan-accent/30"
+            >
+              <p className="font-mono text-xs font-semibold text-slate-200">
+                {tf.shortLabel}
+              </p>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       <section>
         <h2 className="mb-4 font-mono text-sm font-semibold uppercase tracking-widest text-slate-500">
