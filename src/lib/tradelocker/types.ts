@@ -47,3 +47,20 @@ export interface PanelColumn {
   id: string;
   description?: string;
 }
+
+export interface TradeLockerInstrument {
+  id: number;
+  name: string;
+  tradableInstrumentId: number;
+  routeId: number;
+  type?: string;
+}
+
+export interface TradeLockerPlaceOrderPayload {
+  side: "buy" | "sell";
+  type: "market";
+  validity: "IOC";
+  qty: number;
+  routeId: number;
+  tradableInstrumentId: number;
+}

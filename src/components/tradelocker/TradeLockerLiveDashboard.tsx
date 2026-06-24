@@ -6,7 +6,9 @@ import { TradeLockerConnectForm } from "@/components/tradelocker/TradeLockerConn
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
+import Input from "@/components/ui/Input";
 import Select from "@/components/ui/Select";
+import { useToast } from "@/components/ui/Toast";
 import { cn } from "@/lib/utils";
 import {
   Activity,
@@ -16,6 +18,7 @@ import {
   TrendingDown,
   TrendingUp,
   Wallet,
+  XCircle,
 } from "lucide-react";
 
 function MetricSkeleton() {
@@ -51,6 +54,12 @@ function formatCurrency(value: number): string {
 export function TradeLockerLiveDashboard() {
   const [selectedAccountId, setSelectedAccountId] = useState<string | null>(null);
   const [selectedAccNum, setSelectedAccNum] = useState<string | null>(null);
+  const [selectedInstrumentKey, setSelectedInstrumentKey] = useState("");
+  const [orderQty, setOrderQty] = useState("0.01");
+  const [closingPositionId, setClosingPositionId] = useState<string | null>(
+    null
+  );
+  const { toast } = useToast();
 
   const {
     connected,
@@ -58,11 +67,16 @@ export function TradeLockerLiveDashboard() {
     statusLoading,
     accountsLoading,
     dashboardLoading,
+    instrumentsLoading,
+    tradeLoading,
     accounts,
     dashboard,
+    instruments,
     error,
     refreshStatus,
     refreshAccounts,
+    placeOrder,
+    closePosition,
     disconnect,
     setConnected,
   } = useLiveTradeLocker({
@@ -89,6 +103,44 @@ export function TradeLockerLiveDashboard() {
     [accounts]
   );
 
+  const instrumentOptions = useMemo(
+    () =>
+      instruments.map((instrument) => ({
+        value: `${instrument.tradableInstrumentId}:${instrument.routeId}`,
+        label: instrument.name,
+      })),
+    [instruments]
+  );
+
+  const instrumentNameById = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const instrument of instruments) {
+      map.set(String(instrument.tradableInstrumentId), instrument.name);
+    }
+    return map;
+  }, [instruments]);
+
+  const selectedInstrument = useMemo(() => {
+    if (!selectedInstrumentKey) return null;
+    const [tradableInstrumentId, routeId] = selectedInstrumentKey
+      .split(":")
+      .map(Number);
+    if (!Number.isFinite(tradableInstrumentId) || !Number.isFinite(routeId)) {
+      return null;
+    }
+    return instruments.find(
+      (instrument) =>
+        instrument.tradableInstrumentId === tradableInstrumentId &&
+        instrument.routeId === routeId
+    );
+  }, [instruments, selectedInstrumentKey]);
+
+  useEffect(() => {
+    if (instrumentOptions.length > 0 && !selectedInstrumentKey) {
+      setSelectedInstrumentKey(instrumentOptions[0]?.value ?? "");
+    }
+  }, [instrumentOptions, selectedInstrumentKey]);
+
   const showMetricsSkeleton =
     connected && (!selectedAccountId || dashboardLoading);
   const showTableSkeleton =
@@ -98,6 +150,66 @@ export function TradeLockerLiveDashboard() {
     await disconnect();
     setSelectedAccountId(null);
     setSelectedAccNum(null);
+    setSelectedInstrumentKey("");
+  }
+
+  async function handlePlaceOrder(side: "buy" | "sell") {
+    if (!selectedInstrument) {
+      toast({
+        title: "Select an instrument",
+        variant: "error",
+      });
+      return;
+    }
+
+    const qty = Number(orderQty);
+    if (!Number.isFinite(qty) || qty <= 0) {
+      toast({
+        title: "Invalid quantity",
+        description: "Enter a positive lot size.",
+        variant: "error",
+      });
+      return;
+    }
+
+    const result = await placeOrder({
+      side,
+      qty,
+      tradableInstrumentId: selectedInstrument.tradableInstrumentId,
+      routeId: selectedInstrument.routeId,
+    });
+
+    if (result.ok) {
+      toast({
+        title: `${side === "buy" ? "Buy" : "Sell"} order placed`,
+        description: `${qty} lots · ${selectedInstrument.name}`,
+      });
+    } else {
+      toast({
+        title: "Order failed",
+        description: result.error,
+        variant: "error",
+      });
+    }
+  }
+
+  async function handleClosePosition(positionId: string, instrumentLabel: string) {
+    setClosingPositionId(positionId);
+    const result = await closePosition(positionId, 0);
+    setClosingPositionId(null);
+
+    if (result.ok) {
+      toast({
+        title: "Position close requested",
+        description: instrumentLabel,
+      });
+    } else {
+      toast({
+        title: "Close failed",
+        description: result.error,
+        variant: "error",
+      });
+    }
   }
 
   if (statusLoading) {
@@ -155,6 +267,7 @@ export function TradeLockerLiveDashboard() {
                   if (accountId && accNum) {
                     setSelectedAccountId(accountId);
                     setSelectedAccNum(accNum);
+                    setSelectedInstrumentKey("");
                   }
                 }}
                 options={accountOptions}
@@ -280,6 +393,74 @@ export function TradeLockerLiveDashboard() {
       <Card>
         <CardHeader>
           <h3 className="flex items-center gap-2 font-mono text-sm font-semibold text-slate-200">
+            <Activity className="h-4 w-4 text-cyan-400" />
+            Market Order
+          </h3>
+        </CardHeader>
+        <CardContent>
+          {instrumentsLoading ? (
+            <div className="flex items-center gap-2 py-4 font-mono text-xs text-slate-500">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Loading instruments…
+            </div>
+          ) : instrumentOptions.length > 0 ? (
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-end">
+              <div className="min-w-[220px] flex-1">
+                <Select
+                  label="Instrument"
+                  value={selectedInstrumentKey}
+                  onChange={(e) => setSelectedInstrumentKey(e.target.value)}
+                  options={instrumentOptions}
+                  disabled={tradeLoading}
+                />
+              </div>
+              <div className="w-full max-w-[140px]">
+                <Input
+                  label="Lots"
+                  type="number"
+                  min="0.01"
+                  step="0.01"
+                  value={orderQty}
+                  onChange={(e) => setOrderQty(e.target.value)}
+                  disabled={tradeLoading}
+                />
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  disabled={tradeLoading || !selectedInstrument}
+                  onClick={() => handlePlaceOrder("buy")}
+                >
+                  {tradeLoading ? (
+                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  ) : null}
+                  Buy
+                </Button>
+                <Button
+                  variant="danger"
+                  size="sm"
+                  disabled={tradeLoading || !selectedInstrument}
+                  onClick={() => handlePlaceOrder("sell")}
+                >
+                  {tradeLoading ? (
+                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  ) : null}
+                  Sell
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <p className="py-4 font-mono text-sm text-slate-500">
+              No tradable instruments found for this account.
+            </p>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <h3 className="flex items-center gap-2 font-mono text-sm font-semibold text-slate-200">
             <TrendingDown className="h-4 w-4 text-cyan-400" />
             Active Positions
           </h3>
@@ -297,17 +478,22 @@ export function TradeLockerLiveDashboard() {
                     <th className="px-3 py-2">Qty</th>
                     <th className="px-3 py-2">Avg Price</th>
                     <th className="px-3 py-2">Unrealized PnL</th>
+                    <th className="px-3 py-2 text-right">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {dashboard.positions.map((position) => {
                     const pnl = Number(position.unrealizedPl);
+                    const instrumentLabel =
+                      instrumentNameById.get(position.instrumentId) ??
+                      `#${position.instrumentId}`;
+                    const isClosing = closingPositionId === position.id;
                     return (
                       <tr
                         key={position.id}
                         className="border-b border-slate-800/60 text-slate-300"
                       >
-                        <td className="px-3 py-3">#{position.instrumentId}</td>
+                        <td className="px-3 py-3">{instrumentLabel}</td>
                         <td className="px-3 py-3 uppercase">{position.side}</td>
                         <td className="px-3 py-3">{position.qty}</td>
                         <td className="px-3 py-3">{position.avgPrice}</td>
@@ -320,6 +506,23 @@ export function TradeLockerLiveDashboard() {
                           {Number.isFinite(pnl)
                             ? formatCurrency(pnl)
                             : position.unrealizedPl}
+                        </td>
+                        <td className="px-3 py-3 text-right">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            disabled={tradeLoading || isClosing}
+                            onClick={() =>
+                              handleClosePosition(position.id, instrumentLabel)
+                            }
+                          >
+                            {isClosing ? (
+                              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                            ) : (
+                              <XCircle className="h-3.5 w-3.5" />
+                            )}
+                            Close
+                          </Button>
                         </td>
                       </tr>
                     );

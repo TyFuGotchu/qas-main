@@ -2,6 +2,7 @@ import type {
   PanelColumn,
   TradeLockerAccount,
   TradeLockerDashboardMetrics,
+  TradeLockerInstrument,
   TradeLockerPosition,
 } from "@/lib/tradelocker/types";
 
@@ -147,6 +148,50 @@ export function computeWinRateFromHistory(
 
   if (closed === 0) return { winRate: null, closedTrades: 0 };
   return { winRate: Math.round((wins / closed) * 1000) / 10, closedTrades: closed };
+}
+
+type RawInstrumentRoute = {
+  id?: number | string;
+  type?: string;
+};
+
+type RawInstrument = {
+  id?: number;
+  name?: string;
+  tradableInstrumentId?: number;
+  type?: string;
+  routes?: RawInstrumentRoute[];
+};
+
+export function parseInstruments(data: unknown): TradeLockerInstrument[] {
+  const instruments =
+    (data as { d?: { instruments?: RawInstrument[] } })?.d?.instruments ?? [];
+
+  if (!Array.isArray(instruments)) return [];
+
+  const parsed: TradeLockerInstrument[] = [];
+
+  for (const instrument of instruments) {
+    const tradableInstrumentId = instrument.tradableInstrumentId;
+    const name = instrument.name?.trim();
+    if (tradableInstrumentId == null || !name) continue;
+
+    const tradeRoute = (instrument.routes ?? []).find(
+      (route) => route.type?.toUpperCase() === "TRADE"
+    );
+    const routeId = tradeRoute?.id != null ? Number(tradeRoute.id) : NaN;
+    if (!Number.isFinite(routeId)) continue;
+
+    parsed.push({
+      id: instrument.id ?? tradableInstrumentId,
+      name,
+      tradableInstrumentId,
+      routeId,
+      type: instrument.type,
+    });
+  }
+
+  return parsed.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export function buildMetrics(

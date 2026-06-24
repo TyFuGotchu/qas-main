@@ -326,3 +326,66 @@ export async function fetchOrdersHistory(
   }
   return res.json();
 }
+
+export async function fetchInstruments(
+  accountId: string,
+  accNum: string
+): Promise<unknown> {
+  const res = await tradeLockerFetch(
+    `/trade/accounts/${accountId}/instruments`,
+    { accNum }
+  );
+  if (!res.ok) {
+    throw new TradeLockerApiError(await parseErrorMessage(res), res.status);
+  }
+  return res.json();
+}
+
+export async function placeOrder(
+  accountId: string,
+  accNum: string,
+  order: {
+    side: "buy" | "sell";
+    qty: number;
+    routeId: number;
+    tradableInstrumentId: number;
+  }
+): Promise<unknown> {
+  const res = await tradeLockerFetch(
+    `/trade/accounts/${accountId}/orders`,
+    {
+      method: "POST",
+      accNum,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        side: order.side,
+        type: "market",
+        validity: "IOC",
+        qty: order.qty,
+        routeId: order.routeId,
+        tradableInstrumentId: order.tradableInstrumentId,
+      }),
+    }
+  );
+  if (!res.ok) {
+    throw new TradeLockerApiError(await parseErrorMessage(res), res.status);
+  }
+  return res.json();
+}
+
+export async function closePosition(
+  positionId: string,
+  accNum: string,
+  qty: number
+): Promise<unknown> {
+  const res = await tradeLockerFetch(`/trade/positions/${positionId}`, {
+    method: "DELETE",
+    accNum,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ qty }),
+  });
+  if (!res.ok) {
+    throw new TradeLockerApiError(await parseErrorMessage(res), res.status);
+  }
+  return res.json();
+}

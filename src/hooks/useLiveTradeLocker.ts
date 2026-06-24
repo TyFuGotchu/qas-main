@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import type {
   TradeLockerAccount,
   TradeLockerDashboardData,
+  TradeLockerInstrument,
 } from "@/lib/tradelocker/types";
 
 interface UseLiveTradeLockerOptions {
@@ -19,10 +20,13 @@ export function useLiveTradeLocker(options: UseLiveTradeLockerOptions = {}) {
   const [statusLoading, setStatusLoading] = useState(true);
   const [accountsLoading, setAccountsLoading] = useState(false);
   const [dashboardLoading, setDashboardLoading] = useState(false);
+  const [instrumentsLoading, setInstrumentsLoading] = useState(false);
+  const [tradeLoading, setTradeLoading] = useState(false);
   const [accounts, setAccounts] = useState<TradeLockerAccount[]>([]);
   const [dashboard, setDashboard] = useState<TradeLockerDashboardData | null>(
     null
   );
+  const [instruments, setInstruments] = useState<TradeLockerInstrument[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   const refreshStatus = useCallback(async () => {
@@ -104,6 +108,120 @@ export function useLiveTradeLocker(options: UseLiveTradeLockerOptions = {}) {
     }
   }, [selectedAccountId, selectedAccNum]);
 
+  const refreshInstruments = useCallback(async () => {
+    if (!selectedAccountId || !selectedAccNum) {
+      setInstruments([]);
+      return;
+    }
+
+    setInstrumentsLoading(true);
+    try {
+      const params = new URLSearchParams({
+        accountId: selectedAccountId,
+        accNum: selectedAccNum,
+      });
+      const res = await fetch(`/api/tradelocker/instruments?${params}`, {
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setInstruments([]);
+        if (res.status === 401) setConnected(false);
+        return;
+      }
+      setInstruments(data.instruments ?? []);
+    } catch {
+      setInstruments([]);
+    } finally {
+      setInstrumentsLoading(false);
+    }
+  }, [selectedAccountId, selectedAccNum]);
+
+  const placeOrder = useCallback(
+    async (input: {
+      side: "buy" | "sell";
+      qty: number;
+      tradableInstrumentId: number;
+      routeId: number;
+    }): Promise<{ ok: boolean; error?: string }> => {
+      if (!selectedAccountId || !selectedAccNum) {
+        return { ok: false, error: "No account selected" };
+      }
+
+      setTradeLoading(true);
+      setError(null);
+      try {
+        const res = await fetch("/api/tradelocker/orders", {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            accountId: selectedAccountId,
+            accNum: selectedAccNum,
+            ...input,
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          const message = data.error ?? "Failed to place order";
+          setError(message);
+          if (res.status === 401) setConnected(false);
+          return { ok: false, error: message };
+        }
+        await refreshDashboard();
+        return { ok: true };
+      } catch {
+        const message = "Network error while placing order";
+        setError(message);
+        return { ok: false, error: message };
+      } finally {
+        setTradeLoading(false);
+      }
+    },
+    [selectedAccountId, selectedAccNum, refreshDashboard]
+  );
+
+  const closePosition = useCallback(
+    async (
+      positionId: string,
+      qty = 0
+    ): Promise<{ ok: boolean; error?: string }> => {
+      if (!selectedAccNum) {
+        return { ok: false, error: "No account selected" };
+      }
+
+      setTradeLoading(true);
+      setError(null);
+      try {
+        const res = await fetch(
+          `/api/tradelocker/positions/${encodeURIComponent(positionId)}`,
+          {
+            method: "DELETE",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ accNum: selectedAccNum, qty }),
+          }
+        );
+        const data = await res.json();
+        if (!res.ok) {
+          const message = data.error ?? "Failed to close position";
+          setError(message);
+          if (res.status === 401) setConnected(false);
+          return { ok: false, error: message };
+        }
+        await refreshDashboard();
+        return { ok: true };
+      } catch {
+        const message = "Network error while closing position";
+        setError(message);
+        return { ok: false, error: message };
+      } finally {
+        setTradeLoading(false);
+      }
+    },
+    [selectedAccNum, refreshDashboard]
+  );
+
   const disconnect = useCallback(async () => {
     await fetch("/api/tradelocker/disconnect", {
       method: "POST",
@@ -113,6 +231,7 @@ export function useLiveTradeLocker(options: UseLiveTradeLockerOptions = {}) {
     setEnvironment(null);
     setAccounts([]);
     setDashboard(null);
+    setInstruments([]);
   }, []);
 
   useEffect(() => {
@@ -128,12 +247,14 @@ export function useLiveTradeLocker(options: UseLiveTradeLockerOptions = {}) {
   useEffect(() => {
     if (connected && selectedAccountId && selectedAccNum) {
       refreshDashboard();
+      refreshInstruments();
     }
   }, [
     connected,
     selectedAccountId,
     selectedAccNum,
     refreshDashboard,
+    refreshInstruments,
   ]);
 
   return {
@@ -142,12 +263,18 @@ export function useLiveTradeLocker(options: UseLiveTradeLockerOptions = {}) {
     statusLoading,
     accountsLoading,
     dashboardLoading,
+    instrumentsLoading,
+    tradeLoading,
     accounts,
     dashboard,
+    instruments,
     error,
     refreshStatus,
     refreshAccounts,
     refreshDashboard,
+    refreshInstruments,
+    placeOrder,
+    closePosition,
     disconnect,
     setConnected,
   };
