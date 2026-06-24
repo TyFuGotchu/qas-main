@@ -1,4 +1,5 @@
 import { Hero } from "@/components/landing/Hero";
+import { ProbabilitySimulator } from "@/components/landing/ProbabilitySimulator";
 import { Stats } from "@/components/landing/Stats";
 import { RecommendedBrokerCard } from "@/components/broker/RecommendedBrokerCard";
 import Link from "next/link";
@@ -10,6 +11,7 @@ export default function LandingPage() {
   return (
     <>
       <Hero />
+      <ProbabilitySimulator />
       <section className="px-4 pb-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl">
           <RecommendedBrokerCard />
