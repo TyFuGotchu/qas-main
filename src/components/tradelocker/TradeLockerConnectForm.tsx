@@ -6,6 +6,8 @@ import Select from "@/components/ui/Select";
 import Button from "@/components/ui/Button";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { useToast } from "@/components/ui/Toast";
+import { LegalDisclaimerModal } from "@/components/tradelocker/LegalDisclaimerModal";
+import { hasLegalAcceptance } from "@/lib/legal-acceptance";
 import type { TradeLockerEnvironment } from "@/lib/tradelocker/constants";
 import { Link2, Loader2 } from "lucide-react";
 
@@ -18,6 +20,7 @@ export function TradeLockerConnectForm({
 }: TradeLockerConnectFormProps) {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [disclaimerOpen, setDisclaimerOpen] = useState(false);
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -25,8 +28,7 @@ export function TradeLockerConnectForm({
     environment: "live" as TradeLockerEnvironment,
   });
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  async function connectToTradeLocker() {
     setLoading(true);
 
     const server = form.server.trim();
@@ -87,95 +89,116 @@ export function TradeLockerConnectForm({
     }
   }
 
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+
+    if (!hasLegalAcceptance()) {
+      setDisclaimerOpen(true);
+      return;
+    }
+
+    void connectToTradeLocker();
+  }
+
   return (
-    <Card glow className="border-cyan-500/20">
-      <CardHeader>
-        <div className="flex items-center gap-2">
-          <Link2 className="h-5 w-5 text-cyan-400" />
-          <h3 className="font-mono text-lg font-semibold text-slate-200">
-            Connect TradeLocker Account
-          </h3>
-        </div>
-        <p className="mt-2 font-mono text-xs text-slate-500">
-          Works with any TradeLocker broker (FTMO, HeroFX, funded accounts,
-          etc.). Credentials go only to our secure server proxy — tokens never
-          touch the browser.
-        </p>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <Input
-            label="Email"
-            type="email"
-            required
-            autoComplete="username"
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-            placeholder="trader@email.com"
-          />
-
-          <Input
-            label="Password"
-            type="password"
-            required
-            autoComplete="current-password"
-            value={form.password}
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-            placeholder="••••••••"
-          />
-
-          <Input
-            label="Broker server"
-            type="text"
-            required
-            value={form.server}
-            onChange={(e) => setForm({ ...form, server: e.target.value })}
-            placeholder="Exact name from TradeLocker login"
-          />
-          <p className="-mt-2 font-mono text-[10px] leading-relaxed text-slate-600">
-            Use the exact server name from the TradeLocker app login screen —
-            case and spelling must match (e.g. FTMO, HeroFX, AquaFunded).
+    <>
+      <Card glow className="border-cyan-500/20">
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <Link2 className="h-5 w-5 text-cyan-400" />
+            <h3 className="font-mono text-lg font-semibold text-slate-200">
+              Connect TradeLocker Account
+            </h3>
+          </div>
+          <p className="mt-2 font-mono text-xs text-slate-500">
+            Works with any TradeLocker broker (FTMO, HeroFX, funded accounts,
+            etc.). Credentials go only to our secure server proxy — tokens never
+            touch the browser.
           </p>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <Input
+              label="Email"
+              type="email"
+              required
+              autoComplete="username"
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              placeholder="trader@email.com"
+            />
 
-          <Select
-            label="Environment"
-            value={form.environment}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                environment: e.target.value as TradeLockerEnvironment,
-              })
-            }
-            options={[
-              { value: "live", label: "Live (real & most funded accounts)" },
-              { value: "demo", label: "Demo (practice accounts)" },
-            ]}
-          />
-          <p className="-mt-2 font-mono text-[10px] text-slate-600">
-            If login fails on Live, we automatically retry Demo (and vice versa).
-          </p>
+            <Input
+              label="Password"
+              type="password"
+              required
+              autoComplete="current-password"
+              value={form.password}
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              placeholder="••••••••"
+            />
 
-          <Button
-            type="submit"
-            variant="primary"
-            size="lg"
-            className="w-full"
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" />
-                Authenticating…
-              </>
-            ) : (
-              <>
-                <Link2 className="h-4 w-4" />
-                Connect Securely
-              </>
-            )}
-          </Button>
-        </form>
-      </CardContent>
-    </Card>
+            <Input
+              label="Broker server"
+              type="text"
+              required
+              value={form.server}
+              onChange={(e) => setForm({ ...form, server: e.target.value })}
+              placeholder="Exact name from TradeLocker login"
+            />
+            <p className="-mt-2 font-mono text-[10px] leading-relaxed text-slate-600">
+              Use the exact server name from the TradeLocker app login screen —
+              case and spelling must match (e.g. FTMO, HeroFX, AquaFunded).
+            </p>
+
+            <Select
+              label="Environment"
+              value={form.environment}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  environment: e.target.value as TradeLockerEnvironment,
+                })
+              }
+              options={[
+                { value: "live", label: "Live (real & most funded accounts)" },
+                { value: "demo", label: "Demo (practice accounts)" },
+              ]}
+            />
+            <p className="-mt-2 font-mono text-[10px] text-slate-600">
+              If login fails on Live, we automatically retry Demo (and vice versa).
+            </p>
+
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              className="w-full"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Authenticating…
+                </>
+              ) : (
+                <>
+                  <Link2 className="h-4 w-4" />
+                  Connect Securely
+                </>
+              )}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+
+      <LegalDisclaimerModal
+        open={disclaimerOpen}
+        onOpenChange={setDisclaimerOpen}
+        onAccepted={() => {
+          void connectToTradeLocker();
+        }}
+      />
+    </>
   );
 }
