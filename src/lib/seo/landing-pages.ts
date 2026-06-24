@@ -1,35 +1,16 @@
 import { TOOLS } from "@/lib/tools-registry";
+import {
+  SEO_MARKETS,
+  SEO_PROP_FIRMS,
+  SEO_TOPICS,
+  type LandingDemoType,
+  type SeoMarket,
+  type SeoPropFirm,
+  type SeoTopic,
+} from "@/lib/seo/landing-data";
 
-export type LandingDemoType =
-  | "setup-scorer"
-  | "risk-calc"
-  | "consistency-calc"
-  | "rr-planner";
-
-export interface SeoMarket {
-  slug: string;
-  name: string;
-  shortName: string;
-  session: string;
-}
-
-export interface SeoTopic {
-  slug: string;
-  name: string;
-  demo: LandingDemoType;
-  toolSlug: string;
-  keyword: string;
-}
-
-export interface SeoPropFirm {
-  slug: string;
-  name: string;
-  shortName: string;
-  profitTarget: string;
-  maxDrawdown: string;
-  dailyLossLimit: string;
-  consistencyRule: string;
-}
+export type { LandingDemoType, SeoMarket, SeoPropFirm, SeoTopic };
+export { SEO_MARKETS, SEO_PROP_FIRMS, SEO_TOPICS };
 
 export interface SeoLandingPage {
   slug: string;
@@ -47,71 +28,6 @@ export interface SeoLandingPage {
   relatedSlugs: string[];
   publishedAt: string;
 }
-
-export const SEO_MARKETS: SeoMarket[] = [
-  { slug: "xauusd", name: "Gold (XAUUSD)", shortName: "Gold", session: "London and New York overlap" },
-  { slug: "xagusd", name: "Silver (XAGUSD)", shortName: "Silver", session: "London session" },
-  { slug: "nas100", name: "NASDAQ 100 (NAS100)", shortName: "NAS100", session: "New York cash session" },
-  { slug: "us30", name: "Dow Jones (US30)", shortName: "US30", session: "New York session" },
-  { slug: "spx500", name: "S&P 500 (SPX500)", shortName: "S&P 500", session: "New York session" },
-  { slug: "eurusd", name: "Euro / US Dollar (EURUSD)", shortName: "EURUSD", session: "London open" },
-  { slug: "gbpusd", name: "British Pound / US Dollar (GBPUSD)", shortName: "GBPUSD", session: "London session" },
-  { slug: "usdjpy", name: "US Dollar / Japanese Yen (USDJPY)", shortName: "USDJPY", session: "Tokyo and New York" },
-  { slug: "audusd", name: "Australian Dollar / US Dollar (AUDUSD)", shortName: "AUDUSD", session: "Sydney and London" },
-  { slug: "usdcad", name: "US Dollar / Canadian Dollar (USDCAD)", shortName: "USDCAD", session: "New York session" },
-  { slug: "btcusd", name: "Bitcoin (BTCUSD)", shortName: "Bitcoin", session: "24-hour crypto" },
-  { slug: "ethusd", name: "Ethereum (ETHUSD)", shortName: "Ethereum", session: "24-hour crypto" },
-  { slug: "oil-wti", name: "Crude Oil WTI", shortName: "Oil", session: "New York energy session" },
-  { slug: "natural-gas", name: "Natural Gas", shortName: "Nat Gas", session: "US energy hours" },
-  { slug: "dxy", name: "US Dollar Index (DXY)", shortName: "DXY", session: "Global macro sessions" },
-];
-
-export const SEO_PROP_FIRMS: SeoPropFirm[] = [
-  {
-    slug: "ftmo",
-    name: "FTMO",
-    shortName: "FTMO",
-    profitTarget: "10% Phase 1, 5% Phase 2",
-    maxDrawdown: "10% maximum account loss",
-    dailyLossLimit: "5% daily loss limit",
-    consistencyRule: "Best day cannot exceed 20% of total profit target",
-  },
-  {
-    slug: "apex",
-    name: "Apex Trader Funding",
-    shortName: "Apex",
-    profitTarget: "Varies by account size (e.g. $3,000 on $50K)",
-    maxDrawdown: "Trailing drawdown on Rithmic plans",
-    dailyLossLimit: "No hard daily cap on most evaluation plans",
-    consistencyRule: "30% consistency rule on funded payouts",
-  },
-  {
-    slug: "topstep",
-    name: "Topstep",
-    shortName: "Topstep",
-    profitTarget: "Varies by Trading Combine size",
-    maxDrawdown: "Trailing Maximum Loss Limit",
-    dailyLossLimit: "Daily loss limits on Express Funded accounts",
-    consistencyRule: "Consistency Target — cap best-day share of total profit",
-  },
-];
-
-export const SEO_TOPICS: SeoTopic[] = [
-  { slug: "setup-scoring", name: "Setup Scoring", demo: "setup-scorer", toolSlug: "edge-confluence", keyword: "trade setup scorecard" },
-  { slug: "risk-management", name: "Risk Management", demo: "risk-calc", toolSlug: "risk-matrix", keyword: "position size calculator" },
-  { slug: "prop-firm-challenge", name: "Prop Firm Challenge", demo: "consistency-calc", toolSlug: "prop-survival", keyword: "prop firm challenge plan" },
-  { slug: "prop-firm-consistency", name: "Prop Firm Consistency Rule", demo: "consistency-calc", toolSlug: "prop-survival", keyword: "20 percent consistency rule" },
-  { slug: "trade-planning", name: "Trade Planning", demo: "rr-planner", toolSlug: "execution-protocol", keyword: "manual trade plan template" },
-  { slug: "confluence-trading", name: "Confluence Trading", demo: "setup-scorer", toolSlug: "edge-confluence", keyword: "confluence trading checklist" },
-  { slug: "candlestick-patterns", name: "Candlestick Patterns", demo: "setup-scorer", toolSlug: "edge-confluence", keyword: "candlestick pattern scoring" },
-  { slug: "market-structure", name: "Market Structure", demo: "setup-scorer", toolSlug: "edge-confluence", keyword: "market structure analysis" },
-  { slug: "fibonacci-trading", name: "Fibonacci Trading", demo: "rr-planner", toolSlug: "execution-protocol", keyword: "fibonacci trade planning" },
-  { slug: "session-trading", name: "Session Trading", demo: "setup-scorer", toolSlug: "regime-oracle", keyword: "session-based trading plan" },
-  { slug: "scalping-strategy", name: "Scalping Strategy", demo: "risk-calc", toolSlug: "risk-matrix", keyword: "scalping risk calculator" },
-  { slug: "swing-trading", name: "Swing Trading", demo: "rr-planner", toolSlug: "execution-protocol", keyword: "swing trade planner" },
-  { slug: "journal-analytics", name: "Journal Analytics", demo: "setup-scorer", toolSlug: "alpha-durability", keyword: "trading journal edge analysis" },
-  { slug: "funded-trader", name: "Funded Trader Workflow", demo: "consistency-calc", toolSlug: "prop-survival", keyword: "funded account trading plan" },
-];
 
 function buildMarketTopicPage(market: SeoMarket, topic: SeoTopic): SeoLandingPage {
   const slug = `${market.slug}-${topic.slug}`;

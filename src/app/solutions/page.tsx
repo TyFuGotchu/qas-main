@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   SEO_LANDING_COUNT,
-  SEO_LANDING_PAGES,
   SEO_MARKETS,
   SEO_PROP_FIRMS,
   SEO_TOPICS,
   getLandingPagesByMarket,
   getLandingPagesByPropFirm,
 } from "@/lib/seo/landing-pages";
+import { LESSON_LANDING_COUNT } from "@/lib/seo/lesson-landing-pages";
 import { Badge } from "@/components/ui/Badge";
 
 export const metadata: Metadata = {
@@ -128,21 +128,17 @@ export default function SolutionsHubPage() {
         </div>
       </section>
 
-      <section>
-        <h2 className="mb-4 font-mono text-sm font-semibold uppercase tracking-widest text-slate-500">
-          All tools
-        </h2>
-        <div className="max-h-96 space-y-1 overflow-y-auto rounded-lg border border-slate-800/40 p-4">
-          {SEO_LANDING_PAGES.map((p) => (
-            <Link
-              key={p.slug}
-              href={`/solutions/${p.slug}`}
-              className="block font-mono text-xs text-slate-500 hover:text-cyan-accent"
-            >
-              {p.h1}
-            </Link>
-          ))}
-        </div>
+      <section className="rounded-lg border border-slate-800/40 p-6 text-center">
+        <p className="font-mono text-sm text-slate-400">
+          {SEO_LANDING_COUNT} tool pages indexed — browse by market, prop firm, or
+          topic above.
+        </p>
+        <Link
+          href="/learn"
+          className="mt-3 inline-block font-mono text-xs text-cyan-accent hover:underline"
+        >
+          Explore {LESSON_LANDING_COUNT} market-specific lesson guides →
+        </Link>
       </section>
     </div>
   );

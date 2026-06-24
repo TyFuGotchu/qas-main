@@ -19,6 +19,12 @@ export default function LessonsIndexPage() {
         <div className="mb-3 flex flex-wrap gap-2">
           <Badge variant="success">Freemium · Lesson Center</Badge>
           <LessonProgressBadge totalLessons={PUBLIC_LESSONS.length} />
+          <Link
+            href="/learn"
+            className="font-mono text-[10px] uppercase tracking-widest text-cyan-accent hover:underline"
+          >
+            Market lesson guides →
+          </Link>
         </div>
         <h1 className="font-mono text-3xl font-bold text-slate-100 sm:text-4xl">
           Quicksilver Lesson Center

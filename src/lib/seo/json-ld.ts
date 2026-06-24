@@ -69,13 +69,15 @@ export function landingPageJsonLd(params: {
   description: string;
   slug: string;
   publishedAt: string;
+  pathPrefix?: string;
 }) {
+  const base = params.pathPrefix ?? "/solutions";
   return {
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: params.title,
     description: params.description,
-    url: `${SITE_URL}/solutions/${params.slug}`,
+    url: `${SITE_URL}${base}/${params.slug}`,
     datePublished: params.publishedAt,
     dateModified: params.publishedAt,
     publisher: PUBLISHER,
