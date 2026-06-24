@@ -1,6 +1,7 @@
 import { getLessonVisual, type LessonVisualConfig } from "@/lib/academy/visual-registry";
 import { CandlestickDiagram } from "@/components/academy/visuals/CandlestickDiagram";
 import { ChartDiagram } from "@/components/academy/visuals/ChartDiagram";
+import { LessonStaticVisual } from "@/components/academy/LessonStaticVisual";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 
 interface LessonVisualProps {
@@ -28,12 +29,19 @@ export function LessonVisual({ categoryId, lessonId, title }: LessonVisualProps)
   const config = getLessonVisual(categoryId, lessonId);
 
   return (
-    <GlassPanel className="border-cyan-accent/20 p-4 sm:p-5">
-      <p className="mb-3 font-mono text-[10px] uppercase tracking-widest text-cyan-accent">
-        Visual guide{title ? ` · ${title}` : ""}
-      </p>
-      <VisualContent config={config} />
-    </GlassPanel>
+    <div className="space-y-4">
+      <LessonStaticVisual
+        categoryId={categoryId}
+        lessonId={lessonId}
+        title={title}
+      />
+      <GlassPanel className="border-cyan-accent/20 p-4 sm:p-5">
+        <p className="mb-3 font-mono text-[10px] uppercase tracking-widest text-cyan-accent">
+          Animated visual guide{title ? ` · ${title}` : ""}
+        </p>
+        <VisualContent config={config} />
+      </GlassPanel>
+    </div>
   );
 }
 

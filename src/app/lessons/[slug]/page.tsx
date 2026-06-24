@@ -13,6 +13,7 @@ import { FadedPreview } from "@/components/seo/FadedPreview";
 import { FreemiumTierCTA } from "@/components/seo/FreemiumTierCTA";
 import { Badge } from "@/components/ui/Badge";
 import { LessonInteractivePanelBySlug } from "@/components/academy/LessonInteractivePanel";
+import { LessonStaticVisualBySlug } from "@/components/academy/LessonStaticVisual";
 import { LessonEngagementTracker } from "@/components/engagement/LessonEngagementTracker";
 import { StickyUpgradeBar } from "@/components/engagement/StickyUpgradeBar";
 import { ToolTeaserCard } from "@/components/engagement/ToolTeaserCard";
@@ -119,6 +120,8 @@ export default async function LessonPage({
         </h1>
         <p className="mt-3 text-lg text-slate-400">{lesson.summary}</p>
       </header>
+
+      <LessonStaticVisualBySlug slug={params.slug} title={lesson.title} />
 
       <LessonInteractivePanelBySlug
         slug={params.slug}

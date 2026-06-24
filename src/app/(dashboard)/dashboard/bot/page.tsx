@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getFreshSession } from "@/lib/access-control";
 import { canAccessTools } from "@/lib/tiers";
 import { TRADELOCKER_BOT_URL } from "@/lib/constants";
+import { TradeLockerPanel } from "@/components/tradelocker/TradeLockerPanel";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { TerminalPanel } from "@/components/ui/TerminalPanel";
 import { Badge } from "@/components/ui/Badge";
@@ -57,6 +58,13 @@ export default async function BotActivationPage() {
             : "Activate your standalone bot via the official TradeLocker marketplace"}
         </p>
       </div>
+
+      <section>
+        <h3 className="mb-4 font-mono text-sm font-semibold uppercase tracking-widest text-slate-500">
+          Live TradeLocker Terminal
+        </h3>
+        <TradeLockerPanel />
+      </section>
 
       <Card className="border-cyan-500/30 bg-cyan-500/5">
         <CardContent className="flex flex-col gap-6 py-8 sm:flex-row sm:items-center">

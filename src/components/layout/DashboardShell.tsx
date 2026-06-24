@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
+import { ToastProvider } from "@/components/ui/Toast";
 
 interface DashboardShellProps {
   children: React.ReactNode;
@@ -25,6 +26,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
   }, [mobileNavOpen]);
 
   return (
+    <ToastProvider>
     <div className="min-h-screen bg-obsidian-950">
       {mobileNavOpen && (
         <button
@@ -46,5 +48,6 @@ export function DashboardShell({ children }: DashboardShellProps) {
         <main className="flex-1 overflow-x-hidden p-4 sm:p-6">{children}</main>
       </div>
     </div>
+    </ToastProvider>
   );
 }
