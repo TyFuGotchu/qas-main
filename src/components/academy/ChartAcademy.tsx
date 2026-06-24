@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { BookOpen, Search } from "lucide-react";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { Badge } from "@/components/ui/Badge";
@@ -133,6 +134,12 @@ export function ChartAcademy() {
               trading styles, and use Fibonacci zones — for manual trading on any
               platform. No account linking required.
             </p>
+            <Link
+              href="/lessons"
+              className="mt-3 inline-block font-mono text-xs text-cyan-accent hover:underline"
+            >
+              Browse freemium lesson previews →
+            </Link>
           </div>
           <Badge variant="success">{totalLessons} lessons</Badge>
         </div>

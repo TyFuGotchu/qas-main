@@ -8,6 +8,13 @@ const SITE_URL =
   process.env.NEXT_PUBLIC_APP_URL ??
   "https://quicksilveralgo.com";
 
+const BOT_ONLY_CHECKOUT =
+  PRICING_TIERS.find((p) => p.tier === "Bot Only")?.ctaLink ?? "";
+const PREMIUM_CHECKOUT =
+  PRICING_TIERS.find((p) => p.tier === "Premium Quant")?.ctaLink ?? "";
+const PREMIUM_PRICE =
+  PRICING_TIERS.find((p) => p.tier === "Premium Quant")?.price ?? "$199.99";
+
 const DRIP_STEPS = [
   {
     step: 1,
@@ -41,7 +48,7 @@ const DRIP_STEPS = [
           <li><a href="${tier1Lesson}" style="color:#00e5ff;">Reading Candle Components</a></li>
           <li><a href="${riskTool}" style="color:#00e5ff;">Risk Matrix demo</a></li>
         </ol>
-        <p style="margin:24px 0;"><a href="${PRICING_TIERS[0].ctaLink}" style="background:#00e5ff;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Upgrade to Bot-Only →</a></p>
+        <p style="margin:24px 0;"><a href="${BOT_ONLY_CHECKOUT}" style="background:#00e5ff;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Upgrade to Bot-Only →</a></p>
       `);
     },
   },
@@ -63,7 +70,7 @@ const DRIP_STEPS = [
         <p style="color:#94a3b8;line-height:1.6;">Premium Quant unlocks all 89 lessons, live chart overlays, and 6 planning modules.</p>
         ${viewedLinks ? `<p style="color:#94a3b8;">Continue lessons you started:</p><ul style="color:#94a3b8;">${viewedLinks}</ul>` : ""}
         <p style="color:#94a3b8;">Next recommended: <a href="${bos}" style="color:#00e5ff;">Break of Structure</a></p>
-        <p style="margin:24px 0;"><a href="${PRICING_TIERS[1].ctaLink}" style="background:#00e5ff;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Go Premium Quant →</a></p>
+        <p style="margin:24px 0;"><a href="${PREMIUM_CHECKOUT}" style="background:#00e5ff;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Go Premium Quant →</a></p>
       `);
     },
   },
@@ -83,7 +90,7 @@ const DRIP_STEPS = [
           <li><a href="${propTool}" style="color:#00e5ff;">Prop Survival Engine</a></li>
           <li><a href="${solutions}" style="color:#00e5ff;">FTMO challenge tools</a></li>
         </ul>
-        <p style="margin:24px 0;"><a href="${PRICING_TIERS[1].ctaLink}" style="background:#00e5ff;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Unlock everything — ${PRICING_TIERS[1].price}/mo →</a></p>
+        <p style="margin:24px 0;"><a href="${PREMIUM_CHECKOUT}" style="background:#00e5ff;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Unlock everything — ${PREMIUM_PRICE}/mo →</a></p>
       `);
     },
   },

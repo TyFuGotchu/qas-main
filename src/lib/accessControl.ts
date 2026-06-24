@@ -146,17 +146,9 @@ export function hasUnlimitedAccess(subscriptionTier: SubscriptionTier): boolean 
 }
 
 export function getTierCheckoutUrl(tier: SubscriptionTier): string {
-  switch (tier) {
-    case "TIER_1":
-      return PRICING_TIERS[0].ctaLink;
-    case "TIER_2":
-      return PRICING_TIERS[1].ctaLink;
-    case "LIFETIME":
-      return PRICING_TIERS[2].ctaLink;
-    case "FREE":
-    default:
-      return "/register";
-  }
+  const accountTier = subscriptionTierToAccountTier(tier);
+  const pricing = PRICING_TIERS.find((p) => p.tier === accountTier);
+  return pricing?.ctaLink ?? "/register";
 }
 
 /** Extract first N words from paragraph array for faded SEO preview */

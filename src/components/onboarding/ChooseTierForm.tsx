@@ -77,7 +77,7 @@ export function ChooseTierForm() {
         </p>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
         {PRICING_TIERS.map((tier) => (
           <button
             key={tier.id}
@@ -123,21 +123,27 @@ export function ChooseTierForm() {
                     </li>
                   ))}
                 </ul>
-            <a
-              href={tier.ctaLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => {
-                e.stopPropagation();
-                setTimeout(() => refreshSessionFromDatabase(), 5000);
-              }}
-              className="block"
-            >
-              <Button variant="ghost" size="sm" className="w-full">
-                Pay via Stripe
-                <ExternalLink className="h-3.5 w-3.5" />
-              </Button>
-            </a>
+            {tier.ctaLink ? (
+              <a
+                href={tier.ctaLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setTimeout(() => refreshSessionFromDatabase(), 5000);
+                }}
+                className="block"
+              >
+                <Button variant="ghost" size="sm" className="w-full">
+                  Pay via Stripe
+                  <ExternalLink className="h-3.5 w-3.5" />
+                </Button>
+              </a>
+            ) : (
+              <p className="text-center font-mono text-[10px] uppercase tracking-widest text-slate-600">
+                No payment required
+              </p>
+            )}
               </CardContent>
             </Card>
           </button>
@@ -157,7 +163,11 @@ export function ChooseTierForm() {
           disabled={!selectedTier || loading}
           onClick={handleConfirm}
         >
-          {loading ? "Activating..." : "Confirm Plan & Enter Dashboard"}
+          {loading
+            ? "Activating..."
+            : selectedTier === "Free"
+              ? "Continue with Free Access"
+              : "Confirm Plan & Enter Dashboard"}
         </Button>
       </div>
     </div>

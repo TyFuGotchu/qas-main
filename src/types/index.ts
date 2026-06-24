@@ -28,7 +28,7 @@ export interface PricingTier {
   price: string;
   period: string;
   features: string[];
-  ctaLink: string;
+  ctaLink?: string;
   recommended?: boolean;
 }
 

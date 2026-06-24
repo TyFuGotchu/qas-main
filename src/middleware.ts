@@ -11,6 +11,7 @@ const AUTH_ROUTES = ["/login", "/register"];
 const ONBOARDING_ROUTES_PREFIX = "/onboarding";
 const TIER1_ROUTES = [
   "/dashboard",
+  "/dashboard/academy",
   "/dashboard/bot",
   "/dashboard/upgrade",
   "/dashboard/trade-together",
@@ -124,13 +125,6 @@ export async function middleware(request: NextRequest) {
 
   if (isSeoPublicRoute(pathname)) {
     return NextResponse.next();
-  }
-
-  if (
-    pathname === "/dashboard/academy" ||
-    pathname.startsWith("/dashboard/academy/")
-  ) {
-    return NextResponse.redirect(new URL("/lessons", request.url));
   }
 
   if (

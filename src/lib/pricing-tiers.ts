@@ -2,6 +2,19 @@ import type { PricingTier } from "@/types";
 
 export const PRICING_TIERS: PricingTier[] = [
   {
+    id: "tier-free",
+    name: "Free Access",
+    tier: "Free",
+    price: "$0",
+    period: "Forever",
+    features: [
+      "1 lesson preview + 1 charting guide",
+      "Setup Scorer planning module",
+      "Browse all lesson & tool previews",
+      "Upgrade anytime for full academy access",
+    ],
+  },
+  {
     id: "tier-1",
     name: "Bot-Only Access",
     tier: "Bot Only",

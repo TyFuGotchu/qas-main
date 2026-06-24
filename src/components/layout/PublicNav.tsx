@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Button from "@/components/ui/Button";
+import { useSession } from "@/providers/SessionProvider";
 import { Menu, X, Zap } from "lucide-react";
 
 const navLinks = [
@@ -16,6 +17,7 @@ const navLinks = [
 
 export function PublicNav() {
   const pathname = usePathname();
+  const { user } = useSession();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
@@ -60,17 +62,35 @@ export function PublicNav() {
           </nav>
 
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-            <Link href="/login" className="hidden sm:block">
-              <Button variant="ghost" size="sm">
-                Login
-              </Button>
-            </Link>
-            <Link href="/register">
-              <Button variant="primary" size="sm">
-                <span className="sm:hidden">Join</span>
-                <span className="hidden sm:inline">Get Access</span>
-              </Button>
-            </Link>
+            {user ? (
+              <>
+                <Link href="/dashboard/academy" className="hidden sm:block">
+                  <Button variant="ghost" size="sm">
+                    Chart Academy
+                  </Button>
+                </Link>
+                <Link href="/dashboard">
+                  <Button variant="primary" size="sm">
+                    <span className="sm:hidden">Dashboard</span>
+                    <span className="hidden sm:inline">My Dashboard</span>
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link href="/login" className="hidden sm:block">
+                  <Button variant="ghost" size="sm">
+                    Login
+                  </Button>
+                </Link>
+                <Link href="/register">
+                  <Button variant="primary" size="sm">
+                    <span className="sm:hidden">Join</span>
+                    <span className="hidden sm:inline">Get Access</span>
+                  </Button>
+                </Link>
+              </>
+            )}
             <button
               type="button"
               className="rounded-lg border border-slate-700/50 p-2 text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 md:hidden"
@@ -108,13 +128,32 @@ export function PublicNav() {
                 {link.label}
               </Link>
             ))}
-            <Link
-              href="/login"
-              onClick={() => setMobileOpen(false)}
-              className="rounded-lg px-4 py-3 font-mono text-sm uppercase tracking-widest text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
-            >
-              Login
-            </Link>
+            {user ? (
+              <>
+                <Link
+                  href="/dashboard/academy"
+                  onClick={() => setMobileOpen(false)}
+                  className="rounded-lg px-4 py-3 font-mono text-sm uppercase tracking-widest text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
+                >
+                  Chart Academy
+                </Link>
+                <Link
+                  href="/dashboard"
+                  onClick={() => setMobileOpen(false)}
+                  className="rounded-lg px-4 py-3 font-mono text-sm uppercase tracking-widest text-cyan-400 hover:bg-slate-800/50"
+                >
+                  My Dashboard
+                </Link>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                onClick={() => setMobileOpen(false)}
+                className="rounded-lg px-4 py-3 font-mono text-sm uppercase tracking-widest text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
+              >
+                Login
+              </Link>
+            )}
           </nav>
         </div>
       )}
