@@ -39,9 +39,9 @@ export default async function DashboardPage() {
     },
     {
       href: "/dashboard/bot",
-      label: "Bot Activation",
+      label: "TradeLocker Bots",
       icon: Bot,
-      desc: "Activate bot via TradeLocker or download MQL5 packages",
+      desc: "Connect TradeLocker and activate Quicksilver Quant Protocol",
       locked: false,
     },
     {

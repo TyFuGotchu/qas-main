@@ -41,10 +41,10 @@ export default function UpgradePage({
             </h3>
             <p className="mt-2 text-sm text-slate-500">{paywallNote}</p>
             <p className="mt-2 text-sm text-slate-500">
-              Your current Bot Only tier provides standalone bot access and
+              Your current Bot Only tier provides TradeLocker bot access and
               optimized runtime parameters. Upgrade to unlock Chart Academy, all
-              6 manual trading planning tools, VIP Discord, live guidance, MQL5
-              source files, and preset libraries.
+              6 manual trading planning tools, VIP Discord, live guidance, and
+              additional TradeLocker bot codes (coming soon).
             </p>
             <ul className="mt-4 space-y-2 text-sm text-slate-400">
               {TOOLS.map((tool) => (

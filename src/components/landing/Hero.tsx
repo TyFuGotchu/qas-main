@@ -41,7 +41,7 @@ export function Hero() {
             {
               icon: Cpu,
               title: "Tradelocker Exclusive bot Quicksilver Quant Protocol",
-              desc: "Optimized MQL5/Python execution with pre-tuned parameters",
+              desc: "TradeLocker marketplace bot with pre-tuned prop-firm parameters",
             },
             {
               icon: BarChart3,

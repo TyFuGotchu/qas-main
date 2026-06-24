@@ -29,7 +29,7 @@ const navItems: NavItem[] = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/dashboard/academy", label: "Chart Academy", icon: BookOpen },
   { href: "/dashboard/trade-together", label: "Trade Together", icon: Users },
-  { href: "/dashboard/bot", label: "Bot Activation", icon: Bot },
+  { href: "/dashboard/bot", label: "TradeLocker Bots", icon: Bot },
   { href: "/dashboard/tools", label: "Trading Tools", icon: Wrench },
   { href: "/dashboard/discord", label: "Discord Portal", icon: MessageSquare, premiumOnly: true },
   { href: "/dashboard/upgrade", label: "Upgrade Tier", icon: ArrowUpCircle },
