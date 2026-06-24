@@ -54,6 +54,7 @@ export function TradeLockerLiveDashboard() {
 
   const {
     connected,
+    environment,
     statusLoading,
     accountsLoading,
     dashboardLoading,
@@ -128,6 +129,11 @@ export function TradeLockerLiveDashboard() {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-wrap items-center gap-3">
           <Badge variant="success">Live TradeLocker</Badge>
+          {environment && (
+            <Badge variant="warning">
+              {environment === "demo" ? "Demo API" : "Live API"}
+            </Badge>
+          )}
           {accountsLoading && (
             <span className="font-mono text-xs text-slate-500">
               Syncing accounts…

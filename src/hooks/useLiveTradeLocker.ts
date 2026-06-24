@@ -15,6 +15,7 @@ export function useLiveTradeLocker(options: UseLiveTradeLockerOptions = {}) {
   const { selectedAccountId, selectedAccNum } = options;
 
   const [connected, setConnected] = useState(false);
+  const [environment, setEnvironment] = useState<"live" | "demo" | null>(null);
   const [statusLoading, setStatusLoading] = useState(true);
   const [accountsLoading, setAccountsLoading] = useState(false);
   const [dashboardLoading, setDashboardLoading] = useState(false);
@@ -27,13 +28,16 @@ export function useLiveTradeLocker(options: UseLiveTradeLockerOptions = {}) {
   const refreshStatus = useCallback(async () => {
     setStatusLoading(true);
     try {
-      const res = await fetch("/api/tradelocker/status");
+      const res = await fetch("/api/tradelocker/status", {
+        credentials: "include",
+      });
       if (!res.ok) {
         setConnected(false);
         return;
       }
       const data = await res.json();
       setConnected(Boolean(data.connected));
+      setEnvironment(data.environment ?? null);
     } catch {
       setConnected(false);
     } finally {
@@ -45,7 +49,9 @@ export function useLiveTradeLocker(options: UseLiveTradeLockerOptions = {}) {
     setAccountsLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/tradelocker/accounts");
+      const res = await fetch("/api/tradelocker/accounts", {
+        credentials: "include",
+      });
       const data = await res.json();
       if (!res.ok) {
         setAccounts([]);
@@ -76,7 +82,9 @@ export function useLiveTradeLocker(options: UseLiveTradeLockerOptions = {}) {
         accountId: selectedAccountId,
         accNum: selectedAccNum,
       });
-      const res = await fetch(`/api/tradelocker/dashboard?${params}`);
+      const res = await fetch(`/api/tradelocker/dashboard?${params}`, {
+        credentials: "include",
+      });
       const data = await res.json();
       if (!res.ok) {
         setDashboard(null);
@@ -97,8 +105,12 @@ export function useLiveTradeLocker(options: UseLiveTradeLockerOptions = {}) {
   }, [selectedAccountId, selectedAccNum]);
 
   const disconnect = useCallback(async () => {
-    await fetch("/api/tradelocker/disconnect", { method: "POST" });
+    await fetch("/api/tradelocker/disconnect", {
+      method: "POST",
+      credentials: "include",
+    });
     setConnected(false);
+    setEnvironment(null);
     setAccounts([]);
     setDashboard(null);
   }, []);
@@ -126,6 +138,7 @@ export function useLiveTradeLocker(options: UseLiveTradeLockerOptions = {}) {
 
   return {
     connected,
+    environment,
     statusLoading,
     accountsLoading,
     dashboardLoading,

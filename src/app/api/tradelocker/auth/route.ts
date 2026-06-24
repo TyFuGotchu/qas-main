@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
-import { isAllowedOrigin } from "@/lib/security/origin";
 import {
-  authenticateTradeLocker,
+  authenticateTradeLockerWithFallback,
   TradeLockerApiError,
 } from "@/lib/tradelocker/client";
 import { setTradeLockerTokenCookies } from "@/lib/tradelocker/cookies";
+import {
+  isTradeLockerEnvironment,
+  type TradeLockerEnvironment,
+} from "@/lib/tradelocker/constants";
 import {
   enforceRateLimit,
   rateLimitResponse,
@@ -13,18 +16,30 @@ import {
 
 export const dynamic = "force-dynamic";
 
-const AUTH_LIMIT = 5;
+const AUTH_LIMIT = 10;
 const AUTH_WINDOW_MS = 15 * 60 * 1000;
 
+function authErrorMessage(
+  error: TradeLockerApiError,
+  server: string
+): string {
+  if (error.status === 400 || error.status === 401 || error.status === 403) {
+    return (
+      `${error.message} — verify your email/password, and enter the exact server ` +
+      `name from the TradeLocker login screen (you entered "${server}"). ` +
+      `If this is a demo account, select Demo environment.`
+    );
+  }
+  return error.message;
+}
+
 export async function POST(request: NextRequest) {
+  let serverForErrors = "";
+
   try {
     const session = await getSession();
     if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    if (!isAllowedOrigin(request)) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     const rateLimit = enforceRateLimit(
@@ -41,6 +56,14 @@ export async function POST(request: NextRequest) {
     const email = typeof body.email === "string" ? body.email.trim() : "";
     const password = typeof body.password === "string" ? body.password : "";
     const server = typeof body.server === "string" ? body.server.trim() : "";
+    serverForErrors = server;
+    const environmentInput =
+      typeof body.environment === "string" ? body.environment : "live";
+    const environment: TradeLockerEnvironment = isTradeLockerEnvironment(
+      environmentInput
+    )
+      ? environmentInput
+      : "live";
 
     if (!email || !password || !server) {
       return NextResponse.json(
@@ -49,20 +72,27 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const tokens = await authenticateTradeLocker({ email, password, server });
-    await setTradeLockerTokenCookies(tokens);
+    const { tokens, environment: resolvedEnvironment } =
+      await authenticateTradeLockerWithFallback(
+        { email, password, server },
+        environment
+      );
+
+    await setTradeLockerTokenCookies(tokens, resolvedEnvironment);
 
     return NextResponse.json({
       connected: true,
       expireDate: tokens.expireDate,
+      environment: resolvedEnvironment,
     });
   } catch (error) {
     if (error instanceof TradeLockerApiError) {
-      const message =
-        error.status === 400 || error.status === 401
-          ? "Invalid TradeLocker credentials or server"
-          : error.message;
-      return NextResponse.json({ error: message }, { status: error.status });
+      return NextResponse.json(
+        {
+          error: authErrorMessage(error, serverForErrors),
+        },
+        { status: error.status >= 400 && error.status < 600 ? error.status : 502 }
+      );
     }
 
     console.error("[tradelocker/auth]", error);

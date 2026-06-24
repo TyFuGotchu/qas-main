@@ -5,14 +5,27 @@ import { getAuthSecret, isProduction } from "@/lib/env";
 import {
   TOKEN_COOKIE_MAX_AGE,
   TRADELOCKER_COOKIE_ACCESS,
+  TRADELOCKER_COOKIE_ENV,
   TRADELOCKER_COOKIE_EXPIRE,
   TRADELOCKER_COOKIE_REFRESH,
+  type TradeLockerEnvironment,
+  isTradeLockerEnvironment,
 } from "@/lib/tradelocker/constants";
 import type { TradeLockerTokens } from "@/lib/tradelocker/types";
 
 function getEncryptionKey(): Uint8Array {
   const hash = createHash("sha256").update(getAuthSecret()).digest();
   return new Uint8Array(hash);
+}
+
+function cookieBaseOptions() {
+  return {
+    httpOnly: true,
+    secure: isProduction(),
+    sameSite: isProduction() ? ("strict" as const) : ("lax" as const),
+    maxAge: TOKEN_COOKIE_MAX_AGE,
+    path: "/",
+  };
 }
 
 async function encryptValue(value: string): Promise<string> {
@@ -33,7 +46,8 @@ async function decryptValue(payload: string): Promise<string | null> {
 }
 
 export async function setTradeLockerTokenCookies(
-  tokens: TradeLockerTokens
+  tokens: TradeLockerTokens,
+  environment: TradeLockerEnvironment
 ): Promise<void> {
   const cookieStore = await cookies();
   const [accessEnc, refreshEnc] = await Promise.all([
@@ -41,20 +55,12 @@ export async function setTradeLockerTokenCookies(
     encryptValue(tokens.refreshToken),
   ]);
 
-  const base = {
-    httpOnly: true,
-    secure: isProduction(),
-    sameSite: "strict" as const,
-    maxAge: TOKEN_COOKIE_MAX_AGE,
-    path: "/",
-  };
+  const base = cookieBaseOptions();
 
   cookieStore.set(TRADELOCKER_COOKIE_ACCESS, accessEnc, base);
   cookieStore.set(TRADELOCKER_COOKIE_REFRESH, refreshEnc, base);
-  cookieStore.set(TRADELOCKER_COOKIE_EXPIRE, tokens.expireDate, {
-    ...base,
-    httpOnly: true,
-  });
+  cookieStore.set(TRADELOCKER_COOKIE_EXPIRE, tokens.expireDate, base);
+  cookieStore.set(TRADELOCKER_COOKIE_ENV, environment, base);
 }
 
 export async function clearTradeLockerTokenCookies(): Promise<void> {
@@ -62,6 +68,13 @@ export async function clearTradeLockerTokenCookies(): Promise<void> {
   cookieStore.delete(TRADELOCKER_COOKIE_ACCESS);
   cookieStore.delete(TRADELOCKER_COOKIE_REFRESH);
   cookieStore.delete(TRADELOCKER_COOKIE_EXPIRE);
+  cookieStore.delete(TRADELOCKER_COOKIE_ENV);
+}
+
+export async function getTradeLockerEnvironmentFromCookies(): Promise<TradeLockerEnvironment> {
+  const cookieStore = await cookies();
+  const env = cookieStore.get(TRADELOCKER_COOKIE_ENV)?.value ?? "live";
+  return isTradeLockerEnvironment(env) ? env : "live";
 }
 
 export async function getTradeLockerTokensFromCookies(): Promise<TradeLockerTokens | null> {

@@ -6,7 +6,7 @@ import Select from "@/components/ui/Select";
 import Button from "@/components/ui/Button";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { useToast } from "@/components/ui/Toast";
-import { DEFAULT_TRADELOCKER_SERVERS } from "@/lib/tradelocker/constants";
+import type { TradeLockerEnvironment } from "@/lib/tradelocker/constants";
 import { Link2, Loader2 } from "lucide-react";
 
 interface TradeLockerConnectFormProps {
@@ -18,28 +18,40 @@ export function TradeLockerConnectForm({
 }: TradeLockerConnectFormProps) {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [useCustomServer, setUseCustomServer] = useState(false);
   const [form, setForm] = useState({
     email: "",
     password: "",
-    server: DEFAULT_TRADELOCKER_SERVERS[0] as string,
-    customServer: "",
+    server: "",
+    environment: "live" as TradeLockerEnvironment,
   });
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
 
-    const server = useCustomServer ? form.customServer.trim() : form.server;
+    const server = form.server.trim();
+
+    if (!server) {
+      toast({
+        title: "Server required",
+        description:
+          "Enter the exact broker server name shown on your TradeLocker login screen.",
+        variant: "error",
+      });
+      setLoading(false);
+      return;
+    }
 
     try {
       const res = await fetch("/api/tradelocker/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           email: form.email,
           password: form.password,
           server,
+          environment: form.environment,
         }),
       });
 
@@ -54,9 +66,11 @@ export function TradeLockerConnectForm({
         return;
       }
 
+      const envLabel = data.environment === "demo" ? "Demo" : "Live";
+
       toast({
         title: "TradeLocker connected",
-        description: "Your session is secured server-side. Loading accounts…",
+        description: `Connected via ${envLabel} API. Loading your accounts…`,
         variant: "success",
       });
 
@@ -83,7 +97,8 @@ export function TradeLockerConnectForm({
           </h3>
         </div>
         <p className="mt-2 font-mono text-xs text-slate-500">
-          Credentials are sent only to our secure server proxy — tokens never
+          Works with any TradeLocker broker (FTMO, HeroFX, funded accounts,
+          etc.). Credentials go only to our secure server proxy — tokens never
           touch the browser.
         </p>
       </CardHeader>
@@ -109,36 +124,36 @@ export function TradeLockerConnectForm({
             placeholder="••••••••"
           />
 
-          {!useCustomServer ? (
-            <Select
-              label="Server"
-              value={form.server}
-              onChange={(e) => setForm({ ...form, server: e.target.value })}
-              options={DEFAULT_TRADELOCKER_SERVERS.map((server) => ({
-                value: server,
-                label: server,
-              }))}
-            />
-          ) : (
-            <Input
-              label="Server"
-              type="text"
-              required
-              value={form.customServer}
-              onChange={(e) =>
-                setForm({ ...form, customServer: e.target.value })
-              }
-              placeholder="HeroFX"
-            />
-          )}
+          <Input
+            label="Broker server"
+            type="text"
+            required
+            value={form.server}
+            onChange={(e) => setForm({ ...form, server: e.target.value })}
+            placeholder="Exact name from TradeLocker login"
+          />
+          <p className="-mt-2 font-mono text-[10px] leading-relaxed text-slate-600">
+            Use the exact server name from the TradeLocker app login screen —
+            case and spelling must match (e.g. FTMO, HeroFX, AquaFunded).
+          </p>
 
-          <button
-            type="button"
-            onClick={() => setUseCustomServer((v) => !v)}
-            className="font-mono text-[10px] uppercase tracking-widest text-cyan-accent hover:underline"
-          >
-            {useCustomServer ? "Use server dropdown" : "Enter custom server name"}
-          </button>
+          <Select
+            label="Environment"
+            value={form.environment}
+            onChange={(e) =>
+              setForm({
+                ...form,
+                environment: e.target.value as TradeLockerEnvironment,
+              })
+            }
+            options={[
+              { value: "live", label: "Live (real & most funded accounts)" },
+              { value: "demo", label: "Demo (practice accounts)" },
+            ]}
+          />
+          <p className="-mt-2 font-mono text-[10px] text-slate-600">
+            If login fails on Live, we automatically retry Demo (and vice versa).
+          </p>
 
           <Button
             type="submit"
