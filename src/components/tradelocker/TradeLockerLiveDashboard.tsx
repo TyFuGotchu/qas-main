@@ -77,7 +77,6 @@ export function TradeLockerLiveDashboard() {
     error,
     refreshStatus,
     refreshAccounts,
-    refreshDashboard,
     placeOrder,
     closePosition,
     disconnect,
