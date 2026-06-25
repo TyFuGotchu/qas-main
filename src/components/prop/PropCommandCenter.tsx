@@ -2,8 +2,11 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import type { TradeJournalEntry } from "@prisma/client";
 import type { TraderProfileView } from "@/lib/trader-profile";
 import type { TradeLockerDashboardData } from "@/lib/tradelocker/types";
+import { computePropTodaySnapshot } from "@/lib/prop/today-snapshot";
+import { PropTodayPanel } from "@/components/prop/PropTodayPanel";
 import {
   computeRiskGuard,
   riskStatusColor,
@@ -33,18 +36,26 @@ export function PropCommandCenter() {
   const [dashboard, setDashboard] = useState<TradeLockerDashboardData | null>(
     null
   );
+  const [journalEntries, setJournalEntries] = useState<
+    Pick<TradeJournalEntry, "entryTime" | "source">[]
+  >([]);
   const [journalWinRate, setJournalWinRate] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [tlConnected, setTlConnected] = useState(false);
 
   useEffect(() => {
-    async function load() {
+    let cancelled = false;
+
+    async function load(showSpinner: boolean) {
+      if (showSpinner) setLoading(true);
       try {
         const [profileRes, statusRes, journalRes] = await Promise.all([
           fetch("/api/trader-profile"),
           fetch("/api/tradelocker/status"),
           fetch("/api/journal"),
         ]);
+
+        if (cancelled) return;
 
         if (profileRes.ok) {
           const data = await profileRes.json();
@@ -53,6 +64,7 @@ export function PropCommandCenter() {
 
         if (journalRes.ok) {
           const data = await journalRes.json();
+          setJournalEntries(data.entries ?? []);
           if (data.stats?.closedTrades > 0) {
             setJournalWinRate(data.stats.winRate);
           }
@@ -60,35 +72,57 @@ export function PropCommandCenter() {
 
         if (statusRes.ok) {
           const status = await statusRes.json();
-          setTlConnected(Boolean(status.connected));
-          if (status.connected) {
+          const connected = Boolean(status.connected);
+          setTlConnected(connected);
+          if (connected) {
             const accountsRes = await fetch("/api/tradelocker/accounts");
-            if (accountsRes.ok) {
+            if (accountsRes.ok && !cancelled) {
               const { accounts } = await accountsRes.json();
               const first = accounts?.[0];
               if (first) {
                 const dashRes = await fetch(
                   `/api/tradelocker/dashboard?accountId=${encodeURIComponent(first.accountId)}&accNum=${encodeURIComponent(first.accNum)}`
                 );
-                if (dashRes.ok) {
+                if (dashRes.ok && !cancelled) {
                   const dash = await dashRes.json();
                   setDashboard({
                     metrics: dash.metrics,
                     positions: dash.positions ?? [],
+                    tradesToday: dash.tradesToday ?? 0,
                   });
                 }
               }
             }
+          } else {
+            setDashboard(null);
           }
         }
       } catch {
         // partial load ok
       } finally {
-        setLoading(false);
+        if (!cancelled && showSpinner) setLoading(false);
       }
     }
-    load();
+
+    load(true);
+    const interval = setInterval(() => load(false), 60_000);
+
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
   }, []);
+
+  const todaySnapshot = useMemo(() => {
+    if (!profile) return null;
+    return computePropTodaySnapshot({
+      profile,
+      metrics: dashboard?.metrics ?? null,
+      tradesTodayTl: dashboard?.tradesToday ?? 0,
+      journalEntries,
+      tlConnected,
+    });
+  }, [profile, dashboard, journalEntries, tlConnected]);
 
   const riskGuard = useMemo(() => {
     if (!profile || !dashboard?.metrics) return null;
@@ -171,6 +205,8 @@ export function PropCommandCenter() {
       </div>
 
       <PremiumUpgradeNudge feature="Prop Command Center & survival modeling" />
+
+      {todaySnapshot && <PropTodayPanel snapshot={todaySnapshot} />}
 
       <div className="flex flex-wrap gap-2">
         <Badge variant="success">{firm.name}</Badge>
