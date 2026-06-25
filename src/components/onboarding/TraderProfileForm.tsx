@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { TRADER_TIMEZONES } from "@/lib/journal/timezone";
 import {
   ACCOUNT_TYPES,
   MARKET_OPTIONS,
@@ -38,6 +39,7 @@ export function TraderProfileForm({ mode = "onboarding" }: TraderProfileFormProp
   const [riskPerTradePct, setRiskPerTradePct] = useState("1");
   const [maxTradesPerDay, setMaxTradesPerDay] = useState("10");
   const [strictPreTradeGate, setStrictPreTradeGate] = useState(true);
+  const [timezone, setTimezone] = useState("America/New_York");
 
   useEffect(() => {
     async function load() {
@@ -55,6 +57,7 @@ export function TraderProfileForm({ mode = "onboarding" }: TraderProfileFormProp
           setRiskPerTradePct(String(p.riskPerTradePct));
           setMaxTradesPerDay(String(p.maxTradesPerDay));
           setStrictPreTradeGate(p.strictPreTradeGate);
+          setTimezone(p.timezone);
         }
       } catch {
         // use defaults
@@ -108,6 +111,7 @@ export function TraderProfileForm({ mode = "onboarding" }: TraderProfileFormProp
           riskPerTradePct: Number(riskPerTradePct),
           maxTradesPerDay: Number(maxTradesPerDay),
           strictPreTradeGate,
+          timezone,
           profileComplete: true,
         }),
       });
@@ -182,6 +186,19 @@ export function TraderProfileForm({ mode = "onboarding" }: TraderProfileFormProp
               label: t.label,
             }))}
           />
+          <Select
+            label="Your timezone"
+            value={timezone}
+            onChange={(e) => setTimezone(e.target.value)}
+            options={TRADER_TIMEZONES.map((tz) => ({
+              value: tz.value,
+              label: tz.label,
+            }))}
+          />
+          <p className="sm:col-span-2 text-xs text-slate-500">
+            Session edge and journal times display in this timezone. FX session
+            classification stays UTC-based.
+          </p>
         </CardContent>
       </Card>
 

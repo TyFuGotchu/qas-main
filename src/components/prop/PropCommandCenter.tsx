@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import type { TradeJournalEntry } from "@prisma/client";
+import type { SessionStatsResult } from "@/lib/journal/stats";
 import type { TraderProfileView } from "@/lib/trader-profile";
 import type { TradeLockerDashboardData } from "@/lib/tradelocker/types";
 import { computePropTodaySnapshot } from "@/lib/prop/today-snapshot";
@@ -41,6 +42,9 @@ export function PropCommandCenter() {
     Pick<TradeJournalEntry, "entryTime" | "source">[]
   >([]);
   const [journalWinRate, setJournalWinRate] = useState<number | null>(null);
+  const [sessionStats, setSessionStats] = useState<SessionStatsResult | null>(
+    null
+  );
   const [loading, setLoading] = useState(true);
   const [tlConnected, setTlConnected] = useState(false);
 
@@ -66,6 +70,7 @@ export function PropCommandCenter() {
         if (journalRes.ok) {
           const data = await journalRes.json();
           setJournalEntries(data.entries ?? []);
+          setSessionStats(data.sessionStats ?? null);
           if (data.stats?.closedTrades > 0) {
             setJournalWinRate(data.stats.winRate);
           }
@@ -122,8 +127,9 @@ export function PropCommandCenter() {
       tradesTodayTl: dashboard?.tradesToday ?? 0,
       journalEntries,
       tlConnected,
+      sessionStats,
     });
-  }, [profile, dashboard, journalEntries, tlConnected]);
+  }, [profile, dashboard, journalEntries, tlConnected, sessionStats]);
 
   const riskGuard = useMemo(() => {
     if (!profile || !dashboard?.metrics) return null;

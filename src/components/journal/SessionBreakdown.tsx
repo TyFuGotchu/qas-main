@@ -1,6 +1,8 @@
 "use client";
 
 import type { SessionStatsResult } from "@/lib/journal/stats";
+import { getSessionDisplay } from "@/lib/journal/trading-session";
+import { getTimezoneLabel } from "@/lib/journal/timezone";
 import { TerminalPanel } from "@/components/ui/TerminalPanel";
 import { SessionBadge } from "@/components/journal/SessionBadge";
 import { cn } from "@/lib/utils";
@@ -8,9 +10,10 @@ import { Clock } from "lucide-react";
 
 interface SessionBreakdownProps {
   stats: SessionStatsResult;
+  timezone?: string;
 }
 
-export function SessionBreakdown({ stats }: SessionBreakdownProps) {
+export function SessionBreakdown({ stats, timezone }: SessionBreakdownProps) {
   if (stats.rows.length === 0) return null;
 
   const maxWinRate = Math.max(...stats.rows.map((r) => r.winRate), 1);
@@ -18,15 +21,25 @@ export function SessionBreakdown({ stats }: SessionBreakdownProps) {
   return (
     <TerminalPanel title="Edge by session" status="online">
       <div className="space-y-4">
-        <p className="flex items-start gap-2 font-mono text-xs text-slate-400">
-          <Clock className="mt-0.5 h-3.5 w-3.5 shrink-0 text-cyan-400" />
-          {stats.insight}
-        </p>
+        <div className="space-y-1">
+          <p className="flex items-start gap-2 font-mono text-xs text-slate-400">
+            <Clock className="mt-0.5 h-3.5 w-3.5 shrink-0 text-cyan-400" />
+            {stats.insight}
+          </p>
+          {timezone && (
+            <p className="font-mono text-[10px] text-slate-600">
+              Session windows in {getTimezoneLabel(timezone)} local time
+            </p>
+          )}
+        </div>
 
         <div className="space-y-3">
           {stats.rows.map((row) => {
             const isBest = row.session === stats.bestSession;
             const barWidth = Math.round((row.winRate / maxWinRate) * 100);
+            const sessionWindow = timezone
+              ? getSessionDisplay(row.session, timezone)
+              : null;
 
             return (
               <div
@@ -47,9 +60,16 @@ export function SessionBreakdown({ stats }: SessionBreakdownProps) {
                       </span>
                     )}
                   </div>
-                  <span className="font-mono text-xs text-slate-500">
-                    {row.trades} trades · {row.closed} closed
-                  </span>
+                  <div className="text-right">
+                    <span className="font-mono text-xs text-slate-500">
+                      {row.trades} trades · {row.closed} closed
+                    </span>
+                    {sessionWindow && (
+                      <p className="font-mono text-[10px] text-slate-600">
+                        {sessionWindow.window}
+                      </p>
+                    )}
+                  </div>
                 </div>
 
                 <div className="mt-3 flex flex-wrap items-end justify-between gap-3">

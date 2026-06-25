@@ -5,12 +5,15 @@ import { useSearchParams } from "next/navigation";
 import type { TradeJournalEntry } from "@prisma/client";
 import type { AlphaDurabilityResult } from "@/lib/quicksilver/alpha-durability";
 import type { JournalStats, SessionStatsResult } from "@/lib/journal/stats";
+import { formatInTimezone } from "@/lib/journal/timezone";
 import {
+  getSessionDisplay,
   getSessionLabel,
   resolveEntrySession,
   resolveTradingSession,
   TRADING_SESSIONS,
 } from "@/lib/journal/trading-session";
+import type { TraderProfileView } from "@/lib/trader-profile";
 import { SessionBadge } from "@/components/journal/SessionBadge";
 import { SessionBreakdown } from "@/components/journal/SessionBreakdown";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
@@ -53,6 +56,7 @@ export function TradeJournal() {
   const [rMultiple, setRMultiple] = useState("");
   const [setupType, setSetupType] = useState("");
   const [sessionOverride, setSessionOverride] = useState("auto");
+  const [profileTimezone, setProfileTimezone] = useState("America/New_York");
 
   const detectedSession = useMemo(() => {
     const time = entryTime ? new Date(entryTime) : new Date();
@@ -62,9 +66,19 @@ export function TradeJournal() {
 
   const loadJournal = useCallback(async () => {
     try {
-      const res = await fetch("/api/journal");
-      if (res.ok) {
-        const data = await res.json();
+      const [journalRes, profileRes] = await Promise.all([
+        fetch("/api/journal"),
+        fetch("/api/trader-profile"),
+      ]);
+
+      if (profileRes.ok) {
+        const profileData = await profileRes.json();
+        const profile = profileData.profile as TraderProfileView | undefined;
+        if (profile?.timezone) setProfileTimezone(profile.timezone);
+      }
+
+      if (journalRes.ok) {
+        const data = await journalRes.json();
         setEntries(data.entries ?? []);
         setStats(data.stats ?? null);
         setAlpha(data.alpha ?? null);
@@ -276,10 +290,13 @@ export function TradeJournal() {
                     value: "auto",
                     label: `Auto (${getSessionLabel(detectedSession)})`,
                   },
-                  ...TRADING_SESSIONS.map((s) => ({
-                    value: s.id,
-                    label: `${s.label} · ${s.utcWindow}`,
-                  })),
+                  ...TRADING_SESSIONS.map((s) => {
+                    const display = getSessionDisplay(s.id, profileTimezone);
+                    return {
+                      value: s.id,
+                      label: `${s.label} · ${display.window}`,
+                    };
+                  }),
                 ]}
               />
               <div className="flex items-end sm:col-span-2">
@@ -343,7 +360,9 @@ export function TradeJournal() {
         )}
       </div>
 
-      {sessionStats && <SessionBreakdown stats={sessionStats} />}
+      {sessionStats && (
+        <SessionBreakdown stats={sessionStats} timezone={profileTimezone} />
+      )}
 
       {alpha && (
         <TerminalPanel title="Alpha Durability (from journal)" status="online">
@@ -405,7 +424,10 @@ export function TradeJournal() {
                       <td className="py-2 pr-4">{entry.symbol}</td>
                       <td className="py-2 pr-4 uppercase">{entry.direction}</td>
                       <td className="py-2 pr-4">
-                        {new Date(entry.entryTime).toLocaleDateString()}
+                        {formatInTimezone(
+                          new Date(entry.entryTime),
+                          profileTimezone
+                        )}
                       </td>
                       <td className="py-2 pr-4">
                         <SessionBadge sessionId={resolveEntrySession(entry)} />

@@ -143,8 +143,9 @@ export function LiveAccountGrowthCenter() {
       tradesTodayTl: dashboard?.tradesToday ?? 0,
       journalEntries,
       tlConnected,
+      sessionStats,
     });
-  }, [profile, dashboard, journalEntries, tlConnected]);
+  }, [profile, dashboard, journalEntries, tlConnected, sessionStats]);
 
   const growthCoach = useMemo(() => {
     if (!profile || !dashboard?.metrics || balance <= 0) return null;
@@ -581,7 +582,10 @@ export function LiveAccountGrowthCenter() {
           )}
 
           {sessionStats && sessionStats.rows.length > 0 && (
-            <SessionBreakdown stats={sessionStats} />
+            <SessionBreakdown
+              stats={sessionStats}
+              timezone={profile.timezone}
+            />
           )}
 
           <Card className="border-slate-800/60">

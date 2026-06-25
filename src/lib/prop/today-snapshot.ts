@@ -1,4 +1,12 @@
 import { resolveTradesTodayCount } from "@/lib/journal/trade-count";
+import type { SessionStatsResult } from "@/lib/journal/stats";
+import {
+  getSessionDisplay,
+  getSessionLabel,
+  resolveCurrentTradingSession,
+  type TradingSessionId,
+} from "@/lib/journal/trading-session";
+import { getTimezoneLabel } from "@/lib/journal/timezone";
 import { evaluatePreTradeGate } from "@/lib/pre-trade-gate";
 import type { RiskGuardStatus } from "@/lib/tradelocker/account-tools";
 import type { TradeLockerDashboardMetrics } from "@/lib/tradelocker/types";
@@ -26,6 +34,14 @@ export interface PropTodaySnapshot {
   openPositions: number;
   balance: number;
   tlConnected: boolean;
+  timezone: string;
+  timezoneLabel: string;
+  currentSession: TradingSessionId;
+  currentSessionLabel: string;
+  currentSessionLocalWindow: string;
+  bestSession: TradingSessionId | null;
+  bestSessionLabel: string | null;
+  sessionInsight: string | null;
 }
 
 type JournalSlice = Pick<TradeJournalEntry, "entryTime" | "source">;
@@ -62,15 +78,69 @@ function verdictFromGate(
   };
 }
 
+function buildSessionInsight(params: {
+  currentSession: TradingSessionId;
+  sessionStats: SessionStatsResult | null;
+  timezone: string;
+}): {
+  bestSession: TradingSessionId | null;
+  bestSessionLabel: string | null;
+  insight: string | null;
+} {
+  const { currentSession, sessionStats, timezone } = params;
+  const currentDisplay = getSessionDisplay(currentSession, timezone);
+
+  if (!sessionStats || sessionStats.rows.length === 0) {
+    return {
+      bestSession: null,
+      bestSessionLabel: null,
+      insight: `Now in ${currentDisplay.label} (${currentDisplay.window} your time). Log trades to unlock session edge.`,
+    };
+  }
+
+  const bestSession = sessionStats.bestSession;
+  const bestSessionLabel = bestSession ? getSessionLabel(bestSession) : null;
+
+  if (bestSession === currentSession && bestSessionLabel) {
+    return {
+      bestSession,
+      bestSessionLabel,
+      insight: `You're in your strongest session (${bestSessionLabel}, ${currentDisplay.window}). ${sessionStats.insight}`,
+    };
+  }
+
+  if (bestSession && bestSessionLabel) {
+    const bestWindow = getSessionDisplay(bestSession, timezone).window;
+    return {
+      bestSession,
+      bestSessionLabel,
+      insight: `Now: ${currentDisplay.label} (${currentDisplay.window}). Best edge: ${bestSessionLabel} (${bestWindow}).`,
+    };
+  }
+
+  return {
+    bestSession: null,
+    bestSessionLabel: null,
+    insight: sessionStats.insight,
+  };
+}
+
 export function computePropTodaySnapshot(params: {
   profile: TraderProfileView;
   metrics: TradeLockerDashboardMetrics | null;
   tradesTodayTl: number;
   journalEntries: JournalSlice[];
   tlConnected: boolean;
+  sessionStats?: SessionStatsResult | null;
 }): PropTodaySnapshot {
-  const { profile, metrics, tradesTodayTl, journalEntries, tlConnected } =
-    params;
+  const {
+    profile,
+    metrics,
+    tradesTodayTl,
+    journalEntries,
+    tlConnected,
+    sessionStats = null,
+  } = params;
 
   const tradesToday = resolveTradesTodayCount(tradesTodayTl, journalEntries);
   const maxTrades = profile.maxTradesPerDay;
@@ -107,6 +177,15 @@ export function computePropTodaySnapshot(params: {
           )
         );
 
+  const timezone = profile.timezone;
+  const currentSession = resolveCurrentTradingSession();
+  const currentDisplay = getSessionDisplay(currentSession, timezone);
+  const sessionEdge = buildSessionInsight({
+    currentSession,
+    sessionStats,
+    timezone,
+  });
+
   return {
     verdict,
     verdictHeadline: headline,
@@ -126,5 +205,13 @@ export function computePropTodaySnapshot(params: {
     openPositions: metrics?.openPositionsCount ?? 0,
     balance,
     tlConnected,
+    timezone,
+    timezoneLabel: getTimezoneLabel(timezone),
+    currentSession,
+    currentSessionLabel: currentDisplay.label,
+    currentSessionLocalWindow: currentDisplay.window,
+    bestSession: sessionEdge.bestSession,
+    bestSessionLabel: sessionEdge.bestSessionLabel,
+    sessionInsight: sessionEdge.insight,
   };
 }

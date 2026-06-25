@@ -61,6 +61,7 @@ export async function PUT(request: NextRequest) {
         riskPerTradePct: data.riskPerTradePct,
         maxTradesPerDay: data.maxTradesPerDay,
         strictPreTradeGate: data.strictPreTradeGate,
+        timezone: data.timezone,
         profileComplete,
       },
       update: {
@@ -73,6 +74,7 @@ export async function PUT(request: NextRequest) {
         riskPerTradePct: data.riskPerTradePct,
         maxTradesPerDay: data.maxTradesPerDay,
         strictPreTradeGate: data.strictPreTradeGate,
+        timezone: data.timezone,
         profileComplete,
       },
     });

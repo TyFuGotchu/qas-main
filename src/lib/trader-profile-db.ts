@@ -36,6 +36,7 @@ export async function getOrCreateTraderProfileView(
       riskPerTradePct: defaults.riskPerTradePct,
       maxTradesPerDay: defaults.maxTradesPerDay,
       strictPreTradeGate: defaults.strictPreTradeGate,
+      timezone: defaults.timezone,
       profileComplete: false,
     },
   });

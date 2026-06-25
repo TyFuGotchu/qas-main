@@ -5,11 +5,13 @@ import type { PropTodaySnapshot } from "@/lib/prop/today-snapshot";
 import { Card, CardContent } from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
+import { SessionBadge } from "@/components/journal/SessionBadge";
 import {
   Activity,
   Ban,
   CheckCircle2,
   AlertTriangle,
+  Clock,
   TrendingDown,
   TrendingUp,
   Wallet,
@@ -218,6 +220,32 @@ export function PropTodayPanel({ snapshot }: PropTodayPanelProps) {
                   Balance {formatMoney(snapshot.balance)}
                 </p>
               )}
+            </div>
+
+            <div className="space-y-2 sm:col-span-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <Clock className="h-4 w-4 text-violet-400" />
+                <span className="font-mono text-[10px] uppercase text-slate-600">
+                  Session edge
+                </span>
+                <SessionBadge sessionId={snapshot.currentSession} />
+                <span className="font-mono text-[10px] text-slate-500">
+                  {snapshot.currentSessionLocalWindow} ·{" "}
+                  {snapshot.timezoneLabel}
+                </span>
+              </div>
+              {snapshot.sessionInsight && (
+                <p className="text-sm leading-relaxed text-slate-400">
+                  {snapshot.sessionInsight}
+                </p>
+              )}
+              {snapshot.bestSession &&
+                snapshot.bestSession !== snapshot.currentSession &&
+                snapshot.bestSessionLabel && (
+                  <p className="font-mono text-[10px] text-cyan-400/80">
+                    Journal best: {snapshot.bestSessionLabel}
+                  </p>
+                )}
             </div>
           </div>
         </div>

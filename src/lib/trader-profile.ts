@@ -1,4 +1,8 @@
 import type { TraderProfile } from "@prisma/client";
+import {
+  DEFAULT_TRADER_TIMEZONE,
+  normalizeTraderTimezone,
+} from "@/lib/journal/timezone";
 import { limitsFromPreset, type PropFirmPresetId } from "@/lib/prop-firms";
 
 export type AccountType = "personal" | "prop" | "funded";
@@ -38,6 +42,7 @@ export interface TraderProfilePayload {
   riskPerTradePct: number;
   maxTradesPerDay: number;
   strictPreTradeGate: boolean;
+  timezone: string;
   profileComplete?: boolean;
 }
 
@@ -65,6 +70,7 @@ export function toTraderProfileView(profile: TraderProfile): TraderProfileView {
     riskPerTradePct: profile.riskPerTradePct,
     maxTradesPerDay: profile.maxTradesPerDay,
     strictPreTradeGate: profile.strictPreTradeGate,
+    timezone: normalizeTraderTimezone(profile.timezone),
     profileComplete: profile.profileComplete,
   };
 }
@@ -78,6 +84,7 @@ export function defaultTraderProfilePayload(): TraderProfilePayload {
     propFirmPreset: "generic",
     ...limits,
     strictPreTradeGate: true,
+    timezone: DEFAULT_TRADER_TIMEZONE,
   };
 }
 
@@ -140,6 +147,11 @@ export function validateTraderProfilePayload(
     return { ok: false, error: "Max trades per day must be 1–50" };
   }
 
+  const timezone =
+    typeof raw.timezone === "string"
+      ? normalizeTraderTimezone(raw.timezone)
+      : DEFAULT_TRADER_TIMEZONE;
+
   return {
     ok: true,
     data: {
@@ -152,6 +164,7 @@ export function validateTraderProfilePayload(
       riskPerTradePct,
       maxTradesPerDay,
       strictPreTradeGate: Boolean(raw.strictPreTradeGate ?? true),
+      timezone,
       profileComplete: Boolean(raw.profileComplete ?? true),
     },
   };
