@@ -43,6 +43,12 @@ export default async function DashboardPage() {
       desc: "Live terminal, signals & manual orders with pre-trade gate",
     },
     {
+      href: "/dashboard/live-growth",
+      label: "Live Growth",
+      icon: TrendingUp,
+      desc: "Scale your own live account — milestones, compounding & edge",
+    },
+    {
       href: "/dashboard/prop-command",
       label: "Prop OS",
       icon: Shield,

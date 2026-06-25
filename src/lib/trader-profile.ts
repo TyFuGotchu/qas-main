@@ -5,7 +5,7 @@ export type AccountType = "personal" | "prop" | "funded";
 export type TradingStyle = "scalp" | "day" | "swing" | "position";
 
 export const ACCOUNT_TYPES: { id: AccountType; label: string }[] = [
-  { id: "personal", label: "Personal account" },
+  { id: "personal", label: "Live personal account" },
   { id: "prop", label: "Prop evaluation" },
   { id: "funded", label: "Funded / live capital" },
 ];

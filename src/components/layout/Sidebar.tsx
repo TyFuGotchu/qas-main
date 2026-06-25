@@ -14,6 +14,7 @@ import {
   HelpCircle,
   Shield,
   BookMarked,
+  TrendingUp,
   X,
 } from "lucide-react";
 
@@ -28,6 +29,7 @@ const navItems: NavItem[] = [
   { href: "/dashboard/academy", label: "Chart Academy", icon: BookOpen },
   { href: "/dashboard/trade-together", label: "Trade Together", icon: Users },
   { href: "/dashboard/bot", label: "Trading", icon: LineChart },
+  { href: "/dashboard/live-growth", label: "Live Growth", icon: TrendingUp },
   { href: "/dashboard/prop-command", label: "Prop OS", icon: Shield },
   { href: "/dashboard/journal", label: "Journal", icon: BookMarked },
   { href: "/dashboard/tools", label: "Trading Tools", icon: Wrench },

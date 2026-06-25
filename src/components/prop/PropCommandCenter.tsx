@@ -22,6 +22,7 @@ import { ScoreRing } from "@/components/tools/qs/ScoreRing";
 import { TerminalPanel } from "@/components/ui/TerminalPanel";
 import {
   Activity,
+  ArrowRight,
   Loader2,
   Settings,
   Shield,
@@ -205,6 +206,31 @@ export function PropCommandCenter() {
       </div>
 
       <PremiumUpgradeNudge feature="Prop Command Center & survival modeling" />
+
+      {(profile.accountType === "personal" ||
+        profile.accountType === "funded") && (
+        <Card className="border-emerald-500/30 bg-emerald-500/5">
+          <CardContent className="flex flex-wrap items-center gap-4 py-4">
+            <TrendingUp className="h-5 w-5 shrink-0 text-emerald-400" />
+            <div className="flex-1">
+              <p className="font-mono text-sm text-emerald-300">
+                Trading your own live account?
+              </p>
+              <p className="mt-1 text-xs text-slate-500">
+                Live Growth tracks equity milestones, compounding targets, and
+                session edge for personal capital — separate from prop
+                challenges.
+              </p>
+            </div>
+            <Link href="/dashboard/live-growth">
+              <Button variant="ghost" size="sm">
+                Open Live Growth
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
+      )}
 
       {todaySnapshot && <PropTodayPanel snapshot={todaySnapshot} />}
 
