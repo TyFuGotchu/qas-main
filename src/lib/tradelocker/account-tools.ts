@@ -221,6 +221,137 @@ export function computeGrowthCoach(
   };
 }
 
+export type ExposureBias = "neutral" | "long" | "short" | "one-sided";
+
+export interface ExposureScanResult {
+  longCount: number;
+  shortCount: number;
+  bias: ExposureBias;
+  biasScore: number;
+  netOpenPnL: number;
+  topWinner: { label: string; pnl: number } | null;
+  topLoser: { label: string; pnl: number } | null;
+  concentrationPct: number;
+  concentratedInstrument: string | null;
+  alerts: string[];
+}
+
+export function computeExposureScan(
+  positions: TradeLockerPosition[],
+  balance: number,
+  resolveInstrumentName: (instrumentId: string) => string
+): ExposureScanResult {
+  const safeBalance = Math.max(balance, 1);
+  let longCount = 0;
+  let shortCount = 0;
+  let netOpenPnL = 0;
+
+  const byInstrument = new Map<string, number>();
+  let topWinner: ExposureScanResult["topWinner"] = null;
+  let topLoser: ExposureScanResult["topLoser"] = null;
+
+  for (const position of positions) {
+    const side = position.side.toLowerCase();
+    if (side === "buy" || side === "long") longCount += 1;
+    else if (side === "sell" || side === "short") shortCount += 1;
+
+    const pnl = Number(position.unrealizedPl) || 0;
+    netOpenPnL += pnl;
+    const label = resolveInstrumentName(position.instrumentId);
+
+    byInstrument.set(label, (byInstrument.get(label) ?? 0) + 1);
+
+    if (!topWinner || pnl > topWinner.pnl) {
+      topWinner = { label, pnl };
+    }
+    if (!topLoser || pnl < topLoser.pnl) {
+      topLoser = { label, pnl };
+    }
+  }
+
+  const total = positions.length;
+  let concentratedInstrument: string | null = null;
+  let concentrationPct = 0;
+  for (const [instrument, count] of Array.from(byInstrument.entries())) {
+    const pct = total > 0 ? (count / total) * 100 : 0;
+    if (pct > concentrationPct) {
+      concentrationPct = pct;
+      concentratedInstrument = instrument;
+    }
+  }
+
+  const biasScore =
+    total > 0 ? Math.round(((longCount - shortCount) / total) * 100) : 0;
+
+  let bias: ExposureBias = "neutral";
+  if (total === 0) {
+    bias = "neutral";
+  } else if (longCount === 0 || shortCount === 0) {
+    bias = "one-sided";
+  } else if (biasScore >= 25) {
+    bias = "long";
+  } else if (biasScore <= -25) {
+    bias = "short";
+  }
+
+  const alerts: string[] = [];
+  const openLossPct = (Math.max(0, -netOpenPnL) / safeBalance) * 100;
+
+  if (total === 0) {
+    alerts.push("No open exposure — book is flat. Good time to plan the next setup.");
+  } else {
+    if (bias === "one-sided") {
+      alerts.push(
+        "All positions lean one direction — add hedges or reduce correlated entries."
+      );
+    }
+    if (concentrationPct >= 60 && concentratedInstrument) {
+      alerts.push(
+        `${Math.round(concentrationPct)}% of positions are in ${concentratedInstrument} — concentration risk is elevated.`
+      );
+    }
+    if (openLossPct >= 2) {
+      alerts.push(
+        `Open book is down ${openLossPct.toFixed(1)}% of balance — review losers before adding size.`
+      );
+    }
+    if (topWinner && topWinner.pnl > safeBalance * 0.015) {
+      alerts.push(
+        `${topWinner.label} is carrying the book — consider partial profits to lock gains.`
+      );
+    }
+    if (alerts.length === 0) {
+      alerts.push("Exposure looks balanced — keep risk per trade consistent.");
+    }
+  }
+
+  return {
+    longCount,
+    shortCount,
+    bias,
+    biasScore,
+    netOpenPnL: Math.round(netOpenPnL * 100) / 100,
+    topWinner: topWinner && topWinner.pnl > 0 ? topWinner : null,
+    topLoser: topLoser && topLoser.pnl < 0 ? topLoser : null,
+    concentrationPct: Math.round(concentrationPct),
+    concentratedInstrument,
+    alerts,
+  };
+}
+
+export function exposureBiasLabel(bias: ExposureBias): string {
+  switch (bias) {
+    case "long":
+      return "Long bias";
+    case "short":
+      return "Short bias";
+    case "one-sided":
+      return "One-sided book";
+    default:
+      return "Balanced";
+  }
+}
+
 export function riskStatusColor(status: RiskGuardStatus): string {
   switch (status) {
     case "safe":

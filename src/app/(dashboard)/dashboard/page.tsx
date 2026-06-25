@@ -8,7 +8,7 @@ import { AnnouncementBanner } from "@/components/announcements/AnnouncementBanne
 import { TOOL_COUNT } from "@/lib/tools-registry";
 import { SUPPORT_EMAIL } from "@/lib/support";
 import {
-  Bot,
+  LineChart,
   Wrench,
   TrendingUp,
   AlertTriangle,
@@ -36,9 +36,9 @@ export default async function DashboardPage() {
     },
     {
       href: "/dashboard/bot",
-      label: "TradeLocker Bots",
-      icon: Bot,
-      desc: "Connect TradeLocker and activate Quicksilver Quant Protocol",
+      label: "Trading",
+      icon: LineChart,
+      desc: "Live terminal, 4 account tools & marketplace algos",
     },
     {
       href: "/dashboard/tools",

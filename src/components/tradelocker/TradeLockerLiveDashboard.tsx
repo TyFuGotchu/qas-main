@@ -542,6 +542,7 @@ export function TradeLockerLiveDashboard() {
       <TradeLockerAccountTools
         dashboard={dashboard}
         loading={showMetricsSkeleton}
+        instrumentNames={instrumentNameById}
       />
     </div>
   );

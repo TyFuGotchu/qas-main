@@ -21,7 +21,7 @@ export const FAQ_CATEGORIES = [
   "Billing & Premium",
   "Chart Academy",
   "Trading Tools",
-  "TradeLocker Bot",
+  "Trading",
   "Prop Firms",
   "Account & Technical",
 ] as const;
@@ -106,14 +106,14 @@ export const SITE_FAQS: FaqItem[] = [
   },
   {
     id: "tradelocker-setup",
-    category: "TradeLocker Bot",
+    category: "Trading",
     question: "How do I connect TradeLocker?",
     answer:
-      "Premium members open TradeLocker Bots in the dashboard, connect credentials, and activate the Quicksilver Quant Protocol bot. You must accept the risk disclaimer before trading.",
+      "Premium members open Trading in the dashboard, connect TradeLocker credentials, and use the live terminal plus four account tools. You must accept the risk disclaimer before connecting.",
   },
   {
     id: "bot-guarantee",
-    category: "TradeLocker Bot",
+    category: "Trading",
     question: "Does the bot guarantee profits?",
     answer:
       "No. Automated and manual trading involve substantial risk. Past backtests do not guarantee future results. Read the TradeLocker disclaimer and only risk capital you can afford to lose.",
