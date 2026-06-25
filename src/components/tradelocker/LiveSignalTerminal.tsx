@@ -232,8 +232,6 @@ export function LiveSignalTerminal({
     );
   }
 
-  const priceUp = liveState.changePercent >= 0;
-
   return (
     <Card className="border-cyan-500/30 bg-gradient-to-br from-cyan-500/5 via-slate-950 to-slate-950">
       <CardHeader>
@@ -244,7 +242,7 @@ export function LiveSignalTerminal({
               Live Trade Signals
             </h3>
             <p className="mt-1 text-xs text-slate-500">
-              Quicksilver Confluence — EMA 21/55 · RSI · structure · ATR stops
+              Quicksilver Confluence — score, bias, and key zones (no live quotes)
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
@@ -270,34 +268,11 @@ export function LiveSignalTerminal({
           />
         </div>
 
-        {/* Live asset panel — always visible */}
         <div className="rounded-xl border border-cyan-500/20 bg-slate-900/60 p-5">
           <div className="flex flex-wrap items-start justify-between gap-4">
-            <div>
-              <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500">
-                Live · {SYMBOL_LABELS[selectedAsset]}
-              </p>
-              <p
-                className={cn(
-                  "mt-2 font-mono text-3xl font-bold tabular-nums",
-                  priceUp ? "text-emerald-400" : "text-red-400"
-                )}
-              >
-                {liveState.price > 0
-                  ? formatPrice(liveState.price, selectedAsset)
-                  : "—"}
-              </p>
-              <p
-                className={cn(
-                  "mt-1 font-mono text-sm",
-                  priceUp ? "text-emerald-400/80" : "text-red-400/80"
-                )}
-              >
-                {liveState.price > 0
-                  ? `${priceUp ? "+" : ""}${liveState.changePercent.toFixed(3)}%`
-                  : "Loading price…"}
-              </p>
-            </div>
+            <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500">
+              {SYMBOL_LABELS[selectedAsset]} · Confluence
+            </p>
 
             <div className="flex flex-wrap gap-2">
               <Badge variant={setupBadgeVariant(liveState.setupStatus)}>
@@ -338,32 +313,7 @@ export function LiveSignalTerminal({
             </div>
           </div>
 
-          <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4 font-mono text-xs">
-            <div>
-              <p className="text-slate-600">EMA 21</p>
-              <p className="mt-1 text-slate-300">
-                {liveState.ema21 > 0 ? formatPrice(liveState.ema21, selectedAsset) : "—"}
-              </p>
-            </div>
-            <div>
-              <p className="text-slate-600">EMA 55</p>
-              <p className="mt-1 text-slate-300">
-                {liveState.ema55 > 0 ? formatPrice(liveState.ema55, selectedAsset) : "—"}
-              </p>
-            </div>
-            <div>
-              <p className="text-slate-600">RSI</p>
-              <p className="mt-1 text-slate-300">{liveState.rsi}</p>
-            </div>
-            <div>
-              <p className="text-slate-600">ATR</p>
-              <p className="mt-1 text-slate-300">
-                {liveState.atr > 0 ? formatPrice(liveState.atr, selectedAsset) : "—"}
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-4 grid grid-cols-2 gap-3 font-mono text-xs">
+          <div className="mt-5 grid grid-cols-2 gap-3 font-mono text-xs">
             <div className="flex items-center gap-2 rounded border border-slate-800/80 px-3 py-2">
               <TrendingDown className="h-3.5 w-3.5 text-red-400" />
               <div>
@@ -463,27 +413,6 @@ export function LiveSignalTerminal({
                             Score {signal.confluenceScore}
                           </span>
                         )}
-                      </div>
-                    </div>
-
-                    <div className="mt-4 grid grid-cols-3 gap-3 font-mono text-xs">
-                      <div>
-                        <p className="text-slate-600">Entry</p>
-                        <p className="mt-1 text-cyan-400">
-                          {formatPrice(signal.entryPrice, signal.asset)}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-slate-600">Stop</p>
-                        <p className="mt-1 text-red-400">
-                          {formatPrice(signal.stopLoss, signal.asset)}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-slate-600">Target</p>
-                        <p className="mt-1 text-emerald-400">
-                          {formatPrice(signal.takeProfit, signal.asset)}
-                        </p>
                       </div>
                     </div>
 
