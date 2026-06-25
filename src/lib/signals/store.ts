@@ -1,11 +1,17 @@
-import type { LiveTradeSignal, SignalStreamEvent } from "@/lib/signals/types";
+import type {
+  AssetLiveState,
+  LiveTradeSignal,
+  SignalStreamEvent,
+} from "@/lib/signals/types";
+import type { MarketSymbol } from "@/lib/market-data/types";
 
 type Listener = (event: SignalStreamEvent) => void;
 
 interface SignalStoreState {
   signals: Map<string, LiveTradeSignal>;
+  marketStates: Map<MarketSymbol, AssetLiveState>;
   listeners: Set<Listener>;
-  lastCrossoverKey: Map<string, string>;
+  lastTriggerKey: Map<string, string>;
 }
 
 const globalForSignals = globalThis as unknown as {
@@ -16,8 +22,9 @@ function getStore(): SignalStoreState {
   if (!globalForSignals.__qsSignalStore) {
     globalForSignals.__qsSignalStore = {
       signals: new Map(),
+      marketStates: new Map(),
       listeners: new Set(),
-      lastCrossoverKey: new Map(),
+      lastTriggerKey: new Map(),
     };
   }
   return globalForSignals.__qsSignalStore;
@@ -39,37 +46,37 @@ export function subscribeToSignals(listener: Listener): () => void {
   return () => store.listeners.delete(listener);
 }
 
-export function getActiveSignals(): LiveTradeSignal[] {
+export function getActiveSignals(asset?: MarketSymbol): LiveTradeSignal[] {
   return Array.from(getStore().signals.values())
-    .filter((s) => s.status === "active")
+    .filter((s) => s.status === "active" && (!asset || s.asset === asset))
     .sort(
       (a, b) =>
         new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
     );
 }
 
-export function getAllSignals(): LiveTradeSignal[] {
-  return Array.from(getStore().signals.values()).sort(
-    (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-  );
+export function getMarketState(asset: MarketSymbol): AssetLiveState | null {
+  return getStore().marketStates.get(asset) ?? null;
+}
+
+export function setMarketState(state: AssetLiveState): void {
+  getStore().marketStates.set(state.asset, state);
+  broadcast({ type: "market_state", state });
 }
 
 export function getSignalById(id: string): LiveTradeSignal | undefined {
   return getStore().signals.get(id);
 }
 
-export function hasCrossoverBeenEmitted(
+export function hasTriggerBeenEmitted(
   asset: string,
-  crossoverKey: string
+  triggerKey: string
 ): boolean {
-  return getStore().lastCrossoverKey.get(asset) === crossoverKey;
+  return getStore().lastTriggerKey.get(asset) === triggerKey;
 }
 
-export function markCrossoverEmitted(
-  asset: string,
-  crossoverKey: string
-): void {
-  getStore().lastCrossoverKey.set(asset, crossoverKey);
+export function markTriggerEmitted(asset: string, triggerKey: string): void {
+  getStore().lastTriggerKey.set(asset, triggerKey);
 }
 
 export function upsertSignal(signal: LiveTradeSignal): void {
@@ -126,7 +133,9 @@ export function expireStaleSignals(maxAgeMs: number): void {
 }
 
 export function pruneOldSignals(maxCount = 200): void {
-  const all = getAllSignals();
+  const all = Array.from(getStore().signals.values()).sort(
+    (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+  );
   if (all.length <= maxCount) return;
 
   const store = getStore();

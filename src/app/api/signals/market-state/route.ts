@@ -6,7 +6,7 @@ import { canAccessBot } from "@/lib/tiers";
 import { MARKET_SYMBOLS } from "@/lib/market-data/symbols";
 import type { MarketSymbol } from "@/lib/market-data/types";
 import { startSignalEngine } from "@/lib/signals/engine";
-import { getActiveSignals, getMarketState } from "@/lib/signals/store";
+import { getMarketState } from "@/lib/signals/store";
 
 function parseAsset(value: string | null): MarketSymbol | null {
   if (!value) return null;
@@ -30,9 +30,35 @@ export async function GET(request: NextRequest) {
   startSignalEngine();
 
   const asset = parseAsset(request.nextUrl.searchParams.get("asset"));
+  if (!asset) {
+    return NextResponse.json(
+      { error: "Valid asset query param required (e.g. XAUUSD)" },
+      { status: 400 }
+    );
+  }
 
-  return NextResponse.json({
-    signals: getActiveSignals(asset ?? undefined),
-    marketState: asset ? getMarketState(asset) : null,
-  });
+  const state = getMarketState(asset);
+  if (!state) {
+    return NextResponse.json({
+      state: {
+        asset,
+        timestamp: new Date().toISOString(),
+        price: 0,
+        changePercent: 0,
+        confluenceScore: 0,
+        bias: "NEUTRAL",
+        trend: "ranging",
+        setupStatus: "scanning",
+        ema21: 0,
+        ema55: 0,
+        rsi: 50,
+        atr: 0,
+        support: 0,
+        resistance: 0,
+        reasons: ["Initializing live feed…"],
+      },
+    });
+  }
+
+  return NextResponse.json({ state });
 }
