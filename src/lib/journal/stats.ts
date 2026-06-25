@@ -1,5 +1,10 @@
 import type { TradeJournalEntry } from "@prisma/client";
 import type { AlphaDurabilityInput } from "@/lib/quicksilver/alpha-durability";
+import {
+  resolveEntrySession,
+  TRADING_SESSIONS,
+  type TradingSessionId,
+} from "@/lib/journal/trading-session";
 
 export interface JournalStats {
   totalTrades: number;
@@ -11,6 +16,97 @@ export interface JournalStats {
   monthsActive: number;
   totalPnl: number;
   avgR: number;
+}
+
+export interface SessionStatRow {
+  session: TradingSessionId;
+  label: string;
+  trades: number;
+  closed: number;
+  winRate: number;
+  totalPnl: number;
+  avgR: number | null;
+}
+
+export interface SessionStatsResult {
+  rows: SessionStatRow[];
+  bestSession: TradingSessionId | null;
+  insight: string;
+}
+
+function isWin(entry: TradeJournalEntry): boolean {
+  if (entry.rMultiple != null) return entry.rMultiple > 0;
+  return (entry.pnl ?? 0) > 0;
+}
+
+export function computeSessionStats(
+  entries: TradeJournalEntry[]
+): SessionStatsResult {
+  const buckets = new Map<
+    TradingSessionId,
+    { trades: number; closed: TradeJournalEntry[] }
+  >();
+
+  for (const session of TRADING_SESSIONS) {
+    buckets.set(session.id, { trades: 0, closed: [] });
+  }
+
+  for (const entry of entries) {
+    const sessionId = resolveEntrySession(entry);
+    const bucket = buckets.get(sessionId)!;
+    bucket.trades += 1;
+    if (entry.exitTime != null && (entry.pnl != null || entry.rMultiple != null)) {
+      bucket.closed.push(entry);
+    }
+  }
+
+  const rows: SessionStatRow[] = TRADING_SESSIONS.map((session) => {
+    const bucket = buckets.get(session.id)!;
+    const closed = bucket.closed;
+    const wins = closed.filter(isWin);
+    const winRate =
+      closed.length > 0 ? (wins.length / closed.length) * 100 : 0;
+    const totalPnl = closed.reduce((s, e) => s + (e.pnl ?? 0), 0);
+    const rValues = closed
+      .map((e) => e.rMultiple)
+      .filter((r): r is number => r != null);
+    const avgR =
+      rValues.length > 0
+        ? Math.round(
+            (rValues.reduce((s, r) => s + r, 0) / rValues.length) * 100
+          ) / 100
+        : null;
+
+    return {
+      session: session.id,
+      label: session.label,
+      trades: bucket.trades,
+      closed: closed.length,
+      winRate: Math.round(winRate * 10) / 10,
+      totalPnl: Math.round(totalPnl * 100) / 100,
+      avgR,
+    };
+  }).filter((row) => row.trades > 0);
+
+  const qualified = rows.filter((r) => r.closed >= 3);
+  const best =
+    qualified.length > 0
+      ? qualified.reduce((a, b) => (b.winRate > a.winRate ? b : a))
+      : null;
+
+  let insight = "Log more closed trades to unlock session-level edge analysis.";
+  if (best) {
+    insight = `Strongest edge in ${best.label} (${best.winRate}% win rate over ${best.closed} closed trades).`;
+  } else if (rows.length > 0) {
+    insight =
+      "Need at least 3 closed trades per session for a reliable edge read.";
+  }
+
+  return {
+    rows,
+    bestSession: best?.session ?? null,
+    insight,
+  };
 }
 
 function monthsBetween(earliest: Date, latest: Date): number {

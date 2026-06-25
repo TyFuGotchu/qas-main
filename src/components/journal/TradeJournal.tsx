@@ -1,10 +1,18 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import type { TradeJournalEntry } from "@prisma/client";
 import type { AlphaDurabilityResult } from "@/lib/quicksilver/alpha-durability";
-import type { JournalStats } from "@/lib/journal/stats";
+import type { JournalStats, SessionStatsResult } from "@/lib/journal/stats";
+import {
+  getSessionLabel,
+  resolveEntrySession,
+  resolveTradingSession,
+  TRADING_SESSIONS,
+} from "@/lib/journal/trading-session";
+import { SessionBadge } from "@/components/journal/SessionBadge";
+import { SessionBreakdown } from "@/components/journal/SessionBreakdown";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
@@ -28,6 +36,9 @@ export function TradeJournal() {
   const [entries, setEntries] = useState<TradeJournalEntry[]>([]);
   const [stats, setStats] = useState<JournalStats | null>(null);
   const [alpha, setAlpha] = useState<AlphaDurabilityResult | null>(null);
+  const [sessionStats, setSessionStats] = useState<SessionStatsResult | null>(
+    null
+  );
   const [loading, setLoading] = useState(true);
   const [importing, setImporting] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -41,6 +52,13 @@ export function TradeJournal() {
   const [pnl, setPnl] = useState("");
   const [rMultiple, setRMultiple] = useState("");
   const [setupType, setSetupType] = useState("");
+  const [sessionOverride, setSessionOverride] = useState("auto");
+
+  const detectedSession = useMemo(() => {
+    const time = entryTime ? new Date(entryTime) : new Date();
+    if (Number.isNaN(time.getTime())) return "off-hours";
+    return resolveTradingSession(time);
+  }, [entryTime]);
 
   const loadJournal = useCallback(async () => {
     try {
@@ -50,6 +68,7 @@ export function TradeJournal() {
         setEntries(data.entries ?? []);
         setStats(data.stats ?? null);
         setAlpha(data.alpha ?? null);
+        setSessionStats(data.sessionStats ?? null);
       }
     } catch {
       // ignore
@@ -82,6 +101,7 @@ export function TradeJournal() {
         pnl: pnl ? Number(pnl) : null,
         rMultiple: rMultiple ? Number(rMultiple) : null,
         setupType: setupType || null,
+        session: sessionOverride === "auto" ? undefined : sessionOverride,
       }),
     });
     if (res.ok) {
@@ -90,6 +110,7 @@ export function TradeJournal() {
       setPnl("");
       setRMultiple("");
       setSetupType("");
+      setSessionOverride("auto");
       await loadJournal();
     } else {
       const data = await res.json();
@@ -246,6 +267,21 @@ export function TradeJournal() {
                 value={setupType}
                 onChange={(e) => setSetupType(e.target.value)}
               />
+              <Select
+                label="Session"
+                value={sessionOverride}
+                onChange={(e) => setSessionOverride(e.target.value)}
+                options={[
+                  {
+                    value: "auto",
+                    label: `Auto (${getSessionLabel(detectedSession)})`,
+                  },
+                  ...TRADING_SESSIONS.map((s) => ({
+                    value: s.id,
+                    label: `${s.label} · ${s.utcWindow}`,
+                  })),
+                ]}
+              />
               <div className="flex items-end sm:col-span-2">
                 <Button type="submit" variant="primary">
                   Save entry
@@ -307,6 +343,8 @@ export function TradeJournal() {
         )}
       </div>
 
+      {sessionStats && <SessionBreakdown stats={sessionStats} />}
+
       {alpha && (
         <TerminalPanel title="Alpha Durability (from journal)" status="online">
           <div className="flex flex-wrap items-center justify-around gap-6">
@@ -350,6 +388,7 @@ export function TradeJournal() {
                     <th className="pb-2 pr-4">Symbol</th>
                     <th className="pb-2 pr-4">Dir</th>
                     <th className="pb-2 pr-4">Entry</th>
+                    <th className="pb-2 pr-4">Session</th>
                     <th className="pb-2 pr-4">Status</th>
                     <th className="pb-2 pr-4">PnL</th>
                     <th className="pb-2 pr-4">R</th>
@@ -367,6 +406,9 @@ export function TradeJournal() {
                       <td className="py-2 pr-4 uppercase">{entry.direction}</td>
                       <td className="py-2 pr-4">
                         {new Date(entry.entryTime).toLocaleDateString()}
+                      </td>
+                      <td className="py-2 pr-4">
+                        <SessionBadge sessionId={resolveEntrySession(entry)} />
                       </td>
                       <td className="py-2 pr-4">
                         <Badge

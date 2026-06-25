@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { resolveTradingSession } from "@/lib/journal/trading-session";
 
 export interface AutoLogOrderInput {
   userId: string;
@@ -43,6 +44,7 @@ export async function autoLogTradeLockerOrder(
   if (!symbol) return;
 
   const entryTime = new Date();
+  const sessionTag = resolveTradingSession(entryTime);
   const windowStart = new Date(entryTime.getTime() - 2 * 60 * 1000);
 
   const existing = await prisma.tradeJournalEntry.findFirst({
@@ -64,6 +66,7 @@ export async function autoLogTradeLockerOrder(
       symbol,
       direction: input.side === "buy" ? "long" : "short",
       entryTime,
+      session: sessionTag,
       source: "tradelocker",
       setupType: "live-terminal",
       notes: `Auto-logged · ${input.qty} lots`,
@@ -79,6 +82,7 @@ export async function autoLogTradeLockerClose(
 
   const direction = sideToDirection(input.side);
   const exitTime = new Date();
+  const exitSession = resolveTradingSession(exitTime);
   const pnl = Number.isFinite(input.unrealizedPl) ? input.unrealizedPl : 0;
 
   const profile =
@@ -127,6 +131,7 @@ export async function autoLogTradeLockerClose(
       exitTime,
       pnl,
       rMultiple,
+      session: exitSession,
       source: "tradelocker",
       setupType: "live-terminal",
       notes: `Auto-logged close${input.qty ? ` · ${input.qty} lots` : ""}`,

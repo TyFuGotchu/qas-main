@@ -4,6 +4,10 @@ export const dynamic = "force-dynamic";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import { parseJournalCsv } from "@/lib/journal/csv-parser";
+import {
+  normalizeSessionInput,
+  resolveTradingSession,
+} from "@/lib/journal/trading-session";
 
 export async function POST(request: NextRequest) {
   try {
@@ -55,7 +59,9 @@ export async function POST(request: NextRequest) {
             exitTime: row.exitTime,
             pnl: row.pnl,
             rMultiple: row.rMultiple,
-            session: row.session,
+            session:
+              normalizeSessionInput(row.session) ??
+              resolveTradingSession(row.entryTime),
             setupType: row.setupType,
             notes: row.notes,
             source: "csv",

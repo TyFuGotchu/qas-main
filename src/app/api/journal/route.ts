@@ -5,8 +5,13 @@ import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import {
   computeJournalStats,
+  computeSessionStats,
   journalStatsToAlphaInput,
 } from "@/lib/journal/stats";
+import {
+  normalizeSessionInput,
+  resolveTradingSession,
+} from "@/lib/journal/trading-session";
 import { computeAlphaDurability } from "@/lib/quicksilver/alpha-durability";
 
 export async function GET() {
@@ -23,12 +28,13 @@ export async function GET() {
     });
 
     const stats = computeJournalStats(entries);
+    const sessionStats = computeSessionStats(entries);
     const alpha =
       stats.closedTrades > 0
         ? computeAlphaDurability(journalStatsToAlphaInput(stats))
         : null;
 
-    return NextResponse.json({ entries, stats, alpha });
+    return NextResponse.json({ entries, stats, sessionStats, alpha });
   } catch (error) {
     console.error("[journal GET]", error);
     return NextResponse.json(
@@ -72,6 +78,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid exitTime" }, { status: 400 });
     }
 
+    const sessionTag =
+      normalizeSessionInput(
+        typeof raw.session === "string" ? raw.session : null
+      ) ?? resolveTradingSession(entryTime);
+
     const entry = await prisma.tradeJournalEntry.create({
       data: {
         userId: session.id,
@@ -81,7 +92,7 @@ export async function POST(request: NextRequest) {
         exitTime,
         pnl: raw.pnl != null ? Number(raw.pnl) : null,
         rMultiple: raw.rMultiple != null ? Number(raw.rMultiple) : null,
-        session: typeof raw.session === "string" ? raw.session : null,
+        session: sessionTag,
         setupType: typeof raw.setupType === "string" ? raw.setupType : null,
         notes: typeof raw.notes === "string" ? raw.notes : null,
         source: "manual",
