@@ -14,6 +14,8 @@ const navLinks = [
   { href: "/offers", label: "Offers" },
   { href: "/lessons", label: "Lessons" },
   { href: "/guides", label: "Guides" },
+  { href: "/faq", label: "FAQ" },
+  { href: "/support", label: "Support" },
 ];
 
 export function PublicNav() {

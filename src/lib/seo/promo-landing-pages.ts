@@ -65,12 +65,12 @@ function basePromoFaqs(context: string): { question: string; answer: string }[] 
     },
     {
       question: `How do I redeem ${PREMIUM_PROMO_CODE} for ${context}?`,
-      answer: `Click Subscribe on this page, enter code ${PREMIUM_PROMO_CODE} at Stripe checkout, and unlock Premium instantly — Chart Academy, all six planning modules, TradeLocker bot, and VIP Discord.`,
+      answer: `Click Subscribe on this page, enter code ${PREMIUM_PROMO_CODE} at Stripe checkout, and unlock Premium instantly — Chart Academy, all six planning modules, TradeLocker bot, and priority email support.`,
     },
     {
       question: "What does Premium include?",
       answer:
-        "Everything in one subscription: 89 Chart Academy lessons, prop firm playbook, six QS Planning Modules, TradeLocker Quicksilver Quant Protocol bot, live dashboard, and VIP Discord with live guidance.",
+        "Everything in one subscription: 89 Chart Academy lessons, prop firm playbook, six QS Planning Modules, TradeLocker Quicksilver Quant Protocol bot, live dashboard, and priority email support at support@quicksilveralgo.com.",
     },
     {
       question: `Is there a free tier before using ${PREMIUM_PROMO_CODE}?`,
@@ -90,7 +90,7 @@ function premiumUnlockSection(toolName?: string): {
       `Premium is normally ${PREMIUM_PRICE}/mo. Code ${PREMIUM_PROMO_CODE} drops your first month to ${PREMIUM_PROMO_FIRST_MONTH} (${PREMIUM_PROMO_DISCOUNT} off). ${PREMIUM_PROMO_NOTE}.`,
       toolName
         ? `This offer unlocks the full ${toolName} plus every other Premium feature — no upsells, no tier confusion.`
-        : "One price unlocks Chart Academy, all planning tools, the TradeLocker bot, and VIP Discord.",
+        : "One price unlocks Chart Academy, all planning tools, the TradeLocker bot, and priority email support.",
     ],
   };
 }
@@ -116,7 +116,7 @@ function buildMarketTopicPromo(
     lessonTitle: null,
     demo: topic.demo,
     toolSlug: topic.toolSlug,
-    intro: `Manual traders on ${market.name} use ${topic.name.toLowerCase()} during the ${market.session}. Start with the free demo below, then use promo code ${PREMIUM_PROMO_CODE} to unlock Premium for ${PREMIUM_PROMO_FIRST_MONTH} your first month — full ${tool?.shortName ?? "planning tools"}, Chart Academy, and VIP Discord included.`,
+    intro: `Manual traders on ${market.name} use ${topic.name.toLowerCase()} during the ${market.session}. Start with the free demo below, then use promo code ${PREMIUM_PROMO_CODE} to unlock Premium for ${PREMIUM_PROMO_FIRST_MONTH} your first month — full ${tool?.shortName ?? "planning tools"}, Chart Academy, and priority email support included.`,
     sections: [
       {
         heading: `Why ${topic.name} + ${PREMIUM_PROMO_CODE} on ${market.shortName}`,
@@ -180,7 +180,7 @@ function buildPropTopicPromo(
         heading: "Prop firm workflow with Quicksilver Premium",
         paragraphs: [
           `Score every setup with the demo below, log best-day share of profit, then upgrade with ${PREMIUM_PROMO_CODE} for exportable reports and unlimited challenge simulations.`,
-          `VIP Discord access is included — ask questions during live sessions while you prep for ${propFirm.shortName}.`,
+          `Priority email support at support@quicksilveralgo.com is included — get help while you prep for ${propFirm.shortName}.`,
         ],
       },
       premiumUnlockSection(tool?.name),
@@ -220,7 +220,7 @@ function buildPropMarketTopicPromo(
     lessonTitle: null,
     demo: topic.demo,
     toolSlug: topic.toolSlug,
-    intro: `Traders targeting ${propFirm.name} on ${market.name} combine ${topic.name.toLowerCase()} with strict risk rules. Promo code ${PREMIUM_PROMO_CODE} unlocks Premium for ${PREMIUM_PROMO_FIRST_MONTH} month one — ${tool?.shortName ?? "planning tools"}, prop survival engine, and VIP Discord.`,
+    intro: `Traders targeting ${propFirm.name} on ${market.name} combine ${topic.name.toLowerCase()} with strict risk rules. Promo code ${PREMIUM_PROMO_CODE} unlocks Premium for ${PREMIUM_PROMO_FIRST_MONTH} month one — ${tool?.shortName ?? "planning tools"}, prop survival engine, and priority email support.`,
     sections: [
       {
         heading: `${market.shortName} session + ${propFirm.shortName} compliance`,
@@ -249,7 +249,7 @@ function buildMarketLessonPromo(
   return {
     slug,
     title: `${PREMIUM_PROMO_CODE}: ${market.shortName} ${lesson.title} Lesson — ${PREMIUM_PROMO_DISCOUNT} Off | Quicksilver`,
-    metaDescription: `Learn ${lesson.title.toLowerCase()} on ${market.name}. Code ${PREMIUM_PROMO_CODE} for ${PREMIUM_PROMO_FIRST_MONTH} Premium — full Chart Academy, ${tool?.shortName ?? "tools"}, and VIP Discord.`,
+    metaDescription: `Learn ${lesson.title.toLowerCase()} on ${market.name}. Code ${PREMIUM_PROMO_CODE} for ${PREMIUM_PROMO_FIRST_MONTH} Premium — full Chart Academy, ${tool?.shortName ?? "tools"}, and priority email support.`,
     h1: `${PREMIUM_PROMO_CODE} — ${lesson.title} on ${market.shortName}`,
     variant: "market-lesson",
     market,
@@ -305,7 +305,7 @@ function buildPropLessonPromo(
     lessonTitle: lesson.title,
     demo,
     toolSlug: lesson.relatedToolSlug,
-    intro: `${propFirm.name} challengers studying ${lesson.title.toLowerCase()} need chart literacy before paying challenge fees. Code ${PREMIUM_PROMO_CODE} unlocks Premium for ${PREMIUM_PROMO_FIRST_MONTH} — all lessons, Prop Survival sims, and VIP Discord.`,
+    intro: `${propFirm.name} challengers studying ${lesson.title.toLowerCase()} need chart literacy before paying challenge fees. Code ${PREMIUM_PROMO_CODE} unlocks Premium for ${PREMIUM_PROMO_FIRST_MONTH} — all lessons, Prop Survival sims, and priority email support.`,
     sections: [
       {
         heading: `${propFirm.shortName} + ${lesson.categoryTitle}`,
@@ -345,7 +345,7 @@ function buildTopicDealPromo(topic: SeoTopic): PromoLandingPage {
         heading: `What ${topic.name} traders get with ${PREMIUM_PROMO_CODE}`,
         paragraphs: [
           `Free demo on this page, then Premium with ${PREMIUM_PROMO_CODE} for exportable scorecards, portfolio heat maps, and unlimited ${topic.name.toLowerCase()} workflows.`,
-          "No tier confusion — one subscription includes Chart Academy, TradeLocker bot, and VIP Discord.",
+          "No tier confusion — one subscription includes Chart Academy, TradeLocker bot, and priority email support.",
         ],
       },
       premiumUnlockSection(tool?.name),
@@ -405,7 +405,7 @@ function buildPropDealPromo(propFirm: SeoPropFirm): PromoLandingPage {
     lessonTitle: null,
     demo: "consistency-calc",
     toolSlug: "prop-survival",
-    intro: `Preparing for ${propFirm.name}? Code ${PREMIUM_PROMO_CODE} saves ${PREMIUM_PROMO_DISCOUNT} on your first Premium month (${PREMIUM_PROMO_FIRST_MONTH}). Get Prop Survival simulations, consistency calculators, Chart Academy, and VIP Discord in one subscription.`,
+    intro: `Preparing for ${propFirm.name}? Code ${PREMIUM_PROMO_CODE} saves ${PREMIUM_PROMO_DISCOUNT} on your first Premium month (${PREMIUM_PROMO_FIRST_MONTH}). Get Prop Survival simulations, consistency calculators, Chart Academy, and priority email support in one subscription.`,
     sections: [
       {
         heading: `${propFirm.shortName} rules at a glance`,
@@ -426,7 +426,7 @@ const BUNDLE_PAGES: Omit<PromoLandingPage, "relatedSlugs">[] = [
   {
     slug: promoSlug("premium"),
     title: `${PREMIUM_PROMO_CODE} Promo — ${PREMIUM_PROMO_DISCOUNT} Off Quicksilver Premium | ${PREMIUM_PROMO_FIRST_MONTH} First Month`,
-    metaDescription: `Limited launch offer: code ${PREMIUM_PROMO_CODE} for ${PREMIUM_PROMO_DISCOUNT} off Premium (${PREMIUM_PROMO_FIRST_MONTH} month one). Chart Academy, 6 tools, TradeLocker bot, VIP Discord. First 100 users.`,
+    metaDescription: `Limited launch offer: code ${PREMIUM_PROMO_CODE} for ${PREMIUM_PROMO_DISCOUNT} off Premium (${PREMIUM_PROMO_FIRST_MONTH} month one). Chart Academy, 6 tools, TradeLocker bot, priority email support. First 100 users.`,
     h1: `${PREMIUM_PROMO_CODE} — Premium Launch Offer`,
     variant: "bundle",
     market: null,
@@ -441,7 +441,7 @@ const BUNDLE_PAGES: Omit<PromoLandingPage, "relatedSlugs">[] = [
       {
         heading: "What FIRST100 unlocks",
         paragraphs: [
-          "89 Chart Academy lessons + prop firm playbook, six QS Planning Modules, TradeLocker Quicksilver Quant Protocol bot, live dashboard, and VIP Discord with live guidance.",
+          "89 Chart Academy lessons + prop firm playbook, six QS Planning Modules, TradeLocker Quicksilver Quant Protocol bot, live dashboard, and priority email support at support@quicksilveralgo.com.",
           `${PREMIUM_PROMO_DISCOUNT} off month one. Cancel anytime. Free tier still available with one lesson, one guide, and Setup Scorer.`,
         ],
       },
@@ -544,7 +544,7 @@ const BUNDLE_PAGES: Omit<PromoLandingPage, "relatedSlugs">[] = [
     lessonTitle: null,
     demo: "setup-scorer",
     toolSlug: "edge-confluence",
-    intro: `All six QS Planning Modules plus Chart Academy, TradeLocker bot, and VIP Discord — one Premium price. ${PREMIUM_PROMO_CODE} makes month one ${PREMIUM_PROMO_FIRST_MONTH}.`,
+    intro: `All six QS Planning Modules plus Chart Academy, TradeLocker bot, and priority email support — one Premium price. ${PREMIUM_PROMO_CODE} makes month one ${PREMIUM_PROMO_FIRST_MONTH}.`,
     sections: [
       {
         heading: "Six modules, one subscription",

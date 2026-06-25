@@ -67,7 +67,7 @@ export function PromoLandingCTA({ pageTitle }: PromoLandingCTAProps) {
           "89 Chart Academy lessons + prop firm guide",
           "All 6 QS Planning Modules",
           "TradeLocker bot + live dashboard",
-          "VIP Discord + live guidance",
+          "Priority email support",
         ].map((item) => (
           <li key={item} className="flex items-start gap-2 text-sm text-slate-400">
             <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" />

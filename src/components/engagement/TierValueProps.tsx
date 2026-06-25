@@ -5,7 +5,7 @@ const PREMIUM_HIGHLIGHTS = [
   "All 89 lessons + prop firm playbook",
   "6 interactive QS Planning Modules",
   "Chart overlays & animated walkthroughs",
-  "VIP Discord + live guidance",
+  "Priority email support",
   "Exportable scorecards & PNG reports",
 ];
 

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { PublicNav } from "@/components/layout/PublicNav";
 
-export default function OffersLayout({
+export default function SupportLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -14,18 +14,6 @@ export default function OffersLayout({
       </main>
       <footer className="border-t border-slate-800/60 px-4 py-8 text-center">
         <p className="font-mono text-xs text-slate-600">
-          <Link href="/offers" className="text-cyan-accent hover:underline">
-            All Offers
-          </Link>
-          {" · "}
-          <Link href="/offers/first100-premium" className="text-cyan-accent hover:underline">
-            FIRST100 Deal
-          </Link>
-          {" · "}
-          <Link href="/solutions" className="text-cyan-accent hover:underline">
-            Free Tools
-          </Link>
-          {" · "}
           <Link href="/support" className="text-cyan-accent hover:underline">
             Support
           </Link>

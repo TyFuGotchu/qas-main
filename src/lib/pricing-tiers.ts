@@ -48,7 +48,7 @@ export const PRICING_TIERS: PricingTier[] = [
       "TradeLocker Quicksilver Quant Protocol bot",
       "Chart Academy — 89 lessons + prop firm guide",
       "All 6 institutional planning modules",
-      "VIP Discord + live trading guidance",
+      "Priority email support (support@quicksilveralgo.com)",
       "TradeLocker live dashboard & trading tools",
       PREMIUM_PROMO_NOTE,
     ],

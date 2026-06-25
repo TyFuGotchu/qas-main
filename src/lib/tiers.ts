@@ -1,8 +1,4 @@
-import {
-  canAccessDiscord as canAccessDiscordTier,
-  hasUnlimitedAccess,
-  tierMeetsRequirement,
-} from "@/lib/accessControl";
+import { hasUnlimitedAccess, tierMeetsRequirement } from "@/lib/accessControl";
 import { ACCOUNT_TIERS, type AccountTier, type SubscriptionTier } from "@/types";
 
 export function isPremiumTier(tier: AccountTier): boolean {
@@ -26,10 +22,6 @@ export function canAccessToolsBySubscription(tier: SubscriptionTier): boolean {
 
 export function canAccessAcademy(tier: SubscriptionTier): boolean {
   return tierMeetsRequirement(tier, "FREE");
-}
-
-export function canAccessDiscord(tier: SubscriptionTier): boolean {
-  return canAccessDiscordTier(tier);
 }
 
 export function canAccessBot(tier: AccountTier | SubscriptionTier): boolean {

@@ -18,6 +18,8 @@ export default function robots(): MetadataRoute.Robots {
         "/learn/",
         "/offers",
         "/offers/",
+        "/support",
+        "/faq",
       ],
       disallow: ["/dashboard/tools", "/api/", "/admin"],
     },

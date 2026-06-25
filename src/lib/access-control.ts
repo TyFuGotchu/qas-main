@@ -6,7 +6,7 @@ import {
   setSessionCookie,
 } from "@/lib/auth";
 import { toUserSession } from "@/lib/session-user";
-import { canAccessDiscord, canAccessToolsBySubscription } from "@/lib/tiers";
+import { canAccessToolsBySubscription } from "@/lib/tiers";
 import type { UserSession } from "@/types";
 
 function sessionNeedsRefresh(
@@ -61,17 +61,6 @@ export async function requirePremiumAccess(): Promise<UserSession> {
 
   if (!canAccessToolsBySubscription(user.subscriptionTier)) {
     redirect("/dashboard/upgrade?paywall=tools");
-  }
-
-  return user;
-}
-
-/** VIP Discord portal — TIER_2 and LIFETIME only */
-export async function requireDiscordAccess(): Promise<UserSession> {
-  const user = await enforceAuthenticatedDashboardAccess();
-
-  if (!canAccessDiscord(user.subscriptionTier)) {
-    redirect("/dashboard/upgrade?paywall=discord");
   }
 
   return user;

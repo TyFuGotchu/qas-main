@@ -63,7 +63,7 @@ function buildMarketTopicPage(market: SeoMarket, topic: SeoTopic): SeoLandingPag
       heading: "Upgrade path: free demo → full QS module",
       paragraphs: [
         `The demo on this page is a lightweight preview. Premium members unlock the complete ${tool?.shortName ?? "planning tool"} with exportable scorecards, portfolio heat maps, and challenge survival simulations.`,
-        `Free accounts get one lesson, one guide, and the Setup Scorer. Premium ($149.99/mo) unlocks everything — all six planning modules, Chart Academy, TradeLocker bot, and VIP Discord. Use code FIRST100 for $60 off your first month.`,
+        `Free accounts get one lesson, one guide, and the Setup Scorer. Premium ($149.99/mo) unlocks everything — all six planning modules, Chart Academy, TradeLocker bot, and priority email support. Use code FIRST100 for $60 off your first month.`,
       ],
     },
   ];
@@ -134,7 +134,7 @@ function buildMarketTimeframeTopicPage(
     {
       heading: "Upgrade path",
       paragraphs: [
-        `Premium Quant unlocks all six planning modules, Chart Academy, and VIP Discord — built for manual traders scaling from demo accounts to funded capital.`,
+        `Premium Quant unlocks all six planning modules, Chart Academy, and priority email support — built for manual traders scaling from demo accounts to funded capital.`,
       ],
     },
   ];
@@ -273,7 +273,7 @@ function buildPropFirmTopicPage(propFirm: SeoPropFirm, topic: SeoTopic): SeoLand
       heading: "Upgrade path: free demo → full QS module",
       paragraphs: [
         `The demo on this page is a lightweight preview. Premium members unlock the complete ${tool?.shortName ?? "planning tool"} with exportable scorecards, portfolio heat maps, and challenge survival simulations calibrated to prop firm rules.`,
-        `Free accounts get one lesson, one guide, and the Setup Scorer. Premium ($149.99/mo) unlocks everything — all six planning modules, Chart Academy, TradeLocker bot, and VIP Discord. Use code FIRST100 for $60 off your first month.`,
+        `Free accounts get one lesson, one guide, and the Setup Scorer. Premium ($149.99/mo) unlocks everything — all six planning modules, Chart Academy, TradeLocker bot, and priority email support. Use code FIRST100 for $60 off your first month.`,
       ],
     },
   ];

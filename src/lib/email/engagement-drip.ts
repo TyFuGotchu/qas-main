@@ -42,7 +42,7 @@ const DRIP_STEPS = [
       const riskTool = `${SITE_URL}/dashboard/tools/risk-matrix`;
       return dripShell(`
         <h1 style="color:#00e5ff;font-size:20px;">Level up your edge</h1>
-        <p style="color:#94a3b8;line-height:1.6;">You've explored free lessons — Premium (${PREMIUM_PRICE}/mo) unlocks all 89 lessons, 6 planning modules, TradeLocker bot access, and VIP Discord. ${PREMIUM_PROMO_NOTE}</p>
+        <p style="color:#94a3b8;line-height:1.6;">You've explored free lessons — Premium (${PREMIUM_PRICE}/mo) unlocks all 89 lessons, 6 planning modules, TradeLocker bot access, and priority email support. ${PREMIUM_PROMO_NOTE}</p>
         <ol style="color:#94a3b8;line-height:1.8;">
           <li><a href="${lesson}" style="color:#00e5ff;">Reading Candle Components</a></li>
           <li><a href="${riskTool}" style="color:#00e5ff;">Risk Matrix</a></li>

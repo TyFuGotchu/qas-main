@@ -67,8 +67,8 @@ export function Hero() {
             },
             {
               icon: Activity,
-              title: "Live Guidance",
-              desc: "VIP Discord integration with real-time market commentary",
+              title: "Email Support",
+              desc: "Priority support at support@quicksilveralgo.com for Premium members",
             },
             {
               icon: Shield,

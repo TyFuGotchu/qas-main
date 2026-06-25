@@ -3,18 +3,15 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { useSession } from "@/providers/SessionProvider";
-import { canAccessDiscord } from "@/lib/tiers";
 import {
   LayoutDashboard,
   Bot,
   Wrench,
-  MessageSquare,
   ArrowUpCircle,
   Zap,
-  Lock,
   BookOpen,
   Users,
+  HelpCircle,
   X,
 } from "lucide-react";
 
@@ -22,7 +19,6 @@ interface NavItem {
   href: string;
   label: string;
   icon: React.ElementType;
-  premiumOnly?: boolean;
 }
 
 const navItems: NavItem[] = [
@@ -31,7 +27,7 @@ const navItems: NavItem[] = [
   { href: "/dashboard/trade-together", label: "Trade Together", icon: Users },
   { href: "/dashboard/bot", label: "TradeLocker Bots", icon: Bot },
   { href: "/dashboard/tools", label: "Trading Tools", icon: Wrench },
-  { href: "/dashboard/discord", label: "Discord Portal", icon: MessageSquare, premiumOnly: true },
+  { href: "/dashboard/support", label: "Support", icon: HelpCircle },
   { href: "/dashboard/upgrade", label: "Upgrade Tier", icon: ArrowUpCircle },
 ];
 
@@ -42,8 +38,6 @@ interface SidebarProps {
 
 export function Sidebar({ mobileOpen = false, onNavigate }: SidebarProps) {
   const pathname = usePathname();
-  const { user } = useSession();
-  const hasDiscord = user ? canAccessDiscord(user.subscriptionTier) : false;
 
   return (
     <aside
@@ -76,25 +70,22 @@ export function Sidebar({ mobileOpen = false, onNavigate }: SidebarProps) {
           const isActive =
             pathname === item.href ||
             (item.href !== "/dashboard" && pathname.startsWith(item.href));
-          const isLocked = item.premiumOnly && !hasDiscord;
           const Icon = item.icon;
 
           return (
             <Link
               key={item.href}
-              href={isLocked ? "/dashboard/upgrade" : item.href}
+              href={item.href}
               onClick={onNavigate}
               className={cn(
                 "flex items-center gap-3 rounded-lg px-3 py-2.5 font-mono text-xs uppercase tracking-wider transition-all",
                 isActive
                   ? "border border-cyan-500/30 bg-cyan-500/10 text-cyan-400"
-                  : "border border-transparent text-slate-500 hover:bg-slate-800/50 hover:text-slate-300",
-                isLocked && "opacity-60"
+                  : "border border-transparent text-slate-500 hover:bg-slate-800/50 hover:text-slate-300"
               )}
             >
               <Icon className="h-4 w-4 shrink-0" />
               <span className="flex-1">{item.label}</span>
-              {isLocked && <Lock className="h-3 w-3 text-amber-400" />}
             </Link>
           );
         })}

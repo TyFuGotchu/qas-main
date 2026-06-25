@@ -1,26 +1,25 @@
 import { getFreshSession } from "@/lib/access-control";
-import { canAccessDiscord, canAccessToolsBySubscription } from "@/lib/tiers";
+import { canAccessToolsBySubscription } from "@/lib/tiers";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { RecommendedBrokerCard } from "@/components/broker/RecommendedBrokerCard";
 import { AnnouncementBanner } from "@/components/announcements/AnnouncementBanner";
 import { TOOL_COUNT } from "@/lib/tools-registry";
+import { SUPPORT_EMAIL } from "@/lib/support";
 import {
   Bot,
   Wrench,
-  MessageSquare,
   TrendingUp,
   AlertTriangle,
   BookOpen,
   Users,
+  HelpCircle,
 } from "lucide-react";
 
 export default async function DashboardPage() {
   const user = await getFreshSession();
   const hasPremium = user ? canAccessToolsBySubscription(user.subscriptionTier) : false;
-  const hasDiscord = user ? canAccessDiscord(user.subscriptionTier) : false;
 
   const quickLinks = [
     {
@@ -28,35 +27,30 @@ export default async function DashboardPage() {
       label: "Chart Academy",
       icon: BookOpen,
       desc: "89 lessons — freemium previews, full access by tier",
-      locked: false,
     },
     {
       href: "/dashboard/trade-together",
       label: "Trade Together",
       icon: Users,
       desc: "Community threads — discuss setups and markets with other traders",
-      locked: false,
     },
     {
       href: "/dashboard/bot",
       label: "TradeLocker Bots",
       icon: Bot,
       desc: "Connect TradeLocker and activate Quicksilver Quant Protocol",
-      locked: false,
     },
     {
       href: "/dashboard/tools",
       label: "Trading Tools",
       icon: Wrench,
       desc: `${TOOL_COUNT} manual trading planning tools`,
-      locked: false,
     },
     {
-      href: "/dashboard/discord",
-      label: "Discord Portal",
-      icon: MessageSquare,
-      desc: "VIP verification and community access",
-      locked: !hasDiscord,
+      href: "/dashboard/support",
+      label: "Support",
+      icon: HelpCircle,
+      desc: `Email ${SUPPORT_EMAIL} — billing, tools, and technical help`,
     },
   ];
 
@@ -121,10 +115,7 @@ export default async function DashboardPage() {
         {quickLinks.map((link) => {
           const Icon = link.icon;
           return (
-            <Link
-              key={link.href}
-              href={link.locked ? "/dashboard/upgrade" : link.href}
-            >
+            <Link key={link.href} href={link.href}>
               <Card className="h-full transition-all hover:border-cyan-500/30 hover:bg-obsidian-900">
                 <CardHeader className="flex flex-row items-center gap-3">
                   <Icon className="h-5 w-5 text-cyan-400" />
@@ -132,11 +123,6 @@ export default async function DashboardPage() {
                     <h3 className="font-mono text-sm font-semibold text-slate-200">
                       {link.label}
                     </h3>
-                    {link.locked && (
-                      <Badge variant="warning" className="mt-1">
-                        Premium Required
-                      </Badge>
-                    )}
                   </div>
                   <TrendingUp className="h-4 w-4 text-slate-600" />
                 </CardHeader>

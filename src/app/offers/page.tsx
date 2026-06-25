@@ -22,7 +22,7 @@ import {
 
 export const metadata: Metadata = {
   title: `${PREMIUM_PROMO_CODE} Promo Offers — ${PREMIUM_PROMO_DISCOUNT} Off Premium | Quicksilver`,
-  description: `${PROMO_LANDING_COUNT}+ landing pages for code ${PREMIUM_PROMO_CODE}. ${PREMIUM_PROMO_FIRST_MONTH} first month on Quicksilver Premium (${PREMIUM_PRICE}/mo). Chart Academy, tools, bot, VIP Discord.`,
+  description: `${PROMO_LANDING_COUNT}+ landing pages for code ${PREMIUM_PROMO_CODE}. ${PREMIUM_PROMO_FIRST_MONTH} first month on Quicksilver Premium (${PREMIUM_PRICE}/mo). Chart Academy, tools, bot, and email support.`,
 };
 
 const BUNDLE_LINKS = [

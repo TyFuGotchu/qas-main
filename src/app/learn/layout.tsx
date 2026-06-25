@@ -26,6 +26,14 @@ export default function LearnLayout({
             Trading Tools
           </Link>
           {" · "}
+          <Link href="/support" className="text-cyan-accent hover:underline">
+            Support
+          </Link>
+          {" · "}
+          <Link href="/faq" className="text-cyan-accent hover:underline">
+            FAQ
+          </Link>
+          {" · "}
           <Link href="/register" className="text-cyan-accent hover:underline">
             Get Access
           </Link>

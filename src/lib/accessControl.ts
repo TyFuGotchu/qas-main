@@ -120,10 +120,6 @@ export function checkResourceAccess(
   };
 }
 
-export function canAccessDiscord(subscriptionTier: SubscriptionTier): boolean {
-  return tierMeetsRequirement(subscriptionTier, "TIER_2");
-}
-
 export function hasUnlimitedAccess(subscriptionTier: SubscriptionTier): boolean {
   return tierMeetsRequirement(subscriptionTier, "TIER_2");
 }

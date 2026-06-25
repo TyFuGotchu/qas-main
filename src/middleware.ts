@@ -2,14 +2,12 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
 import { type AccountTier, type SubscriptionTier } from "@/types";
-import { canAccessDiscord } from "@/lib/tiers";
 import { getAuthSecret, validateCoreProductionEnv } from "@/lib/env";
 
-const PUBLIC_ROUTES = ["/", "/login", "/register"];
+const PUBLIC_ROUTES = ["/", "/login", "/register", "/support", "/faq"];
 const SEO_PUBLIC_PREFIXES = ["/lessons", "/guides", "/solutions", "/offers"];
 const AUTH_ROUTES = ["/login", "/register"];
 const ONBOARDING_ROUTES_PREFIX = "/onboarding";
-const DISCORD_ROUTES_PREFIX = "/dashboard/discord";
 
 interface SessionPayload {
   subscriptionTier: SubscriptionTier;
@@ -89,13 +87,6 @@ function isAdminRoute(pathname: string): boolean {
   return pathname.startsWith("/admin");
 }
 
-function isDiscordRoute(pathname: string): boolean {
-  return (
-    pathname === DISCORD_ROUTES_PREFIX ||
-    pathname.startsWith(`${DISCORD_ROUTES_PREFIX}/`)
-  );
-}
-
 function isDashboardRoute(pathname: string): boolean {
   return pathname.startsWith("/dashboard");
 }
@@ -114,6 +105,13 @@ export async function middleware(request: NextRequest) {
   }
 
   const session = await getSessionFromRequest(request);
+
+  if (
+    pathname === "/dashboard/discord" ||
+    pathname.startsWith("/dashboard/discord/")
+  ) {
+    return NextResponse.redirect(new URL("/dashboard/support", request.url));
+  }
 
   if (isSeoPublicRoute(pathname)) {
     return NextResponse.next();
@@ -204,13 +202,6 @@ export async function middleware(request: NextRequest) {
         new URL("/onboarding/pricing", request.url)
       );
     }
-
-    if (isDiscordRoute(pathname) && !canAccessDiscord(session.subscriptionTier)) {
-      const pricingUrl = new URL("/dashboard/upgrade", request.url);
-      pricingUrl.searchParams.set("paywall", "discord");
-      return NextResponse.redirect(pricingUrl);
-    }
-
   }
 
   return NextResponse.next();
