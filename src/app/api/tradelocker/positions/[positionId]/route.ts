@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 import { getSession } from "@/lib/auth";
+import { autoLogTradeLockerClose } from "@/lib/journal/auto-log";
 import { closePosition, TradeLockerApiError } from "@/lib/tradelocker/client";
 import {
   enforceRateLimit,
@@ -56,7 +57,30 @@ export async function DELETE(
       );
     }
 
+    const instrumentName =
+      typeof body.instrumentName === "string"
+        ? body.instrumentName.trim()
+        : "";
+    const side = typeof body.side === "string" ? body.side : "";
+    const unrealizedPl = Number(body.unrealizedPl);
+    const balance = Number(body.balance);
+
     const result = await closePosition(positionId, accNum, qty);
+
+    if (instrumentName) {
+      try {
+        await autoLogTradeLockerClose({
+          userId: session.id,
+          symbol: instrumentName,
+          side,
+          unrealizedPl: Number.isFinite(unrealizedPl) ? unrealizedPl : 0,
+          qty: typeof body.qtyLabel === "string" ? body.qtyLabel : undefined,
+          balance: Number.isFinite(balance) && balance > 0 ? balance : undefined,
+        });
+      } catch (autoLogError) {
+        console.error("[tradelocker/positions/close] auto-log failed:", autoLogError);
+      }
+    }
 
     return NextResponse.json({ success: true, result });
   } catch (error) {

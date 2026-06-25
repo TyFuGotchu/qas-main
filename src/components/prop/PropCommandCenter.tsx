@@ -25,6 +25,7 @@ import {
   Target,
   TrendingUp,
 } from "lucide-react";
+import { PremiumUpgradeNudge } from "@/components/engagement/PremiumUpgradeNudge";
 import { cn } from "@/lib/utils";
 
 export function PropCommandCenter() {
@@ -168,6 +169,8 @@ export function PropCommandCenter() {
           </Link>
         </div>
       </div>
+
+      <PremiumUpgradeNudge feature="Prop Command Center & survival modeling" />
 
       <div className="flex flex-wrap gap-2">
         <Badge variant="success">{firm.name}</Badge>

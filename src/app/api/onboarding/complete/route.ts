@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { getSession, createSessionToken, jsonWithSession } from "@/lib/auth";
 import { toUserSession } from "@/lib/session-user";
 import { accountTierToSubscriptionTier } from "@/lib/accessControl";
+import { triggerProfileSetupReminder } from "@/lib/email/profile-reminder";
 import type { AccountTier } from "@/types";
 
 const VALID_ACCOUNT_TIERS: AccountTier[] = ["Free", "Premium Quant"];
@@ -40,6 +41,14 @@ export async function POST(request: NextRequest) {
 
     const sessionUser = toUserSession(user);
     const token = await createSessionToken(sessionUser);
+
+    void triggerProfileSetupReminder({
+      userId: user.id,
+      email: user.email,
+      name: user.name,
+    }).catch((err) =>
+      console.error("[onboarding/complete] profile reminder failed:", err)
+    );
 
     return jsonWithSession({ user: sessionUser }, token);
   } catch (error) {

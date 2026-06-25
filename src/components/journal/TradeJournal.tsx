@@ -13,6 +13,7 @@ import Select from "@/components/ui/Select";
 import { TerminalPanel } from "@/components/ui/TerminalPanel";
 import { ScoreRing } from "@/components/tools/qs/ScoreRing";
 import { TraderProfileForm } from "@/components/onboarding/TraderProfileForm";
+import { PremiumUpgradeNudge } from "@/components/engagement/PremiumUpgradeNudge";
 import {
   BookOpen,
   Loader2,
@@ -147,7 +148,7 @@ export function TradeJournal() {
             Trade Journal
           </h2>
           <p className="mt-1 font-mono text-sm text-slate-500">
-            Log trades or import CSV — feeds Alpha Durability automatically
+            Live terminal trades auto-log on open and close — CSV import supported
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -175,6 +176,8 @@ export function TradeJournal() {
           </Button>
         </div>
       </div>
+
+      <PremiumUpgradeNudge feature="journal analytics & Alpha Durability" />
 
       {message && (
         <p className="rounded border border-cyan-500/20 bg-cyan-500/5 px-4 py-2 font-mono text-sm text-cyan-300">
@@ -347,6 +350,7 @@ export function TradeJournal() {
                     <th className="pb-2 pr-4">Symbol</th>
                     <th className="pb-2 pr-4">Dir</th>
                     <th className="pb-2 pr-4">Entry</th>
+                    <th className="pb-2 pr-4">Status</th>
                     <th className="pb-2 pr-4">PnL</th>
                     <th className="pb-2 pr-4">R</th>
                     <th className="pb-2 pr-4">Source</th>
@@ -364,12 +368,21 @@ export function TradeJournal() {
                       <td className="py-2 pr-4">
                         {new Date(entry.entryTime).toLocaleDateString()}
                       </td>
+                      <td className="py-2 pr-4">
+                        <Badge
+                          variant={entry.exitTime ? "success" : "warning"}
+                        >
+                          {entry.exitTime ? "Closed" : "Open"}
+                        </Badge>
+                      </td>
                       <td
                         className={cn(
                           "py-2 pr-4",
-                          (entry.pnl ?? 0) >= 0
-                            ? "text-emerald-400"
-                            : "text-red-400"
+                          entry.pnl == null
+                            ? "text-slate-500"
+                            : (entry.pnl ?? 0) >= 0
+                              ? "text-emerald-400"
+                              : "text-red-400"
                         )}
                       >
                         {entry.pnl != null ? `$${entry.pnl.toFixed(2)}` : "—"}

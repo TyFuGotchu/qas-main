@@ -278,15 +278,32 @@ export function TradeLockerLiveDashboard() {
     setGateResult(null);
   }
 
-  async function handleClosePosition(positionId: string, instrumentLabel: string) {
+  async function handleClosePosition(
+    positionId: string,
+    instrumentLabel: string,
+    side: string,
+    unrealizedPl: number,
+    qty: string
+  ) {
     setClosingPositionId(positionId);
-    const result = await closePosition(positionId, 0);
+    const result = await closePosition(positionId, 0, {
+      instrumentName: instrumentLabel,
+      side,
+      unrealizedPl,
+      qtyLabel: qty,
+      balance: dashboard?.metrics.balance,
+    });
     setClosingPositionId(null);
 
     if (result.ok) {
+      const journalRes = await fetch("/api/journal");
+      if (journalRes.ok) {
+        const data = await journalRes.json();
+        setJournalEntries(data.entries ?? []);
+      }
       toast({
         title: "Position close requested",
-        description: instrumentLabel,
+        description: `${instrumentLabel} · logged to journal`,
       });
     } else {
       toast({
@@ -600,7 +617,13 @@ export function TradeLockerLiveDashboard() {
                             size="sm"
                             disabled={tradeLoading || isClosing}
                             onClick={() =>
-                              handleClosePosition(position.id, instrumentLabel)
+                              handleClosePosition(
+                                position.id,
+                                instrumentLabel,
+                                position.side,
+                                pnl,
+                                position.qty
+                              )
                             }
                           >
                             {isClosing ? (

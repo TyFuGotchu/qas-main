@@ -13,6 +13,7 @@ import {
 import { Badge } from "@/components/ui/Badge";
 import type { PreTradeGateResult } from "@/lib/pre-trade-gate";
 import { riskStatusLabel } from "@/lib/tradelocker/account-tools";
+import { PremiumUpgradeNudge } from "@/components/engagement/PremiumUpgradeNudge";
 import { ShieldAlert } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -89,6 +90,7 @@ export function PreTradeGateDialog({
           </ul>
 
           <p className="font-mono text-xs text-slate-500">{gate.summary}</p>
+          <PremiumUpgradeNudge feature="pre-trade risk gates" compact />
         </div>
 
         <AlertDialogFooter>

@@ -186,7 +186,14 @@ export function useLiveTradeLocker(options: UseLiveTradeLockerOptions = {}) {
   const closePosition = useCallback(
     async (
       positionId: string,
-      qty = 0
+      qty = 0,
+      context?: {
+        instrumentName: string;
+        side: string;
+        unrealizedPl: number;
+        qtyLabel?: string;
+        balance?: number;
+      }
     ): Promise<{ ok: boolean; error?: string }> => {
       if (!selectedAccNum) {
         return { ok: false, error: "No account selected" };
@@ -201,7 +208,15 @@ export function useLiveTradeLocker(options: UseLiveTradeLockerOptions = {}) {
             method: "DELETE",
             credentials: "include",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ accNum: selectedAccNum, qty }),
+            body: JSON.stringify({
+              accNum: selectedAccNum,
+              qty,
+              instrumentName: context?.instrumentName,
+              side: context?.side,
+              unrealizedPl: context?.unrealizedPl,
+              qtyLabel: context?.qtyLabel,
+              balance: context?.balance,
+            }),
           }
         );
         const data = await res.json();

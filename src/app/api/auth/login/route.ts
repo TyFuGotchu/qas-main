@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { createSessionToken, jsonWithSession } from "@/lib/auth";
 import { toUserSession } from "@/lib/session-user";
+import { triggerProfileSetupReminder } from "@/lib/email/profile-reminder";
 import { normalizeEmail } from "@/lib/security/origin";
 import {
   enforceRateLimit,
@@ -58,6 +59,17 @@ export async function POST(request: NextRequest) {
     }
 
     const sessionUser = toUserSession(user);
+
+    if (sessionUser.onboardingComplete && !sessionUser.profileComplete) {
+      void triggerProfileSetupReminder({
+        userId: user.id,
+        email: user.email,
+        name: user.name,
+      }).catch((err) =>
+        console.error("[auth/login] profile reminder failed:", err)
+      );
+    }
+
     const token = await createSessionToken(sessionUser);
 
     return jsonWithSession({ user: sessionUser }, token);
