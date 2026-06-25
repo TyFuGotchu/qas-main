@@ -49,7 +49,7 @@ export const PRICING_TIERS: PricingTier[] = [
       "Chart Academy — 89 lessons + prop firm guide",
       "All 6 institutional planning modules",
       "Priority email support (support@quicksilveralgo.com)",
-      "TradeLocker live dashboard & trading tools",
+      "TradeLocker live dashboard + 3 account pro tools",
       PREMIUM_PROMO_NOTE,
     ],
     ctaLink: PREMIUM_CHECKOUT_URL,

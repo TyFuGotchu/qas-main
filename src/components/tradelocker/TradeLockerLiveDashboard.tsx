@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLiveTradeLocker } from "@/hooks/useLiveTradeLocker";
 import { TradeLockerConnectForm } from "@/components/tradelocker/TradeLockerConnectForm";
+import { TradeLockerAccountTools } from "@/components/tradelocker/TradeLockerAccountTools";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
@@ -537,6 +538,11 @@ export function TradeLockerLiveDashboard() {
           )}
         </CardContent>
       </Card>
+
+      <TradeLockerAccountTools
+        dashboard={dashboard}
+        loading={showMetricsSkeleton}
+      />
     </div>
   );
 }

@@ -13,9 +13,9 @@ export default function BotActivationPage() {
           TradeLocker Bots
         </h2>
         <p className="mt-1 font-mono text-sm text-slate-500">
-          Connect your TradeLocker account, monitor live performance, and
-          activate bots from the official TradeLocker marketplace — starting with
-          Quicksilver Quant Protocol.
+          Connect your TradeLocker account, monitor live performance, and use
+          three pro account tools — Risk Guard, Position Sizer, and Growth Coach
+          — plus bots from the TradeLocker marketplace.
         </p>
       </div>
 
@@ -101,7 +101,12 @@ export default function BotActivationPage() {
             </li>
             <li className="flex gap-3">
               <span className="text-cyan-400">04.</span>
-              Monitor positions and performance in your live dashboard above
+              Use Live Risk Guard, Position Sizer, and Growth Coach on your
+              connected account
+            </li>
+            <li className="flex gap-3">
+              <span className="text-cyan-400">05.</span>
+              Monitor positions and performance in the live terminal above
             </li>
           </ol>
         </CardContent>
