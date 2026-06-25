@@ -1,12 +1,40 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
+import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
-import { placeOrder, TradeLockerApiError } from "@/lib/tradelocker/client";
+import {
+  fetchAccountState,
+  fetchOpenPositions,
+  fetchOrdersHistory,
+  fetchTradeConfig,
+  placeOrder,
+  TradeLockerApiError,
+} from "@/lib/tradelocker/client";
+import {
+  buildMetrics,
+  computeWinRateFromHistory,
+  parseAccountState,
+  parsePositions,
+} from "@/lib/tradelocker/parsers";
+import type { PanelColumn } from "@/lib/tradelocker/types";
+import { evaluatePreTradeGate } from "@/lib/pre-trade-gate";
+
+import { getOrCreateTraderProfileView } from "@/lib/trader-profile-db";
 import {
   enforceRateLimit,
   rateLimitResponse,
 } from "@/lib/security/rate-limit";
+
+function getColumns(
+  config: unknown,
+  key: "accountDetailsConfig" | "positionsConfig" | "ordersHistoryConfig"
+): PanelColumn[] {
+  const columns =
+    (config as { d?: Record<string, { columns?: PanelColumn[] }> })?.d?.[key]
+      ?.columns ?? [];
+  return Array.isArray(columns) ? columns : [];
+}
 
 const ORDER_LIMIT = 30;
 const ORDER_WINDOW_MS = 60 * 1000;
@@ -70,6 +98,77 @@ export async function POST(request: NextRequest) {
         { error: "routeId is required" },
         { status: 400 }
       );
+    }
+
+    const gateAcknowledged = Boolean(body.gateAcknowledged);
+    const profile = await getOrCreateTraderProfileView(session.id);
+
+    if (profile.profileComplete) {
+      let metrics = null;
+      try {
+        const [configRaw, stateRaw, positionsRaw, historyRaw] =
+          await Promise.all([
+            fetchTradeConfig(accNum),
+            fetchAccountState(accountId, accNum),
+            fetchOpenPositions(accountId, accNum),
+            fetchOrdersHistory(accountId, accNum),
+          ]);
+
+        const accountColumns = getColumns(configRaw, "accountDetailsConfig");
+        const positionColumns = getColumns(configRaw, "positionsConfig");
+        const historyColumns = getColumns(configRaw, "ordersHistoryConfig");
+
+        const stateValues =
+          (stateRaw as { d?: { accountDetailsData?: number[] } })?.d
+            ?.accountDetailsData ?? [];
+        const state = parseAccountState(stateValues, accountColumns);
+
+        const positionRows =
+          (positionsRaw as { d?: { positions?: string[][] } })?.d?.positions ??
+          [];
+        const positions = parsePositions(positionRows, positionColumns);
+
+        const historyRows =
+          (historyRaw as { d?: { ordersHistory?: string[][] } })?.d
+            ?.ordersHistory ?? [];
+        const { winRate, closedTrades } = computeWinRateFromHistory(
+          historyRows,
+          historyColumns
+        );
+
+        metrics = buildMetrics(
+          state,
+          winRate,
+          closedTrades,
+          positions.length
+        );
+      } catch {
+        // proceed with null metrics if TL fetch fails
+      }
+
+      const dayStart = new Date();
+      dayStart.setHours(0, 0, 0, 0);
+      const tradesToday = await prisma.tradeJournalEntry.count({
+        where: { userId: session.id, entryTime: { gte: dayStart } },
+      });
+
+      const gate = evaluatePreTradeGate(metrics, profile, {
+        tradesToday,
+        gateAcknowledged,
+      });
+
+      if (!gate.allowed) {
+        return NextResponse.json(
+          {
+            error: gate.summary,
+            gate: {
+              violations: gate.violations,
+              requiresAcknowledgment: gate.requiresAcknowledgment,
+            },
+          },
+          { status: 403 }
+        );
+      }
     }
 
     const result = await placeOrder(accountId, accNum, {

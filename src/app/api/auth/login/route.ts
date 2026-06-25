@@ -40,6 +40,7 @@ export async function POST(request: NextRequest) {
 
     const user = await prisma.user.findUnique({
       where: { email: normalizedEmail },
+      include: { traderProfile: { select: { profileComplete: true } } },
     });
     if (!user) {
       return NextResponse.json(

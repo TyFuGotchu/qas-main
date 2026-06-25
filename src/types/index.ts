@@ -10,6 +10,7 @@ export interface UserSession {
   accountTier: AccountTier;
   isAdmin: boolean;
   onboardingComplete: boolean;
+  profileComplete: boolean;
 }
 
 export interface Announcement {

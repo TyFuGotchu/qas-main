@@ -33,6 +33,46 @@ model User {
   forumThreads         ForumThread[]
   forumMessages        ForumMessage[]
   onboardingEmailLogs  OnboardingEmailLog[]
+  traderProfile        TraderProfile?
+  journalEntries       TradeJournalEntry[]
+}
+
+model TraderProfile {
+  id                 String   @id @default(cuid())
+  userId             String   @unique
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accountType        String   @default("personal")
+  tradingStyle       String   @default("day")
+  primaryMarkets     Json     @default("[]")
+  propFirmPreset     String?
+  dailyLossLimitPct  Float    @default(5)
+  maxDrawdownPct     Float    @default(10)
+  riskPerTradePct    Float    @default(1)
+  maxTradesPerDay    Int      @default(10)
+  profileComplete    Boolean  @default(false)
+  strictPreTradeGate Boolean  @default(true)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model TradeJournalEntry {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  symbol     String
+  direction  String
+  entryTime  DateTime
+  exitTime   DateTime?
+  pnl        Float?
+  rMultiple  Float?
+  session    String?
+  setupType  String?
+  notes      String?
+  source     String    @default("manual")
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@index([userId, entryTime])
 }
 
 model Session {

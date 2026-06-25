@@ -15,6 +15,8 @@ import {
   BookOpen,
   Users,
   HelpCircle,
+  Shield,
+  BookMarked,
 } from "lucide-react";
 
 export default async function DashboardPage() {
@@ -38,7 +40,19 @@ export default async function DashboardPage() {
       href: "/dashboard/bot",
       label: "Trading",
       icon: LineChart,
-      desc: "Live terminal, 4 account tools & marketplace algos",
+      desc: "Live terminal, signals & manual orders with pre-trade gate",
+    },
+    {
+      href: "/dashboard/prop-command",
+      label: "Prop OS",
+      icon: Shield,
+      desc: "Risk guard, firm presets & challenge survival outlook",
+    },
+    {
+      href: "/dashboard/journal",
+      label: "Trade Journal",
+      icon: BookMarked,
+      desc: "Log trades, import CSV & Alpha Durability from history",
     },
     {
       href: "/dashboard/tools",

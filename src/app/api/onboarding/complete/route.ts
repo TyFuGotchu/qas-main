@@ -35,6 +35,7 @@ export async function POST(request: NextRequest) {
         subscriptionTier,
         onboardingComplete: true,
       },
+      include: { traderProfile: { select: { profileComplete: true } } },
     });
 
     const sessionUser = toUserSession(user);

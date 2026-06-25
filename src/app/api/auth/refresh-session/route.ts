@@ -14,6 +14,7 @@ export async function POST() {
 
     const dbUser = await prisma.user.findUnique({
       where: { id: jwtSession.id },
+      include: { traderProfile: { select: { profileComplete: true } } },
     });
 
     if (!dbUser) {

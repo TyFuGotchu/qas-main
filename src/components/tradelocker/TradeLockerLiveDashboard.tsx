@@ -5,6 +5,12 @@ import { useLiveTradeLocker } from "@/hooks/useLiveTradeLocker";
 import { TradeLockerConnectForm } from "@/components/tradelocker/TradeLockerConnectForm";
 import { TradeLockerAccountTools } from "@/components/tradelocker/TradeLockerAccountTools";
 import { LiveSignalTerminal } from "@/components/tradelocker/LiveSignalTerminal";
+import { PreTradeGateDialog } from "@/components/tradelocker/PreTradeGateDialog";
+import { evaluatePreTradeGate } from "@/lib/pre-trade-gate";
+import type { PreTradeGateResult } from "@/lib/pre-trade-gate";
+import type { TraderProfileView } from "@/lib/trader-profile";
+import { countTradesToday } from "@/lib/journal/stats";
+import type { TradeJournalEntry } from "@prisma/client";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
@@ -61,6 +67,16 @@ export function TradeLockerLiveDashboard() {
   const [closingPositionId, setClosingPositionId] = useState<string | null>(
     null
   );
+  const [traderProfile, setTraderProfile] = useState<TraderProfileView | null>(
+    null
+  );
+  const [journalEntries, setJournalEntries] = useState<TradeJournalEntry[]>([]);
+  const [gateOpen, setGateOpen] = useState(false);
+  const [pendingOrder, setPendingOrder] = useState<{
+    side: "buy" | "sell";
+    qty: number;
+  } | null>(null);
+  const [gateResult, setGateResult] = useState<PreTradeGateResult | null>(null);
   const { toast } = useToast();
 
   const {
@@ -85,6 +101,28 @@ export function TradeLockerLiveDashboard() {
     selectedAccountId,
     selectedAccNum,
   });
+
+  useEffect(() => {
+    async function loadProfileAndJournal() {
+      try {
+        const [profileRes, journalRes] = await Promise.all([
+          fetch("/api/trader-profile"),
+          fetch("/api/journal"),
+        ]);
+        if (profileRes.ok) {
+          const data = await profileRes.json();
+          setTraderProfile(data.profile ?? null);
+        }
+        if (journalRes.ok) {
+          const data = await journalRes.json();
+          setJournalEntries(data.entries ?? []);
+        }
+      } catch {
+        // optional enrichment
+      }
+    }
+    loadProfileAndJournal();
+  }, []);
 
   useEffect(() => {
     if (!selectedAccountId && accounts.length > 0) {
@@ -155,6 +193,35 @@ export function TradeLockerLiveDashboard() {
     setSelectedInstrumentKey("");
   }
 
+  async function executePlaceOrder(
+    side: "buy" | "sell",
+    qty: number,
+    gateAcknowledged = false
+  ) {
+    if (!selectedInstrument) return;
+
+    const result = await placeOrder({
+      side,
+      qty,
+      tradableInstrumentId: selectedInstrument.tradableInstrumentId,
+      routeId: selectedInstrument.routeId,
+      gateAcknowledged,
+    });
+
+    if (result.ok) {
+      toast({
+        title: `${side === "buy" ? "Buy" : "Sell"} order placed`,
+        description: `${qty} lots · ${selectedInstrument.name}`,
+      });
+    } else {
+      toast({
+        title: "Order failed",
+        description: result.error,
+        variant: "error",
+      });
+    }
+  }
+
   async function handlePlaceOrder(side: "buy" | "sell") {
     if (!selectedInstrument) {
       toast({
@@ -174,25 +241,32 @@ export function TradeLockerLiveDashboard() {
       return;
     }
 
-    const result = await placeOrder({
-      side,
-      qty,
-      tradableInstrumentId: selectedInstrument.tradableInstrumentId,
-      routeId: selectedInstrument.routeId,
-    });
+    if (traderProfile?.profileComplete) {
+      const gate = evaluatePreTradeGate(dashboard?.metrics ?? null, traderProfile, {
+        tradesToday: countTradesToday(journalEntries),
+      });
 
-    if (result.ok) {
-      toast({
-        title: `${side === "buy" ? "Buy" : "Sell"} order placed`,
-        description: `${qty} lots · ${selectedInstrument.name}`,
-      });
-    } else {
-      toast({
-        title: "Order failed",
-        description: result.error,
-        variant: "error",
-      });
+      if (!gate.allowed) {
+        setGateResult(gate);
+        setPendingOrder({ side, qty });
+        setGateOpen(true);
+        return;
+      }
     }
+
+    await executePlaceOrder(side, qty);
+  }
+
+  async function handleGateConfirm() {
+    if (!pendingOrder) return;
+    setGateOpen(false);
+    await executePlaceOrder(
+      pendingOrder.side,
+      pendingOrder.qty,
+      true
+    );
+    setPendingOrder(null);
+    setGateResult(null);
   }
 
   async function handleClosePosition(positionId: string, instrumentLabel: string) {
@@ -546,6 +620,16 @@ export function TradeLockerLiveDashboard() {
         dashboard={dashboard}
         loading={showMetricsSkeleton}
         instrumentNames={instrumentNameById}
+      />
+
+      <PreTradeGateDialog
+        open={gateOpen}
+        onOpenChange={setGateOpen}
+        gate={gateResult}
+        side={pendingOrder?.side ?? "buy"}
+        symbol={selectedInstrument?.name ?? ""}
+        qty={pendingOrder?.qty ?? 0}
+        onConfirm={handleGateConfirm}
       />
     </div>
   );

@@ -24,7 +24,9 @@ export function ChooseTierForm() {
       if (res.ok) {
         const data = await res.json();
         setUser(data.user);
-        if (data.user?.onboardingComplete) {
+        if (data.user?.onboardingComplete && !data.user?.profileComplete) {
+          router.push("/onboarding/profile");
+        } else if (data.user?.onboardingComplete) {
           router.push("/dashboard");
         }
       }
@@ -58,7 +60,7 @@ export function ChooseTierForm() {
 
       setUser(data.user);
       router.refresh();
-      router.push("/dashboard");
+      router.push("/onboarding/profile");
     } catch {
       setError("Network error. Please try again.");
     } finally {

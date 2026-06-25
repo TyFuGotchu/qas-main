@@ -14,6 +14,7 @@ interface SessionPayload {
   accountTier: AccountTier;
   isAdmin: boolean;
   onboardingComplete: boolean;
+  profileComplete: boolean;
 }
 
 function getJwtSecret(): Uint8Array {
@@ -53,6 +54,7 @@ async function getSessionFromRequest(
       accountTier: payload.accountTier as AccountTier,
       isAdmin: Boolean(payload.isAdmin),
       onboardingComplete: Boolean(payload.onboardingComplete),
+      profileComplete: Boolean(payload.profileComplete),
     };
   } catch {
     return null;
@@ -155,9 +157,11 @@ export async function middleware(request: NextRequest) {
 
   if (isPublicRoute(pathname) && !isDashboardRoute(pathname) && !isOnboardingRoute(pathname)) {
     if (session && isAuthRoute(pathname)) {
-      const dest = session.onboardingComplete
-        ? "/dashboard"
-        : "/onboarding/pricing";
+      const dest = !session.onboardingComplete
+        ? "/onboarding/pricing"
+        : !session.profileComplete
+          ? "/onboarding/profile"
+          : "/dashboard";
       return NextResponse.redirect(new URL(dest, request.url));
     }
     return NextResponse.next();
@@ -167,9 +171,30 @@ export async function middleware(request: NextRequest) {
     if (!session) {
       return NextResponse.redirect(new URL("/register", request.url));
     }
-    if (session.onboardingComplete) {
+
+    const onProfileStep = pathname === "/onboarding/profile";
+    const onPricingStep =
+      pathname === "/onboarding/pricing" || pathname === "/onboarding";
+
+    if (session.onboardingComplete && session.profileComplete) {
       return NextResponse.redirect(new URL("/dashboard", request.url));
     }
+
+    if (onProfileStep) {
+      if (!session.onboardingComplete) {
+        return NextResponse.redirect(new URL("/onboarding/pricing", request.url));
+      }
+      return NextResponse.next();
+    }
+
+    if (onPricingStep && session.onboardingComplete && !session.profileComplete) {
+      return NextResponse.redirect(new URL("/onboarding/profile", request.url));
+    }
+
+    if (onPricingStep && session.onboardingComplete) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+
     return NextResponse.next();
   }
 

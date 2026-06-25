@@ -28,6 +28,7 @@ export async function createSessionToken(user: UserSession): Promise<string> {
     accountTier: user.accountTier,
     isAdmin: user.isAdmin,
     onboardingComplete: user.onboardingComplete,
+    profileComplete: user.profileComplete,
   })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
@@ -50,6 +51,7 @@ export async function verifySessionToken(
       accountTier: payload.accountTier as UserSession["accountTier"],
       isAdmin: Boolean(payload.isAdmin),
       onboardingComplete: Boolean(payload.onboardingComplete),
+      profileComplete: Boolean(payload.profileComplete),
     };
   } catch {
     return null;

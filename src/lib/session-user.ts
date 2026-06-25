@@ -13,6 +13,7 @@ interface DbUser {
   accountTier: string;
   isAdmin: boolean;
   onboardingComplete: boolean;
+  traderProfile?: { profileComplete: boolean } | null;
 }
 
 export function toUserSession(user: DbUser): UserSession {
@@ -28,6 +29,7 @@ export function toUserSession(user: DbUser): UserSession {
     accountTier: user.accountTier as AccountTier,
     isAdmin: user.isAdmin || user.email === getAdminEmail(),
     onboardingComplete: user.onboardingComplete,
+    profileComplete: user.traderProfile?.profileComplete ?? false,
   };
   return session;
 }

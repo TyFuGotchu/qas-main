@@ -12,6 +12,7 @@ export async function getFreshSession(): Promise<UserSession | null> {
   try {
     const dbUser = await prisma.user.findUnique({
       where: { id: jwtSession.id },
+      include: { traderProfile: { select: { profileComplete: true } } },
     });
 
     if (!dbUser) return null;
@@ -32,6 +33,10 @@ export async function enforceAuthenticatedDashboardAccess(): Promise<UserSession
 
   if (!user.onboardingComplete) {
     redirect("/onboarding/pricing");
+  }
+
+  if (!user.profileComplete) {
+    redirect("/onboarding/profile");
   }
 
   return user;

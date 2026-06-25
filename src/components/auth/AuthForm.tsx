@@ -34,10 +34,12 @@ export function AuthForm({ mode }: AuthFormProps) {
 
   function getPostAuthRedirect(user: {
     onboardingComplete: boolean;
+    profileComplete: boolean;
     isAdmin: boolean;
   }) {
     if (redirectParam) return redirectParam;
     if (!user.onboardingComplete) return "/onboarding/pricing";
+    if (!user.profileComplete) return "/onboarding/profile";
     if (user.isAdmin) return "/admin/dashboard";
     return "/dashboard";
   }
