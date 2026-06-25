@@ -197,11 +197,8 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(loginUrl);
     }
 
-    if (!session.onboardingComplete && isDashboardRoute(pathname)) {
-      return NextResponse.redirect(
-        new URL("/onboarding/pricing", request.url)
-      );
-    }
+    // Onboarding gate is enforced in dashboard layout via DB-backed session.
+    // JWT cookie can lag after register/onboarding; blocking here caused redirect loops.
   }
 
   return NextResponse.next();

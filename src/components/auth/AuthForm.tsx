@@ -82,6 +82,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         mode === "register"
           ? "/onboarding/pricing"
           : getPostAuthRedirect(data.user);
+      router.refresh();
       router.push(destination);
     } catch {
       setError("Network error. Please try again.");

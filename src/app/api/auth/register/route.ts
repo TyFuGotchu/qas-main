@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+
+export const dynamic = "force-dynamic";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
-import { createSessionToken, setSessionCookie } from "@/lib/auth";
+import { createSessionToken, jsonWithSession } from "@/lib/auth";
 import { toUserSession } from "@/lib/session-user";
 import { normalizeEmail } from "@/lib/security/origin";
 import { validatePassword } from "@/lib/security/password";
@@ -80,13 +82,18 @@ export async function POST(request: NextRequest) {
 
     const sessionUser = toUserSession(user);
     const token = await createSessionToken(sessionUser);
-    await setSessionCookie(token);
 
-    return NextResponse.json({ user: sessionUser });
+    return jsonWithSession({ user: sessionUser }, token);
   } catch (error) {
-    console.error("Registration error:", error);
+    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("Registration error:", message, error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      {
+        error: "Internal server error",
+        ...(process.env.NODE_ENV === "production"
+          ? {}
+          : { detail: message }),
+      },
       { status: 500 }
     );
   }

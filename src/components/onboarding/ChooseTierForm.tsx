@@ -57,6 +57,7 @@ export function ChooseTierForm() {
       }
 
       setUser(data.user);
+      router.refresh();
       router.push("/dashboard");
     } catch {
       setError("Network error. Please try again.");

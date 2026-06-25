@@ -1,44 +1,26 @@
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import {
-  getSession,
-  createSessionToken,
-  setSessionCookie,
-} from "@/lib/auth";
+import { getSession } from "@/lib/auth";
 import { toUserSession } from "@/lib/session-user";
 import { canAccessToolsBySubscription } from "@/lib/tiers";
 import type { UserSession } from "@/types";
-
-function sessionNeedsRefresh(
-  jwtSession: UserSession,
-  freshSession: UserSession
-): boolean {
-  return (
-    jwtSession.subscriptionTier !== freshSession.subscriptionTier ||
-    jwtSession.accountTier !== freshSession.accountTier ||
-    jwtSession.onboardingComplete !== freshSession.onboardingComplete ||
-    jwtSession.isAdmin !== freshSession.isAdmin
-  );
-}
 
 export async function getFreshSession(): Promise<UserSession | null> {
   const jwtSession = await getSession();
   if (!jwtSession) return null;
 
-  const dbUser = await prisma.user.findUnique({
-    where: { id: jwtSession.id },
-  });
+  try {
+    const dbUser = await prisma.user.findUnique({
+      where: { id: jwtSession.id },
+    });
 
-  if (!dbUser) return null;
+    if (!dbUser) return null;
 
-  const freshSession = toUserSession(dbUser);
-
-  if (sessionNeedsRefresh(jwtSession, freshSession)) {
-    const token = await createSessionToken(freshSession);
-    await setSessionCookie(token);
+    return toUserSession(dbUser);
+  } catch (error) {
+    console.error("[getFreshSession] Database lookup failed:", error);
+    return jwtSession;
   }
-
-  return freshSession;
 }
 
 export async function enforceAuthenticatedDashboardAccess(): Promise<UserSession> {

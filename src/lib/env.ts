@@ -63,6 +63,16 @@ export function validateCoreProductionEnv(): EnvValidationResult {
     };
   }
 
+  const authSecret =
+    process.env.NEXTAUTH_SECRET ?? process.env.JWT_SECRET ?? "";
+  if (authSecret.length < MIN_AUTH_SECRET_LENGTH) {
+    return {
+      valid: false,
+      missing: ["NEXTAUTH_SECRET"],
+      message: `NEXTAUTH_SECRET must be at least ${MIN_AUTH_SECRET_LENGTH} characters in production`,
+    };
+  }
+
   return { valid: true, missing: [], message: null };
 }
 

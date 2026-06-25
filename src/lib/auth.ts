@@ -1,10 +1,19 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
 import { getAuthSecret, isProduction } from "@/lib/env";
 import { type UserSession } from "@/types";
 
 const SESSION_COOKIE = "qs_session";
 const SESSION_DURATION = 60 * 60 * 24 * 7; // 7 days
+
+export const SESSION_COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: isProduction(),
+  sameSite: "lax" as const,
+  maxAge: SESSION_DURATION,
+  path: "/",
+};
 
 function getJwtSecret(): Uint8Array {
   return new TextEncoder().encode(getAuthSecret());
@@ -47,15 +56,26 @@ export async function verifySessionToken(
   }
 }
 
+export function applySessionCookie(
+  response: NextResponse,
+  token: string
+): NextResponse {
+  response.cookies.set(SESSION_COOKIE, token, SESSION_COOKIE_OPTIONS);
+  return response;
+}
+
+/** Prefer applySessionCookie in route handlers — cookies().set() is unreliable there. */
 export async function setSessionCookie(token: string): Promise<void> {
   const cookieStore = await cookies();
-  cookieStore.set(SESSION_COOKIE, token, {
-    httpOnly: true,
-    secure: isProduction(),
-    sameSite: isProduction() ? "strict" : "lax",
-    maxAge: SESSION_DURATION,
-    path: "/",
-  });
+  cookieStore.set(SESSION_COOKIE, token, SESSION_COOKIE_OPTIONS);
+}
+
+export async function jsonWithSession(
+  body: unknown,
+  token: string,
+  init?: ResponseInit
+): Promise<NextResponse> {
+  return applySessionCookie(NextResponse.json(body, init), token);
 }
 
 export async function clearSessionCookie(): Promise<void> {

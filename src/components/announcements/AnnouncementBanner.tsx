@@ -4,11 +4,20 @@ import { Badge } from "@/components/ui/Badge";
 import { Megaphone } from "lucide-react";
 
 export async function AnnouncementBanner() {
-  const announcements = await prisma.announcement.findMany({
-    where: { active: true },
-    orderBy: { createdAt: "desc" },
-    take: 3,
-  });
+  let announcements: Awaited<
+    ReturnType<typeof prisma.announcement.findMany>
+  > = [];
+
+  try {
+    announcements = await prisma.announcement.findMany({
+      where: { active: true },
+      orderBy: { createdAt: "desc" },
+      take: 3,
+    });
+  } catch (error) {
+    console.error("[AnnouncementBanner] Failed to load announcements:", error);
+    return null;
+  }
 
   if (announcements.length === 0) return null;
 
