@@ -393,15 +393,7 @@ export function TradeLockerLiveDashboard() {
         </Card>
       </div>
 
-      {selectedAccountId && selectedAccNum && (
-        <LiveSignalTerminal
-          accountId={selectedAccountId}
-          accNum={selectedAccNum}
-          balance={dashboard?.metrics.balance ?? 0}
-          instruments={instruments}
-          onAfterCopyTrade={() => void refreshDashboard()}
-        />
-      )}
+      <LiveSignalTerminal instruments={instruments} />
 
       <Card>
         <CardHeader>

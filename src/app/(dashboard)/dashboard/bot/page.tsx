@@ -12,7 +12,7 @@ export default function TradingPage() {
         <h2 className="font-mono text-2xl font-bold text-slate-200">Trading</h2>
         <p className="mt-1 font-mono text-sm text-slate-500">
           Connect your TradeLocker account, pick an asset, watch live confluence
-          signals, execute manually with 1-click copy trade, and use four pro tools —
+          signals, and use four pro tools —
           Risk Guard, Position Sizer, Growth Coach, and Exposure Scanner.
         </p>
       </div>
@@ -89,8 +89,7 @@ export default function TradingPage() {
             </li>
             <li className="flex gap-3">
               <span className="text-cyan-400">02.</span>
-              Premium: select your asset, watch live price + confluence, then
-              1-Click Copy Trade when a setup triggers
+              Premium: select your asset and watch live confluence signals
             </li>
             <li className="flex gap-3">
               <span className="text-cyan-400">03.</span>

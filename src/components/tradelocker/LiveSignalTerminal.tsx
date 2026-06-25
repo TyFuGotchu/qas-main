@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import type { TradeLockerInstrument } from "@/lib/tradelocker/types";
 import { resolveMarketSymbol } from "@/lib/signals/market-symbols";
+import type { TradeLockerInstrument } from "@/lib/tradelocker/types";
 import type { AssetLiveState, LiveTradeSignal } from "@/lib/signals/types";
 import { MARKET_SYMBOLS, SYMBOL_LABELS } from "@/lib/market-data/symbols";
 import type { MarketSymbol } from "@/lib/market-data/types";
@@ -12,7 +12,6 @@ import { useSession } from "@/providers/SessionProvider";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
-import Input from "@/components/ui/Input";
 import Select from "@/components/ui/Select";
 import { useToast } from "@/components/ui/Toast";
 import { cn } from "@/lib/utils";
@@ -20,8 +19,6 @@ import {
   Activity,
   ArrowDownRight,
   ArrowUpRight,
-  Copy,
-  Loader2,
   Lock,
   Radio,
   Target,
@@ -31,11 +28,7 @@ import {
 } from "lucide-react";
 
 interface LiveSignalTerminalProps {
-  accountId: string;
-  accNum: string;
-  balance: number;
-  instruments: TradeLockerInstrument[];
-  onAfterCopyTrade?: () => void;
+  instruments?: TradeLockerInstrument[];
 }
 
 const DEFAULT_STATE: AssetLiveState = {
@@ -89,11 +82,7 @@ function setupBadgeVariant(
 }
 
 export function LiveSignalTerminal({
-  accountId,
-  accNum,
-  balance,
-  instruments,
-  onAfterCopyTrade,
+  instruments = [],
 }: LiveSignalTerminalProps) {
   const { user } = useSession();
   const { toast } = useToast();
@@ -115,8 +104,6 @@ export function LiveSignalTerminal({
   const [liveState, setLiveState] = useState<AssetLiveState>(DEFAULT_STATE);
   const [signals, setSignals] = useState<LiveTradeSignal[]>([]);
   const [connected, setConnected] = useState(false);
-  const [copyingId, setCopyingId] = useState<string | null>(null);
-  const [riskPerTradePct, setRiskPerTradePct] = useState("1");
   const eventSourceRef = useRef<EventSource | null>(null);
 
   useEffect(() => {
@@ -124,17 +111,6 @@ export function LiveSignalTerminal({
       setSelectedAsset(tradableAssets[0] ?? "XAUUSD");
     }
   }, [tradableAssets, selectedAsset]);
-
-  const instrumentByAsset = useMemo(() => {
-    const map = new Map<string, TradeLockerInstrument>();
-    for (const instrument of instruments) {
-      const asset = resolveMarketSymbol(instrument.name);
-      if (asset && !map.has(asset)) {
-        map.set(asset, instrument);
-      }
-    }
-    return map;
-  }, [instruments]);
 
   const assetOptions = useMemo(
     () =>
@@ -226,62 +202,6 @@ export function LiveSignalTerminal({
     };
   }, [hasPremium, selectedAsset, toast, upsertSignal, refreshMarketState]);
 
-  async function handleCopyTrade(signal: LiveTradeSignal) {
-    const instrument = instrumentByAsset.get(signal.asset);
-    if (!instrument) {
-      toast({
-        title: "Instrument not available",
-        description: `${signal.asset} is not tradable on your connected account.`,
-        variant: "error",
-      });
-      return;
-    }
-
-    setCopyingId(signal.id);
-
-    try {
-      const res = await fetch("/api/signals/copy-trade", {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          signalId: signal.id,
-          accountId,
-          accNum,
-          tradableInstrumentId: instrument.tradableInstrumentId,
-          routeId: instrument.routeId,
-          balance,
-          riskPerTradePct: Number(riskPerTradePct) || 1,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        toast({
-          title: "Copy trade failed",
-          description: data.error ?? "Execution failed",
-          variant: "error",
-        });
-        return;
-      }
-
-      toast({
-        title: "Copy trade placed",
-        description: `${data.side?.toUpperCase()} ${data.executedQty} lots · ${instrument.name}`,
-      });
-      onAfterCopyTrade?.();
-    } catch {
-      toast({
-        title: "Network error",
-        description: "Could not reach TradeLocker.",
-        variant: "error",
-      });
-    } finally {
-      setCopyingId(null);
-    }
-  }
-
   if (!hasPremium) {
     return (
       <Card className="border-cyan-500/30 bg-gradient-to-br from-cyan-500/5 to-slate-950">
@@ -297,8 +217,8 @@ export function LiveSignalTerminal({
               Live Trade Signals
             </h3>
             <p className="mt-2 text-sm text-slate-500">
-              Quicksilver Confluence Engine — multi-factor setups with manual
-              1-click execution on your TradeLocker account.
+              Quicksilver Confluence Engine — multi-factor setup alerts for your
+              watchlist. Execute on your broker when you are ready.
             </p>
           </div>
           <Link href="/onboarding/pricing" className="shrink-0">
@@ -341,21 +261,12 @@ export function LiveSignalTerminal({
       </CardHeader>
 
       <CardContent className="space-y-6">
-        <div className="grid gap-4 lg:grid-cols-[minmax(200px,1fr)_minmax(200px,1fr)]">
+        <div className="max-w-xs">
           <Select
             label="Signal asset"
             value={selectedAsset}
             onChange={(e) => setSelectedAsset(e.target.value as MarketSymbol)}
             options={assetOptions}
-          />
-          <Input
-            label="Risk per copy trade (%)"
-            type="number"
-            min="0.25"
-            max="5"
-            step="0.25"
-            value={riskPerTradePct}
-            onChange={(e) => setRiskPerTradePct(e.target.value)}
           />
         </div>
 
@@ -507,15 +418,13 @@ export function LiveSignalTerminal({
               </p>
               <p className="mt-2 text-xs text-slate-600">
                 Signals fire when score ≥ 78 with trend, structure, RSI, and EMA
-                pullback alignment. You execute manually.
+                pullback alignment.
               </p>
             </div>
           ) : (
             <div className="grid gap-4 lg:grid-cols-2">
               {signals.map((signal) => {
-                const instrument = instrumentByAsset.get(signal.asset);
                 const isBuy = signal.direction === "BUY";
-                const isCopying = copyingId === signal.id;
 
                 return (
                   <div
@@ -581,27 +490,6 @@ export function LiveSignalTerminal({
                     {signal.reason && (
                       <p className="mt-3 text-xs text-slate-500">{signal.reason}</p>
                     )}
-
-                    <div className="mt-4 flex flex-wrap items-center gap-2">
-                      <Button
-                        variant={isBuy ? "secondary" : "danger"}
-                        size="sm"
-                        disabled={!instrument || isCopying}
-                        onClick={() => void handleCopyTrade(signal)}
-                      >
-                        {isCopying ? (
-                          <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                        ) : (
-                          <Copy className="h-3.5 w-3.5" />
-                        )}
-                        1-Click Copy Trade
-                      </Button>
-                      {!instrument && (
-                        <span className="font-mono text-[10px] text-amber-400">
-                          Not on your account
-                        </span>
-                      )}
-                    </div>
                   </div>
                 );
               })}
