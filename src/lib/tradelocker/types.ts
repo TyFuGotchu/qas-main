@@ -41,6 +41,8 @@ export interface TradeLockerDashboardMetrics {
 export interface TradeLockerDashboardData {
   metrics: TradeLockerDashboardMetrics;
   positions: TradeLockerPosition[];
+  /** Filled TradeLocker orders today (from order history). */
+  tradesToday?: number;
 }
 
 export interface PanelColumn {

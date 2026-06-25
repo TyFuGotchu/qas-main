@@ -91,6 +91,70 @@ export function parseAccountState(
   return mapped;
 }
 
+const HISTORY_DATE_COLUMN_IDS = [
+  "openDate",
+  "date",
+  "createdAt",
+  "time",
+  "closeDate",
+];
+
+function parseTradeLockerTimestamp(value: string): Date | null {
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+
+  const numeric = Number(trimmed);
+  if (Number.isFinite(numeric) && numeric > 1_000_000_000_000) {
+    const fromMs = new Date(numeric);
+    return Number.isNaN(fromMs.getTime()) ? null : fromMs;
+  }
+  if (Number.isFinite(numeric) && numeric > 1_000_000_000) {
+    const fromSec = new Date(numeric * 1000);
+    return Number.isNaN(fromSec.getTime()) ? null : fromSec;
+  }
+
+  const parsed = new Date(trimmed);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+export function countFilledOrdersToday(
+  rows: string[][],
+  columns: PanelColumn[],
+  referenceDate = new Date()
+): number {
+  const statusIdx = columns.findIndex((c) => c.id === "status");
+  if (statusIdx < 0) return 0;
+
+  let dateColumnIdx = -1;
+  for (const id of HISTORY_DATE_COLUMN_IDS) {
+    const idx = columns.findIndex((c) => c.id === id);
+    if (idx >= 0) {
+      dateColumnIdx = idx;
+      break;
+    }
+  }
+
+  const dayStart = new Date(referenceDate);
+  dayStart.setHours(0, 0, 0, 0);
+  const dayEnd = new Date(dayStart);
+  dayEnd.setDate(dayEnd.getDate() + 1);
+
+  let count = 0;
+
+  for (const row of rows) {
+    if ((row[statusIdx] ?? "").toLowerCase() !== "filled") continue;
+
+    if (dateColumnIdx >= 0) {
+      const filledAt = parseTradeLockerTimestamp(row[dateColumnIdx] ?? "");
+      if (!filledAt || filledAt < dayStart || filledAt >= dayEnd) continue;
+    }
+
+    count += 1;
+  }
+
+  return count;
+}
+
 export function computeWinRateFromHistory(
   rows: string[][],
   columns: PanelColumn[]

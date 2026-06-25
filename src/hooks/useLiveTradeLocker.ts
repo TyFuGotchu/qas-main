@@ -143,6 +143,7 @@ export function useLiveTradeLocker(options: UseLiveTradeLockerOptions = {}) {
       qty: number;
       tradableInstrumentId: number;
       routeId: number;
+      instrumentName?: string;
       gateAcknowledged?: boolean;
     }): Promise<{ ok: boolean; error?: string }> => {
       if (!selectedAccountId || !selectedAccNum) {

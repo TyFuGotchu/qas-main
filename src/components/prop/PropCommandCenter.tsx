@@ -154,12 +154,19 @@ export function PropCommandCenter() {
             Live risk telemetry + challenge survival — wired to your profile
           </p>
         </div>
-        <Link href="/dashboard/journal">
-          <Button variant="ghost" size="sm">
-            <Settings className="h-3.5 w-3.5" />
-            Journal & Alpha
-          </Button>
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          <Link href="/dashboard/journal?profile=1">
+            <Button variant="ghost" size="sm">
+              <Settings className="h-3.5 w-3.5" />
+              Edit risk profile
+            </Button>
+          </Link>
+          <Link href="/dashboard/journal">
+            <Button variant="ghost" size="sm">
+              Journal & Alpha
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <div className="flex flex-wrap gap-2">

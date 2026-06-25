@@ -9,7 +9,7 @@ import { PreTradeGateDialog } from "@/components/tradelocker/PreTradeGateDialog"
 import { evaluatePreTradeGate } from "@/lib/pre-trade-gate";
 import type { PreTradeGateResult } from "@/lib/pre-trade-gate";
 import type { TraderProfileView } from "@/lib/trader-profile";
-import { countTradesToday } from "@/lib/journal/stats";
+import { resolveTradesTodayCount } from "@/lib/journal/trade-count";
 import type { TradeJournalEntry } from "@prisma/client";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
@@ -205,10 +205,16 @@ export function TradeLockerLiveDashboard() {
       qty,
       tradableInstrumentId: selectedInstrument.tradableInstrumentId,
       routeId: selectedInstrument.routeId,
+      instrumentName: selectedInstrument.name,
       gateAcknowledged,
     });
 
     if (result.ok) {
+      const journalRes = await fetch("/api/journal");
+      if (journalRes.ok) {
+        const data = await journalRes.json();
+        setJournalEntries(data.entries ?? []);
+      }
       toast({
         title: `${side === "buy" ? "Buy" : "Sell"} order placed`,
         description: `${qty} lots · ${selectedInstrument.name}`,
@@ -243,7 +249,10 @@ export function TradeLockerLiveDashboard() {
 
     if (traderProfile?.profileComplete) {
       const gate = evaluatePreTradeGate(dashboard?.metrics ?? null, traderProfile, {
-        tradesToday: countTradesToday(journalEntries),
+        tradesToday: resolveTradesTodayCount(
+          dashboard?.tradesToday ?? 0,
+          journalEntries
+        ),
       });
 
       if (!gate.allowed) {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import type { TradeJournalEntry } from "@prisma/client";
 import type { AlphaDurabilityResult } from "@/lib/quicksilver/alpha-durability";
 import type { JournalStats } from "@/lib/journal/stats";
@@ -22,6 +23,7 @@ import {
 import { cn } from "@/lib/utils";
 
 export function TradeJournal() {
+  const searchParams = useSearchParams();
   const [entries, setEntries] = useState<TradeJournalEntry[]>([]);
   const [stats, setStats] = useState<JournalStats | null>(null);
   const [alpha, setAlpha] = useState<AlphaDurabilityResult | null>(null);
@@ -58,6 +60,12 @@ export function TradeJournal() {
   useEffect(() => {
     loadJournal();
   }, [loadJournal]);
+
+  useEffect(() => {
+    if (searchParams.get("profile") === "1") {
+      setShowProfile(true);
+    }
+  }, [searchParams]);
 
   async function handleAddEntry(e: React.FormEvent) {
     e.preventDefault();

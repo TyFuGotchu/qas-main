@@ -14,12 +14,14 @@ import {
 import {
   buildMetrics,
   computeWinRateFromHistory,
+  countFilledOrdersToday,
   parseAccountState,
   parsePositions,
 } from "@/lib/tradelocker/parsers";
 import type { PanelColumn } from "@/lib/tradelocker/types";
+import { autoLogTradeLockerOrder } from "@/lib/journal/auto-log";
+import { resolveTradesTodayCount } from "@/lib/journal/trade-count";
 import { evaluatePreTradeGate } from "@/lib/pre-trade-gate";
-
 import { getOrCreateTraderProfileView } from "@/lib/trader-profile-db";
 import {
   enforceRateLimit,
@@ -101,10 +103,16 @@ export async function POST(request: NextRequest) {
     }
 
     const gateAcknowledged = Boolean(body.gateAcknowledged);
+    const instrumentName =
+      typeof body.instrumentName === "string"
+        ? body.instrumentName.trim()
+        : "";
     const profile = await getOrCreateTraderProfileView(session.id);
 
     if (profile.profileComplete) {
       let metrics = null;
+      let tlFilledToday = 0;
+
       try {
         const [configRaw, stateRaw, positionsRaw, historyRaw] =
           await Promise.all([
@@ -142,15 +150,22 @@ export async function POST(request: NextRequest) {
           closedTrades,
           positions.length
         );
+
+        tlFilledToday = countFilledOrdersToday(historyRows, historyColumns);
       } catch {
         // proceed with null metrics if TL fetch fails
       }
 
       const dayStart = new Date();
       dayStart.setHours(0, 0, 0, 0);
-      const tradesToday = await prisma.tradeJournalEntry.count({
+      const journalToday = await prisma.tradeJournalEntry.findMany({
         where: { userId: session.id, entryTime: { gte: dayStart } },
+        select: { entryTime: true, source: true },
       });
+      const tradesToday = resolveTradesTodayCount(
+        tlFilledToday,
+        journalToday
+      );
 
       const gate = evaluatePreTradeGate(metrics, profile, {
         tradesToday,
@@ -177,6 +192,18 @@ export async function POST(request: NextRequest) {
       routeId,
       tradableInstrumentId,
     });
+
+    try {
+      await autoLogTradeLockerOrder({
+        userId: session.id,
+        symbol: instrumentName || String(tradableInstrumentId),
+        side,
+        qty,
+        instrumentName: instrumentName || undefined,
+      });
+    } catch (autoLogError) {
+      console.error("[tradelocker/orders] auto-log failed:", autoLogError);
+    }
 
     return NextResponse.json({ success: true, result });
   } catch (error) {

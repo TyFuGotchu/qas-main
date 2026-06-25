@@ -12,6 +12,7 @@ import {
 import {
   buildMetrics,
   computeWinRateFromHistory,
+  countFilledOrdersToday,
   parseAccountState,
   parsePositions,
 } from "@/lib/tradelocker/parsers";
@@ -79,7 +80,9 @@ export async function GET(request: NextRequest) {
       positions.length
     );
 
-    return NextResponse.json({ metrics, positions });
+    const tradesToday = countFilledOrdersToday(historyRows, historyColumns);
+
+    return NextResponse.json({ metrics, positions, tradesToday });
   } catch (error) {
     if (error instanceof TradeLockerApiError) {
       return NextResponse.json({ error: error.message }, { status: error.status });
