@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useLiveTradeLocker } from "@/hooks/useLiveTradeLocker";
 import { TradeLockerConnectForm } from "@/components/tradelocker/TradeLockerConnectForm";
 import { TradeLockerAccountTools } from "@/components/tradelocker/TradeLockerAccountTools";
-import { LiveQuicksilverBot } from "@/components/tradelocker/LiveQuicksilverBot";
+import { LiveSignalTerminal } from "@/components/tradelocker/LiveSignalTerminal";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
@@ -394,13 +394,12 @@ export function TradeLockerLiveDashboard() {
       </div>
 
       {selectedAccountId && selectedAccNum && (
-        <LiveQuicksilverBot
+        <LiveSignalTerminal
           accountId={selectedAccountId}
           accNum={selectedAccNum}
           balance={dashboard?.metrics.balance ?? 0}
           instruments={instruments}
-          instrumentsLoading={instrumentsLoading}
-          onAfterTick={() => void refreshDashboard()}
+          onAfterCopyTrade={() => void refreshDashboard()}
         />
       )}
 

@@ -11,8 +11,8 @@ export default function TradingPage() {
       <div>
         <h2 className="font-mono text-2xl font-bold text-slate-200">Trading</h2>
         <p className="mt-1 font-mono text-sm text-slate-500">
-          Connect your TradeLocker account, run the Quicksilver Pulse live bot
-          on assets you choose, manage positions, and use four pro tools —
+          Connect your TradeLocker account, receive live 9/21 EMA trade signals,
+          execute manually with 1-click copy trade, and use four pro tools —
           Risk Guard, Position Sizer, Growth Coach, and Exposure Scanner.
         </p>
       </div>
@@ -89,8 +89,8 @@ export default function TradingPage() {
             </li>
             <li className="flex gap-3">
               <span className="text-cyan-400">02.</span>
-              Premium: start Quicksilver Pulse — pick an asset, set risk %, and
-              let the bot size trades from your live balance
+              Premium: watch Live Trade Signals and use 1-Click Copy Trade when
+              you want to execute on your account
             </li>
             <li className="flex gap-3">
               <span className="text-cyan-400">03.</span>
