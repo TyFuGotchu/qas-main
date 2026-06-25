@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useLiveTradeLocker } from "@/hooks/useLiveTradeLocker";
 import { TradeLockerConnectForm } from "@/components/tradelocker/TradeLockerConnectForm";
 import { TradeLockerAccountTools } from "@/components/tradelocker/TradeLockerAccountTools";
+import { LiveQuicksilverBot } from "@/components/tradelocker/LiveQuicksilverBot";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
@@ -76,6 +77,7 @@ export function TradeLockerLiveDashboard() {
     error,
     refreshStatus,
     refreshAccounts,
+    refreshDashboard,
     placeOrder,
     closePosition,
     disconnect,
@@ -390,6 +392,17 @@ export function TradeLockerLiveDashboard() {
           </CardContent>
         </Card>
       </div>
+
+      {selectedAccountId && selectedAccNum && (
+        <LiveQuicksilverBot
+          accountId={selectedAccountId}
+          accNum={selectedAccNum}
+          balance={dashboard?.metrics.balance ?? 0}
+          instruments={instruments}
+          instrumentsLoading={instrumentsLoading}
+          onAfterTick={() => void refreshDashboard()}
+        />
+      )}
 
       <Card>
         <CardHeader>
