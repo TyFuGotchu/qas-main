@@ -28,7 +28,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
 
   return (
     <ToastProvider>
-      <div className="qs-environment relative min-h-screen">
+      <div className="qs-environment relative min-h-screen overflow-x-hidden">
         <InstitutionalBackdrop variant="dashboard" />
         {mobileNavOpen && (
           <button
@@ -42,17 +42,17 @@ export function DashboardShell({ children }: DashboardShellProps) {
           mobileOpen={mobileNavOpen}
           onNavigate={() => setMobileNavOpen(false)}
         />
-        <div className="relative z-10 flex min-h-screen flex-col lg:ml-64">
+        <div className="relative z-[1] flex min-h-screen flex-col lg:ml-64">
           <Header
             onMenuToggle={() => setMobileNavOpen((open) => !open)}
             menuOpen={mobileNavOpen}
           />
-          <main className="relative flex-1 overflow-x-hidden p-4 sm:p-6">
+          <main className="qs-terminal-frame relative flex-1 overflow-x-hidden p-4 sm:p-6">
             <div
-              className="pointer-events-none absolute inset-0 bg-gradient-to-br from-cyan-500/[0.02] via-transparent to-emerald-500/[0.02]"
+              className="pointer-events-none absolute inset-0 bg-gradient-to-br from-cyan-500/[0.06] via-transparent to-emerald-500/[0.05]"
               aria-hidden
             />
-            <div className="relative">{children}</div>
+            <div className="relative z-[1]">{children}</div>
           </main>
         </div>
       </div>

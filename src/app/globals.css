@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
   --background: #06070a;
@@ -12,8 +12,8 @@
   --emerald-terminal: #45A29E;
   --obsidian-800: #1F2833;
   --obsidian-950: #0B0C10;
-  --qs-glass: rgba(11, 12, 16, 0.72);
-  --qs-glass-border: rgba(102, 252, 241, 0.08);
+  --qs-glass: rgba(11, 12, 16, 0.55);
+  --qs-glass-border: rgba(102, 252, 241, 0.2);
 }
 
 * {
@@ -24,11 +24,12 @@ html {
   color-scheme: dark;
   -webkit-text-size-adjust: 100%;
   overflow-x: hidden;
+  background: #06070a;
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background: transparent;
   font-family: var(--font-inter), system-ui, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
@@ -40,15 +41,15 @@ body {
   }
 
   .terminal-glow {
-    text-shadow: 0 0 10px rgba(102, 252, 241, 0.5);
+    text-shadow: 0 0 12px rgba(102, 252, 241, 0.65);
   }
 
   .border-glow {
-    box-shadow: 0 0 15px rgba(102, 252, 241, 0.1);
+    box-shadow: 0 0 20px rgba(102, 252, 241, 0.15);
   }
 
   .border-glow-cyan {
-    box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+    box-shadow: 0 0 28px rgba(0, 229, 255, 0.25);
   }
 
   .text-cyan-accent {
@@ -57,24 +58,24 @@ body {
 
   .qs-environment {
     position: relative;
-    isolation: isolate;
     min-height: 100vh;
+    background: #06070a;
   }
 
   .qs-glass-panel {
     background: linear-gradient(
-      135deg,
-      rgba(18, 20, 26, 0.92) 0%,
-      rgba(11, 12, 16, 0.88) 50%,
-      rgba(15, 18, 24, 0.9) 100%
+      145deg,
+      rgba(22, 28, 38, 0.82) 0%,
+      rgba(11, 14, 20, 0.72) 45%,
+      rgba(8, 12, 18, 0.78) 100%
     );
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(102, 252, 241, 0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 229, 255, 0.18);
     box-shadow:
-      0 0 0 1px rgba(0, 0, 0, 0.4) inset,
-      0 4px 24px rgba(0, 0, 0, 0.35),
-      0 0 40px rgba(0, 229, 255, 0.03);
+      0 0 0 1px rgba(0, 0, 0, 0.5) inset,
+      0 8px 32px rgba(0, 0, 0, 0.45),
+      0 0 60px rgba(0, 229, 255, 0.06);
   }
 
   .qs-panel-shine {
@@ -89,9 +90,9 @@ body {
     padding: 1px;
     background: linear-gradient(
       135deg,
-      rgba(102, 252, 241, 0.18) 0%,
-      rgba(102, 252, 241, 0.02) 40%,
-      rgba(69, 162, 158, 0.06) 100%
+      rgba(0, 229, 255, 0.45) 0%,
+      rgba(102, 252, 241, 0.08) 35%,
+      rgba(69, 162, 158, 0.15) 100%
     );
     -webkit-mask:
       linear-gradient(#fff 0 0) content-box,
@@ -107,128 +108,165 @@ body {
   .qs-nav-glass {
     background: linear-gradient(
       180deg,
-      rgba(11, 12, 16, 0.94) 0%,
-      rgba(11, 12, 16, 0.82) 100%
+      rgba(8, 12, 18, 0.88) 0%,
+      rgba(11, 14, 20, 0.72) 100%
     );
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(102, 252, 241, 0.06);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid rgba(0, 229, 255, 0.15);
     box-shadow:
-      0 1px 0 rgba(102, 252, 241, 0.04),
-      0 8px 32px rgba(0, 0, 0, 0.4);
+      0 1px 0 rgba(0, 229, 255, 0.12),
+      0 12px 40px rgba(0, 0, 0, 0.5);
   }
 
   .qs-footer-glass {
     background: linear-gradient(
       0deg,
-      rgba(6, 7, 10, 0.95) 0%,
-      rgba(11, 12, 16, 0.6) 100%
+      rgba(6, 7, 10, 0.92) 0%,
+      rgba(11, 12, 16, 0.5) 100%
     );
-    border-top: 1px solid rgba(102, 252, 241, 0.06);
+    border-top: 1px solid rgba(0, 229, 255, 0.12);
+  }
+
+  .qs-terminal-frame {
+    position: relative;
+  }
+
+  .qs-terminal-frame::before {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0.5rem;
+    border: 1px solid rgba(0, 229, 255, 0.12);
+    border-radius: 0.75rem;
+    box-shadow:
+      inset 0 0 60px rgba(0, 229, 255, 0.03),
+      0 0 40px rgba(0, 229, 255, 0.04);
+  }
+
+  .qs-terminal-frame::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    width: 3rem;
+    height: 3rem;
+    border-top: 2px solid rgba(0, 229, 255, 0.5);
+    border-left: 2px solid rgba(0, 229, 255, 0.5);
+    border-radius: 0.75rem 0 0 0;
   }
 }
 
-/* Institutional backdrop layers */
+/* Institutional backdrop — must stay outside @layer so Tailwind doesn't override */
 .qs-backdrop-base {
   background:
-    radial-gradient(ellipse 120% 80% at 50% -30%, rgba(0, 229, 255, 0.07) 0%, transparent 55%),
-    radial-gradient(ellipse 80% 60% at 100% 100%, rgba(69, 162, 158, 0.06) 0%, transparent 50%),
-    linear-gradient(180deg, #06070a 0%, #0b0c10 35%, #080a0f 100%);
+    radial-gradient(ellipse 130% 90% at 50% -20%, rgba(0, 229, 255, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 90% 70% at 100% 100%, rgba(69, 162, 158, 0.14) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 50% at 0% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+    linear-gradient(180deg, #050608 0%, #0a0d14 40%, #06080c 100%);
 }
 
 .qs-backdrop-grid {
   background-image:
-    linear-gradient(rgba(102, 252, 241, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(102, 252, 241, 0.04) 1px, transparent 1px);
+    linear-gradient(rgba(0, 229, 255, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.09) 1px, transparent 1px);
   background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black 20%, transparent 75%);
 }
 
 .qs-backdrop-grid-fine {
   background-image:
-    linear-gradient(rgba(102, 252, 241, 0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(102, 252, 241, 0.015) 1px, transparent 1px);
+    linear-gradient(rgba(102, 252, 241, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(102, 252, 241, 0.04) 1px, transparent 1px);
   background-size: 12px 12px;
-  opacity: 0.6;
 }
 
 .qs-backdrop-chart-lines {
+  opacity: 0.7;
   background-image:
-    linear-gradient(90deg, transparent 0%, rgba(0, 229, 255, 0.03) 50%, transparent 100%),
     repeating-linear-gradient(
       0deg,
       transparent,
-      transparent 80px,
-      rgba(102, 252, 241, 0.02) 80px,
-      rgba(102, 252, 241, 0.02) 81px
+      transparent 79px,
+      rgba(0, 229, 255, 0.04) 79px,
+      rgba(0, 229, 255, 0.04) 80px
     );
-  mask-image: linear-gradient(180deg, transparent 0%, black 30%, black 70%, transparent 100%);
+}
+
+.qs-backdrop-dashboard-beam {
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(0, 229, 255, 0.04) 50%,
+    transparent 60%
+  );
+  animation: qs-beam-sweep 8s ease-in-out infinite;
 }
 
 .qs-backdrop-hero-rays {
   background: conic-gradient(
-    from 220deg at 50% 0%,
+    from 210deg at 50% -10%,
     transparent 0deg,
-    rgba(0, 229, 255, 0.04) 30deg,
-    transparent 60deg,
-    rgba(69, 162, 158, 0.03) 120deg,
-    transparent 180deg
+    rgba(0, 229, 255, 0.1) 25deg,
+    transparent 55deg,
+    rgba(69, 162, 158, 0.08) 110deg,
+    transparent 160deg
   );
 }
 
 .qs-backdrop-sidebar-glow {
   background: linear-gradient(
     90deg,
-    rgba(0, 229, 255, 0.04) 0%,
+    rgba(0, 229, 255, 0.12) 0%,
+    rgba(0, 229, 255, 0.03) 40%,
     transparent 100%
   );
-  mask-image: linear-gradient(180deg, black 0%, black 80%, transparent 100%);
 }
 
 .qs-orb {
   border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.55;
-  animation: qs-orb-drift 18s ease-in-out infinite alternate;
+  filter: blur(80px);
+  opacity: 0.85;
+  animation: qs-orb-drift 14s ease-in-out infinite alternate;
 }
 
 .qs-orb-cyan {
-  background: radial-gradient(circle, rgba(0, 229, 255, 0.35) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.55) 0%, transparent 68%);
 }
 
 .qs-orb-emerald {
-  background: radial-gradient(circle, rgba(69, 162, 158, 0.3) 0%, transparent 70%);
-  animation-delay: -6s;
+  background: radial-gradient(circle, rgba(69, 162, 158, 0.45) 0%, transparent 68%);
+  animation-delay: -5s;
 }
 
 .qs-orb-violet {
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.2) 0%, transparent 70%);
-  animation-delay: -12s;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, transparent 68%);
+  animation-delay: -10s;
 }
 
 .qs-backdrop-vignette {
   background: radial-gradient(
-    ellipse 85% 75% at 50% 50%,
-    transparent 30%,
-    rgba(6, 7, 10, 0.65) 100%
+    ellipse 80% 70% at 50% 50%,
+    transparent 25%,
+    rgba(4, 5, 8, 0.55) 100%
   );
 }
 
 .qs-backdrop-noise {
-  opacity: 0.035;
+  opacity: 0.06;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 .qs-backdrop-scanline {
-  opacity: 0.04;
+  opacity: 0.07;
   background: repeating-linear-gradient(
     0deg,
     transparent,
     transparent 2px,
-    rgba(0, 0, 0, 0.15) 2px,
-    rgba(0, 0, 0, 0.15) 4px
+    rgba(0, 0, 0, 0.2) 2px,
+    rgba(0, 0, 0, 0.2) 4px
   );
-  animation: qs-scan 12s linear infinite;
+  animation: qs-scan 10s linear infinite;
 }
 
 @keyframes qs-orb-drift {
@@ -236,7 +274,7 @@ body {
     transform: translate(0, 0) scale(1);
   }
   100% {
-    transform: translate(24px, -16px) scale(1.06);
+    transform: translate(30px, -20px) scale(1.08);
   }
 }
 
@@ -245,7 +283,19 @@ body {
     background-position: 0 0;
   }
   100% {
-    background-position: 0 100px;
+    background-position: 0 80px;
+  }
+}
+
+@keyframes qs-beam-sweep {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: translateX(-5%);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(5%);
   }
 }
 

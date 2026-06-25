@@ -29,8 +29,9 @@ export function Header({ onMenuToggle, menuOpen = false }: HeaderProps) {
   }
 
   return (
-    <header className="qs-nav-glass sticky top-0 z-30 flex h-14 min-h-14 items-center justify-between gap-3 px-4 sm:h-16 sm:px-6">
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-qs-header-line opacity-50" />
+    <header className="qs-nav-glass sticky top-0 z-30 flex h-14 min-h-14 flex-col sm:h-16">
+      <div className="relative flex flex-1 items-center justify-between gap-3 px-4 sm:px-6">
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-qs-header-line opacity-80" />
       <div className="relative flex min-w-0 flex-1 items-center gap-3">
         <button
           type="button"
@@ -87,6 +88,11 @@ export function Header({ onMenuToggle, menuOpen = false }: HeaderProps) {
           </>
         )}
       </div>
+      </div>
+      <div
+        className="h-[2px] w-full shrink-0 bg-gradient-to-r from-transparent via-cyan-400/70 to-transparent animate-pulse"
+        aria-hidden
+      />
     </header>
   );
 }

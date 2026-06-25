@@ -18,7 +18,7 @@ export function PublicPageShell({
   return (
     <div className="qs-environment relative min-h-screen">
       <InstitutionalBackdrop variant={variant} />
-      <div className="relative z-10 flex min-h-screen flex-col">
+      <div className="relative z-[1] flex min-h-screen flex-col">
         <PublicNav />
         <main
           className={cn(

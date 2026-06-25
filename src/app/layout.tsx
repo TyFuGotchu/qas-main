@@ -60,7 +60,7 @@ export default async function RootLayout({
         <GoogleAnalytics />
       </head>
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} overflow-x-hidden bg-[#06070a] text-slate-300 antialiased`}
+        className={`${inter.variable} ${jetbrainsMono.variable} overflow-x-hidden bg-transparent text-slate-300 antialiased`}
       >
         <SessionProvider initialUser={user}>{children}</SessionProvider>
       </body>

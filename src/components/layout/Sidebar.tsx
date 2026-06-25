@@ -48,7 +48,7 @@ export function Sidebar({ mobileOpen = false, onNavigate }: SidebarProps) {
   return (
     <aside
       className={cn(
-        "fixed left-0 top-0 z-50 flex h-screen w-64 max-w-[min(16rem,85vw)] flex-col border-r border-cyan-500/10 bg-obsidian-950/85 shadow-[4px_0_32px_rgba(0,0,0,0.45)] backdrop-blur-xl transition-transform duration-300 ease-in-out lg:translate-x-0",
+        "fixed left-0 top-0 z-50 flex h-screen w-64 max-w-[min(16rem,85vw)] flex-col border-r border-cyan-500/25 bg-obsidian-950/55 shadow-[4px_0_40px_rgba(0,229,255,0.08)] backdrop-blur-2xl transition-transform duration-300 ease-in-out lg:translate-x-0",
         mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
       )}
     >

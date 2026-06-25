@@ -105,6 +105,10 @@ export function PublicNav() {
             </button>
           </div>
         </div>
+        <div
+          className="h-[2px] w-full bg-gradient-to-r from-transparent via-cyan-400/70 to-transparent animate-pulse"
+          aria-hidden
+        />
       </header>
 
       {mobileOpen && (
