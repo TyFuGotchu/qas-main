@@ -25,7 +25,7 @@ export function articleJsonLd(params: {
       ...PUBLISHER,
       logo: {
         "@type": "ImageObject",
-        url: `${SITE_URL}/favicon.ico`,
+        url: `${SITE_URL}/icon.png`,
       },
     },
     mainEntityOfPage: `${SITE_URL}/lessons/${params.slug}`,
