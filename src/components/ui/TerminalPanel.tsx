@@ -22,11 +22,11 @@ export function TerminalPanel({
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-lg border border-slate-700/60 bg-obsidian-950 font-mono text-sm",
+        "qs-panel-shine overflow-hidden rounded-lg border border-cyan-500/10 bg-obsidian-950/90 font-mono text-sm shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-md",
         className
       )}
     >
-      <div className="flex items-center gap-3 border-b border-slate-700/60 bg-obsidian-900 px-4 py-2.5">
+      <div className="flex items-center gap-3 border-b border-cyan-500/10 bg-gradient-to-r from-cyan-500/[0.06] via-obsidian-900 to-transparent px-4 py-2.5">
         <div className="flex gap-1.5">
           <span className="h-2.5 w-2.5 rounded-full bg-red-500/80" />
           <span className="h-2.5 w-2.5 rounded-full bg-amber-500/80" />

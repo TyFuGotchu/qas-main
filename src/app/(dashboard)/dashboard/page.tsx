@@ -76,8 +76,12 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h2 className="font-mono text-2xl font-bold text-slate-200">
+      <div className="qs-glass-panel qs-panel-shine relative overflow-hidden rounded-xl border-cyan-500/10 px-6 py-5">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-qs-header-line opacity-70" />
+        <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-cyan-400/80">
+          Institutional Terminal
+        </p>
+        <h2 className="mt-1 font-mono text-2xl font-bold text-slate-100">
           Command Center
         </h2>
         <p className="mt-1 font-mono text-sm text-slate-500">

@@ -6,10 +6,15 @@ import { Activity, BarChart3, Cpu, Shield } from "lucide-react";
 export function Hero() {
   return (
     <section className="relative overflow-hidden px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-      <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 via-transparent to-transparent" />
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        <div className="absolute left-1/2 top-0 h-px w-3/4 -translate-x-1/2 bg-qs-header-line opacity-80" />
+        <div className="absolute left-1/2 top-24 h-64 w-64 -translate-x-1/2 rounded-full border border-cyan-500/10 opacity-40" />
+        <div className="absolute left-1/2 top-24 h-96 w-96 -translate-x-1/2 rounded-full border border-cyan-500/5 opacity-30" />
+      </div>
+
       <div className="relative mx-auto max-w-7xl">
         <div className="text-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/5 px-4 py-1.5">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/5 px-4 py-1.5 shadow-[0_0_24px_rgba(0,229,255,0.08)]">
             <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
             <span className="font-mono text-xs uppercase tracking-widest text-cyan-400">
               Live System — v2.4.1
@@ -78,7 +83,7 @@ export function Hero() {
           ].map((feature) => (
             <div
               key={feature.title}
-              className="group rounded-lg border border-slate-800/60 bg-obsidian-900/50 p-6 transition-all hover:border-cyan-500/30 hover:bg-obsidian-900"
+              className="qs-panel-shine group rounded-lg border border-slate-800/50 bg-qs-panel p-6 backdrop-blur-md transition-all hover:border-cyan-500/30 hover:shadow-[0_0_32px_rgba(0,229,255,0.08)]"
             >
               <feature.icon className="mb-4 h-8 w-8 text-cyan-400 transition-transform group-hover:scale-110" />
               <h3 className="font-mono text-sm font-semibold text-slate-200">

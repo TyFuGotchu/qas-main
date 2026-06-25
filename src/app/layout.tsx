@@ -44,7 +44,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  themeColor: "#0B0C10",
+  themeColor: "#06070a",
 };
 
 export default async function RootLayout({
@@ -60,7 +60,7 @@ export default async function RootLayout({
         <GoogleAnalytics />
       </head>
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} overflow-x-hidden bg-obsidian-950 text-slate-300 antialiased`}
+        className={`${inter.variable} ${jetbrainsMono.variable} overflow-x-hidden bg-[#06070a] text-slate-300 antialiased`}
       >
         <SessionProvider initialUser={user}>{children}</SessionProvider>
       </body>

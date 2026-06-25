@@ -17,8 +17,13 @@ export default function GlobalError({
   }, [error]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-obsidian-950 px-4">
-      <div className="max-w-md text-center">
+    <div className="qs-environment relative flex min-h-screen items-center justify-center px-4">
+      <div className="qs-backdrop pointer-events-none fixed inset-0 -z-10" aria-hidden>
+        <div className="qs-backdrop-base absolute inset-0" />
+        <div className="qs-backdrop-grid absolute inset-0" />
+        <div className="qs-backdrop-vignette absolute inset-0" />
+      </div>
+      <div className="qs-glass-panel qs-panel-shine relative max-w-md rounded-xl p-8 text-center">
         <AlertTriangle className="mx-auto h-10 w-10 text-amber-400" />
         <h1 className="mt-4 font-mono text-xl font-bold text-slate-200">
           Something went wrong

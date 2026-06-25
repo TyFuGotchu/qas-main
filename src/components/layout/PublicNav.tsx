@@ -36,10 +36,10 @@ export function PublicNav() {
 
   return (
     <>
-      <header className="fixed top-0 z-50 w-full border-b border-slate-800/60 bg-obsidian-950/90 backdrop-blur-md">
+      <header className="qs-nav-glass fixed top-0 z-50 w-full">
         <div className="mx-auto flex h-14 min-h-14 max-w-7xl items-center justify-between gap-3 px-4 sm:h-16 sm:px-6 lg:px-8">
           <Link href="/" className="group flex min-w-0 shrink items-center gap-2">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded border border-cyan-500/40 bg-cyan-500/10 transition-colors group-hover:border-cyan-400">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded border border-cyan-500/40 bg-cyan-500/10 shadow-[0_0_16px_rgba(0,229,255,0.12)] transition-colors group-hover:border-cyan-400">
               <Zap className="h-4 w-4 text-cyan-400" />
             </div>
             <span className="truncate font-mono text-xs font-bold tracking-wider text-slate-200 sm:text-sm">

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { InstitutionalBackdrop } from "@/components/layout/InstitutionalBackdrop";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
 import { ToastProvider } from "@/components/ui/Toast";
@@ -27,27 +28,34 @@ export function DashboardShell({ children }: DashboardShellProps) {
 
   return (
     <ToastProvider>
-    <div className="min-h-screen bg-obsidian-950">
-      {mobileNavOpen && (
-        <button
-          type="button"
-          aria-label="Close navigation menu"
-          className="fixed inset-0 z-40 bg-black/60 lg:hidden"
-          onClick={() => setMobileNavOpen(false)}
+      <div className="qs-environment relative min-h-screen">
+        <InstitutionalBackdrop variant="dashboard" />
+        {mobileNavOpen && (
+          <button
+            type="button"
+            aria-label="Close navigation menu"
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
+            onClick={() => setMobileNavOpen(false)}
+          />
+        )}
+        <Sidebar
+          mobileOpen={mobileNavOpen}
+          onNavigate={() => setMobileNavOpen(false)}
         />
-      )}
-      <Sidebar
-        mobileOpen={mobileNavOpen}
-        onNavigate={() => setMobileNavOpen(false)}
-      />
-      <div className="flex min-h-screen flex-col lg:ml-64">
-        <Header
-          onMenuToggle={() => setMobileNavOpen((open) => !open)}
-          menuOpen={mobileNavOpen}
-        />
-        <main className="flex-1 overflow-x-hidden p-4 sm:p-6">{children}</main>
+        <div className="relative z-10 flex min-h-screen flex-col lg:ml-64">
+          <Header
+            onMenuToggle={() => setMobileNavOpen((open) => !open)}
+            menuOpen={mobileNavOpen}
+          />
+          <main className="relative flex-1 overflow-x-hidden p-4 sm:p-6">
+            <div
+              className="pointer-events-none absolute inset-0 bg-gradient-to-br from-cyan-500/[0.02] via-transparent to-emerald-500/[0.02]"
+              aria-hidden
+            />
+            <div className="relative">{children}</div>
+          </main>
+        </div>
       </div>
-    </div>
     </ToastProvider>
   );
 }

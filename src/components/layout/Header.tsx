@@ -29,8 +29,9 @@ export function Header({ onMenuToggle, menuOpen = false }: HeaderProps) {
   }
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 min-h-14 items-center justify-between gap-3 border-b border-slate-800/60 bg-obsidian-950/90 px-4 backdrop-blur-md sm:h-16 sm:px-6">
-      <div className="flex min-w-0 flex-1 items-center gap-3">
+    <header className="qs-nav-glass sticky top-0 z-30 flex h-14 min-h-14 items-center justify-between gap-3 px-4 sm:h-16 sm:px-6">
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-qs-header-line opacity-50" />
+      <div className="relative flex min-w-0 flex-1 items-center gap-3">
         <button
           type="button"
           className="shrink-0 rounded-lg border border-slate-700/50 p-2 text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 lg:hidden"
@@ -50,7 +51,7 @@ export function Header({ onMenuToggle, menuOpen = false }: HeaderProps) {
         </div>
       </div>
 
-      <div className="flex shrink-0 items-center gap-2 sm:gap-4">
+      <div className="relative flex shrink-0 items-center gap-2 sm:gap-4">
         {user && (
           <>
             <div className="hidden items-center gap-3 md:flex">

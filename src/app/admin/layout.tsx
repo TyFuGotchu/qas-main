@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { InstitutionalBackdrop } from "@/components/layout/InstitutionalBackdrop";
 import { Zap } from "lucide-react";
 
 export default function AdminLayout({
@@ -7,8 +8,9 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-obsidian-950">
-      <header className="border-b border-slate-800/60 bg-obsidian-950/90 px-4 py-4 sm:px-6">
+    <div className="qs-environment relative min-h-screen">
+      <InstitutionalBackdrop variant="dashboard" />
+      <header className="qs-nav-glass relative z-10 px-4 py-4 sm:px-6">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">
           <Link href="/admin/dashboard" className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded border border-cyan-500/40 bg-cyan-500/10">
@@ -26,7 +28,9 @@ export default function AdminLayout({
           </Link>
         </div>
       </header>
-      <main className="mx-auto max-w-7xl overflow-x-hidden p-4 sm:p-6">{children}</main>
+      <main className="relative z-10 mx-auto max-w-7xl overflow-x-hidden p-4 sm:p-6">
+        {children}
+      </main>
     </div>
   );
 }

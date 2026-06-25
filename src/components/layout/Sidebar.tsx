@@ -48,18 +48,24 @@ export function Sidebar({ mobileOpen = false, onNavigate }: SidebarProps) {
   return (
     <aside
       className={cn(
-        "fixed left-0 top-0 z-50 flex h-screen w-64 max-w-[min(16rem,85vw)] flex-col border-r border-slate-800/60 bg-obsidian-950 transition-transform duration-300 ease-in-out lg:translate-x-0",
+        "fixed left-0 top-0 z-50 flex h-screen w-64 max-w-[min(16rem,85vw)] flex-col border-r border-cyan-500/10 bg-obsidian-950/85 shadow-[4px_0_32px_rgba(0,0,0,0.45)] backdrop-blur-xl transition-transform duration-300 ease-in-out lg:translate-x-0",
         mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
       )}
     >
-      <div className="flex h-16 items-center justify-between border-b border-slate-800/60 px-4 sm:px-6">
+      <div className="relative flex h-16 items-center justify-between border-b border-cyan-500/10 bg-gradient-to-r from-cyan-500/[0.06] to-transparent px-4 sm:px-6">
+        <div className="absolute inset-x-0 bottom-0 h-px bg-qs-header-line opacity-60" />
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded border border-cyan-500/40 bg-cyan-500/10">
+          <div className="flex h-8 w-8 items-center justify-center rounded border border-cyan-500/40 bg-cyan-500/10 shadow-[0_0_16px_rgba(0,229,255,0.15)]">
             <Zap className="h-4 w-4 text-cyan-400" />
           </div>
-          <span className="font-mono text-xs font-bold tracking-wider text-slate-200">
-            QS<span className="text-cyan-400">.ALGO</span>
-          </span>
+          <div>
+            <span className="block font-mono text-xs font-bold tracking-wider text-slate-200">
+              QS<span className="text-cyan-400">.ALGO</span>
+            </span>
+            <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-slate-600">
+              Terminal OS
+            </span>
+          </div>
         </div>
         <button
           type="button"
@@ -86,8 +92,8 @@ export function Sidebar({ mobileOpen = false, onNavigate }: SidebarProps) {
               className={cn(
                 "flex items-center gap-3 rounded-lg px-3 py-2.5 font-mono text-xs uppercase tracking-wider transition-all",
                 isActive
-                  ? "border border-cyan-500/30 bg-cyan-500/10 text-cyan-400"
-                  : "border border-transparent text-slate-500 hover:bg-slate-800/50 hover:text-slate-300"
+                  ? "border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 shadow-[0_0_20px_rgba(0,229,255,0.08)]"
+                  : "border border-transparent text-slate-500 hover:border-slate-700/50 hover:bg-slate-800/40 hover:text-slate-300"
               )}
             >
               <Icon className="h-4 w-4 shrink-0" />
@@ -97,8 +103,8 @@ export function Sidebar({ mobileOpen = false, onNavigate }: SidebarProps) {
         })}
       </nav>
 
-      <div className="border-t border-slate-800/60 p-4">
-        <div className="rounded-lg border border-slate-700/50 bg-obsidian-900 p-3">
+      <div className="border-t border-cyan-500/10 p-4">
+        <div className="qs-glass-panel rounded-lg p-3">
           <p className="text-[10px] font-mono uppercase tracking-widest text-slate-600">
             System Status
           </p>

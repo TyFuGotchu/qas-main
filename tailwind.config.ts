@@ -12,6 +12,7 @@ const config: Config = {
         obsidian: {
           950: "#0B0C10",
           900: "#12141A",
+          850: "#0E1016",
           800: "#1F2833",
           700: "#2A3441",
         },
@@ -30,6 +31,10 @@ const config: Config = {
       backgroundImage: {
         "grid-pattern":
           "linear-gradient(rgba(102,252,241,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(102,252,241,0.03) 1px, transparent 1px)",
+        "qs-panel":
+          "linear-gradient(135deg, rgba(18,20,26,0.95) 0%, rgba(11,12,16,0.9) 50%, rgba(15,18,24,0.92) 100%)",
+        "qs-header-line":
+          "linear-gradient(90deg, transparent 0%, rgba(0,229,255,0.4) 50%, transparent 100%)",
       },
       backgroundSize: {
         grid: "40px 40px",
