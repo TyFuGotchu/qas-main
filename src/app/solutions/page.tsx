@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  SEO_LANDING_COUNT,
   SEO_MARKETS,
   SEO_PROP_FIRMS,
   SEO_TIMEFRAMES,
@@ -9,14 +8,16 @@ import {
   getLandingPagesByMarket,
   getLandingPagesByPropFirm,
 } from "@/lib/seo/landing-pages";
-import { LESSON_LANDING_COUNT } from "@/lib/seo/lesson-landing-pages";
-import { PROMO_LANDING_COUNT } from "@/lib/seo/promo-landing-pages";
-import { TOTAL_SEO_LANDING_PAGES } from "@/lib/seo/seo-index";
 import { Badge } from "@/components/ui/Badge";
+import {
+  PREMIUM_PROMO_FIRST_MONTH,
+  PREMIUM_PROMO_CODE,
+} from "@/lib/pricing-tiers";
 
 export const metadata: Metadata = {
   title: "Free Manual Trading Tools & Calculators | Quicksilver Algo",
-  description: `${SEO_LANDING_COUNT}+ free trading calculators — market, timeframe, and prop firm combos for forex, gold, indices, and crypto manual traders.`,
+  description:
+    "Free trading calculators and planning tools for forex, gold, indices, and crypto — browse by market, timeframe, prop firm, and topic.",
 };
 
 export default function SolutionsHubPage() {
@@ -24,15 +25,14 @@ export default function SolutionsHubPage() {
     <div className="space-y-12">
       <header>
         <Badge variant="success" className="mb-3">
-          {SEO_LANDING_COUNT} free tools & calculators
+          Free tools & calculators
         </Badge>
         <h1 className="font-mono text-3xl font-bold text-slate-100 sm:text-4xl">
           Manual Trading Solutions Hub
         </h1>
         <p className="mt-3 max-w-2xl text-slate-400">
-          {SEO_LANDING_COUNT} tool pages — market × topic, timeframe × topic,
-          prop firm × market, and more. Plus {LESSON_LANDING_COUNT} lesson
-          guides ({TOTAL_SEO_LANDING_PAGES} total SEO landing pages).
+          Setup scorers, risk calculators, and planning modules for manual
+          traders — organized by market, timeframe, prop firm, and topic.
         </p>
       </header>
 
@@ -152,21 +152,20 @@ export default function SolutionsHubPage() {
 
       <section className="rounded-lg border border-slate-800/40 p-6 text-center">
         <p className="font-mono text-sm text-slate-400">
-          {SEO_LANDING_COUNT} tool pages indexed — browse by market, prop firm, or
-          topic above.
+          Ready for full platform access?
         </p>
         <div className="mt-3 flex flex-col items-center gap-2">
           <Link
             href="/offers"
             className="font-mono text-xs text-emerald-400 hover:underline"
           >
-            {PROMO_LANDING_COUNT} FIRST100 promo pages — $89.99 first month →
+            {PREMIUM_PROMO_CODE} promo — {PREMIUM_PROMO_FIRST_MONTH} first month →
           </Link>
           <Link
             href="/learn"
             className="font-mono text-xs text-cyan-accent hover:underline"
           >
-            Explore {LESSON_LANDING_COUNT} market-specific lesson guides →
+            Explore free lesson guides →
           </Link>
         </div>
       </section>

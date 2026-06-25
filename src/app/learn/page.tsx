@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  LESSON_LANDING_COUNT,
   LESSON_LANDING_PAGES,
   getLessonLandingPagesByMarket,
   getLessonLandingPagesByPropFirm,
@@ -12,7 +11,8 @@ import { Badge } from "@/components/ui/Badge";
 
 export const metadata: Metadata = {
   title: "Free Trading Lesson Guides by Market & Prop Firm | Quicksilver Algo",
-  description: `${LESSON_LANDING_COUNT}+ free lesson landing pages for gold, forex, indices, crypto, and prop firm challengers — chart reading, candlesticks, Fibonacci, and funded trader workflows.`,
+  description:
+    "Free lesson guides for gold, forex, indices, crypto, and prop firm challengers — chart reading, candlesticks, Fibonacci, and funded trader workflows.",
 };
 
 export default function LearnHubPage() {
@@ -22,7 +22,7 @@ export default function LearnHubPage() {
     <div className="space-y-12">
       <header>
         <Badge variant="success" className="mb-3">
-          {LESSON_LANDING_COUNT} lesson guides
+          Free lesson previews
         </Badge>
         <h1 className="font-mono text-3xl font-bold text-slate-100 sm:text-4xl">
           Lesson Guides by Market & Prop Firm
@@ -36,11 +36,10 @@ export default function LearnHubPage() {
 
       <section>
         <h2 className="mb-4 font-mono text-sm font-semibold uppercase tracking-widest text-slate-500">
-          Browse by market ({markets.length})
+          Browse by market
         </h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {markets.map((market) => {
-            const count = getLessonLandingPagesByMarket(market.slug).length;
             const first = getLessonLandingPagesByMarket(market.slug)[0];
             return (
               <Link
@@ -51,9 +50,7 @@ export default function LearnHubPage() {
                 <p className="font-mono text-sm font-semibold text-slate-200">
                   {market.shortName}
                 </p>
-                <p className="mt-1 text-xs text-slate-500">
-                  {count} lesson guides · {market.session}
-                </p>
+                <p className="mt-1 text-xs text-slate-500">{market.session}</p>
               </Link>
             );
           })}
@@ -62,11 +59,10 @@ export default function LearnHubPage() {
 
       <section>
         <h2 className="mb-4 font-mono text-sm font-semibold uppercase tracking-widest text-slate-500">
-          Browse by prop firm ({SEO_PROP_FIRMS.length})
+          Browse by prop firm
         </h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {SEO_PROP_FIRMS.map((firm) => {
-            const count = getLessonLandingPagesByPropFirm(firm.slug).length;
             const first = getLessonLandingPagesByPropFirm(firm.slug)[0];
             return (
               <Link
@@ -77,9 +73,7 @@ export default function LearnHubPage() {
                 <p className="font-mono text-sm font-semibold text-slate-200">
                   {firm.shortName}
                 </p>
-                <p className="mt-1 text-xs text-slate-500">
-                  {count} lesson guides · {firm.profitTarget}
-                </p>
+                <p className="mt-1 text-xs text-slate-500">{firm.profitTarget}</p>
               </Link>
             );
           })}
@@ -106,8 +100,7 @@ export default function LearnHubPage() {
                   {lesson.title}
                 </p>
                 <p className="mt-1 text-xs text-slate-500">
-                  {lesson.categoryTitle} · {markets.length + SEO_PROP_FIRMS.length}{" "}
-                  targeted guides
+                  {lesson.categoryTitle}
                 </p>
               </Link>
             );

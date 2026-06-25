@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  PROMO_LANDING_COUNT,
   getPromoPagesByMarket,
   getPromoPagesByPropFirm,
 } from "@/lib/seo/promo-landing-pages";
@@ -10,7 +9,6 @@ import {
   SEO_PROP_FIRMS,
   SEO_TOPICS,
 } from "@/lib/seo/landing-data";
-import { TOTAL_INDEXED_CONTENT_PAGES } from "@/lib/seo/seo-index";
 import { Badge } from "@/components/ui/Badge";
 import {
   PREMIUM_PROMO_CODE,
@@ -22,7 +20,7 @@ import {
 
 export const metadata: Metadata = {
   title: `${PREMIUM_PROMO_CODE} Promo Offers — ${PREMIUM_PROMO_DISCOUNT} Off Premium | Quicksilver`,
-  description: `${PROMO_LANDING_COUNT}+ landing pages for code ${PREMIUM_PROMO_CODE}. ${PREMIUM_PROMO_FIRST_MONTH} first month on Quicksilver Premium (${PREMIUM_PRICE}/mo). Chart Academy, tools, bot, and email support.`,
+  description: `${PREMIUM_PROMO_NOTE} ${PREMIUM_PROMO_FIRST_MONTH} first month on Quicksilver Premium (${PREMIUM_PRICE}/mo). Chart Academy, trading tools, live terminal, and email support.`,
 };
 
 const BUNDLE_LINKS = [
@@ -38,7 +36,7 @@ export default function OffersHubPage() {
     <div className="space-y-12">
       <header>
         <Badge variant="success" className="mb-3">
-          {PROMO_LANDING_COUNT} FIRST100 offer pages
+          Limited-time promo
         </Badge>
         <h1 className="font-mono text-3xl font-bold text-slate-100 sm:text-4xl">
           {PREMIUM_PROMO_CODE} Promo Hub
@@ -46,9 +44,7 @@ export default function OffersHubPage() {
         <p className="mt-3 max-w-2xl text-slate-400">
           {PREMIUM_PROMO_NOTE} Premium is normally {PREMIUM_PRICE}/mo — code{" "}
           {PREMIUM_PROMO_CODE} drops month one to {PREMIUM_PROMO_FIRST_MONTH}.
-          Browse {PROMO_LANDING_COUNT} keyword-targeted offer pages across markets,
-          prop firms, lessons, and trading topics ({TOTAL_INDEXED_CONTENT_PAGES}+
-          total indexed pages on the site).
+          Find deals by market, prop firm, or trading topic below.
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
           {BUNDLE_LINKS.map((link) => (
@@ -81,15 +77,14 @@ export default function OffersHubPage() {
                   {market.shortName}
                 </p>
                 <p className="mt-1 font-mono text-[10px] text-slate-600">
-                  {pages.length} FIRST100 pages
+                  {market.session}
                 </p>
               </Link>
             );
           })}
         </div>
         <p className="mt-3 font-mono text-xs text-slate-600">
-          + {SEO_MARKETS.length - 12} more markets — use topic links below or search
-          <code className="text-slate-500"> /offers/first100-&#123;market&#125;-&#123;topic&#125;</code>
+          More markets and topics in the sections below.
         </p>
       </section>
 
@@ -111,7 +106,7 @@ export default function OffersHubPage() {
                   {firm.shortName}
                 </p>
                 <p className="mt-1 font-mono text-[10px] text-slate-600">
-                  {pages.length} offer pages
+                  {firm.profitTarget}
                 </p>
               </Link>
             );
