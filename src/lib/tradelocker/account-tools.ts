@@ -16,8 +16,8 @@ export interface RiskGuardResult {
 
 export interface PositionSizeResult {
   riskDollars: number;
-  suggestedLots: number;
-  maxLotsAtRisk: number;
+  riskPerTradePct: number;
+  balance: number;
   openExposurePct: number;
   message: string;
 }
@@ -96,18 +96,11 @@ export function computePositionSize(
   positions: TradeLockerPosition[],
   options: {
     riskPerTradePct: number;
-    stopLossPips: number;
-    pipValuePerLot: number;
   }
 ): PositionSizeResult {
   const safeBalance = Math.max(balance, 1);
-  const riskDollars = safeBalance * (options.riskPerTradePct / 100);
-  const stopRiskPerLot = options.stopLossPips * options.pipValuePerLot;
-  const suggestedLots =
-    stopRiskPerLot > 0
-      ? Math.floor((riskDollars / stopRiskPerLot) * 100) / 100
-      : 0;
-  const maxLotsAtRisk = Math.max(0.01, suggestedLots);
+  const riskPerTradePct = options.riskPerTradePct;
+  const riskDollars = safeBalance * (riskPerTradePct / 100);
 
   const openUnrealized = positions.reduce(
     (sum, p) => sum + Math.abs(Number(p.unrealizedPl) || 0),
@@ -115,16 +108,16 @@ export function computePositionSize(
   );
   const openExposurePct = (openUnrealized / safeBalance) * 100;
 
-  let message = `Risking ${options.riskPerTradePct}% ($${riskDollars.toFixed(2)}) per trade at ${options.stopLossPips} pip stop.`;
-  if (openExposurePct > options.riskPerTradePct * 3) {
+  let message = `Cap each trade at ${riskPerTradePct}% of account ($${riskDollars.toFixed(2)}). You choose lot size — margin and leverage vary by broker and prop firm.`;
+  if (openExposurePct > riskPerTradePct * 3) {
     message +=
       " Open book heat is high — consider closing or hedging before adding size.";
   }
 
   return {
     riskDollars: Math.round(riskDollars * 100) / 100,
-    suggestedLots,
-    maxLotsAtRisk,
+    riskPerTradePct,
+    balance: safeBalance,
     openExposurePct: Math.round(openExposurePct * 10) / 10,
     message,
   };

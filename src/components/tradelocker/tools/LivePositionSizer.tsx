@@ -16,22 +16,25 @@ interface LivePositionSizerProps {
   positions: TradeLockerPosition[];
 }
 
+function formatMoney(value: number): string {
+  return `$${value.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
+}
+
 export function LivePositionSizer({
   metrics,
   positions,
 }: LivePositionSizerProps) {
   const [riskPerTradePct, setRiskPerTradePct] = useState("1");
-  const [stopLossPips, setStopLossPips] = useState("15");
-  const [pipValuePerLot, setPipValuePerLot] = useState("10");
 
   const result = useMemo(
     () =>
       computePositionSize(metrics.balance, positions, {
         riskPerTradePct: Number(riskPerTradePct) || 1,
-        stopLossPips: Number(stopLossPips) || 15,
-        pipValuePerLot: Number(pipValuePerLot) || 10,
       }),
-    [metrics.balance, positions, riskPerTradePct, stopLossPips, pipValuePerLot]
+    [metrics.balance, positions, riskPerTradePct]
   );
 
   return (
@@ -42,52 +45,43 @@ export function LivePositionSizer({
           Live Position Sizer
         </h3>
         <p className="mt-1 text-xs text-slate-500">
-          Lot size from live balance — size like a funded pro
+          Risk budget from live balance — you set lot size for your broker
         </p>
       </CardHeader>
       <CardContent className="space-y-5">
-        <div className="grid gap-4 sm:grid-cols-3">
-          <Input
-            label="Risk per trade (%)"
-            type="number"
-            min="0.25"
-            max="5"
-            step="0.25"
-            value={riskPerTradePct}
-            onChange={(e) => setRiskPerTradePct(e.target.value)}
-          />
-          <Input
-            label="Stop loss (pips)"
-            type="number"
-            min="1"
-            step="1"
-            value={stopLossPips}
-            onChange={(e) => setStopLossPips(e.target.value)}
-          />
-          <Input
-            label="$ per pip (1 lot)"
-            type="number"
-            min="0.1"
-            step="0.1"
-            value={pipValuePerLot}
-            onChange={(e) => setPipValuePerLot(e.target.value)}
-          />
-        </div>
+        <Input
+          label="Risk per trade (%)"
+          type="number"
+          min="0.25"
+          max="5"
+          step="0.25"
+          value={riskPerTradePct}
+          onChange={(e) => setRiskPerTradePct(e.target.value)}
+        />
 
-        <div className="rounded-lg border border-cyan-accent/20 bg-cyan-accent/5 px-4 py-5 text-center">
-          <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500">
-            Suggested lot size
-          </p>
-          <p className="mt-2 font-mono text-4xl font-bold text-cyan-terminal">
-            {result.suggestedLots.toFixed(2)}
-          </p>
-          <p className="mt-2 font-mono text-xs text-slate-500">
-            Risk ${result.riskDollars.toFixed(2)} on balance $
-            {metrics.balance.toLocaleString(undefined, {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
-          </p>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="rounded-lg border border-cyan-accent/20 bg-cyan-accent/5 px-4 py-5 text-center">
+            <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500">
+              Risk per trade
+            </p>
+            <p className="mt-2 font-mono text-4xl font-bold text-cyan-terminal">
+              {result.riskPerTradePct}%
+            </p>
+            <p className="mt-2 font-mono text-lg font-semibold text-slate-200">
+              {formatMoney(result.riskDollars)}
+            </p>
+          </div>
+          <div className="rounded-lg border border-slate-800/60 bg-slate-900/40 px-4 py-5 text-center">
+            <p className="font-mono text-[10px] uppercase tracking-widest text-slate-500">
+              Live balance
+            </p>
+            <p className="mt-2 font-mono text-2xl font-bold text-slate-200">
+              {formatMoney(result.balance)}
+            </p>
+            <p className="mt-2 font-mono text-xs text-slate-500">
+              Max loss budget for next trade
+            </p>
+          </div>
         </div>
 
         <div className="flex flex-wrap gap-2">
