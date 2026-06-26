@@ -10,11 +10,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "primary", size = "md", children, ...props }, ref) => {
     const variants = {
       primary:
-        "bg-cyan-500/10 text-cyan-400 border border-cyan-500/50 hover:bg-cyan-500/20 hover:border-cyan-400 shadow-[0_0_15px_rgba(102,252,241,0.15)]",
+        "relative overflow-hidden bg-gradient-to-br from-cyan-500/15 via-cyan-500/8 to-slate-900/40 text-cyan-300 border border-cyan-400/40 hover:border-cyan-300/70 hover:text-cyan-200 shadow-[0_0_20px_rgba(0,229,255,0.12),inset_0_1px_0_rgba(232,244,252,0.08)] hover:shadow-[0_0_32px_rgba(0,229,255,0.22),inset_0_1px_0_rgba(232,244,252,0.12)]",
       secondary:
-        "bg-emerald-500/10 text-emerald-400 border border-emerald-500/50 hover:bg-emerald-500/20 hover:border-emerald-400",
+        "bg-gradient-to-br from-emerald-500/12 to-slate-900/30 text-emerald-300 border border-emerald-500/40 hover:border-emerald-400/60 hover:text-emerald-200 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]",
       ghost:
-        "bg-transparent text-slate-400 border border-transparent hover:text-cyan-400 hover:bg-slate-800/50",
+        "bg-transparent text-slate-400 border border-transparent hover:text-cyan-300 hover:bg-slate-800/40 hover:border-slate-700/50",
       danger:
         "bg-red-500/10 text-red-400 border border-red-500/50 hover:bg-red-500/20",
     };
@@ -29,7 +29,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={cn(
-          "inline-flex items-center justify-center gap-2 rounded font-mono font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed",
+          "inline-flex items-center justify-center gap-2 rounded-lg font-mono font-medium tracking-wide transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed",
           variants[variant],
           sizes[size],
           className

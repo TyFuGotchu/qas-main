@@ -39,8 +39,8 @@ export function PublicNav() {
       <header className="qs-nav-glass fixed top-0 z-50 w-full">
         <div className="mx-auto flex h-14 min-h-14 max-w-7xl items-center justify-between gap-3 px-4 sm:h-16 sm:px-6 lg:px-8">
           <Link href="/" className="group flex min-w-0 shrink items-center gap-2">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded border border-cyan-500/40 bg-cyan-500/10 shadow-[0_0_16px_rgba(0,229,255,0.12)] transition-colors group-hover:border-cyan-400">
-              <Zap className="h-4 w-4 text-cyan-400" />
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-cyan-400/30 bg-gradient-to-br from-cyan-500/15 to-slate-900/50 shadow-[0_0_20px_rgba(0,229,255,0.15),inset_0_1px_0_rgba(232,244,252,0.08)] transition-all group-hover:border-cyan-300/50 group-hover:shadow-[0_0_28px_rgba(0,229,255,0.25)]">
+              <Zap className="h-4 w-4 text-cyan-300" />
             </div>
             <span className="truncate font-mono text-xs font-bold tracking-wider text-slate-200 sm:text-sm">
               QUICKSILVER<span className="text-cyan-400">.ALGO</span>
@@ -105,10 +105,7 @@ export function PublicNav() {
             </button>
           </div>
         </div>
-        <div
-          className="h-[2px] w-full bg-gradient-to-r from-transparent via-cyan-400/70 to-transparent animate-pulse"
-          aria-hidden
-        />
+        <div className="qs-nav-energy-line h-[2px] w-full" aria-hidden />
       </header>
 
       {mobileOpen && (

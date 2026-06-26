@@ -16,6 +16,10 @@ const config: Config = {
           800: "#1F2833",
           700: "#2A3441",
         },
+        silver: {
+          mist: "#B8C8D8",
+          bright: "#E8F4FC",
+        },
         cyan: {
           terminal: "#66FCF1",
           accent: "#00E5FF",
@@ -32,7 +36,9 @@ const config: Config = {
         "grid-pattern":
           "linear-gradient(rgba(102,252,241,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(102,252,241,0.03) 1px, transparent 1px)",
         "qs-panel":
-          "linear-gradient(135deg, rgba(18,20,26,0.95) 0%, rgba(11,12,16,0.9) 50%, rgba(15,18,24,0.92) 100%)",
+          "linear-gradient(155deg, rgba(22,28,38,0.88) 0%, rgba(10,14,20,0.82) 45%, rgba(6,10,16,0.9) 100%)",
+        "qs-mercury":
+          "linear-gradient(135deg, rgba(232,244,252,0.9) 0%, rgba(102,252,241,0.7) 30%, rgba(0,229,255,0.5) 55%, rgba(184,200,216,0.6) 100%)",
         "qs-header-line":
           "linear-gradient(90deg, transparent 0%, rgba(0,229,255,0.4) 50%, transparent 100%)",
       },
@@ -43,6 +49,8 @@ const config: Config = {
         "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         glow: "glow 2s ease-in-out infinite alternate",
         "pulse-glow": "pulseGlow 2s ease-in-out infinite",
+        "mercury-flow": "mercuryFlow 12s linear infinite",
+        "energy-flow": "energyFlow 4s ease-in-out infinite",
       },
       keyframes: {
         glow: {
@@ -52,6 +60,15 @@ const config: Config = {
         pulseGlow: {
           "0%, 100%": { boxShadow: "0 0 8px rgba(0,229,255,0.15)" },
           "50%": { boxShadow: "0 0 28px rgba(0,229,255,0.45)" },
+        },
+        mercuryFlow: {
+          "0%": { transform: "translateX(-8%)", opacity: "0.3" },
+          "50%": { opacity: "0.7" },
+          "100%": { transform: "translateX(8%)", opacity: "0.3" },
+        },
+        energyFlow: {
+          "0%, 100%": { backgroundPosition: "100% 0" },
+          "50%": { backgroundPosition: "0% 0" },
         },
       },
     },

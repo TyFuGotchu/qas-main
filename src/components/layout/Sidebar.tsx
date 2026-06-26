@@ -48,15 +48,15 @@ export function Sidebar({ mobileOpen = false, onNavigate }: SidebarProps) {
   return (
     <aside
       className={cn(
-        "fixed left-0 top-0 z-50 flex h-screen w-64 max-w-[min(16rem,85vw)] flex-col border-r border-cyan-500/25 bg-obsidian-950/55 shadow-[4px_0_40px_rgba(0,229,255,0.08)] backdrop-blur-2xl transition-transform duration-300 ease-in-out lg:translate-x-0",
+        "fixed left-0 top-0 z-50 flex h-screen w-64 max-w-[min(16rem,85vw)] flex-col border-r border-slate-600/20 bg-obsidian-950/65 shadow-[4px_0_48px_rgba(0,0,0,0.45),4px_0_40px_rgba(0,229,255,0.06)] backdrop-blur-2xl transition-transform duration-300 ease-in-out lg:translate-x-0",
         mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
       )}
     >
       <div className="relative flex h-16 items-center justify-between border-b border-cyan-500/10 bg-gradient-to-r from-cyan-500/[0.06] to-transparent px-4 sm:px-6">
         <div className="absolute inset-x-0 bottom-0 h-px bg-qs-header-line opacity-60" />
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded border border-cyan-500/40 bg-cyan-500/10 shadow-[0_0_16px_rgba(0,229,255,0.15)]">
-            <Zap className="h-4 w-4 text-cyan-400" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-cyan-400/30 bg-gradient-to-br from-cyan-500/15 to-slate-900/50 shadow-[0_0_20px_rgba(0,229,255,0.15)]">
+            <Zap className="h-4 w-4 text-cyan-300" />
           </div>
           <div>
             <span className="block font-mono text-xs font-bold tracking-wider text-slate-200">

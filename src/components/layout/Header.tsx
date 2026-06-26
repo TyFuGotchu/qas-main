@@ -89,10 +89,7 @@ export function Header({ onMenuToggle, menuOpen = false }: HeaderProps) {
         )}
       </div>
       </div>
-      <div
-        className="h-[2px] w-full shrink-0 bg-gradient-to-r from-transparent via-cyan-400/70 to-transparent animate-pulse"
-        aria-hidden
-      />
+      <div className="qs-nav-energy-line h-[2px] w-full shrink-0" aria-hidden />
     </header>
   );
 }
