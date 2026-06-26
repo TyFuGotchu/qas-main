@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 import { getSession } from "@/lib/auth";
+import { normalizeTraderTimezone } from "@/lib/journal/timezone";
+import { prisma } from "@/lib/prisma";
 import {
   fetchAccountState,
   fetchOpenPositions,
@@ -12,7 +14,7 @@ import {
 import {
   buildMetrics,
   computeWinRateFromHistory,
-  countFilledOrdersToday,
+  countTradeEntriesTodayFromHistory,
   parseAccountState,
   parsePositions,
 } from "@/lib/tradelocker/parsers";
@@ -80,7 +82,21 @@ export async function GET(request: NextRequest) {
       positions.length
     );
 
-    const tradesToday = countFilledOrdersToday(historyRows, historyColumns);
+    const profile = await prisma.traderProfile.findUnique({
+      where: { userId: session.id },
+      select: { timezone: true },
+    });
+    const timezone = normalizeTraderTimezone(
+      request.nextUrl.searchParams.get("timezone") ??
+        profile?.timezone ??
+        undefined
+    );
+
+    const tradesToday = countTradeEntriesTodayFromHistory(
+      historyRows,
+      historyColumns,
+      timezone
+    );
 
     return NextResponse.json({ metrics, positions, tradesToday });
   } catch (error) {

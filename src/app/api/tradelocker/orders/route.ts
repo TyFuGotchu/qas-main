@@ -14,7 +14,7 @@ import {
 import {
   buildMetrics,
   computeWinRateFromHistory,
-  countFilledOrdersToday,
+  countTradeEntriesTodayFromHistory,
   parseAccountState,
   parsePositions,
 } from "@/lib/tradelocker/parsers";
@@ -151,20 +151,25 @@ export async function POST(request: NextRequest) {
           positions.length
         );
 
-        tlFilledToday = countFilledOrdersToday(historyRows, historyColumns);
+        tlFilledToday = countTradeEntriesTodayFromHistory(
+          historyRows,
+          historyColumns,
+          profile.timezone
+        );
       } catch {
         // proceed with null metrics if TL fetch fails
       }
 
-      const dayStart = new Date();
-      dayStart.setHours(0, 0, 0, 0);
-      const journalToday = await prisma.tradeJournalEntry.findMany({
-        where: { userId: session.id, entryTime: { gte: dayStart } },
+      const lookback = new Date();
+      lookback.setHours(lookback.getHours() - 36);
+      const recentJournal = await prisma.tradeJournalEntry.findMany({
+        where: { userId: session.id, entryTime: { gte: lookback } },
         select: { entryTime: true, source: true },
       });
       const tradesToday = resolveTradesTodayCount(
         tlFilledToday,
-        journalToday
+        recentJournal,
+        profile.timezone
       );
 
       const gate = evaluatePreTradeGate(metrics, profile, {

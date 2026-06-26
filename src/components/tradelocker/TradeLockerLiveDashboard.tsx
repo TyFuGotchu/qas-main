@@ -270,7 +270,8 @@ export function TradeLockerLiveDashboard() {
       const gate = evaluatePreTradeGate(dashboard?.metrics ?? null, traderProfile, {
         tradesToday: resolveTradesTodayCount(
           dashboard?.tradesToday ?? 0,
-          journalEntries
+          journalEntries,
+          traderProfile.timezone
         ),
       });
 

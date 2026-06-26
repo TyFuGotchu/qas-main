@@ -142,7 +142,11 @@ export function computePropTodaySnapshot(params: {
     sessionStats = null,
   } = params;
 
-  const tradesToday = resolveTradesTodayCount(tradesTodayTl, journalEntries);
+  const tradesToday = resolveTradesTodayCount(
+    tradesTodayTl,
+    journalEntries,
+    profile.timezone
+  );
   const maxTrades = profile.maxTradesPerDay;
   const tradesRemaining = Math.max(0, maxTrades - tradesToday);
   const tradesUsedPct =

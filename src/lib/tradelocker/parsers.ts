@@ -1,3 +1,4 @@
+import { isSameTraderCalendarDay } from "@/lib/journal/timezone";
 import type {
   PanelColumn,
   TradeLockerAccount,
@@ -117,39 +118,74 @@ function parseTradeLockerTimestamp(value: string): Date | null {
   return Number.isNaN(parsed.getTime()) ? null : parsed;
 }
 
+function resolveHistoryDateColumnIndex(columns: PanelColumn[]): number {
+  for (const id of HISTORY_DATE_COLUMN_IDS) {
+    const idx = columns.findIndex((c) => c.id === id);
+    if (idx >= 0) return idx;
+  }
+  return -1;
+}
+
+/** @deprecated Use countTradeEntriesTodayFromHistory */
 export function countFilledOrdersToday(
   rows: string[][],
   columns: PanelColumn[],
+  referenceDate = new Date(),
+  timezone = "America/New_York"
+): number {
+  return countTradeEntriesTodayFromHistory(
+    rows,
+    columns,
+    timezone,
+    referenceDate
+  );
+}
+
+/** Count new trade entries today — first fill per position, not every close leg. */
+export function countTradeEntriesTodayFromHistory(
+  rows: string[][],
+  columns: PanelColumn[],
+  timezone = "America/New_York",
   referenceDate = new Date()
 ): number {
   const statusIdx = columns.findIndex((c) => c.id === "status");
   if (statusIdx < 0) return 0;
 
-  let dateColumnIdx = -1;
-  for (const id of HISTORY_DATE_COLUMN_IDS) {
-    const idx = columns.findIndex((c) => c.id === id);
-    if (idx >= 0) {
-      dateColumnIdx = idx;
-      break;
-    }
-  }
+  const dateColumnIdx = resolveHistoryDateColumnIndex(columns);
+  if (dateColumnIdx < 0) return 0;
 
-  const dayStart = new Date(referenceDate);
-  dayStart.setHours(0, 0, 0, 0);
-  const dayEnd = new Date(dayStart);
-  dayEnd.setDate(dayEnd.getDate() + 1);
+  const positionIdx = columns.findIndex((c) => c.id === "positionId");
 
-  let count = 0;
+  const firstFillByPosition = new Map<string, Date>();
+  let orphanEntriesToday = 0;
 
   for (const row of rows) {
     if ((row[statusIdx] ?? "").toLowerCase() !== "filled") continue;
 
-    if (dateColumnIdx >= 0) {
-      const filledAt = parseTradeLockerTimestamp(row[dateColumnIdx] ?? "");
-      if (!filledAt || filledAt < dayStart || filledAt >= dayEnd) continue;
+    const filledAt = parseTradeLockerTimestamp(row[dateColumnIdx] ?? "");
+    if (!filledAt) continue;
+
+    const positionId = positionIdx >= 0 ? row[positionIdx]?.trim() : "";
+
+    if (positionId) {
+      const existing = firstFillByPosition.get(positionId);
+      if (!existing || filledAt < existing) {
+        firstFillByPosition.set(positionId, filledAt);
+      }
+      continue;
     }
 
-    count += 1;
+    if (isSameTraderCalendarDay(filledAt, timezone, referenceDate)) {
+      orphanEntriesToday += 1;
+    }
+  }
+
+  let count = orphanEntriesToday;
+
+  for (const firstFill of Array.from(firstFillByPosition.values())) {
+    if (isSameTraderCalendarDay(firstFill, timezone, referenceDate)) {
+      count += 1;
+    }
   }
 
   return count;

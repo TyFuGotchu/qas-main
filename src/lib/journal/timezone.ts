@@ -23,6 +23,24 @@ export function normalizeTraderTimezone(value: string | null | undefined): strin
   return DEFAULT_TRADER_TIMEZONE;
 }
 
+function traderCalendarKey(date: Date, timezone: string): string {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: normalizeTraderTimezone(timezone),
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(date);
+}
+
+/** Whether `date` falls on the same calendar day as `reference` in the trader timezone. */
+export function isSameTraderCalendarDay(
+  date: Date,
+  timezone: string,
+  reference = new Date()
+): boolean {
+  return traderCalendarKey(date, timezone) === traderCalendarKey(reference, timezone);
+}
+
 export function formatInTimezone(
   date: Date,
   timezone: string,
