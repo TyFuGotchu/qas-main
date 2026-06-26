@@ -9,7 +9,6 @@ import {
 } from "@/lib/tradelocker/selected-account";
 import { TradeLockerConnectForm } from "@/components/tradelocker/TradeLockerConnectForm";
 import { TradeLockerAccountTools } from "@/components/tradelocker/TradeLockerAccountTools";
-import { LiveSignalTerminal } from "@/components/tradelocker/LiveSignalTerminal";
 import { PreTradeGateDialog } from "@/components/tradelocker/PreTradeGateDialog";
 import { evaluatePreTradeGate } from "@/lib/pre-trade-gate";
 import type { PreTradeGateResult } from "@/lib/pre-trade-gate";
@@ -512,8 +511,6 @@ export function TradeLockerLiveDashboard() {
           </CardContent>
         </Card>
       </div>
-
-      <LiveSignalTerminal instruments={instruments} />
 
       <Card>
         <CardHeader>

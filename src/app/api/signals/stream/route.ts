@@ -6,6 +6,7 @@ import { getSession } from "@/lib/auth";
 import { canAccessBot } from "@/lib/tiers";
 import { MARKET_SYMBOLS } from "@/lib/market-data/symbols";
 import type { MarketSymbol } from "@/lib/market-data/types";
+import { isLiveSignalsEnabled } from "@/lib/signals/feature";
 import { startSignalEngine } from "@/lib/signals/engine";
 import {
   getActiveSignals,
@@ -28,6 +29,12 @@ export async function GET(request: NextRequest) {
 
   if (!canAccessBot(session.subscriptionTier)) {
     return new Response("Premium required", { status: 403 });
+  }
+
+  if (!isLiveSignalsEnabled()) {
+    return new Response("Live trade signals are temporarily unavailable", {
+      status: 503,
+    });
   }
 
   startSignalEngine();
