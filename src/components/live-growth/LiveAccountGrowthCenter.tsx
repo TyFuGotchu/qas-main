@@ -6,7 +6,7 @@ import type { TradeJournalEntry } from "@prisma/client";
 import type { AlphaDurabilityResult } from "@/lib/quicksilver/alpha-durability";
 import type { JournalStats, SessionStatsResult } from "@/lib/journal/stats";
 import type { TraderProfileView } from "@/lib/trader-profile";
-import type { TradeLockerDashboardData } from "@/lib/tradelocker/types";
+import { useConnectedTradeLockerDashboard } from "@/hooks/useConnectedTradeLockerDashboard";
 import { computePropTodaySnapshot } from "@/lib/prop/today-snapshot";
 import { PropTodayPanel } from "@/components/prop/PropTodayPanel";
 import {
@@ -50,10 +50,13 @@ function formatMoney(value: number): string {
 }
 
 export function LiveAccountGrowthCenter() {
+  const {
+    dashboard,
+    selectedAccountLabel,
+    tlConnected,
+  } = useConnectedTradeLockerDashboard();
+
   const [profile, setProfile] = useState<TraderProfileView | null>(null);
-  const [dashboard, setDashboard] = useState<TradeLockerDashboardData | null>(
-    null
-  );
   const [journalEntries, setJournalEntries] = useState<TradeJournalEntry[]>([]);
   const [journalStats, setJournalStats] = useState<JournalStats | null>(null);
   const [sessionStats, setSessionStats] = useState<SessionStatsResult | null>(
@@ -61,7 +64,6 @@ export function LiveAccountGrowthCenter() {
   );
   const [alpha, setAlpha] = useState<AlphaDurabilityResult | null>(null);
   const [loading, setLoading] = useState(true);
-  const [tlConnected, setTlConnected] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -69,9 +71,8 @@ export function LiveAccountGrowthCenter() {
     async function load(showSpinner: boolean) {
       if (showSpinner) setLoading(true);
       try {
-        const [profileRes, statusRes, journalRes] = await Promise.all([
+        const [profileRes, journalRes] = await Promise.all([
           fetch("/api/trader-profile"),
-          fetch("/api/tradelocker/status"),
           fetch("/api/journal"),
         ]);
 
@@ -88,34 +89,6 @@ export function LiveAccountGrowthCenter() {
           setJournalStats(data.stats ?? null);
           setSessionStats(data.sessionStats ?? null);
           setAlpha(data.alpha ?? null);
-        }
-
-        if (statusRes.ok) {
-          const status = await statusRes.json();
-          const connected = Boolean(status.connected);
-          setTlConnected(connected);
-          if (connected) {
-            const accountsRes = await fetch("/api/tradelocker/accounts");
-            if (accountsRes.ok && !cancelled) {
-              const { accounts } = await accountsRes.json();
-              const first = accounts?.[0];
-              if (first) {
-                const dashRes = await fetch(
-                  `/api/tradelocker/dashboard?accountId=${encodeURIComponent(first.accountId)}&accNum=${encodeURIComponent(first.accNum)}`
-                );
-                if (dashRes.ok && !cancelled) {
-                  const dash = await dashRes.json();
-                  setDashboard({
-                    metrics: dash.metrics,
-                    positions: dash.positions ?? [],
-                    tradesToday: dash.tradesToday ?? 0,
-                  });
-                }
-              }
-            }
-          } else {
-            setDashboard(null);
-          }
         }
       } catch {
         // partial load ok
@@ -283,6 +256,9 @@ export function LiveAccountGrowthCenter() {
       {scalePlan && (
         <>
           <div className="flex flex-wrap gap-2">
+            {tlConnected && selectedAccountLabel && (
+              <Badge variant="success">TL: {selectedAccountLabel}</Badge>
+            )}
             <Badge variant="success">{scalePlan.phaseLabel} phase</Badge>
             <Badge variant="warning">
               {profile.accountType === "personal"
@@ -532,8 +508,8 @@ export function LiveAccountGrowthCenter() {
                 ) : (
                   <div className="space-y-3">
                     <p className="text-sm text-slate-500">
-                      Connect TradeLocker to see live balance, P&amp;L, and
-                      risk telemetry for your personal account.
+                      Connect TradeLocker in the Trading terminal and pick your
+                      account — Live Growth uses the same selection.
                     </p>
                     <Link href="/dashboard/bot">
                       <Button variant="ghost" size="sm">

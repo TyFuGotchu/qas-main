@@ -5,7 +5,7 @@ import Link from "next/link";
 import type { TradeJournalEntry } from "@prisma/client";
 import type { SessionStatsResult } from "@/lib/journal/stats";
 import type { TraderProfileView } from "@/lib/trader-profile";
-import type { TradeLockerDashboardData } from "@/lib/tradelocker/types";
+import { useConnectedTradeLockerDashboard } from "@/hooks/useConnectedTradeLockerDashboard";
 import { computePropTodaySnapshot } from "@/lib/prop/today-snapshot";
 import { PropTodayPanel } from "@/components/prop/PropTodayPanel";
 import {
@@ -34,10 +34,13 @@ import { PremiumUpgradeNudge } from "@/components/engagement/PremiumUpgradeNudge
 import { cn } from "@/lib/utils";
 
 export function PropCommandCenter() {
+  const {
+    dashboard,
+    selectedAccountLabel,
+    tlConnected,
+  } = useConnectedTradeLockerDashboard();
+
   const [profile, setProfile] = useState<TraderProfileView | null>(null);
-  const [dashboard, setDashboard] = useState<TradeLockerDashboardData | null>(
-    null
-  );
   const [journalEntries, setJournalEntries] = useState<
     Pick<TradeJournalEntry, "entryTime" | "source">[]
   >([]);
@@ -46,7 +49,6 @@ export function PropCommandCenter() {
     null
   );
   const [loading, setLoading] = useState(true);
-  const [tlConnected, setTlConnected] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -54,9 +56,8 @@ export function PropCommandCenter() {
     async function load(showSpinner: boolean) {
       if (showSpinner) setLoading(true);
       try {
-        const [profileRes, statusRes, journalRes] = await Promise.all([
+        const [profileRes, journalRes] = await Promise.all([
           fetch("/api/trader-profile"),
-          fetch("/api/tradelocker/status"),
           fetch("/api/journal"),
         ]);
 
@@ -73,34 +74,6 @@ export function PropCommandCenter() {
           setSessionStats(data.sessionStats ?? null);
           if (data.stats?.closedTrades > 0) {
             setJournalWinRate(data.stats.winRate);
-          }
-        }
-
-        if (statusRes.ok) {
-          const status = await statusRes.json();
-          const connected = Boolean(status.connected);
-          setTlConnected(connected);
-          if (connected) {
-            const accountsRes = await fetch("/api/tradelocker/accounts");
-            if (accountsRes.ok && !cancelled) {
-              const { accounts } = await accountsRes.json();
-              const first = accounts?.[0];
-              if (first) {
-                const dashRes = await fetch(
-                  `/api/tradelocker/dashboard?accountId=${encodeURIComponent(first.accountId)}&accNum=${encodeURIComponent(first.accNum)}`
-                );
-                if (dashRes.ok && !cancelled) {
-                  const dash = await dashRes.json();
-                  setDashboard({
-                    metrics: dash.metrics,
-                    positions: dash.positions ?? [],
-                    tradesToday: dash.tradesToday ?? 0,
-                  });
-                }
-              }
-            }
-          } else {
-            setDashboard(null);
           }
         }
       } catch {
@@ -241,6 +214,9 @@ export function PropCommandCenter() {
       {todaySnapshot && <PropTodayPanel snapshot={todaySnapshot} />}
 
       <div className="flex flex-wrap gap-2">
+        {tlConnected && selectedAccountLabel && (
+          <Badge variant="success">TL: {selectedAccountLabel}</Badge>
+        )}
         <Badge variant="success">{firm.name}</Badge>
         <Badge variant="warning">{profile.accountType}</Badge>
         <Badge>{profile.tradingStyle} style</Badge>

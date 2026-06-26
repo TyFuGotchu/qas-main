@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { clearSelectedTradeLockerAccount } from "@/lib/tradelocker/selected-account";
 import type {
   TradeLockerAccount,
   TradeLockerDashboardData,
@@ -99,6 +100,7 @@ export function useLiveTradeLocker(options: UseLiveTradeLockerOptions = {}) {
       setDashboard({
         metrics: data.metrics,
         positions: data.positions ?? [],
+        tradesToday: data.tradesToday ?? 0,
       });
     } catch {
       setError("Network error while loading dashboard");
@@ -244,6 +246,7 @@ export function useLiveTradeLocker(options: UseLiveTradeLockerOptions = {}) {
       method: "POST",
       credentials: "include",
     });
+    clearSelectedTradeLockerAccount();
     setConnected(false);
     setEnvironment(null);
     setAccounts([]);

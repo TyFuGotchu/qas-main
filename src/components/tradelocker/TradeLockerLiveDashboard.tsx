@@ -2,6 +2,11 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useLiveTradeLocker } from "@/hooks/useLiveTradeLocker";
+import {
+  clearSelectedTradeLockerAccount,
+  resolveTradeLockerAccount,
+  writeSelectedTradeLockerAccount,
+} from "@/lib/tradelocker/selected-account";
 import { TradeLockerConnectForm } from "@/components/tradelocker/TradeLockerConnectForm";
 import { TradeLockerAccountTools } from "@/components/tradelocker/TradeLockerAccountTools";
 import { LiveSignalTerminal } from "@/components/tradelocker/LiveSignalTerminal";
@@ -125,14 +130,27 @@ export function TradeLockerLiveDashboard() {
   }, []);
 
   useEffect(() => {
-    if (!selectedAccountId && accounts.length > 0) {
-      const first = accounts[0];
-      if (first) {
-        setSelectedAccountId(first.accountId);
-        setSelectedAccNum(first.accNum);
-      }
+    if (accounts.length === 0) return;
+
+    if (selectedAccountId && selectedAccNum) {
+      const stillValid = accounts.some(
+        (account) =>
+          account.accountId === selectedAccountId &&
+          account.accNum === selectedAccNum
+      );
+      if (stillValid) return;
     }
-  }, [accounts, selectedAccountId]);
+
+    const resolved = resolveTradeLockerAccount(accounts);
+    if (resolved) {
+      setSelectedAccountId(resolved.accountId);
+      setSelectedAccNum(resolved.accNum);
+      writeSelectedTradeLockerAccount({
+        accountId: resolved.accountId,
+        accNum: resolved.accNum,
+      });
+    }
+  }, [accounts, selectedAccountId, selectedAccNum]);
 
   const accountOptions = useMemo(
     () =>
@@ -188,6 +206,7 @@ export function TradeLockerLiveDashboard() {
 
   async function handleDisconnect() {
     await disconnect();
+    clearSelectedTradeLockerAccount();
     setSelectedAccountId(null);
     setSelectedAccNum(null);
     setSelectedInstrumentKey("");
@@ -369,6 +388,7 @@ export function TradeLockerLiveDashboard() {
                   if (accountId && accNum) {
                     setSelectedAccountId(accountId);
                     setSelectedAccNum(accNum);
+                    writeSelectedTradeLockerAccount({ accountId, accNum });
                     setSelectedInstrumentKey("");
                   }
                 }}
