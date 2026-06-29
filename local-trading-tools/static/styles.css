@@ -1,0 +1,336 @@
+:root {
+  --bg: #06080f;
+  --panel: #0c101c;
+  --panel-light: #121a2e;
+  --stroke: rgba(72, 168, 255, 0.22);
+  --text: #e8f0ff;
+  --muted: #8b9bb8;
+  --accent: #48a8ff;
+  --accent-glow: rgba(72, 168, 255, 0.35);
+  --silver: #c8d8f0;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --premium: #10b981;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(72, 168, 255, 0.12), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 50%, rgba(16, 185, 129, 0.06), transparent),
+    var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.mono {
+  font-family: "Cascadia Code", "Consolas", monospace;
+}
+
+.container {
+  width: min(1180px, 94vw);
+  margin: 0 auto;
+  padding: 2rem 0 4rem;
+}
+
+header.hero {
+  text-align: center;
+  padding: 2.5rem 1rem 3rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--stroke);
+  background: rgba(72, 168, 255, 0.08);
+  color: var(--accent);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.hero h1 {
+  margin: 1rem 0 0.75rem;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #fff 0%, var(--silver) 45%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero p {
+  max-width: 640px;
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: 1.02rem;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+.tool-card {
+  background: linear-gradient(160deg, var(--panel-light) 0%, var(--panel) 100%);
+  border: 1px solid var(--stroke);
+  border-radius: 16px;
+  padding: 1.35rem;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.tool-card:hover {
+  border-color: rgba(72, 168, 255, 0.45);
+  box-shadow: 0 0 50px var(--accent-glow);
+}
+
+.tool-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.tool-header h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.price-tag {
+  flex-shrink: 0;
+  padding: 0.3rem 0.65rem;
+  border-radius: 8px;
+  background: rgba(72, 168, 255, 0.12);
+  border: 1px solid rgba(72, 168, 255, 0.3);
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.tool-desc {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.65rem;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--text);
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+textarea {
+  min-height: 72px;
+  resize: vertical;
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+button,
+.cta-link {
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  padding: 0.65rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+button:active,
+.cta-link:active {
+  transform: scale(0.98);
+}
+
+.btn-calc {
+  background: rgba(72, 168, 255, 0.15);
+  border: 1px solid rgba(72, 168, 255, 0.4);
+  color: var(--accent);
+}
+
+.btn-calc:hover {
+  background: rgba(72, 168, 255, 0.25);
+}
+
+.btn-buy {
+  background: linear-gradient(135deg, #1d4ed8, #48a8ff);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(72, 168, 255, 0.35);
+}
+
+.btn-buy:hover {
+  box-shadow: 0 6px 28px rgba(72, 168, 255, 0.5);
+}
+
+.output-panel {
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.85rem;
+  min-height: 64px;
+}
+
+.output-panel .label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+.output-value {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--success);
+}
+
+.output-value.negative {
+  color: var(--danger);
+}
+
+.output-value.neutral {
+  color: var(--warning);
+}
+
+.output-note {
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.matrix-table-wrap {
+  overflow-x: auto;
+  margin-top: 0.5rem;
+}
+
+table.matrix {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.72rem;
+}
+
+table.matrix th,
+table.matrix td {
+  padding: 0.45rem 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: right;
+  white-space: nowrap;
+}
+
+table.matrix th {
+  color: var(--muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+table.matrix td:first-child,
+table.matrix th:first-child {
+  text-align: left;
+}
+
+.premium-banner {
+  margin-top: 2rem;
+  padding: 1.75rem;
+  border-radius: 18px;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(72, 168, 255, 0.08));
+  text-align: center;
+  box-shadow: 0 0 60px rgba(16, 185, 129, 0.15);
+}
+
+.premium-banner h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+  color: #ecfdf5;
+}
+
+.premium-banner p {
+  margin: 0 0 1.25rem;
+  color: #a7f3d0;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.premium-banner .btn-buy {
+  background: linear-gradient(135deg, #059669, #10b981);
+  box-shadow: 0 4px 24px rgba(16, 185, 129, 0.4);
+  font-size: 0.95rem;
+  padding: 0.8rem 1.5rem;
+}
+
+footer {
+  margin-top: 3rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+footer a {
+  color: var(--accent);
+}
+
+.loading {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+@media (max-width: 640px) {
+  .tools-grid {
+    grid-template-columns: 1fr;
+  }
+}

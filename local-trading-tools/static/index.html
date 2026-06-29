@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Local Trading Tools | Quicksilver Algo Systems</title>
+    <meta
+      name="description"
+      content="Standalone institutional trading calculators — Strategy Expectancy, ATR Pip-Range, and Prop Compounding Matrix. Instant access via Stripe."
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="hero">
+        <span class="badge mono">Quicksilver Algo Systems</span>
+        <h1>Local Trading Tools</h1>
+        <p>
+          Three precision calculators for expectancy validation, structural pip ranges, and prop-firm
+          compounding — run locally, decide faster, size smarter.
+        </p>
+      </header>
+
+      <section class="tools-grid">
+        <!-- Tool 1: Strategy Expectancy Validator -->
+        <article class="tool-card" id="tool-expectancy">
+          <div class="tool-header">
+            <h2>Strategy Expectancy Validator</h2>
+            <span class="price-tag mono">$6.99</span>
+          </div>
+          <p class="tool-desc">
+            Validate whether your edge is mathematically positive before you size up.
+          </p>
+          <div class="field-grid">
+            <label>
+              Total Trades
+              <input type="number" id="exp-total" min="1" value="100" />
+            </label>
+            <label>
+              Wins
+              <input type="number" id="exp-wins" min="0" value="55" />
+            </label>
+            <label>
+              Avg R:R
+              <input type="number" id="exp-rr" min="0" step="0.1" value="1.5" />
+            </label>
+          </div>
+          <div class="btn-row">
+            <button class="btn-calc" type="button" id="exp-calc">Calculate</button>
+            <a
+              class="cta-link btn-buy"
+              href="https://buy.stripe.com/28EcN509C9ee1yV3PVco00d"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Get Instant Access</a
+            >
+          </div>
+          <div class="output-panel">
+            <div class="label">Strategy Expectancy (R/trade)</div>
+            <div class="output-value neutral" id="exp-result">—</div>
+            <div class="output-note" id="exp-note">Enter stats and calculate.</div>
+          </div>
+        </article>
+
+        <!-- Tool 2: Dynamic ATR Pip-Range Calculator -->
+        <article class="tool-card" id="tool-atr">
+          <div class="tool-header">
+            <h2>Dynamic ATR Pip-Range Calculator</h2>
+            <span class="price-tag mono">$12.99</span>
+          </div>
+          <p class="tool-desc">
+            Measure structural volatility from recent highs and lows — comma-separated values.
+          </p>
+          <label>
+            Recent Highs
+            <textarea id="atr-highs" placeholder="1.0850, 1.0862, 1.0871, 1.0880">1.0850, 1.0862, 1.0871, 1.0880, 1.0892</textarea>
+          </label>
+          <label>
+            Recent Lows
+            <textarea id="atr-lows" placeholder="1.0820, 1.0831, 1.0838, 1.0845">1.0820, 1.0831, 1.0838, 1.0845, 1.0855</textarea>
+          </label>
+          <label>
+            Pip Multiplier
+            <input type="number" id="atr-pip-mult" min="1" value="10000" title="10000 for most forex pairs, 10 for XAUUSD" />
+          </label>
+          <div class="btn-row">
+            <button class="btn-calc" type="button" id="atr-calc">Calculate</button>
+            <a
+              class="cta-link btn-buy"
+              href="https://buy.stripe.com/cNifZhe0s4XYb9v9afco00e"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Get Instant Access</a
+            >
+          </div>
+          <div class="output-panel">
+            <div class="label">Structural Pip Range</div>
+            <div class="output-value" id="atr-result">—</div>
+            <div class="output-note" id="atr-note">Average true range converted to pips.</div>
+          </div>
+        </article>
+
+        <!-- Tool 3: Prop Firm Compounding Matrix -->
+        <article class="tool-card" id="tool-compound" style="grid-column: 1 / -1">
+          <div class="tool-header">
+            <h2>Prop Firm Compounding Matrix</h2>
+            <span class="price-tag mono">$14.99</span>
+          </div>
+          <p class="tool-desc">
+            10-trade lot-sizing progression with win/loss projections — powered by Quicksilver backend.
+          </p>
+          <div class="field-grid">
+            <label>
+              Starting Balance ($)
+              <input type="number" id="cmp-balance" min="1" value="100000" />
+            </label>
+            <label>
+              Target Profit ($)
+              <input type="number" id="cmp-target" min="0" value="8000" />
+            </label>
+            <label>
+              Win Rate (%)
+              <input type="number" id="cmp-winrate" min="1" max="100" value="55" />
+            </label>
+            <label>
+              Max Drawdown (%)
+              <input type="number" id="cmp-dd" min="1" max="100" value="10" />
+            </label>
+          </div>
+          <div class="btn-row">
+            <button class="btn-calc" type="button" id="cmp-calc">Build Matrix</button>
+            <a
+              class="cta-link btn-buy"
+              href="https://buy.stripe.com/00waEX3lOduu7Xj2LRco00f"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Get Instant Access</a
+            >
+          </div>
+          <div class="output-panel">
+            <div class="label">10-Trade Progression</div>
+            <div id="cmp-summary" class="output-note">Configure inputs and build matrix.</div>
+            <div class="matrix-table-wrap" id="cmp-table-wrap"></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="premium-banner">
+        <h3>Premium Upsell — Save $60 Instantly</h3>
+        <p>
+          Get <strong>all tools</strong>, <strong>6 core frameworks</strong>, and
+          <strong>full masterclass access</strong> for <strong>$149.99</strong> — use code
+          <strong>FIRST100</strong> at checkout!
+        </p>
+        <a
+          id="premium-cta"
+          class="cta-link btn-buy"
+          href="https://buy.stripe.com/fZufZhcWo4XY4L7727co00c?prefilled_promo_code=FIRST100"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Upgrade to Premium — $149.99/mo</a
+        >
+      </section>
+
+      <footer>
+        <p class="mono">
+          © Quicksilver Algo Systems ·
+          <a href="https://quicksilveralgo.com" target="_blank" rel="noopener">quicksilveralgo.com</a>
+        </p>
+      </footer>
+    </div>
+    <script src="/static/app.js"></script>
+  </body>
+</html>

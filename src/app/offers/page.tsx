@@ -23,7 +23,8 @@ export const metadata: Metadata = {
   description: `${PREMIUM_PROMO_NOTE} ${PREMIUM_PROMO_FIRST_MONTH} first month on Quicksilver Premium (${PREMIUM_PRICE}/mo). Chart Academy, trading tools, live terminal, and email support.`,
 };
 
-const BUNDLE_LINKS = [
+const BUNDLE_LINKS: { slug: string; label: string; href?: string }[] = [
+  { slug: "local-tools", label: "Local Trading Tools funnel", href: "/tools/local" },
   { slug: "first100-premium", label: "Main FIRST100 offer" },
   { slug: "first100-chart-academy", label: "Chart Academy bundle" },
   { slug: "first100-trading-bot", label: "TradeLocker bot deal" },
@@ -50,7 +51,7 @@ export default function OffersHubPage() {
           {BUNDLE_LINKS.map((link) => (
             <Link
               key={link.slug}
-              href={`/offers/${link.slug}`}
+              href={link.href ?? `/offers/${link.slug}`}
               className="rounded-lg border border-emerald-500/30 bg-emerald-500/5 px-3 py-2 font-mono text-xs text-emerald-400 hover:border-emerald-400/50"
             >
               {link.label}
