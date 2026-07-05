@@ -5,6 +5,10 @@ import {
   LESSON_LANDING_PAGES,
   getLessonLandingPageBySlug,
 } from "@/lib/seo/lesson-landing-pages";
+import {
+  isIndexableLearn,
+  pageRobotsMetadata,
+} from "@/lib/seo/indexing-tiers";
 import { faqJsonLd, landingPageJsonLd } from "@/lib/seo/json-ld";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
 import { LandingDemoWidget } from "@/components/seo/landing/LandingDemoWidget";
@@ -26,6 +30,7 @@ export function generateMetadata({
   return {
     title: page.title,
     description: page.metaDescription,
+    ...pageRobotsMetadata(isIndexableLearn(page)),
     openGraph: {
       title: page.title,
       description: page.metaDescription,

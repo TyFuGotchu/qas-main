@@ -6,6 +6,10 @@ import {
   getPromoLandingPageBySlug,
 } from "@/lib/seo/promo-landing-pages";
 import {
+  isIndexableOffer,
+  pageRobotsMetadata,
+} from "@/lib/seo/indexing-tiers";
+import {
   faqJsonLd,
   landingPageJsonLd,
   promoOfferJsonLd,
@@ -34,6 +38,7 @@ export function generateMetadata({
   return {
     title: page.title,
     description: page.metaDescription,
+    ...pageRobotsMetadata(isIndexableOffer(page)),
     keywords: [
       PREMIUM_PROMO_CODE,
       "Quicksilver Premium promo",

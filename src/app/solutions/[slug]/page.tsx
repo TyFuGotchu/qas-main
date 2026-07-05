@@ -5,6 +5,10 @@ import {
   SEO_LANDING_PAGES,
   getLandingPageBySlug,
 } from "@/lib/seo/landing-pages";
+import {
+  isIndexableSolution,
+  pageRobotsMetadata,
+} from "@/lib/seo/indexing-tiers";
 import { faqJsonLd, landingPageJsonLd } from "@/lib/seo/json-ld";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
 import { LandingDemoWidget } from "@/components/seo/landing/LandingDemoWidget";
@@ -25,6 +29,7 @@ export function generateMetadata({
   return {
     title: page.title,
     description: page.metaDescription,
+    ...pageRobotsMetadata(isIndexableSolution(page)),
     openGraph: {
       title: page.title,
       description: page.metaDescription,

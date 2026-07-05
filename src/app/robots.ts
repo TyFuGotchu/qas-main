@@ -8,6 +8,8 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: [
         "/",
+        "/launch",
+        "/launch/",
         "/lessons",
         "/lessons/",
         "/guides",
@@ -18,6 +20,8 @@ export default function robots(): MetadataRoute.Robots {
         "/learn/",
         "/offers",
         "/offers/",
+        "/tools",
+        "/tools/",
         "/support",
         "/faq",
       ],
