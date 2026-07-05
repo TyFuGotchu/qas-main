@@ -1,4 +1,4 @@
-import { PREMIUM_CHECKOUT_URL, PREMIUM_PRICE } from "@/lib/pricing-tiers";
+import { PREMIUM_CHECKOUT_URL, PREMIUM_PRICE } from "@/lib/pricing-constants";
 import type { SubscriptionTier } from "@/types";
 
 export type ResourceType = "lesson" | "guide" | "tool";

@@ -1,29 +1,24 @@
 import type { PricingTier } from "@/types";
 import { LOCAL_TOOL_COUNT, QS_TOOL_COUNT, TOOL_COUNT } from "@/lib/tools-registry";
-import { PROP_FIRM_CHALLENGE_DAYS } from "@/lib/prop-firm-challenge-marketing";
 
-export const PREMIUM_CHECKOUT_URL =
-  "https://buy.stripe.com/fZufZhcWo4XY4L7727co00c";
+export {
+  PREMIUM_CHECKOUT_URL,
+  PREMIUM_PROMO_CODE,
+  PREMIUM_PROMO_STRIPE_ID,
+  PREMIUM_PRICE,
+  PREMIUM_PROMO_DISCOUNT,
+  PREMIUM_PROMO_FIRST_MONTH,
+  PREMIUM_PROMO_NOTE,
+  getPremiumCheckoutUrl,
+} from "@/lib/pricing-constants";
 
-export const PREMIUM_PROMO_CODE = "FIRST100";
+import {
+  PREMIUM_CHECKOUT_URL,
+  PREMIUM_PRICE,
+  PREMIUM_PROMO_NOTE,
+} from "@/lib/pricing-constants";
 
-export const PREMIUM_PROMO_STRIPE_ID = "promo_1TlzBjDUxwVQyisqks4CyIKy";
-
-export const PREMIUM_PRICE = "$149.99";
-
-export const PREMIUM_PROMO_DISCOUNT = "$60";
-
-export const PREMIUM_PROMO_FIRST_MONTH = "$89.99";
-
-export const PREMIUM_PROMO_NOTE =
-  "Use code FIRST100 for $60 off your first month (first 100 users)";
-
-export function getPremiumCheckoutUrl(withPromo = true): string {
-  if (!withPromo) return PREMIUM_CHECKOUT_URL;
-  const url = new URL(PREMIUM_CHECKOUT_URL);
-  url.searchParams.set("prefilled_promo_code", PREMIUM_PROMO_CODE);
-  return url.toString();
-}
+const PROP_FIRM_CHALLENGE_DAYS = 7;
 
 export const PRICING_TIERS: PricingTier[] = [
   {

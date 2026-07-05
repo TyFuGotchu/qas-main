@@ -3,7 +3,7 @@ import {
   PREMIUM_PRICE,
   PREMIUM_PROMO_CODE,
   PREMIUM_PROMO_NOTE,
-} from "@/lib/pricing-tiers";
+} from "@/lib/pricing-constants";
 import { TOOL_COUNT } from "@/lib/tools-registry";
 
 export const PROP_FIRM_PLAYBOOK_SLUG = PROP_FIRM_ONE_WEEK_GUIDE.slug;
