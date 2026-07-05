@@ -41,9 +41,9 @@ export function Hero() {
           </p>
 
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-            <Link href="/offers">
+            <Link href="/launch">
               <Button variant="primary" size="lg">
-                Get Premium — {PREMIUM_PROMO_CODE} ({PREMIUM_PROMO_FIRST_MONTH})
+                Join the Launch — {PREMIUM_PROMO_CODE} ({PREMIUM_PROMO_FIRST_MONTH})
               </Button>
             </Link>
             <Link href={PROP_FIRM_PLAYBOOK_HREF}>

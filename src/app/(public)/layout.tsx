@@ -11,7 +11,7 @@ export default function PublicLayout({
       <InstitutionalBackdrop variant="hero" />
       <div className="relative z-[1]">
         <PublicNav />
-        <main className="overflow-x-hidden pt-14 sm:pt-16">{children}</main>
+        <main className="overflow-x-hidden pt-24 sm:pt-28">{children}</main>
       </div>
     </div>
   );
