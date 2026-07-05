@@ -5,7 +5,7 @@ import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { RecommendedBrokerCard } from "@/components/broker/RecommendedBrokerCard";
 import { AnnouncementBanner } from "@/components/announcements/AnnouncementBanner";
-import { PropFirmChallengePromo } from "@/components/marketing/PropFirmChallengePromo";
+import { PlaybookChallengeWidget } from "@/components/playbook/PlaybookChallengeWidget";
 import { TOOL_COUNT } from "@/lib/tools-registry";
 import { SUPPORT_EMAIL } from "@/lib/support";
 import {
@@ -18,6 +18,7 @@ import {
   HelpCircle,
   Shield,
   BookMarked,
+  Target,
 } from "lucide-react";
 
 export default async function DashboardPage() {
@@ -25,6 +26,12 @@ export default async function DashboardPage() {
   const hasPremium = user ? canAccessToolsBySubscription(user.subscriptionTier) : false;
 
   const quickLinks = [
+    {
+      href: "/dashboard/playbook",
+      label: "7-Day Playbook",
+      icon: Target,
+      desc: "Track your prop firm challenge day-by-day",
+    },
     {
       href: "/dashboard/academy",
       label: "Chart Academy",
@@ -94,7 +101,7 @@ export default async function DashboardPage() {
 
       <RecommendedBrokerCard />
 
-      <PropFirmChallengePromo variant="compact" />
+      <PlaybookChallengeWidget variant="compact" />
 
       {user && !hasPremium && (
         <Card className="border-amber-500/30 bg-amber-500/5">

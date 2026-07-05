@@ -2,8 +2,14 @@ import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/email/resend";
 import { CURATED_LEARNING_PATH } from "@/lib/academy/learning-path";
 import {
-  PREMIUM_CHECKOUT_URL,
+  PROP_FIRM_PLAYBOOK_HREF,
+  PROP_FIRM_MARKETING_HEADLINE,
+  PROP_FIRM_MARKETING_SUBHEADLINE,
+} from "@/lib/prop-firm-challenge-marketing";
+import {
+  getPremiumCheckoutUrl,
   PREMIUM_PRICE,
+  PREMIUM_PROMO_CODE,
   PREMIUM_PROMO_NOTE,
 } from "@/lib/pricing-tiers";
 
@@ -12,84 +18,84 @@ const SITE_URL =
   process.env.NEXT_PUBLIC_APP_URL ??
   "https://quicksilveralgo.com";
 
-const PREMIUM_CHECKOUT = PREMIUM_CHECKOUT_URL;
+const PREMIUM_CHECKOUT = getPremiumCheckoutUrl(true);
 
 const DRIP_STEPS = [
   {
     step: 1,
     daysAfterSignup: 0,
-    subject: "Your Quicksilver lesson progress is saved",
-    buildHtml: (email: string, lessons: string[]) => {
-      const lastLesson = lessons[lessons.length - 1];
-      const lessonUrl = lastLesson
-        ? `${SITE_URL}/lessons/${lastLesson}`
-        : `${SITE_URL}/lessons`;
-      const pathStart = `${SITE_URL}/lessons/${CURATED_LEARNING_PATH[0].slug}`;
+    subject: `${PROP_FIRM_MARKETING_HEADLINE} — free preview inside`,
+    buildHtml: () => {
+      const guideUrl = `${SITE_URL}${PROP_FIRM_PLAYBOOK_HREF}`;
       return dripShell(`
-        <h1 style="color:#00e5ff;font-size:20px;">You're on the path</h1>
-        <p style="color:#94a3b8;line-height:1.6;">Thanks for saving your progress. Pick up where you left off — animated walkthroughs and live chart overlays are waiting.</p>
-        <p style="margin:24px 0;"><a href="${lessonUrl}" style="background:#00e5ff;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Continue last lesson →</a></p>
-        <p style="color:#64748b;font-size:12px;">Or start the curated path: <a href="${pathStart}" style="color:#00e5ff;">${CURATED_LEARNING_PATH[0].title}</a></p>
+        <h1 style="color:#00e5ff;font-size:20px;">Pass your challenge in 7 days</h1>
+        <p style="color:#94a3b8;line-height:1.6;">${PROP_FIRM_MARKETING_SUBHEADLINE}</p>
+        <p style="color:#94a3b8;line-height:1.6;">Preview the day-by-day plan free — Premium unlocks full tasks, tools, and daily challenge emails.</p>
+        <p style="margin:24px 0;"><a href="${guideUrl}" style="background:#00e5ff;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Preview the playbook →</a></p>
+        <p style="color:#64748b;font-size:12px;">${PREMIUM_PROMO_NOTE}</p>
       `);
     },
   },
   {
     step: 2,
-    daysAfterSignup: 2,
-    subject: "Day 2: Unlock the full academy + Risk Matrix",
+    daysAfterSignup: 1,
+    subject: "Day 1 tasks: profit caps & consistency rules",
     buildHtml: () => {
-      const lesson = `${SITE_URL}/lessons/chart-reading-reading-candle-components`;
-      const riskTool = `${SITE_URL}/dashboard/tools/risk-matrix`;
+      const guideUrl = `${SITE_URL}${PROP_FIRM_PLAYBOOK_HREF}`;
       return dripShell(`
-        <h1 style="color:#00e5ff;font-size:20px;">Level up your edge</h1>
-        <p style="color:#94a3b8;line-height:1.6;">You've explored free lessons — Premium (${PREMIUM_PRICE}/mo) unlocks all 89 lessons, 6 planning modules, TradeLocker bot access, and priority email support. ${PREMIUM_PROMO_NOTE}</p>
-        <ol style="color:#94a3b8;line-height:1.8;">
-          <li><a href="${lesson}" style="color:#00e5ff;">Reading Candle Components</a></li>
-          <li><a href="${riskTool}" style="color:#00e5ff;">Risk Matrix</a></li>
-        </ol>
-        <p style="margin:24px 0;"><a href="${PREMIUM_CHECKOUT}" style="background:#00e5ff;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Go Premium →</a></p>
+        <h1 style="color:#00e5ff;font-size:20px;">What Day 1 looks like</h1>
+        <p style="color:#94a3b8;line-height:1.6;">Foundation day: max 2 trades, +1.0–1.5% cap, full confluence before every entry. Premium tracks your progress and emails each day&apos;s tasks.</p>
+        <p style="margin:24px 0;"><a href="${PREMIUM_CHECKOUT}" style="background:#10b981;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Start challenge — ${PREMIUM_PROMO_CODE} →</a></p>
+        <p style="color:#64748b;font-size:12px;"><a href="${guideUrl}" style="color:#00e5ff;">Read Day 1 preview</a></p>
       `);
     },
   },
   {
     step: 3,
-    daysAfterSignup: 4,
-    subject: "Day 4: BOS, Fibonacci & your viewed lessons",
+    daysAfterSignup: 3,
+    subject: "Day 3: Why the 20% consistency rule fails most traders",
     buildHtml: (_unused: string, lessons: string[]) => {
-      const viewedLinks = lessons
-        .slice(-3)
-        .map(
-          (s) =>
-            `<li><a href="${SITE_URL}/lessons/${s}" style="color:#00e5ff;">${s.replace(/-/g, " ")}</a></li>`
-        )
-        .join("");
-      const bos = `${SITE_URL}/lessons/market-structure-what-is-bos`;
+      const guideUrl = `${SITE_URL}${PROP_FIRM_PLAYBOOK_HREF}`;
+      const lessonUrl = lessons.length
+        ? `${SITE_URL}/lessons/${lessons[lessons.length - 1]}`
+        : `${SITE_URL}/lessons/${CURATED_LEARNING_PATH[0].slug}`;
       return dripShell(`
-        <h1 style="color:#00e5ff;font-size:20px;">Structure + Fib = confluence</h1>
-        <p style="color:#94a3b8;line-height:1.6;">Premium (${PREMIUM_PRICE}/mo) unlocks all 89 lessons, live chart overlays, and 6 planning modules.</p>
-        ${viewedLinks ? `<p style="color:#94a3b8;">Continue lessons you started:</p><ul style="color:#94a3b8;">${viewedLinks}</ul>` : ""}
-        <p style="color:#94a3b8;">Next recommended: <a href="${bos}" style="color:#00e5ff;">Break of Structure</a></p>
-        <p style="margin:24px 0;"><a href="${PREMIUM_CHECKOUT}" style="background:#00e5ff;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Go Premium →</a></p>
+        <h1 style="color:#00e5ff;font-size:20px;">Don&apos;t fail after hitting target</h1>
+        <p style="color:#94a3b8;line-height:1.6;">One hero day can void your challenge. The playbook caps daily gains so best-day ÷ total profit stays ≤ 20%.</p>
+        <p style="margin:16px 0;"><a href="${guideUrl}" style="color:#00e5ff;">See the 7-day plan →</a></p>
+        <p style="color:#94a3b8;">Keep learning: <a href="${lessonUrl}" style="color:#00e5ff;">Continue chart academy</a></p>
+        <p style="margin:24px 0;"><a href="${PREMIUM_CHECKOUT}" style="background:#00e5ff;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Unlock full playbook (${PREMIUM_PRICE}/mo) →</a></p>
       `);
     },
   },
   {
     step: 4,
-    daysAfterSignup: 7,
-    subject: "Day 7: Prop firm playbook + survival simulator",
-    buildHtml: (_unused: string, lessons: string[]) => {
-      const propGuide = `${SITE_URL}/guides/prop-firm-one-week`;
-      const propTool = `${SITE_URL}/dashboard/tools/prop-survival`;
+    daysAfterSignup: 5,
+    subject: "Prop Survival + Risk Matrix — run before your challenge",
+    buildHtml: () => {
       const solutions = `${SITE_URL}/solutions/ftmo-prop-firm-challenge`;
       return dripShell(`
-        <h1 style="color:#00e5ff;font-size:20px;">Ready for a prop challenge?</h1>
-        <p style="color:#94a3b8;line-height:1.6;">You've viewed ${lessons.length} lesson${lessons.length === 1 ? "" : "s"}. Run 10,000 Monte Carlo simulations before risking capital.</p>
+        <h1 style="color:#00e5ff;font-size:20px;">Validate before you risk capital</h1>
+        <p style="color:#94a3b8;line-height:1.6;">Premium includes Prop Survival Monte Carlo sims, Risk Matrix heat maps, and the full 7-day execution tracker in your dashboard.</p>
         <ul style="color:#94a3b8;line-height:1.8;">
-          <li><a href="${propGuide}" style="color:#00e5ff;">1-Week Prop Firm Playbook</a></li>
-          <li><a href="${propTool}" style="color:#00e5ff;">Prop Survival Engine</a></li>
-          <li><a href="${solutions}" style="color:#00e5ff;">FTMO challenge tools</a></li>
+          <li><a href="${solutions}" style="color:#00e5ff;">Free prop firm calculators</a></li>
+          <li><a href="${SITE_URL}${PROP_FIRM_PLAYBOOK_HREF}" style="color:#00e5ff;">Playbook preview</a></li>
         </ul>
-        <p style="margin:24px 0;"><a href="${PREMIUM_CHECKOUT}" style="background:#00e5ff;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Unlock everything — ${PREMIUM_PRICE}/mo →</a></p>
+        <p style="margin:24px 0;"><a href="${PREMIUM_CHECKOUT}" style="background:#00e5ff;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Go Premium — ${PREMIUM_PROMO_CODE} →</a></p>
+      `);
+    },
+  },
+  {
+    step: 5,
+    daysAfterSignup: 7,
+    subject: "Last call: 7 days to pass — are you ready?",
+    buildHtml: (_unused: string, lessons: string[]) => {
+      const guideUrl = `${SITE_URL}${PROP_FIRM_PLAYBOOK_HREF}`;
+      return dripShell(`
+        <h1 style="color:#00e5ff;font-size:20px;">One week. One plan. One subscription.</h1>
+        <p style="color:#94a3b8;line-height:1.6;">You&apos;ve explored ${lessons.length} lesson${lessons.length === 1 ? "" : "s"}. Traders who follow the Quicksilver playbook get daily caps, tool workflows, and consistency guardrails — not guesswork.</p>
+        <p style="margin:24px 0;"><a href="${PREMIUM_CHECKOUT}" style="background:#10b981;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Start your 7-day challenge →</a></p>
+        <p style="color:#64748b;font-size:12px;"><a href="${guideUrl}" style="color:#00e5ff;">${PROP_FIRM_MARKETING_HEADLINE}</a></p>
       `);
     },
   },

@@ -32,9 +32,11 @@ model User {
   announcements      Announcement[]
   forumThreads         ForumThread[]
   forumMessages        ForumMessage[]
-  onboardingEmailLogs  OnboardingEmailLog[]
-  traderProfile        TraderProfile?
-  journalEntries       TradeJournalEntry[]
+  onboardingEmailLogs    OnboardingEmailLog[]
+  playbookProgress       PropFirmPlaybookProgress?
+  playbookEmailLogs      PlaybookEmailLog[]
+  traderProfile          TraderProfile?
+  journalEntries         TradeJournalEntry[]
 }
 
 model TraderProfile {
@@ -126,6 +128,30 @@ model OnboardingEmailLog {
   sentAt DateTime @default(now())
 
   @@unique([userId, step])
+}
+
+model PropFirmPlaybookProgress {
+  id            String    @id @default(cuid())
+  userId        String    @unique
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status        String    @default("not_started")
+  currentDay    Int       @default(1)
+  completedDays Json      @default("[]")
+  startedAt     DateTime?
+  completedAt   DateTime?
+  lastActiveAt  DateTime  @default(now())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model PlaybookEmailLog {
+  id     String   @id @default(cuid())
+  userId String
+  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  day    Int
+  sentAt DateTime @default(now())
+
+  @@unique([userId, day])
 }
 
 model EngagementLead {

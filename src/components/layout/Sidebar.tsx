@@ -15,6 +15,7 @@ import {
   Shield,
   BookMarked,
   TrendingUp,
+  Target,
   X,
 } from "lucide-react";
 
@@ -26,6 +27,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/dashboard/playbook", label: "7-Day Playbook", icon: Target },
   { href: "/dashboard/academy", label: "Chart Academy", icon: BookOpen },
   { href: "/dashboard/trade-together", label: "Trade Together", icon: Users },
   { href: "/dashboard/bot", label: "Trading", icon: LineChart },
