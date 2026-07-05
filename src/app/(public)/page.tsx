@@ -6,6 +6,7 @@ import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { ConversionHeroDemo } from "@/components/engagement/ConversionHeroDemo";
 import { LearningPathTracker } from "@/components/engagement/LearningPathTracker";
+import { LocalToolsPromo } from "@/components/tools/LocalToolsPromo";
 
 export default function LandingPage() {
   return (
@@ -20,6 +21,7 @@ export default function LandingPage() {
       <Stats />
       <section className="px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl space-y-8">
+          <LocalToolsPromo />
           <ConversionHeroDemo />
           <LearningPathTracker />
         </div>

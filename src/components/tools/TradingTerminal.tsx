@@ -5,8 +5,45 @@ import { Info } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { GlassPanel } from "@/components/ui/GlassPanel";
-import { TOOLS, TOOL_COUNT } from "@/lib/tools-registry";
+import {
+  LOCAL_TOOLS,
+  LOCAL_TOOL_COUNT,
+  QS_TOOLS,
+  QS_TOOL_COUNT,
+  TOOL_COUNT,
+  type ToolDefinition,
+} from "@/lib/tools-registry";
+import { LocalToolsPromo, PremiumUpsellBanner } from "@/components/tools/LocalToolsPromo";
 import { MANUAL_TRADING_DISCLAIMER, MANUAL_TRADING_SHORT } from "@/lib/quicksilver/disclaimer";
+
+function ToolCard({ tool }: { tool: ToolDefinition }) {
+  const Icon = tool.icon;
+  const isLocal = tool.category === "local-tool";
+
+  return (
+    <Link key={tool.href} href={tool.href}>
+      <Card className="h-full border-white/5 bg-slate-950/60 backdrop-blur transition-all hover:border-cyan-accent/30 hover:shadow-[0_0_24px_rgba(0,229,255,0.12)]">
+        <CardHeader className="flex flex-row items-start gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-cyan-accent/30 bg-cyan-accent/10">
+            <Icon className="h-5 w-5 text-cyan-accent" />
+          </div>
+          <div className="flex-1">
+            <div className="mb-2 flex flex-wrap gap-1">
+              <Badge variant="success">{tool.tag}</Badge>
+              {isLocal && tool.price ? (
+                <Badge variant="warning">{tool.price} · Premium free</Badge>
+              ) : null}
+            </div>
+            <h3 className="font-mono text-sm font-semibold text-slate-200">{tool.shortName}</h3>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-slate-500">{tool.desc}</p>
+        </CardContent>
+      </Card>
+    </Link>
+  );
+}
 
 export function TradingTerminal() {
   return (
@@ -18,9 +55,9 @@ export function TradingTerminal() {
               Quicksilver Manual Trading Toolkit
             </h2>
             <p className="mt-2 max-w-2xl font-mono text-sm text-slate-500">
-              {TOOL_COUNT} proprietary planning engines for manual traders. Use
-              on any platform — MT4, MT5, TradingView, prop firms, or any broker.
-              You enter the numbers; you place the trades.
+              {TOOL_COUNT} planning engines — {QS_TOOL_COUNT} QS modules plus {LOCAL_TOOL_COUNT}{" "}
+              local calculators. Use on any platform — MT4, MT5, TradingView, prop firms, or any
+              broker. You enter the numbers; you place the trades.
             </p>
             <p className="mt-2 font-mono text-[10px] uppercase tracking-widest text-slate-600">
               {MANUAL_TRADING_SHORT}
@@ -32,6 +69,8 @@ export function TradingTerminal() {
         </div>
       </GlassPanel>
 
+      <LocalToolsPromo variant="compact" />
+
       <div className="flex items-start gap-3 rounded-lg border border-cyan-accent/20 bg-cyan-accent/5 px-4 py-3">
         <Info className="mt-0.5 h-4 w-4 shrink-0 text-cyan-accent" />
         <p className="font-mono text-xs leading-relaxed text-slate-400">
@@ -41,19 +80,34 @@ export function TradingTerminal() {
 
       <div className="grid gap-3 sm:grid-cols-3">
         {[
-          { label: "Planning Engines", value: String(TOOL_COUNT) },
-          { label: "Broker Connections", value: "0" },
+          { label: "Total Engines", value: String(TOOL_COUNT) },
+          { label: "Local Tools", value: String(LOCAL_TOOL_COUNT) },
           { label: "Platforms Supported", value: "Any" },
         ].map((stat) => (
           <GlassPanel key={stat.label} className="p-4 text-center">
             <p className="font-mono text-[10px] uppercase tracking-widest text-slate-600">
               {stat.label}
             </p>
-            <p className="mt-1 font-mono text-2xl font-bold text-cyan-accent">
-              {stat.value}
-            </p>
+            <p className="mt-1 font-mono text-2xl font-bold text-cyan-accent">{stat.value}</p>
           </GlassPanel>
         ))}
+      </div>
+
+      <div>
+        <h3 className="mb-4 font-mono text-sm font-semibold uppercase tracking-widest text-slate-400">
+          Local Trading Tools
+        </h3>
+        <p className="mb-4 font-mono text-xs text-slate-500">
+          Included free with Premium — or purchase individually.{" "}
+          <Link href="/tools" className="text-cyan-accent hover:underline">
+            Public tool pages →
+          </Link>
+        </p>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {LOCAL_TOOLS.map((tool) => (
+            <ToolCard key={tool.href} tool={tool} />
+          ))}
+        </div>
       </div>
 
       <div>
@@ -61,33 +115,13 @@ export function TradingTerminal() {
           QS Planning Modules
         </h3>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {TOOLS.map((tool) => {
-            const Icon = tool.icon;
-            return (
-              <Link key={tool.href} href={tool.href}>
-                <Card className="h-full border-white/5 bg-slate-950/60 backdrop-blur transition-all hover:border-cyan-accent/30 hover:shadow-[0_0_24px_rgba(0,229,255,0.12)]">
-                  <CardHeader className="flex flex-row items-start gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-cyan-accent/30 bg-cyan-accent/10">
-                      <Icon className="h-5 w-5 text-cyan-accent" />
-                    </div>
-                    <div className="flex-1">
-                      <Badge variant="success" className="mb-2">
-                        {tool.tag}
-                      </Badge>
-                      <h3 className="font-mono text-sm font-semibold text-slate-200">
-                        {tool.shortName}
-                      </h3>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-slate-500">{tool.desc}</p>
-                  </CardContent>
-                </Card>
-              </Link>
-            );
-          })}
+          {QS_TOOLS.map((tool) => (
+            <ToolCard key={tool.href} tool={tool} />
+          ))}
         </div>
       </div>
+
+      <PremiumUpsellBanner />
     </div>
   );
 }

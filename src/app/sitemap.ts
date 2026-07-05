@@ -3,6 +3,7 @@ import { SEO_LANDING_PAGES } from "@/lib/seo/landing-pages";
 import { LESSON_LANDING_PAGES } from "@/lib/seo/lesson-landing-pages";
 import { PROMO_LANDING_PAGES } from "@/lib/seo/promo-landing-pages";
 import { CHARTING_GUIDES, PUBLIC_LESSONS } from "@/lib/seo/public-lessons";
+import { LOCAL_TOOLS } from "@/lib/tools-registry";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://quicksilveralgo.com";
 
@@ -14,7 +15,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/solutions`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/learn`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/offers`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.95 },
-    { url: `${SITE_URL}/tools/local`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
+    { url: `${SITE_URL}/tools`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.92 },
+    { url: `${SITE_URL}/tools/local`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.85 },
     { url: `${SITE_URL}/support`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.85 },
     { url: `${SITE_URL}/faq`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.85 },
     { url: `${SITE_URL}/register`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
@@ -56,8 +58,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: page.variant === "bundle" ? 0.92 : 0.8,
   }));
 
+  const localToolPages: MetadataRoute.Sitemap = LOCAL_TOOLS.map((tool) => ({
+    url: `${SITE_URL}${tool.publicHref}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.88,
+  }));
+
   return [
     ...staticPages,
+    ...localToolPages,
     ...guidePages,
     ...lessonPages,
     ...solutionPages,

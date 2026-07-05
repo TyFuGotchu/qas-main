@@ -6,6 +6,7 @@ import { ExportModuleButton } from "@/components/tools/ExportModuleButton";
 import { ToolLockedOverlay } from "@/components/tools/ToolLockedOverlay";
 import { getFreshSession } from "@/lib/access-control";
 import { checkResourceAccess } from "@/lib/accessControl";
+import { isLocalToolDefinition } from "@/lib/tools-registry";
 import { MANUAL_TRADING_DISCLAIMER, MANUAL_TRADING_SHORT } from "@/lib/quicksilver/disclaimer";
 
 interface ToolPageShellProps {
@@ -38,9 +39,15 @@ export async function ToolPageShell({ tool, children }: ToolPageShellProps) {
             <Icon className="h-6 w-6 text-cyan-accent" />
           </div>
           <div className="min-w-0">
-            <Badge variant="success" className="mb-2">
-              {tool.tag}
-            </Badge>
+            <div className="mb-2 flex flex-wrap gap-2">
+              <Badge variant="success">{tool.tag}</Badge>
+              {isLocalToolDefinition(tool) && access.allowed ? (
+                <Badge variant="success">Included with Premium</Badge>
+              ) : null}
+              {isLocalToolDefinition(tool) && tool.price ? (
+                <Badge variant="warning">{tool.price} standalone</Badge>
+              ) : null}
+            </div>
             <h2 className="font-mono text-xl font-bold text-slate-100 sm:text-2xl">
               {tool.name}
             </h2>

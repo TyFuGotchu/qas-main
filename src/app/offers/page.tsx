@@ -9,6 +9,7 @@ import {
   SEO_PROP_FIRMS,
   SEO_TOPICS,
 } from "@/lib/seo/landing-data";
+import { LocalToolsPromo } from "@/components/tools/LocalToolsPromo";
 import { Badge } from "@/components/ui/Badge";
 import {
   PREMIUM_PROMO_CODE,
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
 };
 
 const BUNDLE_LINKS: { slug: string; label: string; href?: string }[] = [
-  { slug: "local-tools", label: "Local Trading Tools funnel", href: "/tools/local" },
+  { slug: "local-tools", label: "Local Trading Tools hub", href: "/tools" },
   { slug: "first100-premium", label: "Main FIRST100 offer" },
   { slug: "first100-chart-academy", label: "Chart Academy bundle" },
   { slug: "first100-trading-bot", label: "TradeLocker bot deal" },
@@ -59,6 +60,8 @@ export default function OffersHubPage() {
           ))}
         </div>
       </header>
+
+      <LocalToolsPromo />
 
       <section>
         <h2 className="mb-4 font-mono text-sm font-semibold uppercase tracking-widest text-slate-500">

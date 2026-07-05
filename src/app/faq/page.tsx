@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { LocalToolsPromo } from "@/components/tools/LocalToolsPromo";
 import { FaqSection } from "@/components/support/FaqSection";
 import { SupportContactPanel } from "@/components/support/SupportContactPanel";
 import { Badge } from "@/components/ui/Badge";
@@ -39,6 +40,8 @@ export default function FaqPage() {
           .
         </p>
       </header>
+
+      <LocalToolsPromo variant="compact" />
 
       <FaqSection />
 

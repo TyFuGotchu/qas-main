@@ -53,7 +53,14 @@ export const SITE_FAQS: FaqItem[] = [
     category: "Billing & Premium",
     question: "How much does Premium cost?",
     answer:
-      "Premium is $149.99/month and includes everything — Chart Academy, all six QS Planning Modules, TradeLocker bot access, and priority email support. Use promo code FIRST100 for $60 off your first month (first 100 users).",
+      "Premium is $149.99/month and includes everything — Chart Academy, all six QS Planning Modules, three local trading tools (Expectancy, ATR Pip-Range, Compounding Matrix), TradeLocker bot access, and priority email support. Use promo code FIRST100 for $60 off your first month (first 100 users).",
+  },
+  {
+    id: "local-trading-tools",
+    category: "Trading Tools",
+    question: "What are the Local Trading Tools?",
+    answer:
+      "Three standalone calculators — Strategy Expectancy Validator ($6.99), Dynamic ATR Pip-Range ($12.99), and Prop Firm Compounding Matrix ($14.99). Premium members get all three free. Browse them at quicksilveralgo.com/tools or inside Dashboard → Trading Tools.",
   },
   {
     id: "first100-promo",

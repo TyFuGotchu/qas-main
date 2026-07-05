@@ -5,7 +5,8 @@ import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { RecommendedBrokerCard } from "@/components/broker/RecommendedBrokerCard";
 import { AnnouncementBanner } from "@/components/announcements/AnnouncementBanner";
-import { TOOL_COUNT } from "@/lib/tools-registry";
+import { LocalToolsPromo } from "@/components/tools/LocalToolsPromo";
+import { LOCAL_TOOL_COUNT, TOOL_COUNT } from "@/lib/tools-registry";
 import { SUPPORT_EMAIL } from "@/lib/support";
 import {
   LineChart,
@@ -64,7 +65,7 @@ export default async function DashboardPage() {
       href: "/dashboard/tools",
       label: "Trading Tools",
       icon: Wrench,
-      desc: `${TOOL_COUNT} manual trading planning tools`,
+      desc: `${TOOL_COUNT} engines incl. ${LOCAL_TOOL_COUNT} local calculators (free w/ Premium)`,
     },
     {
       href: "/dashboard/support",
@@ -92,6 +93,8 @@ export default async function DashboardPage() {
       <AnnouncementBanner />
 
       <RecommendedBrokerCard />
+
+      <LocalToolsPromo variant="compact" />
 
       {user && !hasPremium && (
         <Card className="border-amber-500/30 bg-amber-500/5">

@@ -1,6 +1,7 @@
 import { PricingGrid } from "@/components/pricing/PricingGrid";
 import { Card, CardContent } from "@/components/ui/Card";
-import { TOOLS } from "@/lib/tools-registry";
+import { LocalToolsPromo } from "@/components/tools/LocalToolsPromo";
+import { ALL_TOOLS, LOCAL_TOOL_COUNT, QS_TOOL_COUNT } from "@/lib/tools-registry";
 import { PREMIUM_PRICE, PREMIUM_PROMO_NOTE } from "@/lib/pricing-tiers";
 import { SUPPORT_EMAIL } from "@/lib/support";
 import { Lock } from "lucide-react";
@@ -11,7 +12,7 @@ const PAYWALL_MESSAGES: Record<string, string> = {
   support:
     `Priority email support at ${SUPPORT_EMAIL} is included with Premium (${PREMIUM_PRICE}/mo).`,
   tools:
-    `The 6 QS Planning Modules require Premium (${PREMIUM_PRICE}/mo).`,
+    `All ${QS_TOOL_COUNT} QS Planning Modules and ${LOCAL_TOOL_COUNT} local calculators require Premium (${PREMIUM_PRICE}/mo) — local tools are free for Premium members.`,
 };
 
 export default function UpgradePage({
@@ -44,17 +45,22 @@ export default function UpgradePage({
             <p className="mt-2 text-sm text-slate-500">{paywallNote}</p>
             <p className="mt-2 text-sm text-slate-500">
               One Premium subscription unlocks everything — Chart Academy, all
-              6 planning modules, TradeLocker bot, live dashboard, and priority
+              planning modules, local trading tools, TradeLocker bot, live dashboard, and priority
               email support at {SUPPORT_EMAIL}. {PREMIUM_PROMO_NOTE}
             </p>
             <ul className="mt-4 space-y-2 text-sm text-slate-400">
-              {TOOLS.map((tool) => (
-                <li key={tool.slug}>• {tool.shortName}</li>
+              {ALL_TOOLS.map((tool) => (
+                <li key={tool.slug}>
+                  • {tool.shortName}
+                  {tool.category === "local-tool" ? " (local — free w/ Premium)" : ""}
+                </li>
               ))}
             </ul>
           </div>
         </CardContent>
       </Card>
+
+      <LocalToolsPromo />
 
       <PricingGrid />
     </div>
