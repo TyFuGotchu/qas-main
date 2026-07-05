@@ -44,8 +44,8 @@ export async function ToolPageShell({ tool, children }: ToolPageShellProps) {
               {isLocalToolDefinition(tool) && access.allowed ? (
                 <Badge variant="success">Included with Premium</Badge>
               ) : null}
-              {isLocalToolDefinition(tool) && tool.price ? (
-                <Badge variant="warning">{tool.price} standalone</Badge>
+              {isLocalToolDefinition(tool) && !access.allowed ? (
+                <Badge variant="warning">Premium Required</Badge>
               ) : null}
             </div>
             <h2 className="font-mono text-xl font-bold text-slate-100 sm:text-2xl">

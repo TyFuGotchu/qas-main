@@ -3,11 +3,13 @@ import { Zap } from "lucide-react";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
+import { LOCAL_TOOL_BENEFITS } from "@/lib/local-tools-catalog";
 import { LOCAL_TOOLS } from "@/lib/tools-registry";
 import {
   getPremiumCheckoutUrl,
   PREMIUM_PRICE,
   PREMIUM_PROMO_CODE,
+  PREMIUM_PROMO_FIRST_MONTH,
 } from "@/lib/pricing-tiers";
 
 interface LocalToolsPromoProps {
@@ -22,10 +24,10 @@ export function LocalToolsPromo({ variant = "full", className }: LocalToolsPromo
     return (
       <GlassPanel className={`border-emerald-500/20 p-4 ${className ?? ""}`}>
         <p className="font-mono text-xs text-slate-400">
-          <strong className="text-emerald-400">Local Trading Tools</strong> — Expectancy, ATR
-          Pip-Range & Compounding Matrix.{" "}
-          <strong className="text-slate-200">Free with Premium</strong> ({PREMIUM_PRICE}/mo, code{" "}
-          {PREMIUM_PROMO_CODE}).
+          <strong className="text-emerald-400">Premium Trading Tools</strong> — Expectancy,
+          ATR Pip-Range & Compounding Matrix included with Premium ({PREMIUM_PRICE}/mo). Code{" "}
+          <strong className="text-slate-200">{PREMIUM_PROMO_CODE}</strong> →{" "}
+          {PREMIUM_PROMO_FIRST_MONTH} first month.
         </p>
         <Link href="/tools" className="mt-2 inline-block font-mono text-xs text-cyan-accent hover:underline">
           Browse tools →
@@ -39,14 +41,15 @@ export function LocalToolsPromo({ variant = "full", className }: LocalToolsPromo
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <Badge variant="success" className="mb-2">
-            Local Trading Tools
+            Premium Trading Tools
           </Badge>
           <h3 className="font-mono text-lg font-bold text-slate-100">
-            3 Standalone Calculators — Free for Premium
+            3 Proprietary Calculators — Included with Premium
           </h3>
           <p className="mt-2 max-w-xl text-sm text-slate-400">
             Validate expectancy, measure structural pip ranges, and plan prop-firm compounding.
-            Premium members get all three included — or purchase individually via Stripe.
+            All three unlock with one Premium subscription — alongside 6 QS modules, Chart
+            Academy, and the TradeLocker bot.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -72,7 +75,7 @@ export function LocalToolsPromo({ variant = "full", className }: LocalToolsPromo
           >
             <p className="font-mono text-xs font-semibold text-slate-200">{tool.shortName}</p>
             <p className="mt-1 font-mono text-[10px] text-emerald-400">
-              {tool.price} · Premium free
+              {LOCAL_TOOL_BENEFITS[tool.slug as keyof typeof LOCAL_TOOL_BENEFITS]}
             </p>
           </Link>
         ))}
@@ -87,12 +90,12 @@ export function PremiumUpsellBanner() {
   return (
     <div className="rounded-xl border border-emerald-500/35 bg-gradient-to-r from-emerald-500/10 to-cyan-500/5 px-6 py-8 text-center">
       <h3 className="font-mono text-xl font-bold text-emerald-100">
-        Get Everything — Save $60 with {PREMIUM_PROMO_CODE}
+        Unlock the Full Institutional Stack — {PREMIUM_PROMO_CODE}
       </h3>
       <p className="mx-auto mt-3 max-w-2xl text-sm text-emerald-200/80">
-        All local tools, 6 core QS frameworks, Chart Academy masterclass, TradeLocker bot, and
-        priority support for {PREMIUM_PRICE}/mo. Use code <strong>{PREMIUM_PROMO_CODE}</strong> at
-        checkout.
+        9 planning engines, Chart Academy masterclass, TradeLocker bot, live terminal, and
+        priority support for {PREMIUM_PRICE}/mo. First month {PREMIUM_PROMO_FIRST_MONTH} with code{" "}
+        <strong>{PREMIUM_PROMO_CODE}</strong>.
       </p>
       <a
         href={premiumUrl}

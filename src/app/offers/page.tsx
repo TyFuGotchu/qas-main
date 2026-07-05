@@ -30,7 +30,7 @@ const BUNDLE_LINKS: { slug: string; label: string; href?: string }[] = [
   { slug: "first100-chart-academy", label: "Chart Academy bundle" },
   { slug: "first100-trading-bot", label: "TradeLocker bot deal" },
   { slug: "first100-prop-firm-tools", label: "Prop firm toolkit" },
-  { slug: "first100-all-tools", label: "All 6 planning modules" },
+  { slug: "first100-all-tools", label: "All 9 planning engines" },
 ];
 
 export default function OffersHubPage() {

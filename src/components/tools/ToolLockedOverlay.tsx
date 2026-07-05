@@ -1,8 +1,8 @@
-import { Lock, ShoppingCart, Zap } from "lucide-react";
+import { Lock, Zap } from "lucide-react";
 import { TIER_LABELS } from "@/lib/accessControl";
 import { getPremiumCheckoutUrl, PREMIUM_PROMO_CODE } from "@/lib/pricing-tiers";
 import type { ToolDefinition } from "@/lib/tools-registry";
-import { isLocalToolDefinition } from "@/lib/tools-registry";
+import { isLocalToolDefinition, TOOL_COUNT } from "@/lib/tools-registry";
 import type { SubscriptionTier } from "@/types";
 import Button from "@/components/ui/Button";
 import { GlassPanel } from "@/components/ui/GlassPanel";
@@ -49,9 +49,9 @@ export function ToolLockedOverlay({
             {isLocal ? (
               <>
                 <strong className="text-slate-300">{tool.shortName}</strong> is included
-                free with Premium. Your tier:{" "}
+                with Premium alongside all {TOOL_COUNT} planning engines, Chart Academy, and the
+                TradeLocker bot. Your tier:{" "}
                 <strong className="text-slate-300">{TIER_LABELS[userTier]}</strong>.
-                Buy this tool standalone or upgrade for all tools + masterclass.
               </>
             ) : (
               <>
@@ -65,18 +65,10 @@ export function ToolLockedOverlay({
           </p>
           <p className="mt-2 font-mono text-xs text-slate-500">{tool.desc}</p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            {isLocal && tool.stripeCheckoutUrl && tool.price ? (
-              <a href={tool.stripeCheckoutUrl} target="_blank" rel="noopener noreferrer">
-                <Button variant="primary" size="lg">
-                  <ShoppingCart className="h-4 w-4" />
-                  Get Instant Access — {tool.price}
-                </Button>
-              </a>
-            ) : null}
             <a href={premiumUrl} target="_blank" rel="noopener noreferrer">
-              <Button variant={isLocal ? "secondary" : "primary"} size="lg">
+              <Button variant="primary" size="lg">
                 <Zap className="h-4 w-4" />
-                Premium — includes free ({PREMIUM_PROMO_CODE})
+                Upgrade to Premium ({PREMIUM_PROMO_CODE})
               </Button>
             </a>
           </div>

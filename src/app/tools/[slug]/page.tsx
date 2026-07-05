@@ -29,7 +29,7 @@ export async function generateMetadata({
   if (!tool) return { title: "Tool Not Found" };
   return {
     title: `${tool.name} | Quicksilver Local Tools`,
-    description: `${tool.desc} ${tool.price} standalone — free for Premium members.`,
+    description: `${tool.desc} Included with Quicksilver Premium — institutional planning for manual traders.`,
   };
 }
 

@@ -1,6 +1,7 @@
 import { PricingGrid } from "@/components/pricing/PricingGrid";
 import { Card, CardContent } from "@/components/ui/Card";
 import { LocalToolsPromo } from "@/components/tools/LocalToolsPromo";
+import { PremiumValueStack } from "@/components/tools/PremiumValueStack";
 import { ALL_TOOLS, LOCAL_TOOL_COUNT, QS_TOOL_COUNT } from "@/lib/tools-registry";
 import { PREMIUM_PRICE, PREMIUM_PROMO_NOTE } from "@/lib/pricing-tiers";
 import { SUPPORT_EMAIL } from "@/lib/support";
@@ -12,7 +13,7 @@ const PAYWALL_MESSAGES: Record<string, string> = {
   support:
     `Priority email support at ${SUPPORT_EMAIL} is included with Premium (${PREMIUM_PRICE}/mo).`,
   tools:
-    `All ${QS_TOOL_COUNT} QS Planning Modules and ${LOCAL_TOOL_COUNT} local calculators require Premium (${PREMIUM_PRICE}/mo) — local tools are free for Premium members.`,
+    `All ${QS_TOOL_COUNT} QS Planning Modules and ${LOCAL_TOOL_COUNT} proprietary calculators require Premium (${PREMIUM_PRICE}/mo) — included with one subscription.`,
 };
 
 export default function UpgradePage({
@@ -52,7 +53,7 @@ export default function UpgradePage({
               {ALL_TOOLS.map((tool) => (
                 <li key={tool.slug}>
                   • {tool.shortName}
-                  {tool.category === "local-tool" ? " (local — free w/ Premium)" : ""}
+                  {tool.category === "local-tool" ? " (included w/ Premium)" : ""}
                 </li>
               ))}
             </ul>
@@ -61,6 +62,8 @@ export default function UpgradePage({
       </Card>
 
       <LocalToolsPromo />
+
+      <PremiumValueStack showToolList />
 
       <PricingGrid />
     </div>

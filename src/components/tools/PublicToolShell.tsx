@@ -36,8 +36,10 @@ export async function PublicToolShell({ tool, children }: PublicToolShellProps) 
           <div>
             <div className="mb-2 flex flex-wrap gap-2">
               <Badge variant="success">{tool.tag}</Badge>
-              {isLocal && tool.price ? (
-                <Badge variant="warning">{tool.price} standalone · Premium free</Badge>
+              {isLocal ? (
+                <Badge variant={access.allowed ? "success" : "warning"}>
+                  {access.allowed ? "Included with Premium" : "Premium Required"}
+                </Badge>
               ) : null}
             </div>
             <h1 className="font-mono text-2xl font-bold text-slate-100">{tool.name}</h1>
@@ -71,7 +73,7 @@ export async function PublicToolShell({ tool, children }: PublicToolShellProps) 
         <div>{children}</div>
       )}
 
-      {isLocal ? <PremiumUpsellBanner /> : null}
+      {isLocal && !access.allowed ? <PremiumUpsellBanner /> : null}
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import type { PricingTier } from "@/types";
+import { LOCAL_TOOL_COUNT, QS_TOOL_COUNT, TOOL_COUNT } from "@/lib/tools-registry";
 
 export const PREMIUM_CHECKOUT_URL =
   "https://buy.stripe.com/fZufZhcWo4XY4L7727co00c";
@@ -45,9 +46,9 @@ export const PRICING_TIERS: PricingTier[] = [
     period: "/ Month",
     features: [
       "Everything included — one price",
+      `${TOOL_COUNT} planning engines (${QS_TOOL_COUNT} QS modules + ${LOCAL_TOOL_COUNT} calculators)`,
       "TradeLocker Quicksilver Quant Protocol bot",
       "Chart Academy — 89 lessons + prop firm guide",
-      "All 6 institutional planning modules",
       "Priority email support (support@quicksilveralgo.com)",
       "Live trading terminal + 4 account pro tools",
       PREMIUM_PROMO_NOTE,

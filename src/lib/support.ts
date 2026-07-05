@@ -60,7 +60,7 @@ export const SITE_FAQS: FaqItem[] = [
     category: "Trading Tools",
     question: "What are the Local Trading Tools?",
     answer:
-      "Three standalone calculators — Strategy Expectancy Validator ($6.99), Dynamic ATR Pip-Range ($12.99), and Prop Firm Compounding Matrix ($14.99). Premium members get all three free. Browse them at quicksilveralgo.com/tools or inside Dashboard → Trading Tools.",
+      "Three proprietary calculators — Strategy Expectancy Validator, Dynamic ATR Pip-Range, and Prop Firm Compounding Matrix. All three are included with Premium alongside the six QS Planning Modules. Browse previews at quicksilveralgo.com/tools or unlock inside Dashboard → Trading Tools.",
   },
   {
     id: "first100-promo",

@@ -1,15 +1,16 @@
-# Quicksilver Local Trading Tools Funnel
+# Quicksilver Local Trading Tools Funnel (Deprecated)
 
-Standalone Flask microservice for the three local trading calculators.
+> **Canonical hosting:** Tools are native on the main Next.js app at `/tools` and `/dashboard/tools/*`. Premium subscription unlocks all three calculators.
 
-## Railway deployment
+This Flask microservice is retained for reference only. New deployments should use the main Vercel site.
+
+## Historical Railway deployment
 
 1. Create a **new Railway service** in the `qas-main` project.
 2. Set **Root Directory** to `local-trading-tools`.
-3. Railway will detect Python via `requirements.txt` and start with `gunicorn app:app`.
-4. Optional env: `PREMIUM_CHECKOUT_URL` (defaults to Premium + FIRST100 Stripe link).
+3. Railway detects Python via `requirements.txt` and starts with `gunicorn app:app`.
 
-## Local dev
+## Local dev (legacy)
 
 ```bash
 cd local-trading-tools
@@ -18,10 +19,10 @@ python app.py
 # http://localhost:8000
 ```
 
-## Tools
+## Tools (now Premium-included on main site)
 
-| Tool | Price | Stripe |
-|------|-------|--------|
-| Strategy Expectancy Validator | $6.99 | Client-side |
-| Dynamic ATR Pip-Range Calculator | $12.99 | Client-side |
-| Prop Firm Compounding Matrix | $14.99 | `/api/compounding-matrix` |
+| Tool | Access |
+|------|--------|
+| Strategy Expectancy Validator | Premium |
+| Dynamic ATR Pip-Range Calculator | Premium |
+| Prop Firm Compounding Matrix | Premium |

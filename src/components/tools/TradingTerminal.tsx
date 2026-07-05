@@ -30,8 +30,8 @@ function ToolCard({ tool }: { tool: ToolDefinition }) {
           <div className="flex-1">
             <div className="mb-2 flex flex-wrap gap-1">
               <Badge variant="success">{tool.tag}</Badge>
-              {isLocal && tool.price ? (
-                <Badge variant="warning">{tool.price} · Premium free</Badge>
+              {isLocal ? (
+                <Badge variant="success">Premium</Badge>
               ) : null}
             </div>
             <h3 className="font-mono text-sm font-semibold text-slate-200">{tool.shortName}</h3>
@@ -98,7 +98,7 @@ export function TradingTerminal() {
           Local Trading Tools
         </h3>
         <p className="mb-4 font-mono text-xs text-slate-500">
-          Included free with Premium — or purchase individually.{" "}
+          Included with Premium — unlock all three with one subscription.{" "}
           <Link href="/tools" className="text-cyan-accent hover:underline">
             Public tool pages →
           </Link>

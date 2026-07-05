@@ -10,11 +10,7 @@ import {
   Zap,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import {
-  LOCAL_TOOL_PRICES,
-  LOCAL_TOOL_STRIPE,
-  type LocalToolSlug,
-} from "@/lib/local-tools-catalog";
+import type { LocalToolSlug } from "@/lib/local-tools-catalog";
 
 export type ToolCategory = "qs-module" | "local-tool";
 
@@ -28,8 +24,6 @@ export interface ToolDefinition {
   icon: LucideIcon;
   tag: string;
   category: ToolCategory;
-  price?: string;
-  stripeCheckoutUrl?: string;
 }
 
 export const QS_TOOL_COUNT = 6;
@@ -116,8 +110,6 @@ export const LOCAL_TOOLS: ToolDefinition[] = [
     icon: LineChart,
     tag: "Edge Math",
     category: "local-tool",
-    price: LOCAL_TOOL_PRICES["expectancy-validator"],
-    stripeCheckoutUrl: LOCAL_TOOL_STRIPE["expectancy-validator"],
   },
   {
     slug: "atr-pip-range",
@@ -129,8 +121,6 @@ export const LOCAL_TOOLS: ToolDefinition[] = [
     icon: Activity,
     tag: "Volatility",
     category: "local-tool",
-    price: LOCAL_TOOL_PRICES["atr-pip-range"],
-    stripeCheckoutUrl: LOCAL_TOOL_STRIPE["atr-pip-range"],
   },
   {
     slug: "compounding-matrix",
@@ -142,8 +132,6 @@ export const LOCAL_TOOLS: ToolDefinition[] = [
     icon: Table2,
     tag: "Prop Compounding",
     category: "local-tool",
-    price: LOCAL_TOOL_PRICES["compounding-matrix"],
-    stripeCheckoutUrl: LOCAL_TOOL_STRIPE["compounding-matrix"],
   },
 ];
 
