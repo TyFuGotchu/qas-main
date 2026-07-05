@@ -9,7 +9,11 @@ import {
   SEO_PROP_FIRMS,
   SEO_TOPICS,
 } from "@/lib/seo/landing-data";
-import { LocalToolsPromo } from "@/components/tools/LocalToolsPromo";
+import { PropFirmChallengePromo } from "@/components/marketing/PropFirmChallengePromo";
+import {
+  PROP_FIRM_MARKETING_HEADLINE,
+  PROP_FIRM_PREMIUM_PITCH,
+} from "@/lib/prop-firm-challenge-marketing";
 import { Badge } from "@/components/ui/Badge";
 import {
   PREMIUM_PROMO_CODE,
@@ -21,12 +25,14 @@ import {
 
 export const metadata: Metadata = {
   title: `${PREMIUM_PROMO_CODE} Promo Offers — ${PREMIUM_PROMO_DISCOUNT} Off Premium | Quicksilver`,
-  description: `${PREMIUM_PROMO_NOTE} ${PREMIUM_PROMO_FIRST_MONTH} first month on Quicksilver Premium (${PREMIUM_PRICE}/mo). Chart Academy, trading tools, live terminal, and email support.`,
+  description: `${PROP_FIRM_MARKETING_HEADLINE}. ${PREMIUM_PROMO_NOTE} ${PREMIUM_PROMO_FIRST_MONTH} first month on Premium (${PREMIUM_PRICE}/mo).`,
 };
 
 const BUNDLE_LINKS: { slug: string; label: string; href?: string }[] = [
-  { slug: "local-tools", label: "Local Trading Tools hub", href: "/tools" },
+  { slug: "prop-firm-one-week", label: "7-Day Prop Firm Playbook", href: "/guides/prop-firm-one-week" },
+  { slug: "first100-prop-firm-one-week", label: "Playbook + FIRST100 deal" },
   { slug: "first100-premium", label: "Main FIRST100 offer" },
+  { slug: "local-tools", label: "Trading Tools hub", href: "/tools" },
   { slug: "first100-chart-academy", label: "Chart Academy bundle" },
   { slug: "first100-trading-bot", label: "TradeLocker bot deal" },
   { slug: "first100-prop-firm-tools", label: "Prop firm toolkit" },
@@ -44,9 +50,8 @@ export default function OffersHubPage() {
           {PREMIUM_PROMO_CODE} Promo Hub
         </h1>
         <p className="mt-3 max-w-2xl text-slate-400">
-          {PREMIUM_PROMO_NOTE} Premium is normally {PREMIUM_PRICE}/mo — code{" "}
-          {PREMIUM_PROMO_CODE} drops month one to {PREMIUM_PROMO_FIRST_MONTH}.
-          Find deals by market, prop firm, or trading topic below.
+          {PROP_FIRM_PREMIUM_PITCH} Code {PREMIUM_PROMO_CODE} drops month one to{" "}
+          {PREMIUM_PROMO_FIRST_MONTH}. Find deals by market, prop firm, or trading topic below.
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
           {BUNDLE_LINKS.map((link) => (
@@ -61,7 +66,7 @@ export default function OffersHubPage() {
         </div>
       </header>
 
-      <LocalToolsPromo />
+      <PropFirmChallengePromo />
 
       <section>
         <h2 className="mb-4 font-mono text-sm font-semibold uppercase tracking-widest text-slate-500">

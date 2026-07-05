@@ -2,16 +2,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { LOCAL_TOOL_BENEFITS } from "@/lib/local-tools-catalog";
 import { LOCAL_TOOLS, QS_TOOLS, TOOL_COUNT } from "@/lib/tools-registry";
-import { LocalToolsPromo, PremiumUpsellBanner } from "@/components/tools/LocalToolsPromo";
+import { PropFirmChallengePromo } from "@/components/marketing/PropFirmChallengePromo";
+import { PremiumUpsellBanner } from "@/components/tools/LocalToolsPromo";
 import { PremiumValueStack } from "@/components/tools/PremiumValueStack";
 import { Badge } from "@/components/ui/Badge";
-import { PREMIUM_HEADLINE } from "@/lib/premium-value-stack";
+import { PREMIUM_SUBHEADLINE } from "@/lib/premium-value-stack";
 import { getPremiumCheckoutUrl, PREMIUM_PROMO_CODE } from "@/lib/pricing-tiers";
 
 export const metadata: Metadata = {
-  title: "Trading Tools — Expectancy, ATR & Compounding | Quicksilver",
+  title: "Trading Tools for the 7-Day Prop Firm Playbook | Quicksilver",
   description:
-    "Nine institutional planning engines for manual traders. Three proprietary calculators plus six QS modules — all included with Quicksilver Premium.",
+    "Nine planning engines power the Quicksilver 7-day prop firm challenge playbook. Premium unlocks expectancy, risk, survival sims & daily execution tasks.",
 };
 
 export default function ToolsHubPage() {
@@ -25,9 +26,7 @@ export default function ToolsHubPage() {
           Trading Tools Hub
         </h1>
         <p className="mx-auto mt-3 max-w-2xl text-slate-400">
-          {PREMIUM_HEADLINE} Browse {TOOL_COUNT} planning engines — unlock everything with
-          Premium. Use code <strong className="text-emerald-400">{PREMIUM_PROMO_CODE}</strong> at
-          checkout.
+          {PREMIUM_SUBHEADLINE}
         </p>
       </header>
 
@@ -110,8 +109,8 @@ export default function ToolsHubPage() {
       </section>
 
       <div className="space-y-6">
+        <PropFirmChallengePromo variant="compact" />
         <PremiumValueStack showToolList />
-        <LocalToolsPromo />
         <PremiumUpsellBanner />
         <p className="text-center font-mono text-xs text-slate-600">
           Dashboard members:{" "}

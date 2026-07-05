@@ -8,7 +8,7 @@ import {
   getLandingPagesByMarket,
   getLandingPagesByPropFirm,
 } from "@/lib/seo/landing-pages";
-import { LocalToolsPromo } from "@/components/tools/LocalToolsPromo";
+import { PropFirmChallengePromo } from "@/components/marketing/PropFirmChallengePromo";
 import { Badge } from "@/components/ui/Badge";
 import {
   PREMIUM_PROMO_FIRST_MONTH,
@@ -37,7 +37,7 @@ export default function SolutionsHubPage() {
         </p>
       </header>
 
-      <LocalToolsPromo variant="compact" />
+      <PropFirmChallengePromo variant="compact" />
 
       <section>
         <h2 className="mb-4 font-mono text-sm font-semibold uppercase tracking-widest text-slate-500">

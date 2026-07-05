@@ -5,8 +5,8 @@ import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { RecommendedBrokerCard } from "@/components/broker/RecommendedBrokerCard";
 import { AnnouncementBanner } from "@/components/announcements/AnnouncementBanner";
-import { LocalToolsPromo } from "@/components/tools/LocalToolsPromo";
-import { LOCAL_TOOL_COUNT, TOOL_COUNT } from "@/lib/tools-registry";
+import { PropFirmChallengePromo } from "@/components/marketing/PropFirmChallengePromo";
+import { TOOL_COUNT } from "@/lib/tools-registry";
 import { SUPPORT_EMAIL } from "@/lib/support";
 import {
   LineChart,
@@ -65,7 +65,7 @@ export default async function DashboardPage() {
       href: "/dashboard/tools",
       label: "Trading Tools",
       icon: Wrench,
-      desc: `${TOOL_COUNT} engines incl. ${LOCAL_TOOL_COUNT} local calculators (free w/ Premium)`,
+      desc: `${TOOL_COUNT} engines for the 7-day prop firm playbook`,
     },
     {
       href: "/dashboard/support",
@@ -94,7 +94,7 @@ export default async function DashboardPage() {
 
       <RecommendedBrokerCard />
 
-      <LocalToolsPromo variant="compact" />
+      <PropFirmChallengePromo variant="compact" />
 
       {user && !hasPremium && (
         <Card className="border-amber-500/30 bg-amber-500/5">
@@ -105,8 +105,8 @@ export default async function DashboardPage() {
                 Free tier — preview 1 lesson, 1 guide & Setup Scorer
               </p>
               <p className="mt-1 text-xs text-slate-500">
-                Premium ($149.99/mo) unlocks everything — use code FIRST100 for
-                $60 off your first month.
+                Premium unlocks the 7-day prop firm playbook + all tools — code
+                FIRST100 for $60 off your first month.
               </p>
             </div>
             <Link href="/dashboard/upgrade">

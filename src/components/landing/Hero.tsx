@@ -1,7 +1,14 @@
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { TOTAL_SEO_LANDING_PAGES } from "@/lib/seo/seo-index";
-import { Activity, BarChart3, Cpu, Shield } from "lucide-react";
+import {
+  PROP_FIRM_CHALLENGE_DAYS,
+  PROP_FIRM_MARKETING_HEADLINE,
+  PROP_FIRM_MARKETING_SUBHEADLINE,
+  PROP_FIRM_PLAYBOOK_HREF,
+} from "@/lib/prop-firm-challenge-marketing";
+import { PREMIUM_PROMO_CODE, PREMIUM_PROMO_FIRST_MONTH } from "@/lib/pricing-tiers";
+import { Activity, BarChart3, Calendar, Shield } from "lucide-react";
 
 export function Hero() {
   return (
@@ -15,74 +22,72 @@ export function Hero() {
 
       <div className="relative mx-auto max-w-7xl">
         <div className="text-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-400/25 bg-gradient-to-r from-cyan-500/10 via-slate-900/60 to-cyan-500/5 px-4 py-1.5 shadow-[0_0_32px_rgba(0,229,255,0.1),inset_0_1px_0_rgba(232,244,252,0.06)]">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-400/25 bg-gradient-to-r from-emerald-500/10 via-slate-900/60 to-cyan-500/5 px-4 py-1.5 shadow-[0_0_32px_rgba(16,185,129,0.1),inset_0_1px_0_rgba(232,244,252,0.06)]">
             <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-40" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(0,229,255,0.8)]" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-40" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
             </span>
             <span className="font-mono text-xs uppercase tracking-[0.2em] text-slate-300">
-              Quicksilver Systems{" "}
-              <span className="text-cyan-accent">v2.4.1</span>
+              {PROP_FIRM_CHALLENGE_DAYS}-Day Prop Firm Playbook
             </span>
           </div>
 
           <h1 className="mx-auto max-w-4xl font-mono text-3xl font-bold tracking-tight text-slate-50 sm:text-5xl lg:text-6xl">
-            <span className="qs-mercury-text">Quicksilver</span>{" "}
-            <span className="text-slate-100">Algo System</span>
+            {PROP_FIRM_MARKETING_HEADLINE}
           </h1>
 
           <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-slate-400 sm:text-lg">
-            Institutional-grade planning infrastructure for manual traders.
-            Proprietary QS engines, risk matrices, and quant tooling built for
-            prop firm challenges and live capital deployment.
+            {PROP_FIRM_MARKETING_SUBHEADLINE}
           </p>
 
-          <div className="mt-10 flex flex-col items-center gap-4">
-            <Link href="/register">
+          <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+            <Link href="/offers">
               <Button variant="primary" size="lg">
-                Create Profile to View Access Tiers
+                Get Premium — {PREMIUM_PROMO_CODE} ({PREMIUM_PROMO_FIRST_MONTH})
               </Button>
             </Link>
-            <p className="font-mono text-xs text-slate-500">
-              <Link href="/offers" className="text-emerald-400 hover:underline">
-                FIRST100 — $89.99 first month
-              </Link>
-              {" · "}
-              <Link href="/learn" className="text-cyan-accent hover:underline">
-                {TOTAL_SEO_LANDING_PAGES}+ guides
-              </Link>
-              {" · "}
-              <Link
-                href="/solutions"
-                className="text-cyan-accent hover:underline"
-              >
-                Free calculators
-              </Link>
-            </p>
+            <Link href={PROP_FIRM_PLAYBOOK_HREF}>
+              <Button variant="secondary" size="lg">
+                Preview the Playbook
+              </Button>
+            </Link>
           </div>
+          <p className="mt-4 font-mono text-xs text-slate-500">
+            <Link href="/register" className="text-cyan-accent hover:underline">
+              Free account
+            </Link>
+            {" · "}
+            <Link href="/learn" className="text-cyan-accent hover:underline">
+              {TOTAL_SEO_LANDING_PAGES}+ guides
+            </Link>
+            {" · "}
+            <Link href="/solutions" className="text-cyan-accent hover:underline">
+              Free calculators
+            </Link>
+          </p>
         </div>
 
         <div className="mt-20 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {[
             {
-              icon: Cpu,
-              title: "TradeLocker Quicksilver Quant Protocol",
-              desc: "Marketplace bot with pre-tuned prop-firm parameters",
+              icon: Calendar,
+              title: `${PROP_FIRM_CHALLENGE_DAYS}-Day Execution Plan`,
+              desc: "Daily profit caps, consistency checks & session tasks",
             },
             {
               icon: BarChart3,
-              title: "6 Master Tools",
-              desc: "Confluence scoring, risk matrix, trade planner & more",
-            },
-            {
-              icon: Activity,
-              title: "Priority Support",
-              desc: "Direct email support for Premium members",
+              title: "9 Planning Engines",
+              desc: "Confluence scoring, risk matrix, prop survival & more",
             },
             {
               icon: Shield,
-              title: "Risk Engine",
-              desc: "Prop drawdown compliance with mathematical precision",
+              title: "20% Consistency Guard",
+              desc: "Never let one hero day fail your funded payout",
+            },
+            {
+              icon: Activity,
+              title: "Prop OS + Live Terminal",
+              desc: "Challenge survival outlook, journal & growth dashboard",
             },
           ].map((feature) => (
             <div

@@ -8,6 +8,7 @@ import {
   PREMIUM_CTA_LABEL,
   PREMIUM_HEADLINE,
   PREMIUM_SUBHEADLINE,
+  PROP_FIRM_PREMIUM_FEATURES_LEAD,
 } from "@/lib/premium-value-stack";
 import { getPremiumCheckoutUrl } from "@/lib/pricing-tiers";
 import { ALL_TOOLS } from "@/lib/tools-registry";
@@ -35,16 +36,48 @@ export function PremiumValueStack({
         <p className="mx-auto mt-3 max-w-2xl text-sm text-slate-400">{PREMIUM_SUBHEADLINE}</p>
       </div>
 
-      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {PREMIUM_VALUE_PILLARS.map((pillar) => (
-          <div
-            key={pillar.id}
-            className="rounded-lg border border-slate-800/60 bg-slate-950/40 px-4 py-4"
+      <ul className="mx-auto mt-6 max-w-2xl space-y-2">
+        {PROP_FIRM_PREMIUM_FEATURES_LEAD.map((feature) => (
+          <li
+            key={feature}
+            className="flex items-start gap-2 font-mono text-xs text-slate-400"
           >
-            <p className="font-mono text-sm font-semibold text-cyan-accent">{pillar.title}</p>
-            <p className="mt-2 text-xs leading-relaxed text-slate-500">{pillar.description}</p>
-          </div>
+            <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-terminal" />
+            {feature}
+          </li>
         ))}
+      </ul>
+
+      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {PREMIUM_VALUE_PILLARS.map((pillar) => {
+          const content = (
+            <>
+              <p className="font-mono text-sm font-semibold text-cyan-accent">{pillar.title}</p>
+              <p className="mt-2 text-xs leading-relaxed text-slate-500">{pillar.description}</p>
+            </>
+          );
+
+          if ("href" in pillar && pillar.href) {
+            return (
+              <Link
+                key={pillar.id}
+                href={pillar.href}
+                className="rounded-lg border border-cyan-accent/30 bg-cyan-accent/5 px-4 py-4 transition-colors hover:border-cyan-accent/50"
+              >
+                {content}
+              </Link>
+            );
+          }
+
+          return (
+            <div
+              key={pillar.id}
+              className="rounded-lg border border-slate-800/60 bg-slate-950/40 px-4 py-4"
+            >
+              {content}
+            </div>
+          );
+        })}
       </div>
 
       {showToolList ? (

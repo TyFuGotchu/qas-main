@@ -1,4 +1,10 @@
-import { TOOLS } from "@/lib/tools-registry";
+import { TOOLS, TOOL_COUNT } from "@/lib/tools-registry";
+import {
+  PROP_FIRM_CHALLENGE_DAYS,
+  PROP_FIRM_MARKETING_HEADLINE,
+  PROP_FIRM_MARKETING_SUBHEADLINE,
+  PROP_FIRM_PLAYBOOK_HREF,
+} from "@/lib/prop-firm-challenge-marketing";
 import {
   PREMIUM_PRICE,
   PREMIUM_PROMO_CODE,
@@ -65,12 +71,12 @@ function basePromoFaqs(context: string): { question: string; answer: string }[] 
     },
     {
       question: `How do I redeem ${PREMIUM_PROMO_CODE} for ${context}?`,
-      answer: `Click Subscribe on this page, enter code ${PREMIUM_PROMO_CODE} at Stripe checkout, and unlock Premium instantly — Chart Academy, all six planning modules, TradeLocker bot, and priority email support.`,
+      answer: `Click Subscribe on this page, enter code ${PREMIUM_PROMO_CODE} at Stripe checkout, and unlock Premium instantly — the full ${PROP_FIRM_CHALLENGE_DAYS}-day prop firm playbook, all ${TOOL_COUNT} planning engines, Chart Academy, TradeLocker bot, and priority email support.`,
     },
     {
       question: "What does Premium include?",
       answer:
-        "Everything in one subscription: 89 Chart Academy lessons, prop firm playbook, six QS Planning Modules, TradeLocker Quicksilver Quant Protocol bot, live dashboard, and priority email support at support@quicksilveralgo.com.",
+        `Everything in one subscription: the ${PROP_FIRM_CHALLENGE_DAYS}-Day Prop Firm Playbook (${PROP_FIRM_PLAYBOOK_HREF}), ${TOOL_COUNT} planning engines, 89 Chart Academy lessons, TradeLocker Quicksilver Quant Protocol bot, live dashboard, and priority email support at support@quicksilveralgo.com.`,
     },
     {
       question: `Is there a free tier before using ${PREMIUM_PROMO_CODE}?`,
@@ -436,18 +442,45 @@ const BUNDLE_PAGES: Omit<PromoLandingPage, "relatedSlugs">[] = [
     lessonTitle: null,
     demo: "setup-scorer",
     toolSlug: "edge-confluence",
-    intro: `Quicksilver Premium is ${PREMIUM_PRICE}/mo for everything — no tier confusion. Launch promo ${PREMIUM_PROMO_CODE} drops your first month to ${PREMIUM_PROMO_FIRST_MONTH}. Limited to the first 100 subscribers.`,
+    intro: `${PROP_FIRM_MARKETING_HEADLINE}. Quicksilver Premium is ${PREMIUM_PRICE}/mo — ${PREMIUM_PROMO_CODE} drops your first month to ${PREMIUM_PROMO_FIRST_MONTH}. Limited to the first 100 subscribers.`,
     sections: [
       {
         heading: "What FIRST100 unlocks",
         paragraphs: [
-          "89 Chart Academy lessons + prop firm playbook, six QS Planning Modules, TradeLocker Quicksilver Quant Protocol bot, live dashboard, and priority email support at support@quicksilveralgo.com.",
-          `${PREMIUM_PROMO_DISCOUNT} off month one. Cancel anytime. Free tier still available with one lesson, one guide, and Setup Scorer.`,
+          `${PROP_FIRM_MARKETING_SUBHEADLINE}`,
+          `Plus all ${TOOL_COUNT} planning engines, 89 Chart Academy lessons, TradeLocker bot, live dashboard, and priority email support. ${PREMIUM_PROMO_DISCOUNT} off month one. Cancel anytime.`,
         ],
       },
       premiumUnlockSection(),
     ],
     faqs: basePromoFaqs("Quicksilver Premium"),
+    publishedAt: PUBLISHED_AT,
+  },
+  {
+    slug: promoSlug("prop-firm-one-week"),
+    title: `${PREMIUM_PROMO_CODE}: ${PROP_FIRM_MARKETING_HEADLINE} — ${PREMIUM_PROMO_FIRST_MONTH}`,
+    metaDescription: `${PROP_FIRM_MARKETING_SUBHEADLINE} Code ${PREMIUM_PROMO_CODE} = ${PREMIUM_PROMO_DISCOUNT} off Premium. ${PREMIUM_PROMO_FIRST_MONTH} first month.`,
+    h1: `${PREMIUM_PROMO_CODE} — 7-Day Prop Firm Playbook`,
+    variant: "bundle",
+    market: null,
+    propFirm: null,
+    topic: null,
+    lessonSlug: "prop-firm-one-week",
+    lessonTitle: PROP_FIRM_MARKETING_HEADLINE,
+    demo: "consistency-calc",
+    toolSlug: "prop-survival",
+    intro: `${PROP_FIRM_MARKETING_SUBHEADLINE} Premium unlocks the full execution plan at ${PROP_FIRM_PLAYBOOK_HREF}. ${PREMIUM_PROMO_CODE} makes month one ${PREMIUM_PROMO_FIRST_MONTH}.`,
+    sections: [
+      {
+        heading: "Day-by-day challenge execution",
+        paragraphs: [
+          "Seven sessions with profit caps, consistency audits, and red-day protocols — built for 8–10% targets and 20% best-day rules.",
+          `Pair the playbook with Prop Survival, Edge Confluence, and Risk Matrix from the same Premium dashboard.`,
+        ],
+      },
+      premiumUnlockSection("7-Day Prop Firm Playbook"),
+    ],
+    faqs: basePromoFaqs("7-day prop firm playbook"),
     publishedAt: PUBLISHED_AT,
   },
   {
@@ -517,16 +550,16 @@ const BUNDLE_PAGES: Omit<PromoLandingPage, "relatedSlugs">[] = [
     lessonTitle: null,
     demo: "consistency-calc",
     toolSlug: "prop-survival",
-    intro: `Prop firm challengers use Quicksilver for consistency tracking, Monte Carlo survival sims, and structured trade planning. ${PREMIUM_PROMO_CODE} unlocks the full toolkit for ${PREMIUM_PROMO_FIRST_MONTH} month one.`,
+    intro: `${PROP_FIRM_MARKETING_HEADLINE}. ${PREMIUM_PROMO_CODE} unlocks the full day-by-day playbook plus Prop Survival, Risk Matrix, and all ${TOOL_COUNT} engines for ${PREMIUM_PROMO_FIRST_MONTH} month one.`,
     sections: [
       {
-        heading: "Challenge prep without guesswork",
+        heading: "7-day challenge plan — not guesswork",
         paragraphs: [
-          "Simulate drawdown paths, cap best-day profit share, and score setups before every session.",
-          `${PREMIUM_PROMO_CODE} saves ${PREMIUM_PROMO_DISCOUNT} while you validate edge — limited to 100 users.`,
+          "Daily profit caps keep you under the 20% consistency threshold. Pre-session tasks wire Edge Confluence, Prop Survival, and Risk Matrix into every trading day.",
+          `${PREMIUM_PROMO_CODE} saves ${PREMIUM_PROMO_DISCOUNT} — limited to 100 users.`,
         ],
       },
-      premiumUnlockSection("Prop Survival Engine"),
+      premiumUnlockSection("7-Day Prop Firm Playbook"),
     ],
     faqs: basePromoFaqs("prop firm tools"),
     publishedAt: PUBLISHED_AT,

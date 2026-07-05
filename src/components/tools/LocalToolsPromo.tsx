@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import { LOCAL_TOOL_BENEFITS } from "@/lib/local-tools-catalog";
 import { LOCAL_TOOLS } from "@/lib/tools-registry";
+import { PropFirmChallengePromo } from "@/components/marketing/PropFirmChallengePromo";
 import {
   getPremiumCheckoutUrl,
   PREMIUM_PRICE,
@@ -85,26 +86,5 @@ export function LocalToolsPromo({ variant = "full", className }: LocalToolsPromo
 }
 
 export function PremiumUpsellBanner() {
-  const premiumUrl = getPremiumCheckoutUrl(true);
-
-  return (
-    <div className="rounded-xl border border-emerald-500/35 bg-gradient-to-r from-emerald-500/10 to-cyan-500/5 px-6 py-8 text-center">
-      <h3 className="font-mono text-xl font-bold text-emerald-100">
-        Unlock the Full Institutional Stack — {PREMIUM_PROMO_CODE}
-      </h3>
-      <p className="mx-auto mt-3 max-w-2xl text-sm text-emerald-200/80">
-        9 planning engines, Chart Academy masterclass, TradeLocker bot, live terminal, and
-        priority support for {PREMIUM_PRICE}/mo. First month {PREMIUM_PROMO_FIRST_MONTH} with code{" "}
-        <strong>{PREMIUM_PROMO_CODE}</strong>.
-      </p>
-      <a
-        href={premiumUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-5 inline-flex rounded-lg bg-emerald-600 px-6 py-3 font-mono text-sm font-semibold text-white transition-colors hover:bg-emerald-500"
-      >
-        Upgrade to Premium
-      </a>
-    </div>
-  );
+  return <PropFirmChallengePromo variant="banner" />;
 }

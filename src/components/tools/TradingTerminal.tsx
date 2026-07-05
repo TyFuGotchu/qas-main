@@ -13,7 +13,8 @@ import {
   TOOL_COUNT,
   type ToolDefinition,
 } from "@/lib/tools-registry";
-import { LocalToolsPromo, PremiumUpsellBanner } from "@/components/tools/LocalToolsPromo";
+import { PropFirmChallengePromo } from "@/components/marketing/PropFirmChallengePromo";
+import { PremiumUpsellBanner } from "@/components/tools/LocalToolsPromo";
 import { MANUAL_TRADING_DISCLAIMER, MANUAL_TRADING_SHORT } from "@/lib/quicksilver/disclaimer";
 
 function ToolCard({ tool }: { tool: ToolDefinition }) {
@@ -69,7 +70,7 @@ export function TradingTerminal() {
         </div>
       </GlassPanel>
 
-      <LocalToolsPromo variant="compact" />
+      <PropFirmChallengePromo variant="compact" />
 
       <div className="flex items-start gap-3 rounded-lg border border-cyan-accent/20 bg-cyan-accent/5 px-4 py-3">
         <Info className="mt-0.5 h-4 w-4 shrink-0 text-cyan-accent" />

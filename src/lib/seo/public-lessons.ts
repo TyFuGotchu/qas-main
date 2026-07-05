@@ -155,7 +155,7 @@ const PROP_FIRM_GUIDE_ENTRY: ChartingGuide = {
   ),
   faqs: PROP_FIRM_ONE_WEEK_GUIDE.faqs,
   featured: true,
-  badge: "Prop Challenge",
+  badge: "7-Day Challenge",
 };
 
 export const CHARTING_GUIDES: ChartingGuide[] = [

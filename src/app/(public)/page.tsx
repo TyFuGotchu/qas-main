@@ -6,6 +6,7 @@ import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { ConversionHeroDemo } from "@/components/engagement/ConversionHeroDemo";
 import { LearningPathTracker } from "@/components/engagement/LearningPathTracker";
+import { PropFirmChallengePromo } from "@/components/marketing/PropFirmChallengePromo";
 import { LocalToolsPromo } from "@/components/tools/LocalToolsPromo";
 import { PremiumValueStack } from "@/components/tools/PremiumValueStack";
 
@@ -22,8 +23,9 @@ export default function LandingPage() {
       <Stats />
       <section className="px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl space-y-8">
-          <LocalToolsPromo />
+          <PropFirmChallengePromo />
           <PremiumValueStack />
+          <LocalToolsPromo variant="compact" />
           <ConversionHeroDemo />
           <LearningPathTracker />
         </div>
@@ -31,12 +33,12 @@ export default function LandingPage() {
       <section className="border-t border-slate-800/60 px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl text-center">
           <h2 className="font-mono text-2xl font-bold text-slate-200">
-            Freemium Chart Academy
+            Start with the 7-Day Playbook Preview
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-slate-500">
-            Every lesson and guide includes a free preview. Unlock
-            full content and interactive QS Planning Modules as you upgrade —
-            1 free lesson & guide; Premium ($149.99/mo) unlocks everything.
+            Every guide includes a free preview — including the prop firm challenge
+            playbook. Premium unlocks the full day-by-day plan plus all nine planning
+            engines and Chart Academy.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <Link href="/solutions">
@@ -44,9 +46,9 @@ export default function LandingPage() {
                 Try Free Trading Demos
               </Button>
             </Link>
-            <Link href="/lessons">
+            <Link href="/guides/prop-firm-one-week">
               <Button variant="ghost" size="lg">
-                Lesson Previews
+                7-Day Playbook
               </Button>
             </Link>
             <Link href="/register">

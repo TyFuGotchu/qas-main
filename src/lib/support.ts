@@ -53,12 +53,19 @@ export const SITE_FAQS: FaqItem[] = [
     category: "Billing & Premium",
     question: "How much does Premium cost?",
     answer:
-      "Premium is $149.99/month and includes everything — Chart Academy, all six QS Planning Modules, three local trading tools (Expectancy, ATR Pip-Range, Compounding Matrix), TradeLocker bot access, and priority email support. Use promo code FIRST100 for $60 off your first month (first 100 users).",
+      "Premium is $149.99/month and centers on the 7-Day Prop Firm Playbook — a day-by-day challenge plan to pass in one week while staying under the 20% consistency rule. Also includes all nine planning engines, Chart Academy, TradeLocker bot, and priority email support. Use code FIRST100 for $60 off your first month (first 100 users).",
+  },
+  {
+    id: "prop-firm-playbook",
+    category: "Prop Firms",
+    question: "What is the 7-Day Prop Firm Playbook?",
+    answer:
+      "A Premium guide at quicksilveralgo.com/guides/prop-firm-one-week with daily profit caps, consistency checks, and tasks wired to QS planning tools. Follow the plan across seven sessions to hit a typical 8–10% profit target without breaching the 20% best-day consistency rule most firms enforce.",
   },
   {
     id: "local-trading-tools",
     category: "Trading Tools",
-    question: "What are the Local Trading Tools?",
+    question: "What are the Premium Trading Tools?",
     answer:
       "Three proprietary calculators — Strategy Expectancy Validator, Dynamic ATR Pip-Range, and Prop Firm Compounding Matrix. All three are included with Premium alongside the six QS Planning Modules. Browse previews at quicksilveralgo.com/tools or unlock inside Dashboard → Trading Tools.",
   },
@@ -102,7 +109,7 @@ export const SITE_FAQS: FaqItem[] = [
     category: "Trading Tools",
     question: "What planning tools are included?",
     answer:
-      "Premium includes Setup Scorer (Edge Confluence), Risk Matrix, Prop Survival Engine, Execution Protocol, Regime Oracle, and Alpha Durability — six institutional planning modules for manual traders.",
+      "Premium includes nine planning engines: Edge Confluence, Risk Matrix, Prop Survival, Execution Protocol, Regime Oracle, Alpha Durability, plus Expectancy Validator, ATR Pip-Range, and Compounding Matrix. Each tool connects to the 7-day prop firm playbook workflow.",
   },
   {
     id: "broker-connection",
@@ -130,7 +137,7 @@ export const SITE_FAQS: FaqItem[] = [
     category: "Prop Firms",
     question: "Will Quicksilver help me pass a prop firm challenge?",
     answer:
-      "Our Prop Survival Engine and consistency tools help you plan risk and simulate drawdown paths. We do not guarantee challenge passes — you execute all trades yourself.",
+      "Premium unlocks the 7-Day Prop Firm Playbook — daily profit caps, consistency rules, and QS tool workflows designed to pass a standard challenge in one week. Prop Survival simulates pass probability before day one. We do not guarantee passes — you execute every trade yourself.",
   },
   {
     id: "prop-firm-rules",

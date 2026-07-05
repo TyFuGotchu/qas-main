@@ -1,8 +1,13 @@
+import Link from "next/link";
 import { Lock, Zap } from "lucide-react";
 import { TIER_LABELS } from "@/lib/accessControl";
 import { getPremiumCheckoutUrl, PREMIUM_PROMO_CODE } from "@/lib/pricing-tiers";
 import type { ToolDefinition } from "@/lib/tools-registry";
 import { isLocalToolDefinition, TOOL_COUNT } from "@/lib/tools-registry";
+import {
+  PROP_FIRM_CHALLENGE_DAYS,
+  PROP_FIRM_PLAYBOOK_HREF,
+} from "@/lib/prop-firm-challenge-marketing";
 import type { SubscriptionTier } from "@/types";
 import Button from "@/components/ui/Button";
 import { GlassPanel } from "@/components/ui/GlassPanel";
@@ -48,22 +53,26 @@ export function ToolLockedOverlay({
           <p className="mt-3 text-sm leading-relaxed text-slate-400">
             {isLocal ? (
               <>
-                <strong className="text-slate-300">{tool.shortName}</strong> is included
-                with Premium alongside all {TOOL_COUNT} planning engines, Chart Academy, and the
-                TradeLocker bot. Your tier:{" "}
+                <strong className="text-slate-300">{tool.shortName}</strong> powers the{" "}
+                {PROP_FIRM_CHALLENGE_DAYS}-day prop firm playbook — included with Premium
+                alongside all {TOOL_COUNT} planning engines. Your tier:{" "}
                 <strong className="text-slate-300">{TIER_LABELS[userTier]}</strong>.
               </>
             ) : (
               <>
-                Interactive QS Planning Modules cannot be previewed. Your current
-                tier is{" "}
+                <strong className="text-slate-300">{tool.shortName}</strong> is wired into the{" "}
+                {PROP_FIRM_CHALLENGE_DAYS}-day challenge playbook. Your tier is{" "}
                 <strong className="text-slate-300">{TIER_LABELS[userTier]}</strong>.
-                Upgrade to unlock {tool.shortName} and run {tool.tag.toLowerCase()}{" "}
-                on your own data.
+                Upgrade to run {tool.tag.toLowerCase()} on your own data and follow the full plan.
               </>
             )}
           </p>
           <p className="mt-2 font-mono text-xs text-slate-500">{tool.desc}</p>
+          <p className="mt-2 font-mono text-[10px] text-cyan-accent/80">
+            <Link href={PROP_FIRM_PLAYBOOK_HREF} className="hover:underline">
+              Preview the 7-day playbook →
+            </Link>
+          </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <a href={premiumUrl} target="_blank" rel="noopener noreferrer">
               <Button variant="primary" size="lg">
