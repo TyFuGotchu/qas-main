@@ -12,7 +12,8 @@ import { PlaybookLaunchStrip } from "@/components/marketing/PlaybookLaunchStrip"
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/launch", label: "Launch" },
-  { href: "/guides/prop-firm-one-week", label: "7-Day Challenge" },
+  { href: "/prop-firm", label: "Prop Firms" },
+  { href: "/guides/pillar/ultimate-7-day-prop-firm-playbook", label: "7-Day Playbook" },
   { href: "/tools", label: "Trading Tools" },
   { href: "/solutions", label: "Demos" },
   { href: "/offers", label: "Offers" },

@@ -1,5 +1,9 @@
 import { CHARTING_GUIDES, PUBLIC_LESSONS } from "@/lib/seo/public-lessons";
 import {
+  PROP_FIRM_CLUSTER_COUNT,
+  PILLAR_PAGES,
+} from "@/lib/seo/prop-firm-authority";
+import {
   TOTAL_INDEXABLE_PROGRAMMATIC,
   TOTAL_NOINDEX_PROGRAMMATIC,
 } from "@/lib/seo/indexing-tiers";
@@ -18,9 +22,14 @@ export const TOTAL_INDEXED_CONTENT_PAGES =
 
 export const TOTAL_NOINDEX_CONTENT_PAGES = TOTAL_NOINDEX_PROGRAMMATIC;
 
+export const AUTHORITY_CLUSTER_COUNT = PROP_FIRM_CLUSTER_COUNT;
+export const AUTHORITY_PILLAR_COUNT = PILLAR_PAGES.length;
+
 export const SITEMAP_URL_COUNT =
   TOTAL_INDEXABLE_PROGRAMMATIC +
   PUBLIC_LESSONS.length +
   CHARTING_GUIDES.length +
-  13 +
+  PROP_FIRM_CLUSTER_COUNT +
+  PILLAR_PAGES.length +
+  14 +
   LOCAL_TOOLS.length;

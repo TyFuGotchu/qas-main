@@ -5,6 +5,12 @@ const PUBLISHER = {
   url: SITE_URL,
 };
 
+export const AUTHORITY_AUTHOR = {
+  "@type": "Person" as const,
+  name: "Quicksilver Lead Dev",
+  worksFor: PUBLISHER,
+};
+
 export function articleJsonLd(params: {
   title: string;
   description: string;
@@ -137,6 +143,59 @@ export function promoOfferJsonLd(params: {
         value: params.fullPrice,
       },
     ],
+  };
+}
+
+export function authorityArticleJsonLd(params: {
+  title: string;
+  description: string;
+  slug: string;
+  publishedAt: string;
+  pathPrefix: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: params.title,
+    description: params.description,
+    url: `${SITE_URL}${params.pathPrefix}/${params.slug}`,
+    datePublished: params.publishedAt,
+    dateModified: params.publishedAt,
+    author: AUTHORITY_AUTHOR,
+    publisher: {
+      ...PUBLISHER,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/icon.png`,
+      },
+    },
+    mainEntityOfPage: `${SITE_URL}${params.pathPrefix}/${params.slug}`,
+    articleSection: "Prop Firm Trading",
+  };
+}
+
+export function softwareApplicationJsonLd(params: {
+  name: string;
+  description: string;
+  slug: string;
+  category: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: params.name,
+    description: params.description,
+    url: `${SITE_URL}/tools/${params.slug}`,
+    applicationCategory: params.category,
+    operatingSystem: "Web",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+      description: "Free preview; full access with Quicksilver Premium",
+    },
+    author: AUTHORITY_AUTHOR,
+    publisher: PUBLISHER,
   };
 }
 

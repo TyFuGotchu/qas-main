@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { JsonLdScript } from "@/components/seo/JsonLdScript";
+import { softwareApplicationJsonLd } from "@/lib/seo/json-ld";
 import { PublicToolShell } from "@/components/tools/PublicToolShell";
 import { ExpectancyValidator } from "@/components/tools/local/ExpectancyValidator";
 import { AtrPipRangeCalculator } from "@/components/tools/local/AtrPipRangeCalculator";
@@ -40,5 +42,17 @@ export default function PublicLocalToolPage({ params }: { params: { slug: string
   const component = TOOL_COMPONENTS[params.slug];
   if (!component) notFound();
 
-  return <PublicToolShell tool={tool}>{component}</PublicToolShell>;
+  const jsonLd = softwareApplicationJsonLd({
+    name: tool.name,
+    description: tool.desc,
+    slug: tool.slug,
+    category: "FinanceApplication",
+  });
+
+  return (
+    <>
+      <JsonLdScript data={jsonLd} />
+      <PublicToolShell tool={tool}>{component}</PublicToolShell>
+    </>
+  );
 }

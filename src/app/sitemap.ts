@@ -6,6 +6,10 @@ import {
   INDEXABLE_SOLUTION_PAGES,
 } from "@/lib/seo/indexing-tiers";
 import { LOCAL_TOOLS } from "@/lib/tools-registry";
+import {
+  PILLAR_PAGES,
+  PROP_FIRM_CLUSTER_PAGES,
+} from "@/lib/seo/prop-firm-authority";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://quicksilveralgo.com";
 
@@ -15,6 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/launch`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.98 },
     { url: `${SITE_URL}/lessons`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/guides`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
+    { url: `${SITE_URL}/prop-firm`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.96 },
     { url: `${SITE_URL}/solutions`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/learn`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/offers`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.95 },
@@ -68,12 +73,28 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
+  const pillarPages: MetadataRoute.Sitemap = PILLAR_PAGES.map((pillar) => ({
+    url: `${SITE_URL}/guides/pillar/${pillar.slug}`,
+    lastModified: new Date(pillar.publishedAt),
+    changeFrequency: "weekly" as const,
+    priority: 0.99,
+  }));
+
+  const clusterPages: MetadataRoute.Sitemap = PROP_FIRM_CLUSTER_PAGES.map((page) => ({
+    url: `${SITE_URL}/prop-firm/${page.slug}`,
+    lastModified: new Date(page.publishedAt),
+    changeFrequency: "monthly" as const,
+    priority: page.topic === "pass-in-7-days" ? 0.9 : 0.82,
+  }));
+
   return [
     ...staticPages,
+    ...pillarPages,
     ...localToolPages,
     ...guidePages,
     ...lessonPages,
     ...offerPages,
+    ...clusterPages,
     ...solutionPages,
     ...learnPages,
   ];

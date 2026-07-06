@@ -5,7 +5,14 @@ import { type AccountTier, type SubscriptionTier } from "@/types";
 import { getAuthSecret, validateCoreProductionEnv } from "@/lib/env";
 
 const PUBLIC_ROUTES = ["/", "/launch", "/login", "/register", "/support", "/faq"];
-const SEO_PUBLIC_PREFIXES = ["/lessons", "/guides", "/solutions", "/offers", "/tools"];
+const SEO_PUBLIC_PREFIXES = [
+  "/lessons",
+  "/guides",
+  "/solutions",
+  "/offers",
+  "/tools",
+  "/prop-firm",
+];
 const AUTH_ROUTES = ["/login", "/register"];
 const ONBOARDING_ROUTES_PREFIX = "/onboarding";
 
