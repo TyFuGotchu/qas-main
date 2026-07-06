@@ -27,6 +27,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (accountTier === "Premium Quant") {
+      return NextResponse.json(
+        {
+          error:
+            "Premium unlocks after Stripe checkout. Subscribe with FIRST100, then continue.",
+          code: "PAYMENT_REQUIRED",
+        },
+        { status: 402 }
+      );
+    }
+
     const subscriptionTier = accountTierToSubscriptionTier(accountTier);
 
     const user = await prisma.user.update({

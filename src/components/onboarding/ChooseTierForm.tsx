@@ -1,46 +1,92 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { AccountTier } from "@/types";
-import { PREMIUM_PROMO_NOTE, PRICING_TIERS } from "@/lib/pricing-tiers";
+import {
+  PREMIUM_PROMO_FIRST_MONTH,
+  PREMIUM_PROMO_NOTE,
+  PRICING_TIERS,
+  getPremiumCheckoutUrl,
+} from "@/lib/pricing-tiers";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import { useSession } from "@/providers/SessionProvider";
 import { Check, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { trackBeginCheckout } from "@/lib/analytics/ga-events";
+
+const PREMIUM_CHECKOUT = getPremiumCheckoutUrl(true);
 
 export function ChooseTierForm() {
   const router = useRouter();
   const { setUser } = useSession();
   const [selectedTier, setSelectedTier] = useState<AccountTier | null>(null);
   const [loading, setLoading] = useState(false);
+  const [waitingForPayment, setWaitingForPayment] = useState(false);
   const [error, setError] = useState("");
+  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  async function refreshSessionFromDatabase() {
+  const stopPolling = useCallback(() => {
+    if (pollRef.current) {
+      clearInterval(pollRef.current);
+      pollRef.current = null;
+    }
+    setWaitingForPayment(false);
+  }, []);
+
+  useEffect(() => () => stopPolling(), [stopPolling]);
+
+  async function refreshSessionFromDatabase(): Promise<boolean> {
     try {
       const res = await fetch("/api/auth/refresh-session", { method: "POST" });
-      if (res.ok) {
-        const data = await res.json();
-        setUser(data.user);
-        if (data.user?.onboardingComplete && !data.user?.profileComplete) {
-          router.push("/onboarding/profile");
-        } else if (data.user?.onboardingComplete) {
-          router.push("/dashboard");
-        }
+      if (!res.ok) return false;
+
+      const data = await res.json();
+      setUser(data.user);
+
+      const isPremium =
+        data.user?.subscriptionTier === "TIER_2" ||
+        data.user?.subscriptionTier === "TIER_1" ||
+        data.user?.subscriptionTier === "LIFETIME";
+
+      if (isPremium && data.user?.onboardingComplete) {
+        stopPolling();
+        router.refresh();
+        router.push(
+          data.user?.profileComplete ? "/dashboard" : "/onboarding/profile"
+        );
+        return true;
       }
     } catch {
       // ignore polling errors
     }
+    return false;
   }
 
-  async function handleConfirm() {
-    if (!selectedTier) {
-      setError("Select a plan to continue");
-      return;
-    }
+  function startPaymentPolling() {
+    stopPolling();
+    setWaitingForPayment(true);
+    setError("");
 
+    void refreshSessionFromDatabase();
+
+    pollRef.current = setInterval(() => {
+      void refreshSessionFromDatabase();
+    }, 3000);
+
+    setTimeout(() => stopPolling(), 120_000);
+  }
+
+  function handlePremiumCheckout() {
+    setSelectedTier("Premium Quant");
+    trackBeginCheckout("onboarding_pricing");
+    window.open(PREMIUM_CHECKOUT, "_blank", "noopener,noreferrer");
+    startPaymentPolling();
+  }
+
+  async function handleFreeContinue() {
     setLoading(true);
     setError("");
 
@@ -48,7 +94,7 @@ export function ChooseTierForm() {
       const res = await fetch("/api/onboarding/complete", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ accountTier: selectedTier }),
+        body: JSON.stringify({ accountTier: "Free" }),
       });
 
       const data = await res.json();
@@ -68,6 +114,20 @@ export function ChooseTierForm() {
     }
   }
 
+  async function handleConfirm() {
+    if (!selectedTier) {
+      setError("Select a plan to continue");
+      return;
+    }
+
+    if (selectedTier === "Premium Quant") {
+      handlePremiumCheckout();
+      return;
+    }
+
+    await handleFreeContinue();
+  }
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -75,8 +135,8 @@ export function ChooseTierForm() {
           Select Your <span className="text-cyan-terminal">Access Tier</span>
         </h1>
         <p className="mx-auto mt-3 max-w-xl font-mono text-sm text-slate-500">
-          Choose Free to preview, or Premium for full access. Subscribe via
-          Stripe — {PREMIUM_PROMO_NOTE.toLowerCase()}.
+          Premium unlocks instantly after Stripe checkout — {PREMIUM_PROMO_NOTE.toLowerCase()}.
+          Or start free and upgrade anytime.
         </p>
       </div>
 
@@ -113,6 +173,11 @@ export function ChooseTierForm() {
                     {tier.period}
                   </span>
                 </div>
+                {tier.tier === "Premium Quant" && (
+                  <p className="mt-2 font-mono text-xs text-emerald-terminal">
+                    {PREMIUM_PROMO_FIRST_MONTH} first month with FIRST100
+                  </p>
+                )}
               </CardHeader>
               <CardContent>
                 <ul className="mb-4 space-y-2">
@@ -126,32 +191,36 @@ export function ChooseTierForm() {
                     </li>
                   ))}
                 </ul>
-            {tier.ctaLink ? (
-              <a
-                href={tier.ctaLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setTimeout(() => refreshSessionFromDatabase(), 5000);
-                }}
-                className="block"
-              >
-                <Button variant="ghost" size="sm" className="w-full">
-                  Pay via Stripe
-                  <ExternalLink className="h-3.5 w-3.5" />
-                </Button>
-              </a>
-            ) : (
-              <p className="text-center font-mono text-[10px] uppercase tracking-widest text-slate-600">
-                No payment required
-              </p>
-            )}
+                {tier.ctaLink ? (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handlePremiumCheckout();
+                    }}
+                  >
+                    Pay {PREMIUM_PROMO_FIRST_MONTH} via Stripe
+                    <ExternalLink className="h-3.5 w-3.5" />
+                  </Button>
+                ) : (
+                  <p className="text-center font-mono text-[10px] uppercase tracking-widest text-slate-600">
+                    No payment required
+                  </p>
+                )}
               </CardContent>
             </Card>
           </button>
         ))}
       </div>
+
+      {waitingForPayment && (
+        <p className="rounded border border-cyan-500/30 bg-cyan-500/10 px-4 py-3 text-center font-mono text-sm text-cyan-terminal">
+          Waiting for Stripe checkout… Complete payment in the other tab. We&apos;ll
+          detect it automatically.
+        </p>
+      )}
 
       {error && (
         <p className="rounded border border-red-500/30 bg-red-500/10 px-4 py-3 text-center font-mono text-sm text-red-400">
@@ -159,19 +228,34 @@ export function ChooseTierForm() {
         </p>
       )}
 
-      <div className="flex justify-center">
+      <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
         <Button
           variant="primary"
           size="lg"
-          disabled={!selectedTier || loading}
+          disabled={!selectedTier || loading || waitingForPayment}
           onClick={handleConfirm}
         >
           {loading
             ? "Activating..."
-            : selectedTier === "Free"
-              ? "Continue with Free Access"
-              : "Confirm Plan & Enter Dashboard"}
+            : selectedTier === "Premium Quant"
+              ? `Subscribe — ${PREMIUM_PROMO_FIRST_MONTH} First Month`
+              : selectedTier === "Free"
+                ? "Continue with Free Access"
+                : "Select a Plan"}
         </Button>
+        {selectedTier !== "Free" && (
+          <Button
+            variant="ghost"
+            size="lg"
+            disabled={loading}
+            onClick={() => {
+              setSelectedTier("Free");
+              void handleFreeContinue();
+            }}
+          >
+            Start Free Preview Instead
+          </Button>
+        )}
       </div>
     </div>
   );

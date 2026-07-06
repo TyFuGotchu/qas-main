@@ -1,4 +1,4 @@
-import { PREMIUM_CHECKOUT_URL, PREMIUM_PRICE } from "@/lib/pricing-constants";
+import { PREMIUM_PRICE, getPremiumCheckoutUrl } from "@/lib/pricing-constants";
 import type { SubscriptionTier } from "@/types";
 
 export type ResourceType = "lesson" | "guide" | "tool";
@@ -125,7 +125,7 @@ export function hasUnlimitedAccess(subscriptionTier: SubscriptionTier): boolean 
 }
 
 export function getTierCheckoutUrl(): string {
-  return PREMIUM_CHECKOUT_URL;
+  return getPremiumCheckoutUrl(true);
 }
 
 export function getPreviewParagraphs(

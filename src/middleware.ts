@@ -131,6 +131,10 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  if (pathname === "/api/onboarding/playbook-drip/run") {
+    return NextResponse.next();
+  }
+
   if (isLegacyPricingRoute(pathname)) {
     if (!session) {
       return NextResponse.redirect(new URL("/register", request.url));

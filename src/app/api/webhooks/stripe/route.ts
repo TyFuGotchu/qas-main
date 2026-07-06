@@ -3,6 +3,7 @@ import type Stripe from "stripe";
 import { validateStripeWebhookEnv } from "@/lib/env";
 import { getStripe, getStripeWebhookSecret } from "@/lib/stripe";
 import {
+  downgradeUserSubscription,
   handleCheckoutSessionCompleted,
   hasProcessedStripeWebhookEvent,
   recordStripeWebhookEvent,
@@ -101,6 +102,23 @@ export async function POST(request: NextRequest) {
               priceId,
               stripeCustomerId: customerId,
             });
+            syncMessage = result.message;
+          }
+        }
+        break;
+      }
+
+      case "customer.subscription.deleted": {
+        const subscription = event.data.object as Stripe.Subscription;
+        const customerId =
+          typeof subscription.customer === "string"
+            ? subscription.customer
+            : subscription.customer?.id;
+
+        if (customerId) {
+          const customer = await stripe.customers.retrieve(customerId);
+          if (!customer.deleted && customer.email) {
+            const result = await downgradeUserSubscription(customer.email);
             syncMessage = result.message;
           }
         }

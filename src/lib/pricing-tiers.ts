@@ -13,9 +13,9 @@ export {
 } from "@/lib/pricing-constants";
 
 import {
-  PREMIUM_CHECKOUT_URL,
   PREMIUM_PRICE,
   PREMIUM_PROMO_NOTE,
+  getPremiumCheckoutUrl,
 } from "@/lib/pricing-constants";
 
 const PROP_FIRM_CHALLENGE_DAYS = 7;
@@ -49,7 +49,7 @@ export const PRICING_TIERS: PricingTier[] = [
       "Live trading terminal + 4 account pro tools",
       PREMIUM_PROMO_NOTE,
     ],
-    ctaLink: PREMIUM_CHECKOUT_URL,
+    ctaLink: getPremiumCheckoutUrl(true),
     recommended: true,
   },
 ];

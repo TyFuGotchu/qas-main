@@ -181,6 +181,44 @@ export async function handleCheckoutSessionCompleted(
   });
 }
 
+export async function downgradeUserSubscription(
+  email: string
+): Promise<TierSyncResult> {
+  const normalized = normalizeEmail(email);
+
+  const user = await prisma.user.findUnique({
+    where: { email: normalized },
+  });
+
+  if (!user) {
+    return {
+      success: false,
+      email: normalized,
+      priceId: null,
+      accountTier: null,
+      message: `No registered user found for email: ${normalized}`,
+    };
+  }
+
+  await prisma.user.update({
+    where: { id: user.id },
+    data: {
+      accountTier: "Free",
+      subscriptionTier: "FREE",
+      stripePriceId: null,
+    },
+  });
+
+  return {
+    success: true,
+    email: normalized,
+    priceId: null,
+    accountTier: "Free",
+    userId: user.id,
+    message: "Subscription cancelled — user downgraded to Free",
+  };
+}
+
 export async function recordStripeWebhookEvent(eventId: string, type: string) {
   await prisma.stripeWebhookEvent.create({
     data: {
