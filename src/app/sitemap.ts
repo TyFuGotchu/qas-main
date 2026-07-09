@@ -27,6 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/tools/local`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.85 },
     { url: `${SITE_URL}/support`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.85 },
     { url: `${SITE_URL}/faq`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.85 },
+    { url: `${SITE_URL}/guarantee`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.94 },
     { url: `${SITE_URL}/register`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/onboarding/pricing`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
   ];

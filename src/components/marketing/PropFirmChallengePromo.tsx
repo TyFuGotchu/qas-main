@@ -17,6 +17,7 @@ import {
   PROP_FIRM_PLAYBOOK_TITLE,
   PROP_FIRM_PREMIUM_PITCH,
 } from "@/lib/prop-firm-challenge-marketing";
+import { MoneyBackGuarantee } from "@/components/marketing/MoneyBackGuarantee";
 import { getPremiumCheckoutUrl } from "@/lib/pricing-tiers";
 
 interface PropFirmChallengePromoProps {
@@ -70,6 +71,9 @@ export function PropFirmChallengePromo({
               Preview Playbook
             </Button>
           </Link>
+        </div>
+        <div className="mx-auto mt-5 max-w-xl">
+          <MoneyBackGuarantee variant="strip" />
         </div>
       </div>
     );
@@ -138,6 +142,10 @@ export function PropFirmChallengePromo({
             </p>
           </div>
         ))}
+      </div>
+
+      <div className="mt-6">
+        <MoneyBackGuarantee variant="panel" />
       </div>
 
       <p className="mt-4 text-center font-mono text-[10px] text-slate-600">

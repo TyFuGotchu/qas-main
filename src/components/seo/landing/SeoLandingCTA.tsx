@@ -4,6 +4,7 @@ import { getToolBySlug } from "@/lib/tools-registry";
 import Button from "@/components/ui/Button";
 import { GlassPanel } from "@/components/ui/GlassPanel";
 import { Badge } from "@/components/ui/Badge";
+import { MoneyBackGuarantee } from "@/components/marketing/MoneyBackGuarantee";
 
 interface SeoLandingCTAProps {
   toolSlug: string;
@@ -34,6 +35,9 @@ export function SeoLandingCTA({ toolSlug, pageTitle }: SeoLandingCTAProps) {
             Premium members get the complete {tool.name} — {tool.desc}
           </p>
         </div>
+      </div>
+      <div className="mt-4">
+        <MoneyBackGuarantee variant="inline" />
       </div>
       <div className="mt-6 flex flex-wrap gap-3">
         <Link href="/register">

@@ -12,6 +12,7 @@ export {
   getPremiumCheckoutUrl,
 } from "@/lib/pricing-constants";
 
+import { GUARANTEE_HEADLINE } from "@/lib/money-back-guarantee";
 import {
   PREMIUM_PRICE,
   PREMIUM_PROMO_NOTE,
@@ -47,6 +48,7 @@ export const PRICING_TIERS: PricingTier[] = [
       "TradeLocker Quicksilver Quant Protocol bot",
       "Priority email support (support@quicksilveralgo.com)",
       "Live trading terminal + 4 account pro tools",
+      GUARANTEE_HEADLINE,
       PREMIUM_PROMO_NOTE,
     ],
     ctaLink: getPremiumCheckoutUrl(true),

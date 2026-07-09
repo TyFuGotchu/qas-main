@@ -26,6 +26,8 @@ export default function robots(): MetadataRoute.Robots {
         "/tools/",
         "/support",
         "/faq",
+        "/guarantee",
+        "/guarantee/",
       ],
       disallow: ["/dashboard/tools", "/api/", "/admin"],
     },

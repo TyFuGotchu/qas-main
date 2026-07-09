@@ -4,9 +4,11 @@ import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import { Check, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { MoneyBackGuarantee } from "@/components/marketing/MoneyBackGuarantee";
 
 export function PricingGrid() {
   return (
+    <div className="space-y-6">
     <div className="mx-auto grid max-w-3xl gap-8 sm:grid-cols-2">
       {PRICING_TIERS.map((tier) => (
         <Card
@@ -70,6 +72,8 @@ export function PricingGrid() {
           </CardContent>
         </Card>
       ))}
+    </div>
+    <MoneyBackGuarantee variant="panel" className="mx-auto max-w-3xl" />
     </div>
   );
 }

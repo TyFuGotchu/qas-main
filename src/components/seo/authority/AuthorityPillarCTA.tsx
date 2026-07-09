@@ -8,6 +8,7 @@ import {
   PREMIUM_PROMO_FIRST_MONTH,
   getPremiumCheckoutUrl,
 } from "@/lib/pricing-constants";
+import { MoneyBackGuarantee } from "@/components/marketing/MoneyBackGuarantee";
 import { PLAYBOOK_LAUNCH_PATH } from "@/lib/playbook-launch";
 
 export function AuthorityPillarCTA() {
@@ -30,6 +31,10 @@ export function AuthorityPillarCTA() {
           </p>
         </div>
       </div>
+      <div className="mt-5">
+        <MoneyBackGuarantee variant="inline" />
+      </div>
+
       <div className="mt-6 flex flex-wrap gap-3">
         <a href={getPremiumCheckoutUrl(true)} target="_blank" rel="noopener noreferrer">
           <Button variant="primary" size="lg">

@@ -17,6 +17,7 @@ import {
   PROP_FIRM_PLAYBOOK_HREF,
   PROP_FIRM_PLAYBOOK_CTA,
 } from "@/lib/prop-firm-challenge-marketing";
+import { MoneyBackGuarantee } from "@/components/marketing/MoneyBackGuarantee";
 import { getPremiumCheckoutUrl, PREMIUM_PROMO_CODE } from "@/lib/pricing-constants";
 
 export const metadata: Metadata = {
@@ -56,6 +57,9 @@ export default function PlaybookLaunchPage() {
               Free Playbook Preview
             </Button>
           </Link>
+        </div>
+        <div className="mx-auto mt-6 max-w-2xl">
+          <MoneyBackGuarantee variant="strip" />
         </div>
         <p className="mt-4 font-mono text-xs text-slate-600">
           Already have an account?{" "}
