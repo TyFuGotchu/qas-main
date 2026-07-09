@@ -42,10 +42,11 @@ export const PRICING_TIERS: PricingTier[] = [
     price: PREMIUM_PRICE,
     period: "/ Month",
     features: [
+      "Quicksilver Quant Protocol bot — live on TradeLocker Hub (ready to deploy)",
       `${PROP_FIRM_CHALLENGE_DAYS}-Day Prop Firm Playbook — pass your challenge in one week`,
       `${TOOL_COUNT} planning engines (${QS_TOOL_COUNT} QS modules + ${LOCAL_TOOL_COUNT} calculators)`,
       "Chart Academy — 89 lessons + charting guides",
-      "TradeLocker Quicksilver Quant Protocol bot",
+      "Live TradeLocker terminal + 4 in-terminal pro tools",
       "Priority email support (support@quicksilveralgo.com)",
       "Live trading terminal + 4 account pro tools",
       GUARANTEE_HEADLINE,

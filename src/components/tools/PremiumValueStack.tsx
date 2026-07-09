@@ -58,12 +58,26 @@ export function PremiumValueStack({
           );
 
           if ("href" in pillar && pillar.href) {
+            const isExternal = pillar.href.startsWith("http");
+            const className =
+              "rounded-lg border border-cyan-accent/30 bg-cyan-accent/5 px-4 py-4 transition-colors hover:border-cyan-accent/50";
+
+            if (isExternal) {
+              return (
+                <a
+                  key={pillar.id}
+                  href={pillar.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={className}
+                >
+                  {content}
+                </a>
+              );
+            }
+
             return (
-              <Link
-                key={pillar.id}
-                href={pillar.href}
-                className="rounded-lg border border-cyan-accent/30 bg-cyan-accent/5 px-4 py-4 transition-colors hover:border-cyan-accent/50"
-              >
+              <Link key={pillar.id} href={pillar.href} className={className}>
                 {content}
               </Link>
             );

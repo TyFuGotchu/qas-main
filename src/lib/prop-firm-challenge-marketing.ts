@@ -44,8 +44,8 @@ export const PROP_FIRM_PLAYBOOK_HIGHLIGHTS = [
 ] as const;
 
 export const PROP_FIRM_PREMIUM_FEATURES_LEAD = [
+  "Quicksilver Quant Protocol bot — ready to launch on TradeLocker Hub",
   `Full ${PROP_FIRM_CHALLENGE_DAYS}-Day Prop Firm Playbook with daily execution plan`,
   `${TOOL_COUNT} planning engines to score setups, plan risk & simulate survival`,
-  "89 Chart Academy lessons + TradeLocker Quicksilver Quant Protocol bot",
-  "Live terminal, prop command center, journal & priority support",
+  "89 Chart Academy lessons + live terminal + prop command center + priority support",
 ] as const;

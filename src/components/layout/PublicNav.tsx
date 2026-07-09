@@ -8,6 +8,7 @@ import Button from "@/components/ui/Button";
 import { useSession } from "@/providers/SessionProvider";
 import { Menu, X, Zap } from "lucide-react";
 import { PlaybookLaunchStrip } from "@/components/marketing/PlaybookLaunchStrip";
+import { PremiumIncludesStrip } from "@/components/marketing/PremiumIncludesStrip";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -43,6 +44,7 @@ export function PublicNav() {
     <>
       <header className="qs-nav-glass fixed top-0 z-50 w-full">
         <PlaybookLaunchStrip />
+        <PremiumIncludesStrip />
         <div className="mx-auto flex h-14 min-h-14 max-w-7xl items-center justify-between gap-3 px-4 sm:h-16 sm:px-6 lg:px-8">
           <Link href="/" className="group flex min-w-0 shrink items-center gap-2">
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-cyan-400/30 bg-gradient-to-br from-cyan-500/15 to-slate-900/50 shadow-[0_0_20px_rgba(0,229,255,0.15),inset_0_1px_0_rgba(232,244,252,0.08)] transition-all group-hover:border-cyan-300/50 group-hover:shadow-[0_0_28px_rgba(0,229,255,0.25)]">

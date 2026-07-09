@@ -8,12 +8,14 @@ import { ConversionHeroDemo } from "@/components/engagement/ConversionHeroDemo";
 import { LearningPathTracker } from "@/components/engagement/LearningPathTracker";
 import { PropFirmChallengePromo } from "@/components/marketing/PropFirmChallengePromo";
 import { LocalToolsPromo } from "@/components/tools/LocalToolsPromo";
+import { PremiumEverythingIncluded } from "@/components/marketing/PremiumEverythingIncluded";
 import { PremiumValueStack } from "@/components/tools/PremiumValueStack";
 
 export default function LandingPage() {
   return (
     <>
       <Hero />
+      <PremiumEverythingIncluded />
       <ProbabilitySimulator />
       <section className="px-4 pb-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl">

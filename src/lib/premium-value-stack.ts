@@ -1,3 +1,4 @@
+import { QUICKSILVER_QUANT_PROTOCOL } from "@/lib/premium-includes";
 import {
   LOCAL_TOOL_COUNT,
   QS_TOOL_COUNT,
@@ -19,6 +20,12 @@ import {
 
 export const PREMIUM_VALUE_PILLARS = [
   {
+    id: "quant-bot",
+    title: QUICKSILVER_QUANT_PROTOCOL.name,
+    description: `${QUICKSILVER_QUANT_PROTOCOL.subtitle} — ${QUICKSILVER_QUANT_PROTOCOL.tagline}. ${QUICKSILVER_QUANT_PROTOCOL.description.slice(0, 120)}…`,
+    href: QUICKSILVER_QUANT_PROTOCOL.href,
+  },
+  {
     id: "prop-playbook",
     title: `${PROP_FIRM_CHALLENGE_DAYS}-Day Prop Firm Playbook`,
     description:
@@ -34,11 +41,6 @@ export const PREMIUM_VALUE_PILLARS = [
     id: "chart-academy",
     title: "Chart Academy",
     description: "89 structured lessons and charting guides that feed directly into the playbook workflow.",
-  },
-  {
-    id: "trade-bot",
-    title: "TradeLocker Bot",
-    description: "Quicksilver Quant Protocol — algorithmic execution with prop-firm-aware parameters.",
   },
   {
     id: "live-terminal",

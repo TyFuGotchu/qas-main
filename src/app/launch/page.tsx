@@ -18,6 +18,7 @@ import {
   PROP_FIRM_PLAYBOOK_CTA,
 } from "@/lib/prop-firm-challenge-marketing";
 import { MoneyBackGuarantee } from "@/components/marketing/MoneyBackGuarantee";
+import { PremiumEverythingIncluded } from "@/components/marketing/PremiumEverythingIncluded";
 import { getPremiumCheckoutUrl, PREMIUM_PROMO_CODE } from "@/lib/pricing-constants";
 
 export const metadata: Metadata = {
@@ -68,6 +69,8 @@ export default function PlaybookLaunchPage() {
           </Link>
         </p>
       </header>
+
+      <PremiumEverythingIncluded showGuarantee={false} className="!py-0 !px-0" />
 
       <section className="grid gap-4 sm:grid-cols-3">
         {PLAYBOOK_LAUNCH_STEPS.map((item) => (
