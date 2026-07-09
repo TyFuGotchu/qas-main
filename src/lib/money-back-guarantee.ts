@@ -53,7 +53,13 @@ export const GUARANTEE_FAQ = [
   },
 ] as const;
 
-export const GUARANTEE_POLICY_SECTIONS = [
+export interface GuaranteePolicySection {
+  heading: string;
+  paragraphs: readonly string[];
+  listItems?: readonly string[];
+}
+
+export const GUARANTEE_POLICY_SECTIONS: GuaranteePolicySection[] = [
   {
     heading: "Our Promise",
     paragraphs: [
@@ -86,4 +92,4 @@ export const GUARANTEE_POLICY_SECTIONS = [
       "If you do the work and disagree, we do not want your money.",
     ],
   },
-] as const;
+];
