@@ -30,6 +30,7 @@ export const metadata: Metadata = {
 
 const BUNDLE_LINKS: { slug: string; label: string; href?: string }[] = [
   { slug: "launch", label: "Official launch page", href: "/launch" },
+  { slug: "edge-radar", label: "Edge Radar live scanner", href: "/edge-radar" },
   { slug: "prop-firm-one-week", label: "7-Day Prop Firm Playbook", href: "/guides/prop-firm-one-week" },
   { slug: "first100-prop-firm-one-week", label: "Playbook + FIRST100 deal" },
   { slug: "first100-premium", label: "Main FIRST100 offer" },

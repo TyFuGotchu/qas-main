@@ -10,9 +10,15 @@ import { Menu, X, Zap } from "lucide-react";
 import { PlaybookLaunchStrip } from "@/components/marketing/PlaybookLaunchStrip";
 import { PremiumIncludesStrip } from "@/components/marketing/PremiumIncludesStrip";
 
+function isNavLinkActive(pathname: string, href: string): boolean {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/launch", label: "Launch" },
+  { href: "/edge-radar", label: "Edge Radar" },
   { href: "/prop-firm", label: "Prop Firms" },
   { href: "/guides/pillar/ultimate-7-day-prop-firm-playbook", label: "7-Day Playbook" },
   { href: "/tools", label: "Trading Tools" },
@@ -62,7 +68,7 @@ export function PublicNav() {
                 href={link.href}
                 className={cn(
                   "font-mono text-xs uppercase tracking-widest transition-colors",
-                  pathname === link.href
+                  isNavLinkActive(pathname, link.href)
                     ? "text-cyan-400"
                     : "text-slate-500 hover:text-slate-300"
                 )}
@@ -132,7 +138,7 @@ export function PublicNav() {
                 onClick={() => setMobileOpen(false)}
                 className={cn(
                   "rounded-lg px-4 py-3 font-mono text-sm uppercase tracking-widest transition-colors",
-                  pathname === link.href
+                  isNavLinkActive(pathname, link.href)
                     ? "bg-cyan-500/10 text-cyan-400"
                     : "text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
                 )}
