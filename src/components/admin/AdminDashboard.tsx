@@ -8,6 +8,7 @@ import Select from "@/components/ui/Select";
 import Button from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { TerminalPanel } from "@/components/ui/TerminalPanel";
+import { EdgeRadarAdminPanel } from "@/components/admin/EdgeRadarAdminPanel";
 import { Users, Megaphone, Shield } from "lucide-react";
 
 interface AdminUser {
@@ -16,6 +17,7 @@ interface AdminUser {
   name: string | null;
   accountTier: string;
   isAdmin: boolean;
+  edgeRadarAccess: boolean;
   onboardingComplete: boolean;
   createdAt: string;
 }
@@ -91,6 +93,19 @@ export function AdminDashboard() {
     }
   }
 
+  async function toggleEdgeRadar(userId: string, edgeRadarAccess: boolean) {
+    const res = await fetch(`/api/admin/users/${userId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ edgeRadarAccess }),
+    });
+
+    if (res.ok) {
+      setMessage("Edge Radar access updated");
+      loadData();
+    }
+  }
+
   async function postAnnouncement(e: React.FormEvent) {
     e.preventDefault();
     setPosting(true);
@@ -155,6 +170,7 @@ export function AdminDashboard() {
                     <th className="py-2 text-left">Email</th>
                     <th className="py-2 text-left">Tier</th>
                     <th className="py-2 text-left">Status</th>
+                    <th className="py-2 text-left">Edge Radar</th>
                     <th className="py-2 text-left">Admin</th>
                   </tr>
                 </thead>
@@ -189,6 +205,17 @@ export function AdminDashboard() {
                       </td>
                       <td className="py-3">
                         <Button
+                          variant={user.edgeRadarAccess ? "primary" : "ghost"}
+                          size="sm"
+                          onClick={() =>
+                            toggleEdgeRadar(user.id, !user.edgeRadarAccess)
+                          }
+                        >
+                          {user.edgeRadarAccess ? "Active" : "Grant"}
+                        </Button>
+                      </td>
+                      <td className="py-3">
+                        <Button
                           variant={user.isAdmin ? "primary" : "ghost"}
                           size="sm"
                           onClick={() =>
@@ -206,6 +233,8 @@ export function AdminDashboard() {
           )}
         </CardContent>
       </Card>
+
+      <EdgeRadarAdminPanel />
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>

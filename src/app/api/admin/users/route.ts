@@ -17,6 +17,7 @@ export async function GET() {
       name: true,
       accountTier: true,
       isAdmin: true,
+      edgeRadarAccess: true,
       onboardingComplete: true,
       createdAt: true,
     },

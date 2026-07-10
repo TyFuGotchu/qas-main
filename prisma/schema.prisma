@@ -26,6 +26,7 @@ model User {
   stripeCustomerId   String?
   stripePriceId      String?
   stripeSessionId    String?
+  edgeRadarAccess    Boolean        @default(false)
   createdAt          DateTime       @default(now())
   updatedAt          DateTime       @updatedAt
   sessions           Session[]
@@ -190,4 +191,37 @@ model ForumMessage {
   updatedAt DateTime    @updatedAt
 
   @@index([threadId, createdAt])
+}
+
+model EdgeRadarPropAlert {
+  id          String   @id @default(cuid())
+  sport       String
+  player      String
+  propType    String
+  line        String
+  signal      String
+  detail      String
+  evPercent   Float?
+  books       Json     @default("[]")
+  active      Boolean  @default(true)
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([sport, active, publishedAt])
+}
+
+model EdgeRadarNewsItem {
+  id          String   @id @default(cuid())
+  sport       String
+  headline    String
+  summary     String
+  impactScore Int
+  source      String?
+  active      Boolean  @default(true)
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([sport, active, publishedAt])
 }

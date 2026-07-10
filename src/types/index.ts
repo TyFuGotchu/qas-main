@@ -11,6 +11,7 @@ export interface UserSession {
   isAdmin: boolean;
   onboardingComplete: boolean;
   profileComplete: boolean;
+  edgeRadarAccess: boolean;
 }
 
 export interface Announcement {

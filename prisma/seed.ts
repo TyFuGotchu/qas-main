@@ -47,11 +47,12 @@ async function main() {
       update: {
         passwordHash,
         isAdmin: user.isAdmin,
+        edgeRadarAccess: user.isAdmin,
         onboardingComplete: user.onboardingComplete,
         accountTier: user.accountTier,
         subscriptionTier: user.subscriptionTier,
       },
-      create: { ...user, passwordHash },
+      create: { ...user, passwordHash, edgeRadarAccess: user.isAdmin },
     });
   }
 
@@ -122,6 +123,84 @@ async function main() {
           },
         });
       }
+    }
+  }
+
+  const alertSeed = [
+    {
+      sport: "nba",
+      player: "Giannis Antetokounmpo",
+      propType: "O 28.5 Pts",
+      line: "28.5",
+      signal: "LINE LAG",
+      detail: "DraftKings still 28.5 — FanDuel moved to 30.5 after Middleton OUT",
+      evPercent: 4.2,
+      books: ["DraftKings", "FanDuel"],
+    },
+    {
+      sport: "nfl",
+      player: "Tyreek Hill",
+      propType: "U 6.5 Rec",
+      line: "6.5",
+      signal: "LINE LAG",
+      detail: "FanDuel 6.5 · DK still 7.5 after practice report downgrade",
+      evPercent: 3.1,
+      books: ["DraftKings", "FanDuel"],
+    },
+    {
+      sport: "mlb",
+      player: "Shohei Ohtani",
+      propType: "O 1.5 Total Bases",
+      line: "1.5",
+      signal: "LINE LAG",
+      detail: "BetMGM bumped to 1.5 — DK still hanging 0.5 after lineup confirmation",
+      evPercent: 5.8,
+      books: ["DraftKings", "BetMGM"],
+    },
+  ];
+
+  for (const alert of alertSeed) {
+    const exists = await prisma.edgeRadarPropAlert.findFirst({
+      where: { player: alert.player, propType: alert.propType },
+    });
+    if (!exists) {
+      await prisma.edgeRadarPropAlert.create({ data: alert });
+    }
+  }
+
+  const newsSeed = [
+    {
+      sport: "nba",
+      headline: "Bucks: Khris Middleton ruled OUT (knee)",
+      summary:
+        "Middleton inactive for tonight vs Celtics. Expect Giannis usage bump — points/rebounds props lagging on DK.",
+      impactScore: 88,
+      source: "Rotowire",
+    },
+    {
+      sport: "nfl",
+      headline: "Chiefs WR limited in practice Wednesday",
+      summary:
+        "Tyreek Hill limited with ankle concern. Receiving yard unders may hold value if downgrade to DNP Friday.",
+      impactScore: 72,
+      source: "Beat reporter",
+    },
+    {
+      sport: "all",
+      headline: "DraftKings adjusting NBA injury prop delays",
+      summary:
+        "Multiple books showing 2–4 minute lag on OUT tags during early slate. Edge window extended on player points.",
+      impactScore: 65,
+      source: "QS Monitor",
+    },
+  ];
+
+  for (const item of newsSeed) {
+    const exists = await prisma.edgeRadarNewsItem.findFirst({
+      where: { headline: item.headline },
+    });
+    if (!exists) {
+      await prisma.edgeRadarNewsItem.create({ data: item });
     }
   }
 

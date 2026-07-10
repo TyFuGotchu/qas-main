@@ -12,53 +12,89 @@ export const EDGE_RADAR_CHECKOUT_URL =
 export const EDGE_RADAR_PUBLISHED_AT = "2026-07-10";
 
 export const EDGE_RADAR_TAGLINE =
-  "Automated edge detection for quantitative traders and sports bettors.";
+  "Live +EV sports prop scanner with injury-driven line lag detection.";
 
 export const EDGE_RADAR_HOOK =
-  "Scans real-time news sentiment and line movements to flag market inefficiencies — lagging player prop lines on DraftKings and FanDuel, rapid volume spikes on XAUUSD and US30 — before they correct.";
+  "Scans real-time injury, lineup, and news sentiment across DraftKings, FanDuel, and major US books — flagging mispriced player prop lines before books fully adjust.";
 
-/** Primary meta description — tuned for SERP length and dual-intent keywords. */
 export const EDGE_RADAR_META_DESCRIPTION =
-  "Quicksilver Edge Radar flags +EV sports prop line lags on DraftKings & FanDuel and macro sentiment spikes on XAUUSD & US30. Live hosted terminal — $14.99/mo, no setup.";
+  "Quicksilver Edge Radar flags +EV player prop line lags on DraftKings & FanDuel across every major sport. Live news impact scores — $14.99/mo, no setup.";
 
 export const EDGE_RADAR_SEO_KEYWORDS = [
   "sports betting player props scanner",
   "DraftKings FanDuel line movement",
   "+EV sports betting tool",
   "player prop line lag",
-  "XAUUSD sentiment scanner",
-  "gold trading volume alerts",
-  "US30 futures news sentiment",
-  "quantitative trading edge detection",
-  "live betting odds scanner",
-  "macro sentiment trading",
+  "NBA player props scanner",
+  "NFL player props alerts",
+  "injury line movement betting",
   "sportsbook arbitrage alerts",
   "real-time injury line movement",
+  "live betting odds scanner",
+  "sports betting news impact",
 ] as const;
+
+/** All filterable sports — `all` shows every active alert. */
+export const EDGE_RADAR_SPORTS = [
+  { id: "all", label: "All Sports" },
+  { id: "nfl", label: "NFL" },
+  { id: "nba", label: "NBA" },
+  { id: "mlb", label: "MLB" },
+  { id: "nhl", label: "NHL" },
+  { id: "ncaaf", label: "NCAAF" },
+  { id: "ncaab", label: "NCAAB" },
+  { id: "wnba", label: "WNBA" },
+  { id: "mls", label: "MLS" },
+  { id: "epl", label: "EPL" },
+  { id: "ufc", label: "UFC" },
+  { id: "pga", label: "PGA" },
+  { id: "nascar", label: "NASCAR" },
+  { id: "tennis", label: "Tennis" },
+  { id: "soccer", label: "Soccer" },
+  { id: "cbb", label: "CBB" },
+  { id: "cfb", label: "CFB" },
+  { id: "boxing", label: "Boxing" },
+  { id: "f1", label: "F1" },
+] as const;
+
+export type EdgeRadarSportId = (typeof EDGE_RADAR_SPORTS)[number]["id"];
 
 export const EDGE_RADAR_MARKETS = [
   {
-    category: "Sportsbooks",
-    items: ["DraftKings", "FanDuel", "NBA player props", "NFL receiving yards", "injury-driven line lags"],
+    category: "US Sportsbooks",
+    items: [
+      "DraftKings",
+      "FanDuel",
+      "BetMGM",
+      "Caesars",
+      "ESPN BET",
+      "cross-book line lag detection",
+    ],
   },
   {
-    category: "Macro & futures",
-    items: ["XAUUSD (gold)", "US30 (Dow)", "volume acceleration", "news sentiment bursts", "pre-market gap divergence"],
+    category: "Prop markets",
+    items: [
+      "player points",
+      "rebounds & assists",
+      "receiving & rushing yards",
+      "strikeouts & hits",
+      "anytime TD & goal scorers",
+    ],
   },
 ] as const;
 
 export const EDGE_RADAR_USE_CASES = [
   {
-    title: "Sports bettors chasing +EV props",
-    body: "Edge Radar compares player prop lines across books the moment injury or lineup news drops — surfacing lagging numbers before DraftKings and FanDuel fully adjust.",
+    title: "Injury & lineup snipers",
+    body: "Edge Radar surfaces prop lines that haven't moved yet when injury or lineup news breaks — the window before DraftKings and FanDuel fully adjust.",
   },
   {
-    title: "Forex & index traders on volatility",
-    body: "When CPI, Fed speakers, or geopolitical headlines hit, Edge Radar flags abnormal XAUUSD and US30 volume and sentiment acceleration so you can react before the move exhausts.",
+    title: "Multi-sport prop hunters",
+    body: "Filter by NFL, NBA, MLB, NHL, NCAA, UFC, and more. One terminal for every sport you bet — no switching between Discord channels or spreadsheets.",
   },
   {
-    title: "Quant traders who want one terminal",
-    body: "No local scripts, API keys, or Discord bots. The full live feed runs on quicksilveralgo.com — subscribe and open the dashboard from any device.",
+    title: "News-driven impact scoring",
+    body: "A live news feed ranks every headline by projected prop impact so you know which injuries, weather, and lineup changes matter most right now.",
   },
 ] as const;
 
@@ -66,7 +102,7 @@ export const EDGE_RADAR_FAQ = [
   {
     question: "What is Quicksilver Edge Radar?",
     answer:
-      "Edge Radar is a dual-purpose live scanner for sports bettors and quantitative traders. It monitors real-time news sentiment and line movements to flag mispriced player props on DraftKings and FanDuel, plus macro volume and sentiment spikes on XAUUSD and US30 — before markets correct.",
+      "Edge Radar is a live sports betting scanner focused exclusively on player props. It monitors injury news, lineup changes, and line movements across major US sportsbooks to flag +EV prop opportunities before lines correct.",
   },
   {
     question: "How much does Edge Radar cost?",
@@ -74,24 +110,24 @@ export const EDGE_RADAR_FAQ = [
       "Edge Radar is $14.99 per month. Subscribe via Stripe for instant access to the live hosted terminal on quicksilveralgo.com. Cancel anytime.",
   },
   {
-    question: "Do I need to install code or connect APIs?",
+    question: "Which sports does Edge Radar cover?",
     answer:
-      "No. Edge Radar is hosted entirely on Quicksilver — no external repos, API keys, or local setup. After checkout you access the live dashboard directly on the site.",
+      "Filter across NFL, NBA, MLB, NHL, NCAAF, NCAAB, WNBA, MLS, EPL, UFC, PGA, NASCAR, Tennis, Soccer, and more. New sports and prop markets are added as the product expands.",
   },
   {
-    question: "What sportsbooks and markets does Edge Radar cover?",
+    question: "What are news impact scores?",
     answer:
-      "The sports prop scanner focuses on major US books including DraftKings and FanDuel, with alerts for NBA and NFL player props when injury or lineup news creates line lags. The macro scanner covers high-volatility assets including XAUUSD (gold) and US30 (Dow futures) with volume and sentiment spike detection.",
+      "Every headline in the Edge Radar news feed includes an impact score (1–100) estimating how likely the news is to move player prop lines. Higher scores mean faster action recommended.",
   },
   {
     question: "How is Edge Radar different from Quicksilver Premium?",
     answer:
-      "Premium ($149.99/mo) is the full prop-firm trading stack: 7-Day Playbook, 9 planning tools, TradeLocker Quant Protocol bot, and challenge tracker. Edge Radar ($14.99/mo) is a standalone live edge scanner for sports props and macro sentiment — ideal if you only need real-time inefficiency alerts.",
+      "Premium ($149.99/mo) is the prop-firm trading stack: 7-Day Playbook, quant tools, and TradeLocker bot. Edge Radar ($14.99/mo) is a standalone sports prop scanner — built for bettors, not forex traders.",
   },
   {
     question: "Can Edge Radar guarantee profits?",
     answer:
-      "No tool can guarantee trading or betting profits. Edge Radar surfaces statistical edges and market inefficiencies — execution, bankroll management, and risk remain your responsibility.",
+      "No tool can guarantee betting profits. Edge Radar surfaces statistical edges and line inefficiencies — bankroll management and bet selection remain your responsibility.",
   },
 ] as const;
 
@@ -103,78 +139,29 @@ export const EDGE_RADAR_FEATURES = [
     accent: "emerald" as const,
   },
   {
-    title: "Macro Sentiment Spikes",
+    title: "Live News Impact Feed",
     description:
-      "Flags rapid volume acceleration on high-volatility assets like XAUUSD and US30 when news sentiment breaks.",
+      "Continuously updated injury and lineup headlines ranked by projected prop impact score (1–100).",
     accent: "cyan" as const,
   },
   {
-    title: "Centralized Live Terminal",
+    title: "Every Sport, One Terminal",
     description:
-      "Hosted completely live on quicksilveralgo.com — no external code, API keys, or local setup required.",
+      "Filter NFL, NBA, MLB, NHL, NCAA, UFC, and more from a single hosted dashboard — no setup required.",
     accent: "amber" as const,
   },
 ] as const;
 
-export type EdgeRadarAlertKind = "sports" | "macro";
-
-export interface EdgeRadarSampleAlert {
-  id: string;
-  kind: EdgeRadarAlertKind;
-  timestamp: string;
-  asset: string;
-  signal: string;
-  detail: string;
-  ev?: string;
-  locked?: boolean;
+export function getSportLabel(sportId: string): string {
+  return EDGE_RADAR_SPORTS.find((s) => s.id === sportId)?.label ?? sportId.toUpperCase();
 }
 
-export const EDGE_RADAR_SAMPLE_ALERTS: EdgeRadarSampleAlert[] = [
-  {
-    id: "sports-1",
-    kind: "sports",
-    timestamp: "14:02:18",
-    asset: "NBA · Giannis Antetokounmpo O 28.5 Pts",
-    signal: "LINE LAG",
-    detail: "DraftKings still 28.5 — FanDuel moved to 30.5 after Middleton OUT (13:58 ET)",
-    ev: "+4.2% EV",
-  },
-  {
-    id: "macro-1",
-    kind: "macro",
-    timestamp: "14:01:44",
-    asset: "XAUUSD",
-    signal: "VOL SPIKE",
-    detail: "Volume +312% vs 20m baseline · Sentiment burst +0.72 in 90s (CPI headline)",
-    ev: "3.1σ",
-  },
-  {
-    id: "macro-2",
-    kind: "macro",
-    timestamp: "13:58:09",
-    asset: "US30",
-    signal: "GAP DIVERGENCE",
-    detail: "Futures +0.4% while cash index flat · Fed speaker headline 08:30 ET",
-    ev: "+0.38%",
-  },
-  {
-    id: "sports-2",
-    kind: "sports",
-    timestamp: "13:55:31",
-    asset: "NFL · Tyreek Hill U 6.5 Rec",
-    signal: "LINE LAG",
-    detail: "FanDuel 6.5 · DK still 7.5 after practice report downgrade",
-    ev: "+3.1% EV",
-    locked: true,
-  },
-  {
-    id: "macro-3",
-    kind: "macro",
-    timestamp: "13:52:17",
-    asset: "XAUUSD",
-    signal: "SENTIMENT FLIP",
-    detail: "Headline cluster: safe-haven bid · Order flow imbalance 2.4:1 buy",
-    ev: "2.8σ",
-    locked: true,
-  },
-];
+export function getImpactScoreVariant(score: number): "danger" | "warning" | "success" {
+  if (score >= 75) return "danger";
+  if (score >= 45) return "warning";
+  return "success";
+}
+
+export function formatImpactScore(score: number): string {
+  return `${Math.min(100, Math.max(1, Math.round(score)))}`;
+}

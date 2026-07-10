@@ -14,12 +14,13 @@ export async function PATCH(
   }
 
   const body = await request.json();
-  const { accountTier, isAdmin } = body as {
+  const { accountTier, isAdmin, edgeRadarAccess } = body as {
     accountTier?: AccountTier;
     isAdmin?: boolean;
+    edgeRadarAccess?: boolean;
   };
 
-  const data: { accountTier?: string; isAdmin?: boolean } = {};
+  const data: { accountTier?: string; isAdmin?: boolean; edgeRadarAccess?: boolean } = {};
 
   if (accountTier) {
     const validTiers = Object.values(ACCOUNT_TIERS);
@@ -33,6 +34,10 @@ export async function PATCH(
     data.isAdmin = isAdmin;
   }
 
+  if (typeof edgeRadarAccess === "boolean") {
+    data.edgeRadarAccess = edgeRadarAccess;
+  }
+
   const user = await prisma.user.update({
     where: { id: params.id },
     data,
@@ -42,6 +47,7 @@ export async function PATCH(
       name: true,
       accountTier: true,
       isAdmin: true,
+      edgeRadarAccess: true,
       onboardingComplete: true,
       createdAt: true,
     },

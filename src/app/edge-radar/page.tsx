@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { Activity, Radar, TrendingUp, Zap } from "lucide-react";
-import { EdgeRadarTerminalPreview } from "@/components/edge-radar/EdgeRadarTerminalPreview";
+import { Newspaper, Radar, TrendingUp, Zap } from "lucide-react";
+import { EdgeRadarDashboard } from "@/components/edge-radar/EdgeRadarDashboard";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
@@ -31,7 +31,7 @@ import { cn } from "@/lib/utils";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://quicksilveralgo.com";
 
 export const metadata: Metadata = {
-  title: `${EDGE_RADAR_NAME} — +EV Sports Props & XAUUSD Sentiment Scanner`,
+  title: `${EDGE_RADAR_NAME} — +EV Sports Props & News Impact Scanner`,
   description: EDGE_RADAR_META_DESCRIPTION,
   keywords: [...EDGE_RADAR_SEO_KEYWORDS],
   alternates: {
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
   },
 };
 
-const FEATURE_ICONS = [TrendingUp, Activity, Radar] as const;
+const FEATURE_ICONS = [TrendingUp, Newspaper, Radar] as const;
 
 export default function EdgeRadarPage() {
   const jsonLd = [
@@ -95,7 +95,7 @@ export default function EdgeRadarPage() {
 
       <header className="text-center">
         <Badge variant="warning" className="mb-4">
-          Dual-market edge engine
+          Sports props edge engine
         </Badge>
         <h1 className="font-mono text-3xl font-bold text-slate-50 sm:text-4xl lg:text-5xl">
           {EDGE_RADAR_NAME}
@@ -232,7 +232,7 @@ export default function EdgeRadarPage() {
           <Badge variant="success">Sample feed</Badge>
         </div>
 
-        <EdgeRadarTerminalPreview />
+        <EdgeRadarDashboard />
       </section>
 
       <section aria-labelledby="edge-radar-faq">
@@ -260,8 +260,8 @@ export default function EdgeRadarPage() {
           Catch the lag before the market does
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-400">
-          Edge Radar runs 24/7 on Quicksilver infrastructure. One subscription — sports props and
-          macro volatility in a single live terminal.
+          Edge Radar runs 24/7 on Quicksilver infrastructure. One subscription — every major sport,
+          live prop alerts, and news impact scores in a single terminal.
         </p>
         <a
           href={EDGE_RADAR_CHECKOUT_URL}
