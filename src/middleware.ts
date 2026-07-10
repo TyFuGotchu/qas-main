@@ -4,7 +4,16 @@ import { jwtVerify } from "jose";
 import { type AccountTier, type SubscriptionTier } from "@/types";
 import { getAuthSecret, validateCoreProductionEnv } from "@/lib/env";
 
-const PUBLIC_ROUTES = ["/", "/launch", "/login", "/register", "/support", "/faq", "/guarantee"];
+const PUBLIC_ROUTES = [
+  "/",
+  "/launch",
+  "/edge-radar",
+  "/login",
+  "/register",
+  "/support",
+  "/faq",
+  "/guarantee",
+];
 const SEO_PUBLIC_PREFIXES = [
   "/lessons",
   "/guides",

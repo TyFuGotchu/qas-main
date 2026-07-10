@@ -28,6 +28,8 @@ export default function robots(): MetadataRoute.Robots {
         "/faq",
         "/guarantee",
         "/guarantee/",
+        "/edge-radar",
+        "/edge-radar/",
       ],
       disallow: ["/dashboard/tools", "/api/", "/admin"],
     },
