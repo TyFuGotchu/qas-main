@@ -203,6 +203,7 @@ model EdgeRadarPropAlert {
   detail      String
   evPercent   Float?
   books       Json     @default("[]")
+  externalId  String?  @unique
   active      Boolean  @default(true)
   publishedAt DateTime @default(now())
   createdAt   DateTime @default(now())
@@ -218,10 +219,23 @@ model EdgeRadarNewsItem {
   summary     String
   impactScore Int
   source      String?
+  externalId  String?  @unique
   active      Boolean  @default(true)
   publishedAt DateTime @default(now())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   @@index([sport, active, publishedAt])
+}
+
+model EdgeRadarIngestRun {
+  id             String   @id @default(cuid())
+  newsInserted   Int      @default(0)
+  alertsInserted Int      @default(0)
+  newsPruned     Int      @default(0)
+  alertsPruned   Int      @default(0)
+  feedsPolled    Int      @default(0)
+  oddsPolled     Int      @default(0)
+  errors         Json     @default("[]")
+  completedAt    DateTime @default(now())
 }

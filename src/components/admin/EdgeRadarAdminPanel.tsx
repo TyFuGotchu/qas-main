@@ -56,13 +56,58 @@ const emptyNewsForm = {
   source: "",
 };
 
+interface IngestStatus {
+  activeNews: number;
+  activeAlerts: number;
+  oddsConfigured: boolean;
+  cronPath: string;
+  recommendedCron: string;
+  lastRun: {
+    completedAt: string;
+    newsInserted: number;
+    alertsInserted: number;
+    feedsPolled: number;
+    oddsPolled: number;
+    errors: string[];
+  } | null;
+}
+
 export function EdgeRadarAdminPanel() {
   const [alerts, setAlerts] = useState<PropAlert[]>([]);
   const [news, setNews] = useState<NewsItem[]>([]);
+  const [ingestStatus, setIngestStatus] = useState<IngestStatus | null>(null);
   const [alertForm, setAlertForm] = useState(emptyAlertForm);
   const [newsForm, setNewsForm] = useState(emptyNewsForm);
   const [loading, setLoading] = useState(true);
+  const [ingesting, setIngesting] = useState(false);
   const [message, setMessage] = useState("");
+
+  async function loadIngestStatus() {
+    const res = await fetch("/api/admin/edge-radar/ingest");
+    if (res.ok) {
+      setIngestStatus(await res.json());
+    }
+  }
+
+  async function runIngestNow() {
+    setIngesting(true);
+    setMessage("");
+    try {
+      const res = await fetch("/api/admin/edge-radar/ingest", { method: "POST" });
+      const data = await res.json();
+      if (res.ok) {
+        setMessage(
+          `Ingest complete — +${data.newsInserted} news, +${data.alertsInserted} alerts (${data.feedsPolled} feeds polled)`
+        );
+        loadData();
+        loadIngestStatus();
+      } else {
+        setMessage(data.error ?? "Ingest failed");
+      }
+    } finally {
+      setIngesting(false);
+    }
+  }
 
   async function loadData() {
     setLoading(true);
@@ -71,6 +116,7 @@ export function EdgeRadarAdminPanel() {
         fetch("/api/admin/edge-radar/alerts"),
         fetch("/api/admin/edge-radar/news"),
       ]);
+      await loadIngestStatus();
       if (alertsRes.ok) {
         const data = await alertsRes.json();
         setAlerts(data.alerts);
@@ -168,6 +214,45 @@ export function EdgeRadarAdminPanel() {
           {message}
         </p>
       )}
+
+      <Card>
+        <CardHeader>
+          <h4 className="font-mono text-sm font-semibold text-slate-200">
+            Automated ingest (keeps every sport fresh)
+          </h4>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <p className="text-xs leading-relaxed text-slate-500">
+            Polls ESPN + Google News RSS for all 18 sports every run. High-impact headlines
+            auto-spawn prop watches. Optional{" "}
+            <code className="text-cyan-400">ODDS_API_KEY</code> adds real DraftKings/FanDuel line
+            lag detection (4 sports per run to conserve API quota).
+          </p>
+          {ingestStatus && (
+            <div className="grid gap-2 font-mono text-xs text-slate-400 sm:grid-cols-3">
+              <p>Active news: {ingestStatus.activeNews}</p>
+              <p>Active alerts: {ingestStatus.activeAlerts}</p>
+              <p>Odds API: {ingestStatus.oddsConfigured ? "Connected" : "Not set"}</p>
+            </div>
+          )}
+          {ingestStatus?.lastRun && (
+            <p className="font-mono text-[10px] text-slate-600">
+              Last run {new Date(ingestStatus.lastRun.completedAt).toLocaleString()} — +
+              {ingestStatus.lastRun.newsInserted} news, +{ingestStatus.lastRun.alertsInserted}{" "}
+              alerts, {ingestStatus.lastRun.feedsPolled} feeds
+              {ingestStatus.lastRun.errors?.length > 0 &&
+                ` · ${ingestStatus.lastRun.errors.length} errors`}
+            </p>
+          )}
+          <p className="font-mono text-[10px] text-slate-600">
+            Railway cron: POST {ingestStatus?.cronPath ?? "/api/edge-radar/ingest/run"} every 10m
+            with Authorization: Bearer $ONBOARDING_INTERNAL_SECRET
+          </p>
+          <Button variant="primary" size="sm" onClick={runIngestNow} disabled={ingesting}>
+            {ingesting ? "Running ingest…" : "Run ingest now"}
+          </Button>
+        </CardContent>
+      </Card>
 
       <div className="grid gap-6 xl:grid-cols-2">
         <Card>
