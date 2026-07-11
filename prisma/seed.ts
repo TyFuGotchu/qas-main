@@ -126,6 +126,20 @@ async function main() {
     }
   }
 
+  try {
+    await seedEdgeRadarContent();
+  } catch (err) {
+    console.warn("[seed] Edge Radar seed skipped (non-fatal):", err);
+  }
+
+  console.log("Seeded demo users (password: password123)");
+  console.log("  admin@quicksilver.demo  → Admin + LIFETIME");
+  console.log("  bot@quicksilver.demo    → TIER_1");
+  console.log("  quant@quicksilver.demo  → TIER_2");
+  console.log("  alpha@quicksilver.demo  → LIFETIME");
+}
+
+async function seedEdgeRadarContent() {
   const alertSeed = [
     {
       sport: "nba",
@@ -203,14 +217,14 @@ async function main() {
       await prisma.edgeRadarNewsItem.create({ data: item });
     }
   }
-
-  console.log("Seeded demo users (password: password123)");
-  console.log("  admin@quicksilver.demo  → Admin + LIFETIME");
-  console.log("  bot@quicksilver.demo    → TIER_1");
-  console.log("  quant@quicksilver.demo  → TIER_2");
-  console.log("  alpha@quicksilver.demo  → LIFETIME");
 }
 
 main()
-  .catch(console.error)
-  .finally(() => prisma.$disconnect());
+  .then(async () => {
+    await prisma.$disconnect();
+  })
+  .catch(async (err) => {
+    console.error("[seed] Fatal error:", err);
+    await prisma.$disconnect();
+    process.exit(1);
+  });
