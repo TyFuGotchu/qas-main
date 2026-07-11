@@ -60,6 +60,8 @@ interface IngestStatus {
   activeNews: number;
   activeAlerts: number;
   oddsConfigured: boolean;
+  isStale: boolean;
+  autoIngestEnabled: boolean;
   cronPath: string;
   recommendedCron: string;
   lastRun: {
@@ -97,7 +99,7 @@ export function EdgeRadarAdminPanel() {
       const data = await res.json();
       if (res.ok) {
         setMessage(
-          `Ingest complete — +${data.newsInserted} news, +${data.alertsInserted} alerts (${data.feedsPolled} feeds polled)`
+          `Ingest complete — +${data.newsInserted} news, +${data.alertsInserted} alerts (${data.feedsPolled} feeds polled)${data.demoPurged ? `, ${data.demoPurged} demo items removed` : ""}`
         );
         loadData();
         loadIngestStatus();
@@ -223,17 +225,26 @@ export function EdgeRadarAdminPanel() {
         </CardHeader>
         <CardContent className="space-y-3">
           <p className="text-xs leading-relaxed text-slate-500">
-            Polls ESPN + Google News RSS for all 18 sports every run. High-impact headlines
-            auto-spawn prop watches. Optional{" "}
-            Set <code className="text-cyan-400">SPORTSGAMEODDS_API_KEY</code> in Railway for real
+            Polls ESPN + Google News RSS (last 7 days) for all 18 sports every 10 minutes on
+            server start. High-impact headlines auto-spawn prop watches. Set{" "}
+            <code className="text-cyan-400">SPORTSGAMEODDS_API_KEY</code> in Railway for real
             player prop line lag on DraftKings/FanDuel (4 leagues per ingest run).
           </p>
+          {ingestStatus?.isStale && (
+            <p className="rounded border border-rose-500/30 bg-rose-500/10 px-3 py-2 font-mono text-xs text-rose-300">
+              Feed is stale — no ingest in the last 30 minutes. Click &quot;Run ingest now&quot; or
+              redeploy so the built-in scheduler starts.
+            </p>
+          )}
           {ingestStatus && (
             <div className="grid gap-2 font-mono text-xs text-slate-400 sm:grid-cols-3">
               <p>Active news: {ingestStatus.activeNews}</p>
               <p>Active alerts: {ingestStatus.activeAlerts}</p>
               <p>
                 Odds API: {ingestStatus.oddsConfigured ? "SportsGameOdds connected" : "Not set"}
+              </p>
+              <p>
+                Auto ingest: {ingestStatus.autoIngestEnabled ? "On (every 10m)" : "Disabled"}
               </p>
             </div>
           )}

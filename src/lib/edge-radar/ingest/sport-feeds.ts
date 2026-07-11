@@ -1,5 +1,11 @@
 import type { EdgeRadarSportId } from "@/lib/edge-radar";
 
+/** Google News RSS limited to the last 7 days. */
+function googleNewsRss(query: string): string {
+  const q = encodeURIComponent(`${query} when:7d`);
+  return `https://news.google.com/rss/search?q=${q}&hl=en-US&gl=US&ceid=US:en`;
+}
+
 export interface SportFeedConfig {
   sportId: EdgeRadarSportId;
   sources: { name: string; url: string }[];
@@ -19,7 +25,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
       { name: "ESPN NFL", url: "https://www.espn.com/espn/rss/nfl/news" },
       {
         name: "Google News",
-        url: "https://news.google.com/rss/search?q=NFL+injury+lineup+player+props&hl=en-US&gl=US&ceid=US:en",
+        url: googleNewsRss("NFL injury lineup player props"),
       },
     ],
   },
@@ -31,7 +37,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
       { name: "ESPN NBA", url: "https://www.espn.com/espn/rss/nba/news" },
       {
         name: "Google News",
-        url: "https://news.google.com/rss/search?q=NBA+injury+lineup+player+props&hl=en-US&gl=US&ceid=US:en",
+        url: googleNewsRss("NBA injury lineup player props"),
       },
     ],
   },
@@ -43,7 +49,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
       { name: "ESPN MLB", url: "https://www.espn.com/espn/rss/mlb/news" },
       {
         name: "Google News",
-        url: "https://news.google.com/rss/search?q=MLB+injury+lineup+player+props&hl=en-US&gl=US&ceid=US:en",
+        url: googleNewsRss("MLB injury lineup player props"),
       },
     ],
   },
@@ -55,7 +61,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
       { name: "ESPN NHL", url: "https://www.espn.com/espn/rss/nhl/news" },
       {
         name: "Google News",
-        url: "https://news.google.com/rss/search?q=NHL+injury+lineup+player+props&hl=en-US&gl=US&ceid=US:en",
+        url: googleNewsRss("NHL injury lineup player props"),
       },
     ],
   },
@@ -67,7 +73,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
       { name: "ESPN NCAAF", url: "https://www.espn.com/espn/rss/ncaaf/news" },
       {
         name: "Google News",
-        url: "https://news.google.com/rss/search?q=college+football+injury+lineup&hl=en-US&gl=US&ceid=US:en",
+        url: googleNewsRss("college football injury lineup"),
       },
     ],
   },
@@ -79,7 +85,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
       { name: "ESPN NCAAB", url: "https://www.espn.com/espn/rss/ncaab/news" },
       {
         name: "Google News",
-        url: "https://news.google.com/rss/search?q=college+basketball+injury+lineup&hl=en-US&gl=US&ceid=US:en",
+        url: googleNewsRss("college basketball injury lineup"),
       },
     ],
   },
@@ -90,7 +96,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
     sources: [
       {
         name: "Google News",
-        url: "https://news.google.com/rss/search?q=WNBA+injury+lineup+player+props&hl=en-US&gl=US&ceid=US:en",
+        url: googleNewsRss("WNBA injury lineup player props"),
       },
     ],
   },
@@ -101,7 +107,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
     sources: [
       {
         name: "Google News",
-        url: "https://news.google.com/rss/search?q=MLS+soccer+injury+lineup&hl=en-US&gl=US&ceid=US:en",
+        url: googleNewsRss("MLS soccer injury lineup"),
       },
     ],
   },
@@ -112,7 +118,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
     sources: [
       {
         name: "Google News",
-        url: "https://news.google.com/rss/search?q=Premier+League+injury+lineup&hl=en-US&gl=US&ceid=US:en",
+        url: googleNewsRss("Premier League injury lineup"),
       },
     ],
   },
@@ -123,7 +129,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
     sources: [
       {
         name: "Google News",
-        url: "https://news.google.com/rss/search?q=UFC+fight+injury+withdrawal&hl=en-US&gl=US&ceid=US:en",
+        url: googleNewsRss("UFC fight injury withdrawal"),
       },
     ],
   },
@@ -132,7 +138,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
     sources: [
       {
         name: "Google News",
-        url: "https://news.google.com/rss/search?q=PGA+Tour+injury+withdrawal&hl=en-US&gl=US&ceid=US:en",
+        url: googleNewsRss("PGA Tour injury withdrawal"),
       },
     ],
   },
@@ -141,7 +147,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
     sources: [
       {
         name: "Google News",
-        url: "https://news.google.com/rss/search?q=NASCAR+driver+injury+lineup&hl=en-US&gl=US&ceid=US:en",
+        url: googleNewsRss("NASCAR driver injury lineup"),
       },
     ],
   },
@@ -150,7 +156,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
     sources: [
       {
         name: "Google News",
-        url: "https://news.google.com/rss/search?q=tennis+player+injury+withdrawal&hl=en-US&gl=US&ceid=US:en",
+        url: googleNewsRss("tennis player injury withdrawal"),
       },
     ],
   },
@@ -159,7 +165,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
     sources: [
       {
         name: "Google News",
-        url: "https://news.google.com/rss/search?q=soccer+injury+lineup+player&hl=en-US&gl=US&ceid=US:en",
+        url: googleNewsRss("soccer injury lineup player"),
       },
     ],
   },
@@ -168,7 +174,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
     sources: [
       {
         name: "Google News",
-        url: "https://news.google.com/rss/search?q=college+basketball+injury+March+Madness&hl=en-US&gl=US&ceid=US:en",
+        url: googleNewsRss("college basketball injury March Madness"),
       },
     ],
   },
@@ -177,7 +183,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
     sources: [
       {
         name: "Google News",
-        url: "https://news.google.com/rss/search?q=college+football+injury+CFB&hl=en-US&gl=US&ceid=US:en",
+        url: googleNewsRss("college football injury CFB"),
       },
     ],
   },
@@ -186,7 +192,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
     sources: [
       {
         name: "Google News",
-        url: "https://news.google.com/rss/search?q=boxing+fighter+injury+withdrawal&hl=en-US&gl=US&ceid=US:en",
+        url: googleNewsRss("boxing fighter injury withdrawal"),
       },
     ],
   },
@@ -195,7 +201,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
     sources: [
       {
         name: "Google News",
-        url: "https://news.google.com/rss/search?q=Formula+1+driver+injury+lineup&hl=en-US&gl=US&ceid=US:en",
+        url: googleNewsRss("Formula 1 driver injury lineup"),
       },
     ],
   },

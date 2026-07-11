@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
 import { userHasEdgeRadarAccess } from "@/lib/edge-radar-access";
 import { EDGE_RADAR_SPORTS } from "@/lib/edge-radar";
+import {
+  ALERT_FEED_MAX_AGE_HOURS,
+  hoursAgo,
+  NEWS_FEED_MAX_AGE_HOURS,
+} from "@/lib/edge-radar/freshness";
 import { prisma } from "@/lib/prisma";
 
 const PREVIEW_ALERT_LIMIT = 2;
@@ -20,26 +25,34 @@ export async function GET(request: NextRequest) {
         }
       : {};
 
-  const [alerts, news, alertCounts, newsCounts] = await Promise.all([
+  const alertFreshness = { publishedAt: { gte: hoursAgo(ALERT_FEED_MAX_AGE_HOURS) } };
+  const newsFreshness = { publishedAt: { gte: hoursAgo(NEWS_FEED_MAX_AGE_HOURS) } };
+  const freshWhere = { active: true, ...sportFilter };
+
+  const [alerts, news, alertCounts, newsCounts, lastIngest] = await Promise.all([
     prisma.edgeRadarPropAlert.findMany({
-      where: { active: true, ...sportFilter },
+      where: { ...freshWhere, ...alertFreshness },
       orderBy: { publishedAt: "desc" },
       take: hasAccess ? 50 : PREVIEW_ALERT_LIMIT,
     }),
     prisma.edgeRadarNewsItem.findMany({
-      where: { active: true, ...sportFilter },
+      where: { ...freshWhere, ...newsFreshness },
       orderBy: { publishedAt: "desc" },
       take: hasAccess ? 30 : PREVIEW_NEWS_LIMIT,
     }),
     prisma.edgeRadarPropAlert.groupBy({
       by: ["sport"],
-      where: { active: true },
+      where: { active: true, ...alertFreshness },
       _count: { sport: true },
     }),
     prisma.edgeRadarNewsItem.groupBy({
       by: ["sport"],
-      where: { active: true },
+      where: { active: true, ...newsFreshness },
       _count: { sport: true },
+    }),
+    prisma.edgeRadarIngestRun.findFirst({
+      orderBy: { completedAt: "desc" },
+      select: { completedAt: true, newsInserted: true, alertsInserted: true },
     }),
   ]);
 
@@ -93,5 +106,10 @@ export async function GET(request: NextRequest) {
       publishedAt: n.publishedAt.toISOString(),
     })),
     refreshedAt: new Date().toISOString(),
+    lastIngestAt: lastIngest?.completedAt.toISOString() ?? null,
+    freshnessHours: {
+      news: NEWS_FEED_MAX_AGE_HOURS,
+      alerts: ALERT_FEED_MAX_AGE_HOURS,
+    },
   });
 }

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
 import { isAdminUser } from "@/lib/admin";
+import { INGEST_STALE_MINUTES, minutesAgo } from "@/lib/edge-radar/freshness";
 import { runEdgeRadarIngest } from "@/lib/edge-radar/ingest/run";
 import { prisma } from "@/lib/prisma";
 
@@ -24,13 +25,18 @@ export async function GET() {
     ),
   ]);
 
+  const isStale =
+    !lastRun || lastRun.completedAt < minutesAgo(INGEST_STALE_MINUTES);
+
   return NextResponse.json({
     lastRun,
     activeNews,
     activeAlerts,
     oddsConfigured,
+    isStale,
+    autoIngestEnabled: process.env.EDGE_RADAR_INGEST_DISABLED !== "true",
     cronPath: "/api/edge-radar/ingest/run",
-    recommendedCron: "every 10 minutes",
+    recommendedCron: "every 10 minutes (or built-in scheduler on server start)",
   });
 }
 

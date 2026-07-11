@@ -44,8 +44,8 @@ export function parseRssFeed(xml: string): RssItem[] {
   return items.slice(0, 15);
 }
 
-export function parseRssPubDate(pubDate?: string): Date {
-  if (!pubDate) return new Date();
+export function parseRssPubDate(pubDate?: string): Date | null {
+  if (!pubDate?.trim()) return null;
   const parsed = new Date(pubDate);
-  return Number.isNaN(parsed.getTime()) ? new Date() : parsed;
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
 }

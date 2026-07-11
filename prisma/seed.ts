@@ -127,7 +127,9 @@ async function main() {
   }
 
   try {
-    await seedEdgeRadarContent();
+    if (process.env.SEED_EDGE_RADAR_DEMO === "true") {
+      await seedEdgeRadarContent();
+    }
   } catch (err) {
     console.warn("[seed] Edge Radar seed skipped (non-fatal):", err);
   }

@@ -1,4 +1,12 @@
 import { prisma } from "@/lib/prisma";
+import {
+  ALERT_TTL_HOURS,
+  hoursAgo,
+  NEWS_INGEST_MAX_AGE_HOURS,
+  NEWS_TTL_HOURS,
+  SEED_ALERT_PLAYERS,
+  SEED_NEWS_HEADLINES,
+} from "@/lib/edge-radar/freshness";
 import { fetchPropLineLags } from "@/lib/edge-radar/ingest/odds-api";
 import { fetchSgoPropLineLags } from "@/lib/edge-radar/ingest/sportsgameodds-api";
 import {
@@ -13,15 +21,15 @@ import {
   getSgoLeagues,
 } from "@/lib/edge-radar/ingest/sport-feeds";
 
-const NEWS_TTL_HOURS = 72;
-const ALERT_TTL_HOURS = 24;
 const ODDS_SPORTS_PER_RUN = 4;
+const newsIngestCutoff = () => hoursAgo(NEWS_INGEST_MAX_AGE_HOURS);
 
 export interface IngestResult {
   newsInserted: number;
   alertsInserted: number;
   newsPruned: number;
   alertsPruned: number;
+  demoPurged: number;
   feedsPolled: number;
   oddsPolled: number;
   errors: string[];
@@ -54,6 +62,9 @@ async function ingestNewsForSport(
   result.feedsPolled += 1;
 
   for (const item of items) {
+    const publishedAt = parseRssPubDate(item.pubDate);
+    if (!publishedAt || publishedAt < newsIngestCutoff()) continue;
+
     const externalId = externalNewsId(sportId, item.guid);
     const existing = await prisma.edgeRadarNewsItem.findUnique({
       where: { externalId },
@@ -70,7 +81,7 @@ async function ingestNewsForSport(
         impactScore,
         source: sourceName,
         externalId,
-        publishedAt: parseRssPubDate(item.pubDate),
+        publishedAt,
       },
     });
     result.newsInserted += 1;
@@ -93,7 +104,7 @@ async function ingestNewsForSport(
             evPercent: Math.round((impactScore - 50) / 5),
             books: ["DraftKings", "FanDuel"],
             externalId: alertExternalId,
-            publishedAt: parseRssPubDate(item.pubDate),
+            publishedAt,
           },
         });
         result.alertsInserted += 1;
@@ -189,9 +200,34 @@ async function ingestLegacyOddsBatch(result: IngestResult): Promise<void> {
   }
 }
 
+async function purgeDemoContent(result: IngestResult): Promise<void> {
+  const [newsPurged, alertsPurged] = await Promise.all([
+    prisma.edgeRadarNewsItem.updateMany({
+      where: {
+        active: true,
+        OR: [
+          { headline: { in: [...SEED_NEWS_HEADLINES] } },
+          { externalId: null, source: { in: ["Rotowire", "Beat reporter", "QS Monitor"] } },
+        ],
+      },
+      data: { active: false },
+    }),
+    prisma.edgeRadarPropAlert.updateMany({
+      where: {
+        active: true,
+        player: { in: [...SEED_ALERT_PLAYERS] },
+        externalId: null,
+      },
+      data: { active: false },
+    }),
+  ]);
+
+  result.demoPurged = newsPurged.count + alertsPurged.count;
+}
+
 async function pruneStale(result: IngestResult): Promise<void> {
-  const newsCutoff = new Date(Date.now() - NEWS_TTL_HOURS * 60 * 60 * 1000);
-  const alertCutoff = new Date(Date.now() - ALERT_TTL_HOURS * 60 * 60 * 1000);
+  const newsCutoff = hoursAgo(NEWS_TTL_HOURS);
+  const alertCutoff = hoursAgo(ALERT_TTL_HOURS);
 
   const newsPruned = await prisma.edgeRadarNewsItem.updateMany({
     where: { active: true, publishedAt: { lt: newsCutoff } },
@@ -212,10 +248,13 @@ export async function runEdgeRadarIngest(): Promise<IngestResult> {
     alertsInserted: 0,
     newsPruned: 0,
     alertsPruned: 0,
+    demoPurged: 0,
     feedsPolled: 0,
     oddsPolled: 0,
     errors: [],
   };
+
+  await purgeDemoContent(result);
 
   for (const feed of EDGE_RADAR_SPORT_FEEDS) {
     for (const source of feed.sources) {

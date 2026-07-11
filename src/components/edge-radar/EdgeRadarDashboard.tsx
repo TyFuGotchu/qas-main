@@ -50,6 +50,8 @@ interface FeedResponse {
   alerts: PropAlert[];
   news: NewsItem[];
   refreshedAt: string;
+  lastIngestAt: string | null;
+  freshnessHours: { news: number; alerts: number };
 }
 
 function formatTime(iso: string): string {
@@ -159,8 +161,10 @@ export function EdgeRadarDashboard({
               {loading && !feed ? (
                 <p className="p-4 font-mono text-xs text-slate-600">Loading alerts…</p>
               ) : feed?.alerts.length === 0 ? (
-                <p className="p-4 font-mono text-xs text-slate-600">
-                  No active alerts for {getSportLabel(sport)}.
+                <p className="p-4 font-mono text-xs leading-relaxed text-slate-600">
+                  No prop alerts in the last {feed.freshnessHours.alerts}h for{" "}
+                  {getSportLabel(sport)}.
+                  {!feed.lastIngestAt && " Feed is syncing — check back in a few minutes."}
                 </p>
               ) : (
                 feed?.alerts.map((alert) => (
@@ -231,7 +235,10 @@ export function EdgeRadarDashboard({
             {loading && !feed ? (
               <p className="font-mono text-xs text-slate-600">Loading news…</p>
             ) : feed?.news.length === 0 ? (
-              <p className="font-mono text-xs text-slate-600">No news for this filter.</p>
+              <p className="font-mono text-xs leading-relaxed text-slate-600">
+                No news in the last {feed.freshnessHours.news}h for this filter.
+                {!feed.lastIngestAt && " Feed is syncing — check back in a few minutes."}
+              </p>
             ) : (
               feed?.news.map((item) => (
                 <div
