@@ -17,7 +17,11 @@ export async function GET() {
     prisma.edgeRadarIngestRun.findFirst({ orderBy: { completedAt: "desc" } }),
     prisma.edgeRadarNewsItem.count({ where: { active: true } }),
     prisma.edgeRadarPropAlert.count({ where: { active: true } }),
-    Promise.resolve(Boolean(process.env.ODDS_API_KEY?.trim())),
+    Promise.resolve(
+      Boolean(
+        process.env.SPORTSGAMEODDS_API_KEY?.trim() || process.env.ODDS_API_KEY?.trim()
+      )
+    ),
   ]);
 
   return NextResponse.json({

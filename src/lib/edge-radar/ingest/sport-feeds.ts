@@ -3,7 +3,9 @@ import type { EdgeRadarSportId } from "@/lib/edge-radar";
 export interface SportFeedConfig {
   sportId: EdgeRadarSportId;
   sources: { name: string; url: string }[];
-  /** The Odds API sport key — only polled when ODDS_API_KEY is set. */
+  /** SportsGameOdds leagueID — polled when SPORTSGAMEODDS_API_KEY is set. */
+  sgoLeagueId?: string;
+  /** Legacy The Odds API sport key fallback. */
   oddsApiSport?: string;
 }
 
@@ -11,6 +13,7 @@ export interface SportFeedConfig {
 export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
   {
     sportId: "nfl",
+    sgoLeagueId: "NFL",
     oddsApiSport: "americanfootball_nfl",
     sources: [
       { name: "ESPN NFL", url: "https://www.espn.com/espn/rss/nfl/news" },
@@ -22,6 +25,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
   },
   {
     sportId: "nba",
+    sgoLeagueId: "NBA",
     oddsApiSport: "basketball_nba",
     sources: [
       { name: "ESPN NBA", url: "https://www.espn.com/espn/rss/nba/news" },
@@ -33,6 +37,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
   },
   {
     sportId: "mlb",
+    sgoLeagueId: "MLB",
     oddsApiSport: "baseball_mlb",
     sources: [
       { name: "ESPN MLB", url: "https://www.espn.com/espn/rss/mlb/news" },
@@ -44,6 +49,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
   },
   {
     sportId: "nhl",
+    sgoLeagueId: "NHL",
     oddsApiSport: "icehockey_nhl",
     sources: [
       { name: "ESPN NHL", url: "https://www.espn.com/espn/rss/nhl/news" },
@@ -55,6 +61,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
   },
   {
     sportId: "ncaaf",
+    sgoLeagueId: "NCAAF",
     oddsApiSport: "americanfootball_ncaaf",
     sources: [
       { name: "ESPN NCAAF", url: "https://www.espn.com/espn/rss/ncaaf/news" },
@@ -66,6 +73,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
   },
   {
     sportId: "ncaab",
+    sgoLeagueId: "NCAAB",
     oddsApiSport: "basketball_ncaab",
     sources: [
       { name: "ESPN NCAAB", url: "https://www.espn.com/espn/rss/ncaab/news" },
@@ -77,6 +85,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
   },
   {
     sportId: "wnba",
+    sgoLeagueId: "WNBA",
     oddsApiSport: "basketball_wnba",
     sources: [
       {
@@ -87,6 +96,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
   },
   {
     sportId: "mls",
+    sgoLeagueId: "MLS",
     oddsApiSport: "soccer_usa_mls",
     sources: [
       {
@@ -97,6 +107,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
   },
   {
     sportId: "epl",
+    sgoLeagueId: "EPL",
     oddsApiSport: "soccer_epl",
     sources: [
       {
@@ -107,6 +118,7 @@ export const EDGE_RADAR_SPORT_FEEDS: SportFeedConfig[] = [
   },
   {
     sportId: "ufc",
+    sgoLeagueId: "UFC",
     oddsApiSport: "mma_mixed_martial_arts",
     sources: [
       {
@@ -193,4 +205,10 @@ export function getOddsApiSports(): { sportId: EdgeRadarSportId; oddsApiSport: s
   return EDGE_RADAR_SPORT_FEEDS.filter(
     (f): f is SportFeedConfig & { oddsApiSport: string } => Boolean(f.oddsApiSport)
   ).map((f) => ({ sportId: f.sportId, oddsApiSport: f.oddsApiSport }));
+}
+
+export function getSgoLeagues(): { sportId: EdgeRadarSportId; sgoLeagueId: string }[] {
+  return EDGE_RADAR_SPORT_FEEDS.filter(
+    (f): f is SportFeedConfig & { sgoLeagueId: string } => Boolean(f.sgoLeagueId)
+  ).map((f) => ({ sportId: f.sportId, sgoLeagueId: f.sgoLeagueId }));
 }

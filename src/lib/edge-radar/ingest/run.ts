@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { fetchPropLineLags } from "@/lib/edge-radar/ingest/odds-api";
+import { fetchSgoPropLineLags } from "@/lib/edge-radar/ingest/sportsgameodds-api";
 import {
   extractPlayerHint,
   scoreNewsImpact,
@@ -9,6 +10,7 @@ import { parseRssFeed, parseRssPubDate } from "@/lib/edge-radar/ingest/parse-rss
 import {
   EDGE_RADAR_SPORT_FEEDS,
   getOddsApiSports,
+  getSgoLeagues,
 } from "@/lib/edge-radar/ingest/sport-feeds";
 
 const NEWS_TTL_HOURS = 72;
@@ -100,7 +102,70 @@ async function ingestNewsForSport(
   }
 }
 
-async function ingestOddsBatch(result: IngestResult): Promise<void> {
+async function persistPropAlerts(
+  lags: {
+    sportId: string;
+    player: string;
+    propType: string;
+    line: string;
+    signal: string;
+    detail: string;
+    evPercent: number;
+    books: string[];
+    externalId: string;
+  }[],
+  result: IngestResult
+): Promise<void> {
+  for (const lag of lags) {
+    const existing = await prisma.edgeRadarPropAlert.findUnique({
+      where: { externalId: lag.externalId },
+    });
+    if (existing) continue;
+
+    await prisma.edgeRadarPropAlert.create({
+      data: {
+        sport: lag.sportId,
+        player: lag.player,
+        propType: lag.propType,
+        line: lag.line,
+        signal: lag.signal,
+        detail: lag.detail,
+        evPercent: lag.evPercent,
+        books: lag.books,
+        externalId: lag.externalId,
+      },
+    });
+    result.alertsInserted += 1;
+  }
+}
+
+async function ingestSgoOddsBatch(result: IngestResult): Promise<void> {
+  const apiKey = process.env.SPORTSGAMEODDS_API_KEY?.trim();
+  if (!apiKey) return;
+
+  const leagues = getSgoLeagues();
+  const offset = Number(process.env.EDGE_RADAR_SGO_OFFSET ?? 0) % leagues.length;
+  const batch = [
+    ...leagues.slice(offset, offset + ODDS_SPORTS_PER_RUN),
+    ...leagues.slice(0, Math.max(0, offset + ODDS_SPORTS_PER_RUN - leagues.length)),
+  ].slice(0, ODDS_SPORTS_PER_RUN);
+
+  for (const { sportId, sgoLeagueId } of batch) {
+    try {
+      const lags = await fetchSgoPropLineLags(sgoLeagueId, sportId, apiKey);
+      result.oddsPolled += 1;
+      await persistPropAlerts(lags, result);
+    } catch (err) {
+      result.errors.push(
+        `SGO ${sgoLeagueId}: ${err instanceof Error ? err.message : "unknown"}`
+      );
+    }
+  }
+}
+
+async function ingestLegacyOddsBatch(result: IngestResult): Promise<void> {
+  if (process.env.SPORTSGAMEODDS_API_KEY?.trim()) return;
+
   const apiKey = process.env.ODDS_API_KEY?.trim();
   if (!apiKey) return;
 
@@ -115,28 +180,7 @@ async function ingestOddsBatch(result: IngestResult): Promise<void> {
     try {
       const lags = await fetchPropLineLags(oddsApiSport, sportId, apiKey);
       result.oddsPolled += 1;
-
-      for (const lag of lags) {
-        const existing = await prisma.edgeRadarPropAlert.findUnique({
-          where: { externalId: lag.externalId },
-        });
-        if (existing) continue;
-
-        await prisma.edgeRadarPropAlert.create({
-          data: {
-            sport: lag.sportId,
-            player: lag.player,
-            propType: lag.propType,
-            line: lag.line,
-            signal: lag.signal,
-            detail: lag.detail,
-            evPercent: lag.evPercent,
-            books: lag.books,
-            externalId: lag.externalId,
-          },
-        });
-        result.alertsInserted += 1;
-      }
+      await persistPropAlerts(lags, result);
     } catch (err) {
       result.errors.push(
         `Odds ${oddsApiSport}: ${err instanceof Error ? err.message : "unknown"}`
@@ -185,7 +229,8 @@ export async function runEdgeRadarIngest(): Promise<IngestResult> {
     }
   }
 
-  await ingestOddsBatch(result);
+  await ingestSgoOddsBatch(result);
+  await ingestLegacyOddsBatch(result);
   await pruneStale(result);
 
   await prisma.edgeRadarIngestRun.create({

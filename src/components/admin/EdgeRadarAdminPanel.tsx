@@ -225,14 +225,16 @@ export function EdgeRadarAdminPanel() {
           <p className="text-xs leading-relaxed text-slate-500">
             Polls ESPN + Google News RSS for all 18 sports every run. High-impact headlines
             auto-spawn prop watches. Optional{" "}
-            <code className="text-cyan-400">ODDS_API_KEY</code> adds real DraftKings/FanDuel line
-            lag detection (4 sports per run to conserve API quota).
+            Set <code className="text-cyan-400">SPORTSGAMEODDS_API_KEY</code> in Railway for real
+            player prop line lag on DraftKings/FanDuel (4 leagues per ingest run).
           </p>
           {ingestStatus && (
             <div className="grid gap-2 font-mono text-xs text-slate-400 sm:grid-cols-3">
               <p>Active news: {ingestStatus.activeNews}</p>
               <p>Active alerts: {ingestStatus.activeAlerts}</p>
-              <p>Odds API: {ingestStatus.oddsConfigured ? "Connected" : "Not set"}</p>
+              <p>
+                Odds API: {ingestStatus.oddsConfigured ? "SportsGameOdds connected" : "Not set"}
+              </p>
             </div>
           )}
           {ingestStatus?.lastRun && (
