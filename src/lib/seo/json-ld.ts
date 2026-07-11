@@ -152,6 +152,7 @@ export function authorityArticleJsonLd(params: {
   slug: string;
   publishedAt: string;
   pathPrefix: string;
+  articleSection?: string;
 }) {
   return {
     "@context": "https://schema.org",
@@ -170,7 +171,7 @@ export function authorityArticleJsonLd(params: {
       },
     },
     mainEntityOfPage: `${SITE_URL}${params.pathPrefix}/${params.slug}`,
-    articleSection: "Prop Firm Trading",
+    articleSection: params.articleSection ?? "Prop Firm Trading",
   };
 }
 

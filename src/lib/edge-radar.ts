@@ -27,11 +27,20 @@ export const EDGE_RADAR_SEO_KEYWORDS = [
   "player prop line lag",
   "NBA player props scanner",
   "NFL player props alerts",
+  "MLB player props betting",
+  "NHL player props scanner",
   "injury line movement betting",
   "sportsbook arbitrage alerts",
   "real-time injury line movement",
   "live betting odds scanner",
   "sports betting news impact",
+  "player prop alerts",
+  "BetMGM prop lines",
+  "same game parlay edge",
+  "college football player props",
+  "WNBA player props",
+  "UFC betting props",
+  "live prop betting tool",
 ] as const;
 
 /** All filterable sports — `all` shows every active alert. */

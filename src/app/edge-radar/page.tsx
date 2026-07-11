@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Newspaper, Radar, TrendingUp, Zap } from "lucide-react";
 import { EdgeRadarDashboard } from "@/components/edge-radar/EdgeRadarDashboard";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
@@ -20,6 +21,11 @@ import {
   EDGE_RADAR_TAGLINE,
   EDGE_RADAR_USE_CASES,
 } from "@/lib/edge-radar";
+import {
+  EDGE_RADAR_CLUSTER_COUNT,
+  EDGE_RADAR_HUB_PATH,
+  EDGE_RADAR_PILLAR_PATH,
+} from "@/lib/seo/edge-radar-authority";
 import {
   breadcrumbJsonLd,
   faqJsonLd,
@@ -233,6 +239,51 @@ export default function EdgeRadarPage() {
         </div>
 
         <EdgeRadarDashboard />
+      </section>
+
+      <section aria-labelledby="edge-radar-guides">
+        <h2
+          id="edge-radar-guides"
+          className="mb-4 text-center font-mono text-sm font-semibold uppercase tracking-widest text-slate-400"
+        >
+          Player props guides ({EDGE_RADAR_CLUSTER_COUNT}+)
+        </h2>
+        <p className="mx-auto mb-6 max-w-xl text-center text-sm text-slate-500">
+          Long-tail SEO guides on line lag, injury props, and sport-specific scanners — every page
+          links to the live terminal.
+        </p>
+        <div className="flex flex-wrap justify-center gap-3">
+          <Link
+            href={EDGE_RADAR_PILLAR_PATH}
+            className="rounded-lg border border-amber-500/30 px-4 py-2 font-mono text-xs text-amber-400 hover:bg-amber-500/5"
+          >
+            Ultimate Player Props Playbook →
+          </Link>
+          <Link
+            href={`${EDGE_RADAR_HUB_PATH}`}
+            className="rounded-lg border border-cyan-500/30 px-4 py-2 font-mono text-xs text-cyan-400 hover:bg-cyan-500/5"
+          >
+            Browse all {EDGE_RADAR_CLUSTER_COUNT} guides →
+          </Link>
+          <Link
+            href="/edge-radar/guides/nba-player-props-scanner"
+            className="rounded-lg border border-slate-700/60 px-4 py-2 font-mono text-xs text-slate-400 hover:border-slate-600"
+          >
+            NBA props scanner
+          </Link>
+          <Link
+            href="/edge-radar/guides/nfl-player-props-scanner"
+            className="rounded-lg border border-slate-700/60 px-4 py-2 font-mono text-xs text-slate-400 hover:border-slate-600"
+          >
+            NFL props scanner
+          </Link>
+          <Link
+            href="/edge-radar/guides/line-lag-detection"
+            className="rounded-lg border border-slate-700/60 px-4 py-2 font-mono text-xs text-slate-400 hover:border-slate-600"
+          >
+            Line lag detection
+          </Link>
+        </div>
       </section>
 
       <section aria-labelledby="edge-radar-faq">
