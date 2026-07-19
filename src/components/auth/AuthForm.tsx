@@ -69,13 +69,26 @@ export function AuthForm({ mode }: AuthFormProps) {
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
         body: JSON.stringify(body),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
-        setError(data.error ?? "An error occurred");
+        if (res.status === 429) {
+          const wait = data.retryAfterSeconds
+            ? ` Wait ${data.retryAfterSeconds} seconds.`
+            : " Please wait a few minutes.";
+          setError((data.error as string) ?? `Too many attempts.${wait}`);
+          return;
+        }
+        setError((data.error as string) ?? "An error occurred");
+        return;
+      }
+
+      if (!data.user) {
+        setError("Login succeeded but session was not created. Please try again.");
         return;
       }
 

@@ -106,6 +106,38 @@ export function AdminDashboard() {
     }
   }
 
+  async function resetUserPassword(userId: string, email: string) {
+    const password = window.prompt(
+      `New password for ${email}\n(min 10 chars, upper, lower, number)`
+    );
+    if (!password) return;
+
+    const res = await fetch(`/api/admin/users/${userId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password }),
+    });
+
+    const data = await res.json().catch(() => ({}));
+    if (res.ok) {
+      setMessage(`Password reset for ${email}`);
+    } else {
+      setMessage(data.error ?? "Password reset failed");
+    }
+  }
+
+  async function markOnboardingComplete(userId: string, email: string) {
+    const res = await fetch(`/api/admin/users/${userId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ onboardingComplete: true }),
+    });
+    if (res.ok) {
+      setMessage(`Onboarding marked complete for ${email}`);
+      loadData();
+    }
+  }
+
   async function postAnnouncement(e: React.FormEvent) {
     e.preventDefault();
     setPosting(true);
@@ -172,6 +204,7 @@ export function AdminDashboard() {
                     <th className="py-2 text-left">Status</th>
                     <th className="py-2 text-left">Edge Radar</th>
                     <th className="py-2 text-left">Admin</th>
+                    <th className="py-2 text-left">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -224,6 +257,28 @@ export function AdminDashboard() {
                         >
                           {user.isAdmin ? "Admin" : "Grant"}
                         </Button>
+                      </td>
+                      <td className="py-3">
+                        <div className="flex flex-wrap gap-1">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => resetUserPassword(user.id, user.email)}
+                          >
+                            Reset PW
+                          </Button>
+                          {!user.onboardingComplete && (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() =>
+                                markOnboardingComplete(user.id, user.email)
+                              }
+                            >
+                              Complete
+                            </Button>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   ))}

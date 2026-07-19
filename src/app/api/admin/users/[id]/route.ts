@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import { isAdminUser } from "@/lib/admin";
+import { accountTierToSubscriptionTier } from "@/lib/accessControl";
+import { validatePassword } from "@/lib/security/password";
 import { ACCOUNT_TIERS, type AccountTier } from "@/types";
 
 export async function PATCH(
@@ -14,13 +17,23 @@ export async function PATCH(
   }
 
   const body = await request.json();
-  const { accountTier, isAdmin, edgeRadarAccess } = body as {
-    accountTier?: AccountTier;
+  const { accountTier, isAdmin, edgeRadarAccess, password, onboardingComplete } =
+    body as {
+      accountTier?: AccountTier;
+      isAdmin?: boolean;
+      edgeRadarAccess?: boolean;
+      password?: string;
+      onboardingComplete?: boolean;
+    };
+
+  const data: {
+    accountTier?: string;
+    subscriptionTier?: "FREE" | "TIER_1" | "TIER_2" | "LIFETIME";
     isAdmin?: boolean;
     edgeRadarAccess?: boolean;
-  };
-
-  const data: { accountTier?: string; isAdmin?: boolean; edgeRadarAccess?: boolean } = {};
+    passwordHash?: string;
+    onboardingComplete?: boolean;
+  } = {};
 
   if (accountTier) {
     const validTiers = Object.values(ACCOUNT_TIERS);
@@ -28,6 +41,7 @@ export async function PATCH(
       return NextResponse.json({ error: "Invalid tier" }, { status: 400 });
     }
     data.accountTier = accountTier;
+    data.subscriptionTier = accountTierToSubscriptionTier(accountTier);
   }
 
   if (typeof isAdmin === "boolean") {
@@ -36,6 +50,22 @@ export async function PATCH(
 
   if (typeof edgeRadarAccess === "boolean") {
     data.edgeRadarAccess = edgeRadarAccess;
+  }
+
+  if (typeof onboardingComplete === "boolean") {
+    data.onboardingComplete = onboardingComplete;
+  }
+
+  if (typeof password === "string" && password.length > 0) {
+    const check = validatePassword(password);
+    if (!check.valid) {
+      return NextResponse.json({ error: check.error }, { status: 400 });
+    }
+    data.passwordHash = await bcrypt.hash(password, 12);
+  }
+
+  if (Object.keys(data).length === 0) {
+    return NextResponse.json({ error: "No updates provided" }, { status: 400 });
   }
 
   const user = await prisma.user.update({
@@ -53,5 +83,8 @@ export async function PATCH(
     },
   });
 
-  return NextResponse.json({ user });
+  return NextResponse.json({
+    user,
+    passwordReset: Boolean(data.passwordHash),
+  });
 }
