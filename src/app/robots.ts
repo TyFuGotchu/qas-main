@@ -2,41 +2,28 @@ import type { MetadataRoute } from "next";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://quicksilveralgo.com";
 
+/**
+ * Keep crawl rules simple. Explicit Allow lists without a root allow can confuse
+ * some bots; default-allow + targeted disallow is the standard SEO pattern.
+ */
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: "*",
-      allow: [
-        "/",
-        "/launch",
-        "/launch/",
-        "/lessons",
-        "/lessons/",
-        "/guides",
-        "/guides/",
-        "/prop-firm",
-        "/prop-firm/",
-        "/solutions",
-        "/solutions/",
-        "/learn",
-        "/learn/",
-        "/offers",
-        "/offers/",
-        "/tools",
-        "/tools/",
-        "/support",
-        "/faq",
-        "/guarantee",
-        "/guarantee/",
-        "/edge-radar",
-        "/edge-radar/",
-        "/edge-radar/hub",
-        "/edge-radar/hub/",
-        "/edge-radar/guides",
-        "/edge-radar/guides/",
-      ],
-      disallow: ["/dashboard/tools", "/api/", "/admin"],
-    },
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: [
+          "/api/",
+          "/admin",
+          "/admin/",
+          "/dashboard",
+          "/dashboard/",
+          "/onboarding",
+          "/onboarding/",
+        ],
+      },
+    ],
     sitemap: `${SITE_URL}/sitemap.xml`,
+    host: SITE_URL.replace(/^https?:\/\//, ""),
   };
 }

@@ -1,4 +1,5 @@
 import { InstitutionalBackdrop } from "@/components/layout/InstitutionalBackdrop";
+import { PublicFooter } from "@/components/layout/PublicFooter";
 import { PublicNav } from "@/components/layout/PublicNav";
 
 export default function PublicLayout({
@@ -9,9 +10,10 @@ export default function PublicLayout({
   return (
     <div className="qs-environment relative min-h-screen">
       <InstitutionalBackdrop variant="hero" />
-      <div className="relative z-[1]">
+      <div className="relative z-[1] flex min-h-screen flex-col">
         <PublicNav />
-        <main className="overflow-x-hidden pt-32 sm:pt-36">{children}</main>
+        <main className="flex-1 overflow-x-hidden pt-32 sm:pt-36">{children}</main>
+        <PublicFooter />
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import { InstitutionalBackdrop } from "@/components/layout/InstitutionalBackdrop";
+import { PublicFooter } from "@/components/layout/PublicFooter";
 import { PublicNav } from "@/components/layout/PublicNav";
 import { cn } from "@/lib/utils";
 
@@ -7,6 +8,7 @@ interface PublicPageShellProps {
   footer?: React.ReactNode;
   mainClassName?: string;
   variant?: "public" | "hero";
+  showFooter?: boolean;
 }
 
 export function PublicPageShell({
@@ -14,6 +16,7 @@ export function PublicPageShell({
   footer,
   mainClassName,
   variant = "public",
+  showFooter = true,
 }: PublicPageShellProps) {
   return (
     <div className="qs-environment relative min-h-screen">
@@ -28,7 +31,7 @@ export function PublicPageShell({
         >
           {children}
         </main>
-        {footer}
+        {footer ?? (showFooter ? <PublicFooter /> : null)}
       </div>
     </div>
   );

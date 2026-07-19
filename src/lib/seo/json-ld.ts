@@ -291,6 +291,43 @@ export function productWebPageJsonLd(params: {
   };
 }
 
+export function websiteJsonLd(params?: {
+  name?: string;
+  description?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: params?.name ?? "Quicksilver Algo Systems",
+    description:
+      params?.description ??
+      "Prop firm challenge tools, 7-day playbook, Chart Academy, and Edge Radar sports prop scanner.",
+    url: SITE_URL,
+    publisher: PUBLISHER,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${SITE_URL}/solutions?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
+  };
+}
+
+export function organizationJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Quicksilver Algo Systems",
+    url: SITE_URL,
+    logo: `${SITE_URL}/icon.png`,
+    description:
+      "Educational trading platform: prop firm playbooks, quant planning tools, and sports prop edge scanning.",
+    sameAs: [] as string[],
+  };
+}
+
 export function serializeJsonLd(data: object | object[]) {
   return JSON.stringify(data);
 }

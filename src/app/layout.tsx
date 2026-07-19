@@ -22,9 +22,12 @@ const siteUrl =
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Quicksilver Algo System | Institutional Trading Platform",
+  title: {
+    default: "Quicksilver Algo | Prop Firm Tools & Edge Radar",
+    template: "%s | Quicksilver Algo",
+  },
   description:
-    "Premium algorithmic trading SaaS platform with proprietary bot access, quant tools, and institutional-grade execution systems.",
+    "Prop firm challenge playbook, quant planning tools, Chart Academy, and Edge Radar sports prop scanner. Free demos and Premium access.",
   icons: {
     icon: [{ url: "/icon.png", type: "image/png", sizes: "512x512" }],
     apple: [{ url: "/apple-icon.png", type: "image/png", sizes: "180x180" }],
@@ -33,10 +36,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "Quicksilver Algo Systems",
-    title: "Quicksilver Algo System | Institutional Trading Platform",
+    title: "Quicksilver Algo | Prop Firm Tools & Edge Radar",
     description:
-      "Premium algorithmic trading SaaS platform with proprietary bot access, quant tools, and institutional-grade execution systems.",
+      "Pass prop firm challenges with the 7-Day Playbook. Scan player prop line lag with Edge Radar. Free demos included.",
     images: [{ url: "/icon.png", width: 512, height: 512, alt: "Quicksilver Algo Systems" }],
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 

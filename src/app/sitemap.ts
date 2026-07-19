@@ -18,38 +18,120 @@ import {
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://quicksilveralgo.com";
 
+/** Stable lastmod — do not use new Date() on every request (crawl budget noise). */
+const SITE_UPDATED = new Date("2026-07-19");
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
-    { url: SITE_URL, lastModified: new Date(), changeFrequency: "weekly", priority: 1 },
-    { url: `${SITE_URL}/launch`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.98 },
-    { url: `${SITE_URL}/lessons`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
-    { url: `${SITE_URL}/guides`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
-    { url: `${SITE_URL}/prop-firm`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.96 },
-    { url: `${SITE_URL}/solutions`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
-    { url: `${SITE_URL}/learn`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
-    { url: `${SITE_URL}/offers`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.95 },
-    { url: `${SITE_URL}/tools`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.92 },
-    { url: `${SITE_URL}/tools/local`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.85 },
-    { url: `${SITE_URL}/support`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.85 },
-    { url: `${SITE_URL}/faq`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.85 },
-    { url: `${SITE_URL}/guarantee`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.94 },
-    { url: `${SITE_URL}/edge-radar`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.97 },
-    { url: `${SITE_URL}${EDGE_RADAR_HUB_PATH}`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.96 },
-    { url: `${SITE_URL}${EDGE_RADAR_PILLAR_PATH}`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.98 },
-    { url: `${SITE_URL}/register`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
-    { url: `${SITE_URL}/onboarding/pricing`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
+    { url: SITE_URL, lastModified: SITE_UPDATED, changeFrequency: "weekly", priority: 1 },
+    {
+      url: `${SITE_URL}/launch`,
+      lastModified: SITE_UPDATED,
+      changeFrequency: "weekly",
+      priority: 0.99,
+    },
+    {
+      url: `${SITE_URL}/guarantee`,
+      lastModified: SITE_UPDATED,
+      changeFrequency: "monthly",
+      priority: 0.95,
+    },
+    {
+      url: `${SITE_URL}/edge-radar`,
+      lastModified: SITE_UPDATED,
+      changeFrequency: "daily",
+      priority: 0.97,
+    },
+    {
+      url: `${SITE_URL}${EDGE_RADAR_HUB_PATH}`,
+      lastModified: SITE_UPDATED,
+      changeFrequency: "weekly",
+      priority: 0.96,
+    },
+    {
+      url: `${SITE_URL}${EDGE_RADAR_PILLAR_PATH}`,
+      lastModified: SITE_UPDATED,
+      changeFrequency: "weekly",
+      priority: 0.98,
+    },
+    {
+      url: `${SITE_URL}/prop-firm`,
+      lastModified: SITE_UPDATED,
+      changeFrequency: "weekly",
+      priority: 0.96,
+    },
+    {
+      url: `${SITE_URL}/offers`,
+      lastModified: SITE_UPDATED,
+      changeFrequency: "weekly",
+      priority: 0.95,
+    },
+    {
+      url: `${SITE_URL}/tools`,
+      lastModified: SITE_UPDATED,
+      changeFrequency: "weekly",
+      priority: 0.92,
+    },
+    {
+      url: `${SITE_URL}/tools/local`,
+      lastModified: SITE_UPDATED,
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
+    {
+      url: `${SITE_URL}/lessons`,
+      lastModified: SITE_UPDATED,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${SITE_URL}/guides`,
+      lastModified: SITE_UPDATED,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${SITE_URL}/solutions`,
+      lastModified: SITE_UPDATED,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${SITE_URL}/learn`,
+      lastModified: SITE_UPDATED,
+      changeFrequency: "weekly",
+      priority: 0.88,
+    },
+    {
+      url: `${SITE_URL}/support`,
+      lastModified: SITE_UPDATED,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${SITE_URL}/faq`,
+      lastModified: SITE_UPDATED,
+      changeFrequency: "monthly",
+      priority: 0.85,
+    },
+    {
+      url: `${SITE_URL}/register`,
+      lastModified: SITE_UPDATED,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
   ];
 
   const localToolPages: MetadataRoute.Sitemap = LOCAL_TOOLS.map((tool) => ({
     url: `${SITE_URL}${tool.publicHref}`,
-    lastModified: new Date(),
+    lastModified: SITE_UPDATED,
     changeFrequency: "weekly" as const,
     priority: 0.88,
   }));
 
   const guidePages: MetadataRoute.Sitemap = CHARTING_GUIDES.map((guide) => ({
     url: `${SITE_URL}/guides/${guide.slug}`,
-    lastModified: new Date(),
+    lastModified: SITE_UPDATED,
     changeFrequency: "monthly" as const,
     priority: 0.85,
   }));
@@ -96,17 +178,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: page.topic === "pass-in-7-days" ? 0.9 : 0.82,
   }));
 
-  const edgeRadarGuidePages: MetadataRoute.Sitemap = EDGE_RADAR_CLUSTER_PAGES.map((page) => ({
-    url: `${SITE_URL}/edge-radar/guides/${page.slug}`,
-    lastModified: new Date(page.publishedAt),
-    changeFrequency: "weekly" as const,
-    priority:
-      page.variant === "sport" && ["nfl", "nba", "mlb", "nhl"].includes(page.sportId ?? "")
-        ? 0.92
-        : page.variant === "topic"
-          ? 0.9
-          : 0.85,
-  }));
+  const edgeRadarGuidePages: MetadataRoute.Sitemap = EDGE_RADAR_CLUSTER_PAGES.map(
+    (page) => ({
+      url: `${SITE_URL}/edge-radar/guides/${page.slug}`,
+      lastModified: new Date(page.publishedAt),
+      changeFrequency: "weekly" as const,
+      priority:
+        page.variant === "sport" &&
+        ["nfl", "nba", "mlb", "nhl"].includes(page.sportId ?? "")
+          ? 0.92
+          : page.variant === "topic"
+            ? 0.9
+            : 0.85,
+    })
+  );
 
   return [
     ...staticPages,

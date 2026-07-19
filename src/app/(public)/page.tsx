@@ -1,8 +1,9 @@
+import type { Metadata } from "next";
+import Link from "next/link";
 import { Hero } from "@/components/landing/Hero";
 import { ProbabilitySimulator } from "@/components/landing/ProbabilitySimulator";
 import { Stats } from "@/components/landing/Stats";
 import { RecommendedBrokerCard } from "@/components/broker/RecommendedBrokerCard";
-import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { ConversionHeroDemo } from "@/components/engagement/ConversionHeroDemo";
 import { LearningPathTracker } from "@/components/engagement/LearningPathTracker";
@@ -10,10 +11,104 @@ import { PropFirmChallengePromo } from "@/components/marketing/PropFirmChallenge
 import { LocalToolsPromo } from "@/components/tools/LocalToolsPromo";
 import { PremiumEverythingIncluded } from "@/components/marketing/PremiumEverythingIncluded";
 import { PremiumValueStack } from "@/components/tools/PremiumValueStack";
+import { JsonLdScript } from "@/components/seo/JsonLdScript";
+import {
+  organizationJsonLd,
+  websiteJsonLd,
+  breadcrumbJsonLd,
+} from "@/lib/seo/json-ld";
+import { EDGE_RADAR_PATH } from "@/lib/edge-radar";
+import { EDGE_RADAR_HUB_PATH } from "@/lib/seo/edge-radar-authority";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://quicksilveralgo.com";
+
+export const metadata: Metadata = {
+  title: {
+    absolute:
+      "Quicksilver Algo — Prop Firm Playbook, Trading Tools & Edge Radar Props Scanner",
+  },
+  description:
+    "Pass prop firm challenges with the 7-Day Playbook, 9 quant planning tools, Chart Academy, and Edge Radar live sports prop scanner. Free demos. FIRST100 promo.",
+  keywords: [
+    "prop firm challenge playbook",
+    "pass FTMO challenge",
+    "7 day prop firm plan",
+    "trading risk calculator",
+    "player props scanner",
+    "DraftKings FanDuel line lag",
+    "Chart Academy",
+    "Quicksilver Algo",
+  ],
+  alternates: { canonical: SITE_URL },
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    title: "Quicksilver Algo — Prop Firm Tools & Sports Props Edge",
+    description:
+      "7-Day Prop Firm Playbook, institutional planning tools, and Edge Radar +EV prop scanner.",
+    siteName: "Quicksilver Algo Systems",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Quicksilver Algo Systems",
+    description:
+      "Prop firm playbook, quant tools, Chart Academy, and Edge Radar sports props scanner.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+    },
+  },
+};
+
+const SEO_HUB_LINKS = [
+  {
+    href: "/launch",
+    title: "7-Day Prop Firm Playbook",
+    body: "Day-by-day challenge plan with consistency rules and FIRST100 pricing.",
+  },
+  {
+    href: "/prop-firm",
+    title: "Prop Firm Authority Hub",
+    body: "Long-tail guides for FTMO, FundedNext, Apex, Topstep, and more.",
+  },
+  {
+    href: EDGE_RADAR_PATH,
+    title: "Edge Radar Prop Scanner",
+    body: "Live +EV player props, injury news impact, DraftKings & FanDuel line lag.",
+  },
+  {
+    href: EDGE_RADAR_HUB_PATH,
+    title: "Sports Props Guides",
+    body: "NBA, NFL, MLB scanners and line-lag strategy guides.",
+  },
+  {
+    href: "/tools",
+    title: "Trading Tools",
+    body: "Risk Matrix, Prop Survival, Edge Confluence, and free local calculators.",
+  },
+  {
+    href: "/guarantee",
+    title: "30-Day Guarantee",
+    body: "Money-back policy for Premium members who complete the playbook.",
+  },
+];
 
 export default function LandingPage() {
+  const jsonLd = [
+    websiteJsonLd(),
+    organizationJsonLd(),
+    breadcrumbJsonLd([{ name: "Home", path: "/" }]),
+  ];
+
   return (
     <>
+      <JsonLdScript data={jsonLd} />
       <Hero />
       <PremiumEverythingIncluded />
       <ProbabilitySimulator />
@@ -32,15 +127,48 @@ export default function LandingPage() {
           <LearningPathTracker />
         </div>
       </section>
+
+      <section
+        aria-labelledby="seo-hub-heading"
+        className="border-t border-slate-800/60 px-4 py-16 sm:px-6 lg:px-8"
+      >
+        <div className="mx-auto max-w-5xl">
+          <h2
+            id="seo-hub-heading"
+            className="text-center font-mono text-2xl font-bold text-slate-200"
+          >
+            Explore Quicksilver
+          </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-slate-500">
+            Free previews, prop firm authority guides, live sports prop tools, and Premium
+            planning engines — start where your edge is.
+          </p>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {SEO_HUB_LINKS.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="rounded-xl border border-slate-800/60 bg-slate-950/40 p-5 transition-colors hover:border-cyan-500/30"
+              >
+                <h3 className="font-mono text-sm font-semibold text-slate-200">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-xs leading-relaxed text-slate-500">{item.body}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="border-t border-slate-800/60 px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl text-center">
           <h2 className="font-mono text-2xl font-bold text-slate-200">
             Start with the 7-Day Playbook Preview
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-slate-500">
-            Every guide includes a free preview — including the prop firm challenge
-            playbook. Premium unlocks the full day-by-day plan plus all nine planning
-            engines and Chart Academy.
+            Every guide includes a free preview — including the prop firm challenge playbook.
+            Premium unlocks the full day-by-day plan plus all nine planning engines and Chart
+            Academy.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <Link href="/solutions">
@@ -63,13 +191,11 @@ export default function LandingPage() {
       </section>
       <section className="px-4 py-24 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="font-mono text-2xl font-bold text-slate-200">
-            Ready to Deploy?
-          </h2>
+          <h2 className="font-mono text-2xl font-bold text-slate-200">Ready to Deploy?</h2>
           <p className="mt-4 text-slate-500">
-            Create your profile to unlock access tier options and deploy the
-            Quicksilver algorithmic infrastructure — from TradeLocker bot
-            execution to the full institutional quant suite.
+            Create your profile to unlock access tier options and deploy the Quicksilver
+            algorithmic infrastructure — from TradeLocker bot execution to the full
+            institutional quant suite.
           </p>
           <div className="mt-8">
             <Link href="/register">
