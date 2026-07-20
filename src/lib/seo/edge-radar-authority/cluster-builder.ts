@@ -1,7 +1,6 @@
 import {
   EDGE_RADAR_CHECKOUT_URL,
   EDGE_RADAR_NAME,
-  EDGE_RADAR_PATH,
   EDGE_RADAR_PRICE,
 } from "@/lib/edge-radar";
 import {
@@ -10,7 +9,6 @@ import {
   SEO_BOOKS,
   SEO_SPORTS,
   SEO_TOPICS,
-  type BookSlug,
   type TopicSlug,
 } from "@/lib/seo/edge-radar-authority/data";
 import type {
