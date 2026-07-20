@@ -10,11 +10,21 @@ import {
 import { AuthorityPillarCTA } from "@/components/seo/authority/AuthorityPillarCTA";
 import { Badge } from "@/components/ui/Badge";
 
-export const metadata: Metadata = {
-  title: "Prop Firm Challenge Authority Hub | Quicksilver",
+import { rankingPageMetadata } from "@/lib/seo/page-metadata";
+
+export const metadata: Metadata = rankingPageMetadata({
+  title: "Prop Firm Challenge Guides: FTMO, Apex, FundedNext & More",
   description:
-    "Long-tail guides for passing FTMO, FundedNext, Apex, FTUK, and Topstep challenges — consistency math, Monte Carlo risk, daily drawdown, and 7-day playbooks.",
-};
+    "Free prop firm challenge guides: how to pass FTMO, FundedNext, Apex, FTUK, Topstep — consistency rules, drawdown math, 7-day playbooks, and risk plans.",
+  path: "/prop-firm",
+  keywords: [
+    "prop firm challenge",
+    "how to pass FTMO",
+    "Apex trader funding guide",
+    "prop firm consistency rule",
+    "FundedNext challenge tips",
+  ],
+});
 
 export default function PropFirmHubPage() {
   return (
@@ -22,12 +32,12 @@ export default function PropFirmHubPage() {
       <header className="space-y-4">
         <Badge variant="success">Topic Authority Cluster</Badge>
         <h1 className="font-mono text-3xl font-bold text-slate-100 sm:text-4xl">
-          Prop Firm Challenge Authority
+          Prop Firm Challenge Guides (Pass Cleanly)
         </h1>
         <p className="max-w-2xl text-lg leading-relaxed text-slate-400">
-          {PROP_FIRM_CLUSTER_COUNT}+ long-tail guides on mathematically passing prop
-          firm challenges — sniping exact search intent for FTMO, FundedNext, Apex,
-          FTUK, Topstep, and more.
+          Practical playbooks for FTMO, FundedNext, Apex, FTUK, Topstep, and more —
+          consistency math, daily loss limits, drawdown rules, and {PROP_FIRM_CLUSTER_COUNT}+
+          step-by-step firm-specific guides. Start with the two pillars below.
         </p>
       </header>
 

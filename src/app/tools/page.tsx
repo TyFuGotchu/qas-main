@@ -9,11 +9,20 @@ import { Badge } from "@/components/ui/Badge";
 import { PREMIUM_SUBHEADLINE } from "@/lib/premium-value-stack";
 import { getPremiumCheckoutUrl, PREMIUM_PROMO_CODE } from "@/lib/pricing-tiers";
 
-export const metadata: Metadata = {
-  title: "Trading Tools for the 7-Day Prop Firm Playbook | Quicksilver",
+import { rankingPageMetadata } from "@/lib/seo/page-metadata";
+
+export const metadata: Metadata = rankingPageMetadata({
+  title: "Prop Firm Trading Tools: Risk, Consistency & Playbook",
   description:
-    "Nine planning engines power the Quicksilver 7-day prop firm challenge playbook. Premium unlocks expectancy, risk, survival sims & daily execution tasks.",
-};
+    "Nine planning tools for prop firm challenges: Risk Matrix, Prop Survival Monte Carlo, Edge Confluence, expectancy, and 7-day playbook execution.",
+  path: "/tools",
+  keywords: [
+    "prop firm risk calculator",
+    "prop firm consistency calculator",
+    "trading position size tool",
+    "Monte Carlo prop firm",
+  ],
+});
 
 export default function ToolsHubPage() {
   return (

@@ -15,6 +15,7 @@ import {
 } from "@/components/seo/authority/AuthorityArticleSections";
 import { AuthorityPillarCTA } from "@/components/seo/authority/AuthorityPillarCTA";
 import { Badge } from "@/components/ui/Badge";
+import { rankingPageMetadata, SEO_CONTENT_REFRESHED } from "@/lib/seo/page-metadata";
 
 export function generateStaticParams() {
   return PILLAR_PAGES.map((p) => ({ slug: p.slug }));
@@ -27,15 +28,19 @@ export function generateMetadata({
 }): Metadata {
   const pillar = getPillarBySlug(params.slug);
   if (!pillar) return { title: "Not Found" };
-  return {
-    title: pillar.title,
+  return rankingPageMetadata({
+    title: pillar.title.replace(/\s*\|\s*Quicksilver.*$/i, "").slice(0, 65),
     description: pillar.metaDescription,
-    openGraph: {
-      title: pillar.title,
-      description: pillar.metaDescription,
-      type: "article",
-    },
-  };
+    path: `/guides/pillar/${pillar.slug}`,
+    type: "article",
+    publishedAt: pillar.publishedAt,
+    keywords: [
+      "7 day prop firm playbook",
+      "prop firm challenge",
+      "consistency rule",
+      pillar.h1,
+    ],
+  });
 }
 
 export default function PillarGuidePage({ params }: { params: { slug: string } }) {
@@ -50,6 +55,7 @@ export default function PillarGuidePage({ params }: { params: { slug: string } }
       description: pillar.metaDescription,
       slug: pillar.slug,
       publishedAt: pillar.publishedAt,
+      dateModified: SEO_CONTENT_REFRESHED,
       pathPrefix: "/guides/pillar",
     }),
     faqJsonLd(pillar.faqs),

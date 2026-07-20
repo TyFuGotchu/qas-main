@@ -23,11 +23,11 @@ const siteUrl =
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Quicksilver Algo | Prop Firm Tools & Edge Radar",
+    default: "Pass Prop Firm Challenges in 7 Days | Quicksilver Algo",
     template: "%s | Quicksilver Algo",
   },
   description:
-    "Prop firm challenge playbook, quant planning tools, Chart Academy, and Edge Radar sports prop scanner. Free demos and Premium access.",
+    "7-Day Prop Firm Playbook, consistency & risk tools, Chart Academy, and Edge Radar props scanner. Built for FTMO, Apex, and funded traders.",
   icons: {
     icon: [{ url: "/icon.png", type: "image/png", sizes: "512x512" }],
     apple: [{ url: "/apple-icon.png", type: "image/png", sizes: "180x180" }],
@@ -36,14 +36,20 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "Quicksilver Algo Systems",
-    title: "Quicksilver Algo | Prop Firm Tools & Edge Radar",
+    title: "Pass Prop Firm Challenges in 7 Days | Quicksilver Algo",
     description:
-      "Pass prop firm challenges with the 7-Day Playbook. Scan player prop line lag with Edge Radar. Free demos included.",
+      "Day-by-day prop firm playbook, planning tools, and live prop scanner. Free demos included.",
     images: [{ url: "/icon.png", width: 512, height: 512, alt: "Quicksilver Algo Systems" }],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+    },
   },
 };
 

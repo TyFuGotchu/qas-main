@@ -5,9 +5,11 @@ import { PremiumValueStack } from "@/components/tools/PremiumValueStack";
 import { PropFirmTimeline } from "@/components/academy/PropFirmTimeline";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
+import { JsonLdScript } from "@/components/seo/JsonLdScript";
 import {
   PLAYBOOK_LAUNCH_FAQS,
   PLAYBOOK_LAUNCH_HERO,
+  PLAYBOOK_LAUNCH_PATH,
   PLAYBOOK_LAUNCH_STEPS,
   PLAYBOOK_LAUNCH_SUBHERO,
   PLAYBOOK_LAUNCH_TAGLINE,
@@ -20,30 +22,58 @@ import {
 import { MoneyBackGuarantee } from "@/components/marketing/MoneyBackGuarantee";
 import { PremiumEverythingIncluded } from "@/components/marketing/PremiumEverythingIncluded";
 import { getPremiumCheckoutUrl, PREMIUM_PROMO_CODE } from "@/lib/pricing-constants";
+import { rankingPageMetadata } from "@/lib/seo/page-metadata";
+import { breadcrumbJsonLd, faqJsonLd, howToJsonLd } from "@/lib/seo/json-ld";
 
-export const metadata: Metadata = {
-  title: "7-Day Prop Firm Playbook Launch — FIRST100 | Quicksilver",
+export const metadata: Metadata = rankingPageMetadata({
+  title: "How to Pass a Prop Firm Challenge in 7 Days | Playbook",
   description:
-    "Official launch: pass your prop firm challenge in 7 days with daily profit caps and consistency rules. Free preview. FIRST100 = $89.99 first month.",
-  openGraph: {
-    title: "Pass Your Prop Firm Challenge in 7 Days — Launch",
-    description:
-      "Day-by-day playbook with profit caps, 20% consistency guardrails, and Premium challenge tracker.",
-  },
-};
+    "Step-by-step 7-day prop firm challenge plan: daily profit caps, 20% consistency rule, risk limits for FTMO & funded accounts. Free preview + FIRST100.",
+  path: PLAYBOOK_LAUNCH_PATH,
+  keywords: [
+    "pass prop firm challenge in 7 days",
+    "prop firm consistency rule",
+    "FTMO challenge plan",
+    "7 day prop firm playbook",
+    "prop firm profit target",
+  ],
+});
 
 export default function PlaybookLaunchPage() {
   const premiumUrl = getPremiumCheckoutUrl(true);
 
+  const jsonLd = [
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "7-Day Prop Firm Playbook", path: PLAYBOOK_LAUNCH_PATH },
+    ]),
+    howToJsonLd({
+      name: "How to Pass a Prop Firm Challenge in 7 Days",
+      description:
+        "Use daily profit caps, consistency math, and risk limits to pass a prop firm challenge in one week.",
+      path: PLAYBOOK_LAUNCH_PATH,
+      totalTime: "P7D",
+      steps: PLAYBOOK_LAUNCH_STEPS.map((s) => ({
+        name: s.title,
+        text: s.description,
+      })),
+    }),
+    faqJsonLd([...PLAYBOOK_LAUNCH_FAQS]),
+  ];
+
   return (
     <div className="space-y-12">
+      <JsonLdScript data={jsonLd} />
       <header className="text-center">
         <Badge variant="success" className="mb-4">
           {PLAYBOOK_LAUNCH_TAGLINE}
         </Badge>
         <h1 className="font-mono text-3xl font-bold text-slate-50 sm:text-4xl lg:text-5xl">
-          {PLAYBOOK_LAUNCH_HERO}
+          How to Pass a Prop Firm Challenge in 7 Days
         </h1>
+        <p className="mx-auto mt-3 max-w-2xl font-mono text-sm text-cyan-400/90">
+          {PLAYBOOK_LAUNCH_HERO}
+        </p>
         <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-slate-400">
           {PLAYBOOK_LAUNCH_SUBHERO}
         </p>

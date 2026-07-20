@@ -18,8 +18,8 @@ import {
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://quicksilveralgo.com";
 
-/** Stable lastmod — do not use new Date() on every request (crawl budget noise). */
-const SITE_UPDATED = new Date("2026-07-19");
+/** Stable lastmod — bump when money-page content materially improves. */
+const SITE_UPDATED = new Date("2026-07-20");
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [

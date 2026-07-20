@@ -19,52 +19,22 @@ import {
 } from "@/lib/seo/json-ld";
 import { EDGE_RADAR_PATH } from "@/lib/edge-radar";
 import { EDGE_RADAR_HUB_PATH } from "@/lib/seo/edge-radar-authority";
+import { rankingPageMetadata } from "@/lib/seo/page-metadata";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://quicksilveralgo.com";
-
-export const metadata: Metadata = {
-  title: {
-    absolute:
-      "Quicksilver Algo — Prop Firm Playbook, Trading Tools & Edge Radar Props Scanner",
-  },
+export const metadata: Metadata = rankingPageMetadata({
+  title: "Pass Prop Firm Challenges in 7 Days | Quicksilver Algo",
   description:
-    "Pass prop firm challenges with the 7-Day Playbook, 9 quant planning tools, Chart Academy, and Edge Radar live sports prop scanner. Free demos. FIRST100 promo.",
+    "7-Day Prop Firm Playbook, risk & consistency tools, Chart Academy, TradeLocker bot, and Edge Radar props scanner. Free demos. FIRST100 first month.",
+  path: "/",
   keywords: [
     "prop firm challenge playbook",
-    "pass FTMO challenge",
-    "7 day prop firm plan",
+    "pass prop firm challenge",
+    "FTMO challenge plan",
+    "prop firm consistency rule",
     "trading risk calculator",
     "player props scanner",
-    "DraftKings FanDuel line lag",
-    "Chart Academy",
-    "Quicksilver Algo",
   ],
-  alternates: { canonical: SITE_URL },
-  openGraph: {
-    type: "website",
-    url: SITE_URL,
-    title: "Quicksilver Algo — Prop Firm Tools & Sports Props Edge",
-    description:
-      "7-Day Prop Firm Playbook, institutional planning tools, and Edge Radar +EV prop scanner.",
-    siteName: "Quicksilver Algo Systems",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Quicksilver Algo Systems",
-    description:
-      "Prop firm playbook, quant tools, Chart Academy, and Edge Radar sports props scanner.",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-snippet": -1,
-      "max-image-preview": "large",
-    },
-  },
-};
+});
 
 const SEO_HUB_LINKS = [
   {

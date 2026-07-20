@@ -153,6 +153,7 @@ export function authorityArticleJsonLd(params: {
   publishedAt: string;
   pathPrefix: string;
   articleSection?: string;
+  dateModified?: string;
 }) {
   return {
     "@context": "https://schema.org",
@@ -161,7 +162,7 @@ export function authorityArticleJsonLd(params: {
     description: params.description,
     url: `${SITE_URL}${params.pathPrefix}/${params.slug}`,
     datePublished: params.publishedAt,
-    dateModified: params.publishedAt,
+    dateModified: params.dateModified ?? params.publishedAt,
     author: AUTHORITY_AUTHOR,
     publisher: {
       ...PUBLISHER,
@@ -172,6 +173,29 @@ export function authorityArticleJsonLd(params: {
     },
     mainEntityOfPage: `${SITE_URL}${params.pathPrefix}/${params.slug}`,
     articleSection: params.articleSection ?? "Prop Firm Trading",
+  };
+}
+
+export function howToJsonLd(params: {
+  name: string;
+  description: string;
+  path: string;
+  steps: { name: string; text: string }[];
+  totalTime?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: params.name,
+    description: params.description,
+    url: `${SITE_URL}${params.path}`,
+    totalTime: params.totalTime ?? "P7D",
+    step: params.steps.map((step, index) => ({
+      "@type": "HowToStep",
+      position: index + 1,
+      name: step.name,
+      text: step.text,
+    })),
   };
 }
 

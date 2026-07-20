@@ -15,6 +15,7 @@ import {
 import { AuthorityPillarCTA } from "@/components/seo/authority/AuthorityPillarCTA";
 import { SeoLandingCTA } from "@/components/seo/landing/SeoLandingCTA";
 import { Badge } from "@/components/ui/Badge";
+import { rankingPageMetadata, SEO_CONTENT_REFRESHED } from "@/lib/seo/page-metadata";
 
 export function generateStaticParams() {
   return PROP_FIRM_CLUSTER_PAGES.map((p) => ({ slug: p.slug }));
@@ -27,15 +28,14 @@ export function generateMetadata({
 }): Metadata {
   const page = getClusterPageBySlug(params.slug);
   if (!page) return { title: "Not Found" };
-  return {
-    title: page.title,
+  return rankingPageMetadata({
+    title: page.title.replace(/\s*\|\s*Quicksilver.*$/i, "").slice(0, 60),
     description: page.metaDescription,
-    openGraph: {
-      title: page.title,
-      description: page.metaDescription,
-      type: "article",
-    },
-  };
+    path: `/prop-firm/${page.slug}`,
+    type: "article",
+    publishedAt: page.publishedAt,
+    keywords: [page.firmName, page.h1, "prop firm challenge", page.topic],
+  });
 }
 
 export default function PropFirmClusterPage({
@@ -52,6 +52,7 @@ export default function PropFirmClusterPage({
       description: page.metaDescription,
       slug: page.slug,
       publishedAt: page.publishedAt,
+      dateModified: SEO_CONTENT_REFRESHED,
       pathPrefix: "/prop-firm",
     }),
     faqJsonLd(page.faqs),

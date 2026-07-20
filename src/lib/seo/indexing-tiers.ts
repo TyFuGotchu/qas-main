@@ -26,15 +26,33 @@ export function isIndexableMarket(slug: string | null | undefined): boolean {
   return slug != null && INDEXABLE_MARKET_SLUGS.has(slug);
 }
 
-/** Core solution pages — exclude thin timeframe & prop×market combos */
+/**
+ * Core solution pages only — ranking quality over volume.
+ * Mass thin long-tail diluted average position (~55); keep high-intent combos.
+ */
 export function isIndexableSolution(page: SeoLandingPage): boolean {
   if (page.timeframe) return false;
   if (page.propFirm && page.market) return false;
+
+  // Prop firm × topic: only challenge-critical topics
+  if (page.propFirm && page.topic && !page.market) {
+    return ["prop-firm-challenge", "prop-firm-consistency", "risk-management"].includes(
+      page.topic.slug
+    );
+  }
+
+  // Market × topic: high-volume markets only
+  if (page.market && page.topic) {
+    return isIndexableMarket(page.market.slug);
+  }
+
+  // Topic-only or market-only hubs
   return true;
 }
 
 export function isIndexableLearn(page: LessonLandingPage): boolean {
   if (page.variant === "prop-firm") return false;
+  // Only top markets — reduce thin learn URLs in the index
   return isIndexableMarket(page.market?.slug);
 }
 
