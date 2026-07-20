@@ -11,14 +11,20 @@ export interface TradingBotExternalLink {
   external?: boolean;
 }
 
+/** Single bot parameter: name, exact value, and plain-language description. */
+export interface QuantProtocolSetting {
+  label: string;
+  value: string;
+  description: string;
+}
+
 /** Per-asset recommended bot parameters for Quicksilver Quant Protocol. */
 export interface QuantProtocolAssetSettings {
   /** Display symbol e.g. XAUUSD, NAS100 */
   asset: string;
   /** Optional longer name */
   name?: string;
-  /** Key/value settings the user will fill (timeframe, risk %, SL, etc.) */
-  settings: { label: string; value: string }[];
+  settings: QuantProtocolSetting[];
   notes?: string;
 }
 
@@ -35,19 +41,69 @@ export const QUANT_PROTOCOL = {
 
 /**
  * Asset-specific settings for Quant Protocol.
- * Populated when you provide the exact parameters per instrument.
+ * Add new instruments over time — each setting includes label, value, and description.
  */
 export const QUANT_PROTOCOL_ASSET_SETTINGS: QuantProtocolAssetSettings[] = [
-  // Will be filled from your next message, e.g.:
-  // {
-  //   asset: "XAUUSD",
-  //   name: "Gold",
-  //   settings: [
-  //     { label: "Timeframe", value: "M5" },
-  //     { label: "Risk per trade", value: "0.5%" },
-  //   ],
-  //   notes: "Avoid high-impact news windows.",
-  // },
+  {
+    asset: "NAS100",
+    name: "Nasdaq 100",
+    settings: [
+      {
+        label: "Asset / Instrument",
+        value: "NAS100",
+        description:
+          "TradeLocker symbol to attach Quant Protocol to for this configuration.",
+      },
+      {
+        label: "Base Equity",
+        value: "100000",
+        description:
+          "Reference account equity used as the baseline for dynamic position sizing. When current equity equals this value, position size equals Base Lot Size.",
+      },
+      {
+        label: "Breakout Channel Period",
+        value: "55",
+        description:
+          "Number of prior bars used to compute the highest high and lowest low that define the straddle's upper and lower breakout barriers.",
+      },
+      {
+        label: "ATR Period",
+        value: "40",
+        description:
+          "Lookback period (in bars) for the Average True Range indicator, used to size the stop-loss and take-profit.",
+      },
+      {
+        label: "Stop Loss (ATR Multiple)",
+        value: "1.8",
+        description:
+          "Distance of the hard stop-loss from entry price, expressed as a multiple of ATR.",
+      },
+      {
+        label: "Take Profit (ATR Multiple)",
+        value: "2.1",
+        description:
+          "Distance of the hard take-profit from the entry price, expressed as a multiple of ATR.",
+      },
+      {
+        label: "ADX Period",
+        value: "18",
+        description:
+          "Lookback period (in bars) for the Average Directional Index, used to detect low-trend 'squeeze' conditions where breakout straddles are armed.",
+      },
+      {
+        label: "ADX Squeeze Threshold",
+        value: "33",
+        description:
+          "ADX value below which the market is considered to be in a low-trend squeeze. Straddle entry orders are only placed when ADX is under this threshold.",
+      },
+      {
+        label: "Maximum Concurrent Positions",
+        value: "1",
+        description:
+          "Maximum number of layers the strategy may hold open simultaneously in a strong trend.",
+      },
+    ],
+  },
 ];
 
 /** Hub + external links for the Trading Bots menu. */
