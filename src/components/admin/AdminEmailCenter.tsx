@@ -69,6 +69,7 @@ export function AdminEmailCenter() {
   const [sending, setSending] = useState(false);
   const [previewCount, setPreviewCount] = useState<number | null>(null);
   const [replyBody, setReplyBody] = useState("");
+  const [syncing, setSyncing] = useState(false);
   const [form, setForm] = useState({
     subject: "",
     body: "",
@@ -211,6 +212,31 @@ export function AdminEmailCenter() {
     });
     setSelectedId(null);
     void loadAll();
+  }
+
+  async function syncFromResend() {
+    setSyncing(true);
+    setMessage("");
+    try {
+      const res = await fetch("/api/admin/email/inbox/sync", { method: "POST" });
+      const data = await res.json();
+      if (res.ok) {
+        setMessage(
+          `Resend sync: listed ${data.listed}, imported ${data.imported}, skipped ${data.skipped}${
+            data.errors?.length ? ` · errors: ${data.errors.slice(0, 2).join("; ")}` : ""
+          }${
+            data.listed === 0
+              ? " — Resend has 0 received emails. Check MX Receiving (not just sending DNS)."
+              : ""
+          }`
+        );
+        void loadAll();
+      } else {
+        setMessage(data.error ?? "Sync failed");
+      }
+    } finally {
+      setSyncing(false);
+    }
   }
 
   return (
@@ -359,11 +385,31 @@ export function AdminEmailCenter() {
             </h4>
           </CardHeader>
           <CardContent className="space-y-3">
+            <div className="flex flex-wrap gap-2">
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                onClick={() => void syncFromResend()}
+                disabled={syncing}
+              >
+                {syncing ? "Syncing…" : "Sync inbox from Resend"}
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => void loadAll()}
+              >
+                Refresh
+              </Button>
+            </div>
             <div className="max-h-48 space-y-1 overflow-y-auto">
               {inbox.length === 0 ? (
                 <p className="font-mono text-xs text-slate-600">
-                  No inbound mail yet. Configure Resend receiving + webhook (see setup
-                  below).
+                  No inbound mail in the app yet. Click &quot;Sync inbox from Resend&quot; if
+                  mail appears under Resend → Emails → Receiving. If listed=0, MX Receiving is
+                  not delivering to Resend (see setup).
                 </p>
               ) : (
                 inbox.map((email) => (
@@ -493,35 +539,53 @@ export function AdminEmailCenter() {
           </h4>
         </CardHeader>
         <CardContent className="space-y-2 font-mono text-xs leading-relaxed text-slate-500">
-          <p>
-            1. In Resend → Domains → enable <strong className="text-slate-300">Receiving</strong>{" "}
-            for quicksilveralgo.com (add the MX record Resend shows — if you already use Google/Microsoft
-            mail on the root domain, use a subdomain like{" "}
-            <code className="text-cyan-400">mail.quicksilveralgo.com</code> or forward
-            supportteam@ → Resend).
+          <p className="text-amber-300/90">
+            Sending DNS (SPF/DKIM) ≠ receiving. Inbound needs a separate{" "}
+            <strong className="text-slate-200">MX receiving record</strong> and the webhook
+            event <code className="text-cyan-400">email.received</code>.
           </p>
           <p>
-            2. Resend → Webhooks → Add webhook → event{" "}
-            <code className="text-cyan-400">email.received</code>
+            1. Resend → Domains → open quicksilveralgo.com → turn on{" "}
+            <strong className="text-slate-300">Receiving</strong> → add the MX record they show
+            → wait until Receiving shows <strong className="text-slate-300">Verified</strong>.
           </p>
           <p>
-            3. Endpoint URL:{" "}
+            2. If Google Workspace / Outlook already uses MX on the root domain, Resend MX must
+            be the <strong className="text-slate-200">lowest priority</strong> (or mail never hits
+            Resend). Safer: use subdomain{" "}
+            <code className="text-cyan-400">support.quicksilveralgo.com</code> with Resend MX,
+            address <code className="text-cyan-400">team@support.quicksilveralgo.com</code>, or
+            forward supportteam@ from Google → that address.
+          </p>
+          <p>
+            3. Resend → Emails → <strong className="text-slate-300">Receiving</strong> tab — after
+            a test send, does the message appear there? If no, MX is wrong. If yes, click{" "}
+            <strong className="text-slate-300">Sync inbox from Resend</strong> above.
+          </p>
+          <p>
+            4. Webhook: event <code className="text-cyan-400">email.received</code> → URL{" "}
             <code className="break-all text-cyan-400">
               {status?.webhookUrl ?? "https://quicksilveralgo.com/api/webhooks/resend"}
             </code>
           </p>
           <p>
-            4. Copy the webhook signing secret into Railway as{" "}
-            <code className="text-cyan-400">RESEND_WEBHOOK_SECRET</code>
+            5. Railway: <code className="text-cyan-400">RESEND_WEBHOOK_SECRET</code> = signing
+            secret from that webhook (not the API key). Then redeploy.
           </p>
           <p>
-            5. Optional:{" "}
-            <code className="text-cyan-400">
-              RESEND_SUPPORT_FROM=Quicksilver Support &lt;supportteam@quicksilveralgo.com&gt;
-            </code>
+            6. Health check: open{" "}
+            <a
+              href="/api/webhooks/resend"
+              target="_blank"
+              rel="noreferrer"
+              className="text-cyan-400 hover:underline"
+            >
+              /api/webhooks/resend
+            </a>{" "}
+            — should show hasApiKey / hasWebhookSecret true.
           </p>
           <p className="text-slate-600">
-            Webhook secret configured:{" "}
+            Webhook secret on server:{" "}
             {status?.webhookSecretConfigured ? (
               <span className="text-emerald-400">yes</span>
             ) : (
