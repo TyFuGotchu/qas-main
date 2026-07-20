@@ -17,8 +17,11 @@ import {
   TrendingUp,
   Target,
   Radar,
+  Bot,
+  Cpu,
   X,
 } from "lucide-react";
+import { TRADING_BOTS_NAV } from "@/lib/trading-bots";
 
 interface NavItem {
   href: string;
@@ -26,19 +29,49 @@ interface NavItem {
   icon: React.ElementType;
 }
 
-const navItems: NavItem[] = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/dashboard/playbook", label: "7-Day Playbook", icon: Target },
-  { href: "/dashboard/academy", label: "Chart Academy", icon: BookOpen },
-  { href: "/dashboard/trade-together", label: "Trade Together", icon: Users },
-  { href: "/dashboard/bot", label: "Trading", icon: LineChart },
-  { href: "/dashboard/edge-radar", label: "Edge Radar", icon: Radar },
-  { href: "/dashboard/live-growth", label: "Live Growth", icon: TrendingUp },
-  { href: "/dashboard/prop-command", label: "Prop OS", icon: Shield },
-  { href: "/dashboard/journal", label: "Journal", icon: BookMarked },
-  { href: "/dashboard/tools", label: "Trading Tools", icon: Wrench },
-  { href: "/dashboard/support", label: "Support", icon: HelpCircle },
-  { href: "/dashboard/upgrade", label: "Upgrade Tier", icon: ArrowUpCircle },
+interface NavSection {
+  title?: string;
+  items: NavItem[];
+}
+
+const navSections: NavSection[] = [
+  {
+    items: [
+      { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+      { href: "/dashboard/playbook", label: "7-Day Playbook", icon: Target },
+      { href: "/dashboard/academy", label: "Chart Academy", icon: BookOpen },
+      { href: "/dashboard/trade-together", label: "Trade Together", icon: Users },
+    ],
+  },
+  {
+    title: "Trading Bots",
+    items: [
+      { href: TRADING_BOTS_NAV.hub, label: "Bots Overview", icon: Bot },
+      {
+        href: TRADING_BOTS_NAV.quantProtocol,
+        label: "Quant Protocol",
+        icon: Cpu,
+      },
+    ],
+  },
+  {
+    title: "Live Trading",
+    items: [
+      { href: "/dashboard/bot", label: "TradeLocker Terminal", icon: LineChart },
+      { href: "/dashboard/edge-radar", label: "Edge Radar", icon: Radar },
+      { href: "/dashboard/live-growth", label: "Live Growth", icon: TrendingUp },
+      { href: "/dashboard/prop-command", label: "Prop OS", icon: Shield },
+      { href: "/dashboard/journal", label: "Journal", icon: BookMarked },
+    ],
+  },
+  {
+    title: "Tools & Account",
+    items: [
+      { href: "/dashboard/tools", label: "Trading Tools", icon: Wrench },
+      { href: "/dashboard/support", label: "Support", icon: HelpCircle },
+      { href: "/dashboard/upgrade", label: "Upgrade Tier", icon: ArrowUpCircle },
+    ],
+  },
 ];
 
 interface SidebarProps {
@@ -48,6 +81,11 @@ interface SidebarProps {
 
 export function Sidebar({ mobileOpen = false, onNavigate }: SidebarProps) {
   const pathname = usePathname();
+
+  function isActive(href: string): boolean {
+    if (href === "/dashboard") return pathname === "/dashboard";
+    return pathname === href || pathname.startsWith(`${href}/`);
+  }
 
   return (
     <aside
@@ -81,35 +119,44 @@ export function Sidebar({ mobileOpen = false, onNavigate }: SidebarProps) {
         </button>
       </div>
 
-      <nav className="flex-1 space-y-1 overflow-y-auto p-4">
-        {navItems.map((item) => {
-          const isActive =
-            pathname === item.href ||
-            (item.href !== "/dashboard" && pathname.startsWith(item.href));
-          const Icon = item.icon;
+      <nav className="flex-1 space-y-5 overflow-y-auto p-4">
+        {navSections.map((section, sectionIndex) => (
+          <div key={section.title ?? `section-${sectionIndex}`}>
+            {section.title && (
+              <p className="mb-2 px-3 font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-600">
+                {section.title}
+              </p>
+            )}
+            <div className="space-y-1">
+              {section.items.map((item) => {
+                const active = isActive(item.href);
+                const Icon = item.icon;
 
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={onNavigate}
-              className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2.5 font-mono text-xs uppercase tracking-wider transition-all",
-                isActive
-                  ? "border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 shadow-[0_0_20px_rgba(0,229,255,0.08)]"
-                  : "border border-transparent text-slate-500 hover:border-slate-700/50 hover:bg-slate-800/40 hover:text-slate-300"
-              )}
-            >
-              <Icon className="h-4 w-4 shrink-0" />
-              <span className="flex-1">{item.label}</span>
-            </Link>
-          );
-        })}
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={onNavigate}
+                    className={cn(
+                      "flex items-center gap-3 rounded-lg px-3 py-2.5 font-mono text-xs uppercase tracking-wider transition-all",
+                      active
+                        ? "border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 shadow-[0_0_20px_rgba(0,229,255,0.08)]"
+                        : "border border-transparent text-slate-500 hover:border-slate-700/50 hover:bg-slate-800/40 hover:text-slate-300"
+                    )}
+                  >
+                    <Icon className="h-4 w-4 shrink-0" />
+                    <span className="flex-1">{item.label}</span>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </nav>
 
       <div className="border-t border-cyan-500/10 p-4">
         <div className="qs-glass-panel rounded-lg p-3">
-          <p className="text-[10px] font-mono uppercase tracking-widest text-slate-600">
+          <p className="font-mono text-[10px] uppercase tracking-widest text-slate-600">
             System Status
           </p>
           <div className="mt-2 flex items-center gap-2">

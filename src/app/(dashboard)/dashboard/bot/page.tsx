@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { TRADELOCKER_BOT_URL } from "@/lib/constants";
+import { TRADING_BOTS_NAV } from "@/lib/trading-bots";
 import { TradeLockerPanel } from "@/components/tradelocker/TradeLockerPanel";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
@@ -9,10 +11,18 @@ export default function TradingPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="font-mono text-2xl font-bold text-slate-200">Trading</h2>
+        <h2 className="font-mono text-2xl font-bold text-slate-200">
+          TradeLocker Terminal
+        </h2>
         <p className="mt-1 font-mono text-sm text-slate-500">
           Connect your TradeLocker account, manage positions, and use four pro
           tools — Risk Guard, Position Sizer, Growth Coach, and Exposure Scanner.
+        </p>
+        <p className="mt-2 font-mono text-xs text-slate-600">
+          Looking for bots & settings?{" "}
+          <Link href={TRADING_BOTS_NAV.hub} className="text-cyan-400 hover:underline">
+            Open Trading Bots →
+          </Link>
         </p>
       </div>
 
@@ -41,17 +51,23 @@ export default function TradingPage() {
               your live terminal — no local installs required.
             </p>
           </div>
-          <a
-            href={TRADELOCKER_BOT_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="shrink-0"
-          >
-            <Button variant="primary" size="lg">
-              <ExternalLink className="h-4 w-4" />
-              Open TradeLocker Hub
-            </Button>
-          </a>
+          <div className="flex shrink-0 flex-col gap-2">
+            <Link href={TRADING_BOTS_NAV.quantProtocol}>
+              <Button variant="primary" size="lg">
+                Bot settings & setup
+              </Button>
+            </Link>
+            <a
+              href={TRADELOCKER_BOT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button variant="secondary" size="md">
+                <ExternalLink className="h-4 w-4" />
+                Open TradeLocker Hub
+              </Button>
+            </a>
+          </div>
         </CardContent>
       </Card>
 
