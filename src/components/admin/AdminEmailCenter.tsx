@@ -79,11 +79,13 @@ export function AdminEmailCenter() {
 
   const selected = inbox.find((e) => e.id === selectedId) ?? null;
 
-  const loadAll = useCallback(async () => {
+  const loadAll = useCallback(async (opts?: { sync?: boolean }) => {
+    const sync = opts?.sync !== false;
     const [statusRes, campaignsRes, inboxRes] = await Promise.all([
       fetch("/api/admin/email/status"),
       fetch("/api/admin/email/bulk"),
-      fetch("/api/admin/email/inbox"),
+      // Always pull from Resend when opening Email Center so Resend UI and site stay aligned
+      fetch(`/api/admin/email/inbox${sync ? "?sync=1" : ""}`),
     ]);
     if (statusRes.ok) setStatus(await statusRes.json());
     if (campaignsRes.ok) {
@@ -94,6 +96,25 @@ export function AdminEmailCenter() {
       const data = await inboxRes.json();
       setInbox(data.emails ?? []);
       setUnreadCount(data.unreadCount ?? 0);
+      if (data.sync) {
+        setMessage(
+          `Resend sync: listed ${data.sync.listed}, imported ${data.sync.imported}, skipped ${data.sync.skipped}${
+            data.sync.debug ? ` (${data.sync.debug})` : ""
+          }${
+            data.sync.errors?.length
+              ? ` · ${data.sync.errors.slice(0, 2).join("; ")}`
+              : ""
+          }`
+        );
+      } else if (data.syncError) {
+        setMessage(`Resend sync error: ${data.syncError}`);
+      }
+    } else {
+      const data = await inboxRes.json().catch(() => ({}));
+      setMessage(
+        (data as { error?: string }).error ??
+          "Failed to load inbox (database table may be missing — redeploy)"
+      );
     }
   }, []);
 
@@ -218,22 +239,7 @@ export function AdminEmailCenter() {
     setSyncing(true);
     setMessage("");
     try {
-      const res = await fetch("/api/admin/email/inbox/sync", { method: "POST" });
-      const data = await res.json();
-      if (res.ok) {
-        setMessage(
-          `Resend sync: listed ${data.listed}, imported ${data.imported}, skipped ${data.skipped}${
-            data.errors?.length ? ` · errors: ${data.errors.slice(0, 2).join("; ")}` : ""
-          }${
-            data.listed === 0
-              ? " — Resend has 0 received emails. Check MX Receiving (not just sending DNS)."
-              : ""
-          }`
-        );
-        void loadAll();
-      } else {
-        setMessage(data.error ?? "Sync failed");
-      }
+      await loadAll({ sync: true });
     } finally {
       setSyncing(false);
     }
