@@ -135,6 +135,12 @@ export async function sendEngagementDripStep(params: {
     to: params.email,
     subject: drip.subject,
     html: drip.buildHtml(params.email, lessons),
+    idempotencyKey: `engagement-drip/${params.leadId}/step-${params.step}`,
+    tags: [
+      { name: "category", value: "engagement-drip" },
+      { name: "step", value: String(params.step) },
+      { name: "lead_id", value: params.leadId.slice(0, 256) },
+    ],
   });
 
   if (ok) {

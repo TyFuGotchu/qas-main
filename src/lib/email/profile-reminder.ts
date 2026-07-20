@@ -40,6 +40,11 @@ export async function triggerProfileSetupReminder(params: {
         </p>
         <p style="color:#64748b;font-size:12px;margin-top:24px;">Takes about 60 seconds. Pick your prop firm preset or set custom limits.</p>
       </div>`,
+    idempotencyKey: `profile-reminder/${params.userId}`,
+    tags: [
+      { name: "category", value: "profile-reminder" },
+      { name: "user_id", value: params.userId.slice(0, 256) },
+    ],
   });
 
   if (ok) {
