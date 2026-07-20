@@ -10,6 +10,14 @@ import { Badge } from "@/components/ui/Badge";
 
 interface EmailStatus {
   configured: boolean;
+  diagnostics?: {
+    configured: boolean;
+    source: string | null;
+    length: number;
+    prefix: string | null;
+    looksValid: boolean;
+    hint: string | null;
+  };
   webhookSecretConfigured: boolean;
   from: string;
   supportFrom: string;
@@ -227,26 +235,43 @@ export function AdminEmailCenter() {
       )}
 
       {status && (
-        <div className="grid gap-3 font-mono text-xs text-slate-400 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-lg border border-slate-800/60 bg-slate-950/40 p-3">
-            <p className="text-slate-600">Resend API</p>
-            <p className={status.configured ? "text-emerald-400" : "text-rose-400"}>
-              {status.configured ? "Connected" : "Not configured"}
+        <>
+          <div className="grid gap-3 font-mono text-xs text-slate-400 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="rounded-lg border border-slate-800/60 bg-slate-950/40 p-3">
+              <p className="text-slate-600">Resend API</p>
+              <p className={status.configured ? "text-emerald-400" : "text-rose-400"}>
+                {status.configured
+                  ? `Connected${status.diagnostics?.prefix ? ` (${status.diagnostics.prefix})` : ""}`
+                  : "Not configured"}
+              </p>
+            </div>
+            <div className="rounded-lg border border-slate-800/60 bg-slate-950/40 p-3">
+              <p className="text-slate-600">Broadcast from</p>
+              <p className="truncate text-slate-300">{status.from}</p>
+            </div>
+            <div className="rounded-lg border border-slate-800/60 bg-slate-950/40 p-3">
+              <p className="text-slate-600">Support from</p>
+              <p className="truncate text-slate-300">{status.supportFrom}</p>
+            </div>
+            <div className="rounded-lg border border-slate-800/60 bg-slate-950/40 p-3">
+              <p className="text-slate-600">Unread inbox</p>
+              <p className="text-amber-400">{unreadCount}</p>
+            </div>
+          </div>
+          {!status.configured && status.diagnostics?.hint && (
+            <p className="rounded border border-rose-500/30 bg-rose-500/10 px-3 py-2 font-mono text-xs text-rose-300">
+              {status.diagnostics.hint} Exact name required:{" "}
+              <code className="text-rose-200">RESEND_API_KEY</code> on the{" "}
+              <strong>same Railway service</strong> that runs the web app, then{" "}
+              <strong>Redeploy</strong>.
             </p>
-          </div>
-          <div className="rounded-lg border border-slate-800/60 bg-slate-950/40 p-3">
-            <p className="text-slate-600">Broadcast from</p>
-            <p className="truncate text-slate-300">{status.from}</p>
-          </div>
-          <div className="rounded-lg border border-slate-800/60 bg-slate-950/40 p-3">
-            <p className="text-slate-600">Support from</p>
-            <p className="truncate text-slate-300">{status.supportFrom}</p>
-          </div>
-          <div className="rounded-lg border border-slate-800/60 bg-slate-950/40 p-3">
-            <p className="text-slate-600">Unread inbox</p>
-            <p className="text-amber-400">{unreadCount}</p>
-          </div>
-        </div>
+          )}
+          {status.configured && status.diagnostics && !status.diagnostics.looksValid && (
+            <p className="rounded border border-amber-500/30 bg-amber-500/10 px-3 py-2 font-mono text-xs text-amber-300">
+              {status.diagnostics.hint}
+            </p>
+          )}
+        </>
       )}
 
       <div className="grid gap-6 xl:grid-cols-2">

@@ -26,36 +26,107 @@ export interface SendEmailResult {
 }
 
 let resendClient: Resend | null = null;
+let resendClientKey: string | null = null;
+
+/** Strip accidental quotes/newlines from Railway/dashboard paste. */
+function cleanEnvValue(value: string | undefined): string {
+  if (!value) return "";
+  let v = value.trim();
+  // Remove wrapping single/double quotes people paste from docs
+  if (
+    (v.startsWith('"') && v.endsWith('"')) ||
+    (v.startsWith("'") && v.endsWith("'"))
+  ) {
+    v = v.slice(1, -1).trim();
+  }
+  return v;
+}
+
+/**
+ * Resolve Resend API key from env.
+ * Accepts RESEND_API_KEY (preferred) or RESEND_KEY (common typo/alias).
+ */
+export function getResendApiKey(): string {
+  return (
+    cleanEnvValue(process.env.RESEND_API_KEY) ||
+    cleanEnvValue(process.env.RESEND_KEY) ||
+    ""
+  );
+}
+
+export function getResendKeyDiagnostics(): {
+  configured: boolean;
+  source: "RESEND_API_KEY" | "RESEND_KEY" | null;
+  length: number;
+  /** Safe preview only — never the full secret */
+  prefix: string | null;
+  looksValid: boolean;
+  hint: string | null;
+} {
+  const primary = cleanEnvValue(process.env.RESEND_API_KEY);
+  const alias = cleanEnvValue(process.env.RESEND_KEY);
+  const key = primary || alias;
+  const source = primary
+    ? ("RESEND_API_KEY" as const)
+    : alias
+      ? ("RESEND_KEY" as const)
+      : null;
+
+  if (!key) {
+    return {
+      configured: false,
+      source: null,
+      length: 0,
+      prefix: null,
+      looksValid: false,
+      hint: "Variable RESEND_API_KEY is missing or empty on this Railway service. Add it under Variables, then Redeploy.",
+    };
+  }
+
+  const looksValid = key.startsWith("re_");
+  return {
+    configured: true,
+    source,
+    length: key.length,
+    prefix: key.slice(0, 5) + "…",
+    looksValid,
+    hint: looksValid
+      ? null
+      : "Key is set but does not start with re_ — double-check you pasted the Resend API key (not the webhook secret).",
+  };
+}
 
 export function getResendClient(): Resend | null {
-  const apiKey = process.env.RESEND_API_KEY?.trim();
+  const apiKey = getResendApiKey();
   if (!apiKey) return null;
-  if (!resendClient) {
+  // Recreate client if key changed after redeploy without cold start quirks
+  if (!resendClient || resendClientKey !== apiKey) {
     resendClient = new Resend(apiKey);
+    resendClientKey = apiKey;
   }
   return resendClient;
 }
 
 export function hasResendKey(): boolean {
-  return Boolean(process.env.RESEND_API_KEY?.trim());
+  return Boolean(getResendApiKey());
 }
 
 /** Verified production sender — never use onboarding@resend.dev in production. */
 export function getDefaultFromAddress(): string {
-  const from = process.env.RESEND_FROM_EMAIL?.trim();
+  const from = cleanEnvValue(process.env.RESEND_FROM_EMAIL);
   if (from) return from;
   return "Quicksilver Algo <onboarding@quicksilveralgo.com>";
 }
 
 /** Support team mailbox for inbound + support replies. */
 export function getSupportFromAddress(): string {
-  const from = process.env.RESEND_SUPPORT_FROM?.trim();
+  const from = cleanEnvValue(process.env.RESEND_SUPPORT_FROM);
   if (from) return from;
   return `Quicksilver Support <${SUPPORT_EMAIL}>`;
 }
 
 export function getDefaultReplyTo(): string {
-  return process.env.RESEND_REPLY_TO?.trim() || SUPPORT_EMAIL;
+  return cleanEnvValue(process.env.RESEND_REPLY_TO) || SUPPORT_EMAIL;
 }
 
 /**
