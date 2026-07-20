@@ -239,3 +239,39 @@ model EdgeRadarIngestRun {
   errors         Json     @default("[]")
   completedAt    DateTime @default(now())
 }
+
+model AdminBulkEmailCampaign {
+  id              String   @id @default(cuid())
+  subject         String
+  bodyHtml        String
+  audience        String
+  recipientCount  Int      @default(0)
+  sentCount       Int      @default(0)
+  failedCount     Int      @default(0)
+  status          String   @default("pending")
+  errors          Json     @default("[]")
+  createdByEmail  String?
+  createdAt       DateTime @default(now())
+  completedAt     DateTime?
+}
+
+model SupportInboundEmail {
+  id              String   @id @default(cuid())
+  resendEmailId   String   @unique
+  messageId       String?
+  fromAddress     String
+  toAddresses     Json     @default("[]")
+  subject         String
+  textBody        String?
+  htmlBody        String?
+  receivedAt      DateTime @default(now())
+  read            Boolean  @default(false)
+  archived        Boolean  @default(false)
+  repliedAt       DateTime?
+  replyResendId   String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([receivedAt])
+  @@index([read, archived])
+}

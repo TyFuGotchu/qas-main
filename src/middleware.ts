@@ -138,6 +138,7 @@ export async function middleware(request: NextRequest) {
   if (
     pathname.startsWith("/api/auth") ||
     pathname.startsWith("/api/webhooks/stripe") ||
+    pathname.startsWith("/api/webhooks/resend") ||
     pathname.startsWith("/api/engagement/capture")
   ) {
     return NextResponse.next();

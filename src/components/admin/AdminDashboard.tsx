@@ -9,6 +9,7 @@ import Button from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { TerminalPanel } from "@/components/ui/TerminalPanel";
 import { EdgeRadarAdminPanel } from "@/components/admin/EdgeRadarAdminPanel";
+import { AdminEmailCenter } from "@/components/admin/AdminEmailCenter";
 import { Users, Megaphone, Shield } from "lucide-react";
 
 interface AdminUser {
@@ -288,6 +289,8 @@ export function AdminDashboard() {
           )}
         </CardContent>
       </Card>
+
+      <AdminEmailCenter />
 
       <EdgeRadarAdminPanel />
 

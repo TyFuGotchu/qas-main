@@ -27,7 +27,7 @@ export interface SendEmailResult {
 
 let resendClient: Resend | null = null;
 
-function getResendClient(): Resend | null {
+export function getResendClient(): Resend | null {
   const apiKey = process.env.RESEND_API_KEY?.trim();
   if (!apiKey) return null;
   if (!resendClient) {
@@ -45,6 +45,13 @@ export function getDefaultFromAddress(): string {
   const from = process.env.RESEND_FROM_EMAIL?.trim();
   if (from) return from;
   return "Quicksilver Algo <onboarding@quicksilveralgo.com>";
+}
+
+/** Support team mailbox for inbound + support replies. */
+export function getSupportFromAddress(): string {
+  const from = process.env.RESEND_SUPPORT_FROM?.trim();
+  if (from) return from;
+  return `Quicksilver Support <${SUPPORT_EMAIL}>`;
 }
 
 export function getDefaultReplyTo(): string {
@@ -104,4 +111,15 @@ export async function sendEmailDetailed(
 
   console.info(`[email] sent id=${data.id} to=${to.join(",")}`);
   return { ok: true, id: data.id };
+}
+
+/** Convert plain text body to safe HTML for bulk emails. */
+export function plainTextToEmailHtml(text: string): string {
+  const escaped = text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+  const withBreaks = escaped.replace(/\n/g, "<br />");
+  return `<div style="font-family:ui-sans-serif,system-ui,sans-serif;color:#0f172a;line-height:1.6;font-size:15px;max-width:600px;">${withBreaks}</div>`;
 }

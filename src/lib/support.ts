@@ -1,4 +1,6 @@
-export const SUPPORT_EMAIL = "support@quicksilveralgo.com";
+/** Primary support mailbox (inbound + reply-to). Override with SUPPORT_EMAIL env if needed. */
+export const SUPPORT_EMAIL =
+  process.env.SUPPORT_EMAIL?.trim() || "supportteam@quicksilveralgo.com";
 
 export const SUPPORT_MAILTO = `mailto:${SUPPORT_EMAIL}`;
 
