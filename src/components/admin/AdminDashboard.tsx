@@ -37,6 +37,7 @@ export function AdminDashboard() {
     title: "",
     content: "",
   });
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [posting, setPosting] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -124,25 +125,85 @@ export function AdminDashboard() {
     }
   }
 
+  function startEditAnnouncement(item: AdminAnnouncement) {
+    setEditingId(item.id);
+    setAnnouncementForm({ title: item.title, content: item.content });
+    setMessage("");
+  }
+
+  function cancelEditAnnouncement() {
+    setEditingId(null);
+    setAnnouncementForm({ title: "", content: "" });
+  }
+
   async function postAnnouncement(e: React.FormEvent) {
     e.preventDefault();
     setPosting(true);
     setMessage("");
 
     try {
-      const res = await fetch("/api/admin/announcements", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(announcementForm),
-      });
+      if (editingId) {
+        const res = await fetch(`/api/admin/announcements/${editingId}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(announcementForm),
+        });
+        if (res.ok) {
+          setEditingId(null);
+          setAnnouncementForm({ title: "", content: "" });
+          setMessage("Announcement updated");
+          loadData();
+        } else {
+          const data = await res.json().catch(() => ({}));
+          setMessage(data.error ?? "Update failed");
+        }
+      } else {
+        const res = await fetch("/api/admin/announcements", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(announcementForm),
+        });
 
-      if (res.ok) {
-        setAnnouncementForm({ title: "", content: "" });
-        setMessage("Announcement posted");
-        loadData();
+        if (res.ok) {
+          setAnnouncementForm({ title: "", content: "" });
+          setMessage("Announcement posted");
+          loadData();
+        } else {
+          const data = await res.json().catch(() => ({}));
+          setMessage(data.error ?? "Publish failed");
+        }
       }
     } finally {
       setPosting(false);
+    }
+  }
+
+  async function toggleAnnouncementActive(id: string, active: boolean) {
+    const res = await fetch(`/api/admin/announcements/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ active }),
+    });
+    if (res.ok) {
+      setMessage(active ? "Announcement activated" : "Announcement hidden");
+      loadData();
+    }
+  }
+
+  async function deleteAnnouncement(id: string, title: string) {
+    if (!window.confirm(`Delete announcement “${title}”? This cannot be undone.`)) {
+      return;
+    }
+    const res = await fetch(`/api/admin/announcements/${id}`, {
+      method: "DELETE",
+    });
+    if (res.ok) {
+      if (editingId === id) cancelEditAnnouncement();
+      setMessage("Announcement deleted");
+      loadData();
+    } else {
+      const data = await res.json().catch(() => ({}));
+      setMessage(data.error ?? "Delete failed");
     }
   }
 
@@ -270,7 +331,7 @@ export function AdminDashboard() {
           <CardHeader className="flex flex-row items-center gap-2">
             <Megaphone className="h-5 w-5 text-amber-400" />
             <h3 className="font-mono text-sm font-semibold text-slate-200">
-              Post Announcement
+              {editingId ? "Edit Announcement" : "Post Announcement"}
             </h3>
           </CardHeader>
           <CardContent>
@@ -303,14 +364,30 @@ export function AdminDashboard() {
                   className="w-full rounded border border-slate-700 bg-obsidian-800 px-3 py-2 font-mono text-sm text-slate-200 focus:border-cyan-500/50 focus:outline-none focus:ring-1 focus:ring-cyan-500/30"
                 />
               </div>
-              <Button type="submit" variant="primary" disabled={posting}>
-                {posting ? "Posting..." : "Publish Announcement"}
-              </Button>
+              <div className="flex flex-wrap gap-2">
+                <Button type="submit" variant="primary" disabled={posting}>
+                  {posting
+                    ? "Saving..."
+                    : editingId
+                      ? "Save Changes"
+                      : "Publish Announcement"}
+                </Button>
+                {editingId && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    disabled={posting}
+                    onClick={cancelEditAnnouncement}
+                  >
+                    Cancel
+                  </Button>
+                )}
+              </div>
             </form>
           </CardContent>
         </Card>
 
-        <TerminalPanel title="Recent Announcements" status="online">
+        <TerminalPanel title="Manage Announcements" status="online">
           <div className="max-h-80 space-y-3 overflow-y-auto">
             {announcements.length === 0 ? (
               <p className="text-slate-600">No announcements yet</p>
@@ -318,18 +395,51 @@ export function AdminDashboard() {
               announcements.map((item) => (
                 <div
                   key={item.id}
-                  className="rounded border border-slate-800/60 bg-obsidian-950 p-3"
+                  className={`rounded border p-3 ${
+                    editingId === item.id
+                      ? "border-cyan-500/40 bg-cyan-500/5"
+                      : "border-slate-800/60 bg-obsidian-950"
+                  }`}
                 >
                   <p className="font-mono text-sm text-slate-300">
                     {item.title}
                   </p>
-                  <p className="mt-1 text-xs text-slate-500">{item.content}</p>
-                  <Badge
-                    variant={item.active ? "success" : "default"}
-                    className="mt-2"
-                  >
-                    {item.active ? "Active" : "Inactive"}
-                  </Badge>
+                  <p className="mt-1 text-xs text-slate-500 whitespace-pre-wrap">
+                    {item.content}
+                  </p>
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    <Badge variant={item.active ? "success" : "default"}>
+                      {item.active ? "Active" : "Hidden"}
+                    </Badge>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => startEditAnnouncement(item)}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() =>
+                        void toggleAnnouncementActive(item.id, !item.active)
+                      }
+                    >
+                      {item.active ? "Hide" : "Show"}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() =>
+                        void deleteAnnouncement(item.id, item.title)
+                      }
+                    >
+                      Delete
+                    </Button>
+                  </div>
                 </div>
               ))
             )}

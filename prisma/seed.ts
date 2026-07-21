@@ -69,7 +69,7 @@ async function main() {
         data: {
           title: "Welcome to Quicksilver Algo",
           content:
-            "Connect your TradeLocker account via HeroFX to deploy the Quicksilver Quant Protocol. Premium members unlock the full quant tool suite.",
+            "Connect TradeLocker via HeroFX to run the Quicksilver Quant Protocol bot. Premium unlocks the 7-Day Prop Firm Playbook, Chart Academy, and all planning tools.",
           authorId: admin.id,
         },
       });
