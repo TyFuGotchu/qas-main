@@ -17,9 +17,11 @@ const PRODUCT_LINKS = [
 ];
 
 const LEARN_LINKS = [
+  { href: "/guides/break-of-structure", label: "Break of Structure (BOS)" },
   { href: "/prop-firm", label: "Prop Firm Guides Hub" },
   { href: "/guides", label: "Charting Guides" },
   { href: "/lessons", label: "Chart Academy Lessons" },
+  { href: "/lessons/market-structure-what-is-bos", label: "What Is BOS Lesson" },
   { href: "/solutions", label: "Free Trading Demos" },
   { href: "/learn", label: "Learn by Market" },
   { href: EDGE_RADAR_HUB_PATH, label: "Sports Props Guides" },

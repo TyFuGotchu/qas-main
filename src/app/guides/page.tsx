@@ -43,6 +43,24 @@ export default function GuidesIndexPage() {
       <PropFirmChallengePromo variant="compact" />
 
       <section>
+        <Link
+          href="/guides/break-of-structure"
+          className="block rounded-xl border border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 to-slate-950/80 p-6 transition-colors hover:border-emerald-400/40"
+        >
+          <Badge variant="success" className="mb-2">
+            Top search topic
+          </Badge>
+          <h2 className="font-mono text-lg font-semibold text-slate-100">
+            Break of Structure (BOS) in Trading
+          </h2>
+          <p className="mt-2 text-sm text-slate-500">
+            Free definition guide: what BOS means, bullish vs bearish BOS, BOS vs liquidity
+            sweeps, and retest entries.
+          </p>
+        </Link>
+      </section>
+
+      <section>
         <h2 className="mb-4 font-mono text-sm font-semibold uppercase tracking-widest text-slate-500">
           All Charting Guides
         </h2>

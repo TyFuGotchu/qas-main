@@ -25,10 +25,45 @@ import {
   checkResourceAccess,
   getPreviewParagraphs,
 } from "@/lib/accessControl";
+import { rankingPageMetadata } from "@/lib/seo/page-metadata";
 
 export function generateStaticParams() {
   return PUBLIC_LESSONS.map((lesson) => ({ slug: lesson.slug }));
 }
+
+/** High-impression GSC queries get intent-matched titles (not generic “Trading Lesson”). */
+const LESSON_SEO_OVERRIDES: Record<
+  string,
+  { title: string; description: string; keywords: string[] }
+> = {
+  "market-structure-what-is-bos": {
+    title: "What Is Break of Structure (BOS) in Trading?",
+    description:
+      "BOS meaning in trading: break of a prior swing high/low in trend direction. Bullish vs bearish BOS, close confirmation, and retest basics.",
+    keywords: [
+      "break of structure",
+      "bos in trading",
+      "bos means in trading",
+      "what is bos trading",
+    ],
+  },
+  "market-structure-bos-vs-liquidity-sweep": {
+    title: "BOS vs Liquidity Sweep: How to Tell Them Apart",
+    description:
+      "Break of structure vs liquidity sweep: wick-and-reclaim vs close-and-accept. Stop trading stop hunts as real BOS.",
+    keywords: ["bos vs liquidity sweep", "liquidity sweep trading", "break of structure"],
+  },
+  "market-structure-trading-bos": {
+    title: "How to Trade Break of Structure (BOS Entries)",
+    description:
+      "Break of structure trading models: retest entry, momentum BOS, order block pullback, and failed BOS invalidation.",
+    keywords: [
+      "break of structure trading",
+      "bos trading",
+      "how to trade bos",
+    ],
+  },
+};
 
 export function generateMetadata({
   params,
@@ -38,15 +73,23 @@ export function generateMetadata({
   const lesson = getLessonBySlug(params.slug);
   if (!lesson) return { title: "Lesson Not Found" };
 
-  return {
-    title: `${lesson.title} | Quicksilver Trading Lesson`,
-    description: lesson.summary,
-    openGraph: {
-      title: lesson.title,
-      description: lesson.summary,
+  const override = LESSON_SEO_OVERRIDES[params.slug];
+  if (override) {
+    return rankingPageMetadata({
+      title: override.title,
+      description: override.description,
+      path: `/lessons/${params.slug}`,
       type: "article",
-    },
-  };
+      keywords: override.keywords,
+    });
+  }
+
+  return rankingPageMetadata({
+    title: `${lesson.title} | Trading Lesson`,
+    description: lesson.summary,
+    path: `/lessons/${params.slug}`,
+    type: "article",
+  });
 }
 
 export default async function LessonPage({

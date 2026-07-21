@@ -38,6 +38,11 @@ export const metadata: Metadata = rankingPageMetadata({
 
 const SEO_HUB_LINKS = [
   {
+    href: "/guides/break-of-structure",
+    title: "Break of Structure (BOS)",
+    body: "What BOS means in trading, BOS vs liquidity sweeps, and how to trade the retest.",
+  },
+  {
     href: "/launch",
     title: "7-Day Prop Firm Playbook",
     body: "Day-by-day challenge plan with consistency rules and FIRST100 pricing.",
