@@ -37,6 +37,8 @@ export const QUANT_PROTOCOL = {
     "Flagship TradeLocker marketplace algorithm. Subscribe on the hub, enable it on your account, then apply the asset settings below for consistent deployment.",
   marketplaceUrl: TRADELOCKER_BOT_URL,
   dashboardPath: "/dashboard/trading-bots/quant-protocol",
+  /** Public landing for TradeLocker bot access requesters */
+  publicPath: "/quant-protocol",
 } as const;
 
 /**

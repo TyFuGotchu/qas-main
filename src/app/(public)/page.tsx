@@ -41,6 +41,11 @@ const SEO_HUB_LINKS = [
     body: "What BOS means in trading, BOS vs liquidity sweeps, and how to trade the retest.",
   },
   {
+    href: "/quant-protocol",
+    title: "Quicksilver Quant Protocol",
+    body: "TradeLocker bot access via Premium — plus playbook, tools, and academy.",
+  },
+  {
     href: "/launch",
     title: "7-Day Prop Firm Playbook",
     body: "Day-by-day challenge plan with consistency rules and FIRST100 pricing.",

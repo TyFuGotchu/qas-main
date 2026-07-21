@@ -18,6 +18,7 @@ function isNavLinkActive(pathname: string, href: string): boolean {
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/launch", label: "Launch" },
+  { href: "/quant-protocol", label: "Quant Protocol" },
   { href: "/prop-firm", label: "Prop Firms" },
   { href: "/guides/pillar/ultimate-7-day-prop-firm-playbook", label: "7-Day Playbook" },
   { href: "/tools", label: "Trading Tools" },

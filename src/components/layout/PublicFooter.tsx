@@ -2,6 +2,7 @@ import Link from "next/link";
 
 const PRODUCT_LINKS = [
   { href: "/launch", label: "7-Day Playbook Launch" },
+  { href: "/quant-protocol", label: "Quant Protocol (TradeLocker bot)" },
   { href: "/guides/pillar/ultimate-7-day-prop-firm-playbook", label: "Prop Firm Playbook" },
   { href: "/guides/pillar/mathematical-model-prop-firm-success", label: "Prop Firm Math Model" },
   { href: "/guarantee", label: "Money-Back Guarantee" },

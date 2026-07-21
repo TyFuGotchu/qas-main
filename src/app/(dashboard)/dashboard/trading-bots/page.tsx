@@ -46,6 +46,12 @@ export default function TradingBotsHubPage() {
             <p className="mt-2 text-sm leading-relaxed text-slate-400">
               {QUANT_PROTOCOL.description}
             </p>
+            <p className="mt-2 font-mono text-[10px] text-slate-600">
+              Share with bot requesters:{" "}
+              <Link href={QUANT_PROTOCOL.publicPath} className="text-cyan-400 hover:underline">
+                {QUANT_PROTOCOL.publicPath}
+              </Link>
+            </p>
           </div>
           <div className="flex shrink-0 flex-col gap-2 sm:items-end">
             <Link href={TRADING_BOTS_NAV.quantProtocol}>

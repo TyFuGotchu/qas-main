@@ -1,12 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Mail, Send, Inbox, History, CheckCircle2 } from "lucide-react";
+import { Mail, Send, Inbox, History, CheckCircle2, FileText } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
 import Select from "@/components/ui/Select";
 import Button from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import {
+  BULK_EMAIL_TEMPLATES,
+  getBulkEmailTemplate,
+} from "@/lib/email/bulk-templates";
 
 interface EmailStatus {
   configured: boolean;
@@ -76,8 +80,32 @@ export function AdminEmailCenter() {
     audience: "all",
     customEmails: "",
   });
+  const [templateId, setTemplateId] = useState("");
 
   const selected = inbox.find((e) => e.id === selectedId) ?? null;
+
+  const templateOptions = [
+    { value: "", label: "— Choose a template —" },
+    ...BULK_EMAIL_TEMPLATES.map((t) => ({
+      value: t.id,
+      label: t.label,
+    })),
+  ];
+
+  function applyTemplate(id: string) {
+    setTemplateId(id);
+    if (!id) return;
+    const template = getBulkEmailTemplate(id);
+    if (!template) return;
+    setForm((f) => ({
+      ...f,
+      subject: template.subject,
+      body: template.body,
+      audience: template.defaultAudience,
+    }));
+    setPreviewCount(null);
+    setMessage(`Loaded template: ${template.label}`);
+  }
 
   const loadAll = useCallback(async (opts?: { sync?: boolean }) => {
     const sync = opts?.sync !== false;
@@ -316,6 +344,31 @@ export function AdminEmailCenter() {
           </CardHeader>
           <CardContent>
             <form onSubmit={sendBulk} className="space-y-3">
+              <div className="rounded-lg border border-cyan-500/20 bg-cyan-500/5 p-3 space-y-2">
+                <p className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-cyan-400/90">
+                  <FileText className="h-3.5 w-3.5" />
+                  Saved templates
+                </p>
+                <Select
+                  label="Load template"
+                  options={templateOptions}
+                  value={templateId}
+                  onChange={(e) => applyTemplate(e.target.value)}
+                />
+                {templateId && (
+                  <p className="font-mono text-[10px] leading-relaxed text-slate-500">
+                    {getBulkEmailTemplate(templateId)?.description}
+                    {getBulkEmailTemplate(templateId)?.defaultAudience ===
+                      "custom" && (
+                      <>
+                        {" "}
+                        Paste TradeLocker bot requesters under{" "}
+                        <strong className="text-slate-400">Custom email list</strong>.
+                      </>
+                    )}
+                  </p>
+                )}
+              </div>
               <Select
                 label="Audience"
                 options={audienceOptions}
@@ -355,9 +408,9 @@ export function AdminEmailCenter() {
                   value={form.body}
                   onChange={(e) => setForm({ ...form, body: e.target.value })}
                   required
-                  rows={8}
+                  rows={10}
                   className="w-full rounded border border-slate-700 bg-obsidian-800 px-3 py-2 font-mono text-sm text-slate-200 focus:border-cyan-500/50 focus:outline-none"
-                  placeholder="Write your broadcast in plain text. Line breaks are preserved."
+                  placeholder="Write your broadcast in plain text. Line breaks are preserved — or load a template above."
                 />
               </div>
               <div className="flex flex-wrap gap-2">

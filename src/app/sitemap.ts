@@ -26,6 +26,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.99,
     },
     {
+      url: `${SITE_URL}/quant-protocol`,
+      lastModified: SITE_UPDATED,
+      changeFrequency: "weekly",
+      priority: 0.98,
+    },
+    {
       url: `${SITE_URL}/guides/break-of-structure`,
       lastModified: SITE_UPDATED,
       changeFrequency: "weekly",

@@ -7,6 +7,7 @@ import { getAuthSecret, validateCoreProductionEnv } from "@/lib/env";
 const PUBLIC_ROUTES = [
   "/",
   "/launch",
+  "/quant-protocol",
   "/login",
   "/register",
   "/support",
