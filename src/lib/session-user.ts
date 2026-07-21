@@ -13,7 +13,6 @@ interface DbUser {
   accountTier: string;
   isAdmin: boolean;
   onboardingComplete: boolean;
-  edgeRadarAccess?: boolean;
   traderProfile?: { profileComplete: boolean } | null;
 }
 
@@ -31,7 +30,6 @@ export function toUserSession(user: DbUser): UserSession {
     isAdmin: user.isAdmin || user.email === getAdminEmail(),
     onboardingComplete: user.onboardingComplete,
     profileComplete: user.traderProfile?.profileComplete ?? false,
-    edgeRadarAccess: Boolean(user.edgeRadarAccess),
   };
   return session;
 }

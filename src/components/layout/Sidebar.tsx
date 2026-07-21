@@ -16,7 +16,6 @@ import {
   BookMarked,
   TrendingUp,
   Target,
-  Radar,
   Bot,
   Cpu,
   X,
@@ -58,7 +57,6 @@ const navSections: NavSection[] = [
     title: "Live Trading",
     items: [
       { href: "/dashboard/bot", label: "TradeLocker Terminal", icon: LineChart },
-      { href: "/dashboard/edge-radar", label: "Edge Radar", icon: Radar },
       { href: "/dashboard/live-growth", label: "Live Growth", icon: TrendingUp },
       { href: "/dashboard/prop-command", label: "Prop OS", icon: Shield },
       { href: "/dashboard/journal", label: "Journal", icon: BookMarked },

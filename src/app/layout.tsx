@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     template: "%s | Quicksilver Algo",
   },
   description:
-    "7-Day Prop Firm Playbook, consistency & risk tools, Chart Academy, and Edge Radar props scanner. Built for FTMO, Apex, and funded traders.",
+    "7-Day Prop Firm Playbook, consistency & risk tools, Chart Academy, and TradeLocker Quant Protocol. Built for FTMO, Apex, and funded traders.",
   icons: {
     icon: [{ url: "/icon.png", type: "image/png", sizes: "512x512" }],
     apple: [{ url: "/apple-icon.png", type: "image/png", sizes: "180x180" }],
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     siteName: "Quicksilver Algo Systems",
     title: "Pass Prop Firm Challenges in 7 Days | Quicksilver Algo",
     description:
-      "Day-by-day prop firm playbook, planning tools, and live prop scanner. Free demos included.",
+      "Day-by-day prop firm playbook, planning tools, and TradeLocker bot. Free demos included.",
     images: [{ url: "/icon.png", width: 512, height: 512, alt: "Quicksilver Algo Systems" }],
   },
   robots: {

@@ -18,7 +18,6 @@ function isNavLinkActive(pathname: string, href: string): boolean {
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/launch", label: "Launch" },
-  { href: "/edge-radar", label: "Edge Radar" },
   { href: "/prop-firm", label: "Prop Firms" },
   { href: "/guides/pillar/ultimate-7-day-prop-firm-playbook", label: "7-Day Playbook" },
   { href: "/tools", label: "Trading Tools" },

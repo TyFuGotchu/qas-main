@@ -7,9 +7,4 @@ export async function register() {
     const { startSignalEngine } = await import("@/lib/signals/engine");
     startSignalEngine();
   }
-
-  const { startEdgeRadarIngestScheduler } = await import(
-    "@/lib/edge-radar/ingest/scheduler"
-  );
-  startEdgeRadarIngestScheduler();
 }

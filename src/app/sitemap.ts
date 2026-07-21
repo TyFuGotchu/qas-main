@@ -7,11 +7,6 @@ import {
 } from "@/lib/seo/indexing-tiers";
 import { LOCAL_TOOLS } from "@/lib/tools-registry";
 import {
-  EDGE_RADAR_CLUSTER_PAGES,
-  EDGE_RADAR_HUB_PATH,
-  EDGE_RADAR_PILLAR_PATH,
-} from "@/lib/seo/edge-radar-authority";
-import {
   PILLAR_PAGES,
   PROP_FIRM_CLUSTER_PAGES,
 } from "@/lib/seo/prop-firm-authority";
@@ -41,24 +36,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: SITE_UPDATED,
       changeFrequency: "monthly",
       priority: 0.95,
-    },
-    {
-      url: `${SITE_URL}/edge-radar`,
-      lastModified: SITE_UPDATED,
-      changeFrequency: "daily",
-      priority: 0.97,
-    },
-    {
-      url: `${SITE_URL}${EDGE_RADAR_HUB_PATH}`,
-      lastModified: SITE_UPDATED,
-      changeFrequency: "weekly",
-      priority: 0.96,
-    },
-    {
-      url: `${SITE_URL}${EDGE_RADAR_PILLAR_PATH}`,
-      lastModified: SITE_UPDATED,
-      changeFrequency: "weekly",
-      priority: 0.98,
     },
     {
       url: `${SITE_URL}/prop-firm`,
@@ -184,21 +161,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: page.topic === "pass-in-7-days" ? 0.9 : 0.82,
   }));
 
-  const edgeRadarGuidePages: MetadataRoute.Sitemap = EDGE_RADAR_CLUSTER_PAGES.map(
-    (page) => ({
-      url: `${SITE_URL}/edge-radar/guides/${page.slug}`,
-      lastModified: new Date(page.publishedAt),
-      changeFrequency: "weekly" as const,
-      priority:
-        page.variant === "sport" &&
-        ["nfl", "nba", "mlb", "nhl"].includes(page.sportId ?? "")
-          ? 0.92
-          : page.variant === "topic"
-            ? 0.9
-            : 0.85,
-    })
-  );
-
   return [
     ...staticPages,
     ...pillarPages,
@@ -207,7 +169,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...lessonPages,
     ...offerPages,
     ...clusterPages,
-    ...edgeRadarGuidePages,
     ...solutionPages,
     ...learnPages,
   ];

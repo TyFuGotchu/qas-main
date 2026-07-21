@@ -29,7 +29,6 @@ export async function createSessionToken(user: UserSession): Promise<string> {
     isAdmin: user.isAdmin,
     onboardingComplete: user.onboardingComplete,
     profileComplete: user.profileComplete,
-    edgeRadarAccess: user.edgeRadarAccess,
   })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
@@ -53,7 +52,6 @@ export async function verifySessionToken(
       isAdmin: Boolean(payload.isAdmin),
       onboardingComplete: Boolean(payload.onboardingComplete),
       profileComplete: Boolean(payload.profileComplete),
-      edgeRadarAccess: Boolean(payload.edgeRadarAccess),
     };
   } catch {
     return null;

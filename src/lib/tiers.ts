@@ -1,10 +1,5 @@
 import { hasUnlimitedAccess, tierMeetsRequirement } from "@/lib/accessControl";
-import { isAdminUser } from "@/lib/admin";
-import { ACCOUNT_TIERS, type AccountTier, type SubscriptionTier, type UserSession } from "@/types";
-
-export function canAccessEdgeRadar(user: Pick<UserSession, "edgeRadarAccess" | "isAdmin" | "email">): boolean {
-  return Boolean(user.edgeRadarAccess || isAdminUser(user as UserSession));
-}
+import { ACCOUNT_TIERS, type AccountTier, type SubscriptionTier } from "@/types";
 
 export function isPremiumTier(tier: AccountTier): boolean {
   return tier === ACCOUNT_TIERS.PREMIUM_QUANT;

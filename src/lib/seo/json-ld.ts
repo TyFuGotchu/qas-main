@@ -325,7 +325,7 @@ export function websiteJsonLd(params?: {
     name: params?.name ?? "Quicksilver Algo Systems",
     description:
       params?.description ??
-      "Prop firm challenge tools, 7-day playbook, Chart Academy, and Edge Radar sports prop scanner.",
+      "Prop firm challenge tools, 7-day playbook, Chart Academy, and TradeLocker Quant Protocol.",
     url: SITE_URL,
     publisher: PUBLISHER,
     potentialAction: {

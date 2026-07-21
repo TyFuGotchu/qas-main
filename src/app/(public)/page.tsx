@@ -17,14 +17,12 @@ import {
   websiteJsonLd,
   breadcrumbJsonLd,
 } from "@/lib/seo/json-ld";
-import { EDGE_RADAR_PATH } from "@/lib/edge-radar";
-import { EDGE_RADAR_HUB_PATH } from "@/lib/seo/edge-radar-authority";
 import { rankingPageMetadata } from "@/lib/seo/page-metadata";
 
 export const metadata: Metadata = rankingPageMetadata({
   title: "Pass Prop Firm Challenges in 7 Days | Quicksilver Algo",
   description:
-    "7-Day Prop Firm Playbook, risk & consistency tools, Chart Academy, TradeLocker bot, and Edge Radar props scanner. Free demos. FIRST100 first month.",
+    "7-Day Prop Firm Playbook, risk & consistency tools, Chart Academy, and TradeLocker Quant Protocol. Free demos for manual traders. FIRST100 first month.",
   path: "/",
   keywords: [
     "prop firm challenge playbook",
@@ -32,7 +30,7 @@ export const metadata: Metadata = rankingPageMetadata({
     "FTMO challenge plan",
     "prop firm consistency rule",
     "trading risk calculator",
-    "player props scanner",
+    "break of structure",
   ],
 });
 
@@ -53,19 +51,14 @@ const SEO_HUB_LINKS = [
     body: "Long-tail guides for FTMO, FundedNext, Apex, Topstep, and more.",
   },
   {
-    href: EDGE_RADAR_PATH,
-    title: "Edge Radar Prop Scanner",
-    body: "Live +EV player props, injury news impact, DraftKings & FanDuel line lag.",
-  },
-  {
-    href: EDGE_RADAR_HUB_PATH,
-    title: "Sports Props Guides",
-    body: "NBA, NFL, MLB scanners and line-lag strategy guides.",
-  },
-  {
     href: "/tools",
     title: "Trading Tools",
     body: "Risk Matrix, Prop Survival, Edge Confluence, and free local calculators.",
+  },
+  {
+    href: "/lessons",
+    title: "Chart Academy Lessons",
+    body: "Market structure, candlesticks, Fibonacci, and prop firm execution education.",
   },
   {
     href: "/guarantee",
@@ -115,8 +108,8 @@ export default function LandingPage() {
             Explore Quicksilver
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-slate-500">
-            Free previews, prop firm authority guides, live sports prop tools, and Premium
-            planning engines — start where your edge is.
+            Free previews, prop firm guides, Chart Academy, and Premium planning engines —
+            built for manual traders.
           </p>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {SEO_HUB_LINKS.map((item) => (
@@ -169,8 +162,7 @@ export default function LandingPage() {
           <h2 className="font-mono text-2xl font-bold text-slate-200">Ready to Deploy?</h2>
           <p className="mt-4 text-slate-500">
             Create your profile to unlock access tier options and deploy the Quicksilver
-            algorithmic infrastructure — from TradeLocker bot execution to the full
-            institutional quant suite.
+            stack — TradeLocker Quant Protocol, planning tools, and the 7-Day Playbook.
           </p>
           <div className="mt-8">
             <Link href="/register">

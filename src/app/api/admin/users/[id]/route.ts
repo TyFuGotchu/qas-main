@@ -17,20 +17,17 @@ export async function PATCH(
   }
 
   const body = await request.json();
-  const { accountTier, isAdmin, edgeRadarAccess, password, onboardingComplete } =
-    body as {
-      accountTier?: AccountTier;
-      isAdmin?: boolean;
-      edgeRadarAccess?: boolean;
-      password?: string;
-      onboardingComplete?: boolean;
-    };
+  const { accountTier, isAdmin, password, onboardingComplete } = body as {
+    accountTier?: AccountTier;
+    isAdmin?: boolean;
+    password?: string;
+    onboardingComplete?: boolean;
+  };
 
   const data: {
     accountTier?: string;
     subscriptionTier?: "FREE" | "TIER_1" | "TIER_2" | "LIFETIME";
     isAdmin?: boolean;
-    edgeRadarAccess?: boolean;
     passwordHash?: string;
     onboardingComplete?: boolean;
   } = {};
@@ -46,10 +43,6 @@ export async function PATCH(
 
   if (typeof isAdmin === "boolean") {
     data.isAdmin = isAdmin;
-  }
-
-  if (typeof edgeRadarAccess === "boolean") {
-    data.edgeRadarAccess = edgeRadarAccess;
   }
 
   if (typeof onboardingComplete === "boolean") {
@@ -77,7 +70,6 @@ export async function PATCH(
       name: true,
       accountTier: true,
       isAdmin: true,
-      edgeRadarAccess: true,
       onboardingComplete: true,
       createdAt: true,
     },

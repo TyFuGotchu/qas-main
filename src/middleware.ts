@@ -7,7 +7,6 @@ import { getAuthSecret, validateCoreProductionEnv } from "@/lib/env";
 const PUBLIC_ROUTES = [
   "/",
   "/launch",
-  "/edge-radar",
   "/login",
   "/register",
   "/support",
@@ -149,10 +148,6 @@ export async function middleware(request: NextRequest) {
   }
 
   if (pathname === "/api/onboarding/playbook-drip/run") {
-    return NextResponse.next();
-  }
-
-  if (pathname === "/api/edge-radar/ingest/run") {
     return NextResponse.next();
   }
 
