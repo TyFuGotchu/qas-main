@@ -3,11 +3,13 @@
 import Link from "next/link";
 import { X, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
-import { getTierCheckoutUrl, TIER_LABELS } from "@/lib/accessControl";
+import { TIER_LABELS } from "@/lib/accessControl";
 import type { SubscriptionTier } from "@/types";
 import Button from "@/components/ui/Button";
 import { TierValueProps } from "@/components/engagement/TierValueProps";
 import { getStickyBarDelayMs } from "@/lib/engagement/ab-test";
+import { TrackedCheckoutLink } from "@/components/analytics/TrackedCheckoutLink";
+import { CHART_ACADEMY_STATS } from "@/lib/premium-includes";
 
 interface StickyUpgradeBarProps {
   requiredTier: SubscriptionTier;
@@ -34,7 +36,6 @@ export function StickyUpgradeBar({
 
   if (!visible) return null;
 
-  const checkoutUrl = getTierCheckoutUrl();
   const tierLabel = TIER_LABELS[requiredTier].split(" (")[0];
 
   const dismiss = () => {
@@ -52,7 +53,7 @@ export function StickyUpgradeBar({
           <p className="font-mono text-[10px] text-slate-500">
             {expanded
               ? "Everything you need to trade like an institution"
-              : `${tierLabel} · 89 lessons · 6 tools`}
+              : `${tierLabel} · ${CHART_ACADEMY_STATS.lessonCount} lessons · tools`}
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-2">
@@ -63,12 +64,12 @@ export function StickyUpgradeBar({
           >
             {expanded ? "Less" : "Why upgrade?"}
           </button>
-          <a href={checkoutUrl} target="_blank" rel="noopener noreferrer">
+          <TrackedCheckoutLink source="sticky_upgrade_bar">
             <Button variant="primary" size="sm">
               <Zap className="h-3.5 w-3.5" />
               Upgrade
             </Button>
-          </a>
+          </TrackedCheckoutLink>
           <Link href="/register">
             <Button variant="ghost" size="sm">
               Free account
