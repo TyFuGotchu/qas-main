@@ -18,15 +18,38 @@ export interface LearningPathItem {
   href: string;
 }
 
+const FREE_PRICE_ACTION = FREEMIUM_RESOURCES.lessons.free[0];
+const FREE_FOREX = FREEMIUM_RESOURCES.lessons.free[1];
+const FREE_CFD = FREEMIUM_RESOURCES.lessons.free[2];
+const FREE_GUIDE = FREEMIUM_RESOURCES.guides.free[0];
+
 export const CURATED_LEARNING_PATH: LearningPathItem[] = [
   {
     id: "path-1",
     type: "lesson",
-    slug: FREEMIUM_RESOURCES.lessons.free,
+    slug: FREE_PRICE_ACTION,
     title: "What Is Price Action?",
     subtitle: "Start here — free forever",
     requiredTier: "FREE",
-    href: `/lessons/${FREEMIUM_RESOURCES.lessons.free}`,
+    href: `/lessons/${FREE_PRICE_ACTION}`,
+  },
+  {
+    id: "path-forex",
+    type: "lesson",
+    slug: FREE_FOREX,
+    title: "What Is Forex Trading?",
+    subtitle: "Free FX foundations for TradeLocker",
+    requiredTier: "FREE",
+    href: `/lessons/${FREE_FOREX}`,
+  },
+  {
+    id: "path-cfd",
+    type: "lesson",
+    slug: FREE_CFD,
+    title: "What Are CFDs?",
+    subtitle: "Free CFD foundations — indices, gold & more",
+    requiredTier: "FREE",
+    href: `/lessons/${FREE_CFD}`,
   },
   {
     id: "path-2",
@@ -40,11 +63,11 @@ export const CURATED_LEARNING_PATH: LearningPathItem[] = [
   {
     id: "path-3",
     type: "guide",
-    slug: FREEMIUM_RESOURCES.guides.free,
+    slug: FREE_GUIDE,
     title: "Chart Reading Guide",
-    subtitle: "18 lessons on reading charts",
+    subtitle: "Free charting guide",
     requiredTier: "FREE",
-    href: `/guides/${FREEMIUM_RESOURCES.guides.free}`,
+    href: `/guides/${FREE_GUIDE}`,
   },
   {
     id: "path-4",

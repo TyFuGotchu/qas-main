@@ -63,6 +63,18 @@ const LESSON_SEO_OVERRIDES: Record<
       "how to trade bos",
     ],
   },
+  "forex-what-is-forex-trading": {
+    title: "What Is Forex Trading? Free Guide for Beginners",
+    description:
+      "Forex explained: currency pairs, 24/5 sessions, and how manual traders approach FX on platforms like TradeLocker. Free lesson.",
+    keywords: ["what is forex trading", "forex for beginners", "currency pairs"],
+  },
+  "cfd-what-are-cfds": {
+    title: "What Are CFDs? Free Guide for Traders",
+    description:
+      "Contracts for difference explained: how CFDs work on indices and gold, leverage risks, and TradeLocker-style execution. Free lesson.",
+    keywords: ["what are cfds", "cfd trading", "index cfd"],
+  },
 };
 
 export function generateMetadata({

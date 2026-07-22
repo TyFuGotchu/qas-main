@@ -9,18 +9,37 @@ export interface ResourceAccessResult {
   userTier: SubscriptionTier;
 }
 
-/** Freemium resource IDs — free tier only; everything else requires Premium */
+/**
+ * Freemium resource IDs — free forever; everything else requires Premium.
+ * Forex + CFD: exactly one free lesson each; their category guides stay Premium.
+ */
 export const FREEMIUM_RESOURCES = {
   lessons: {
-    free: "chart-reading-what-is-price-action",
+    free: [
+      "chart-reading-what-is-price-action",
+      "forex-what-is-forex-trading",
+      "cfd-what-are-cfds",
+    ],
   },
   guides: {
-    free: "chart-reading",
+    free: ["chart-reading"],
   },
   tools: {
     free: "edge-confluence",
   },
 } as const;
+
+export function isFreeLesson(resourceId: string): boolean {
+  return (FREEMIUM_RESOURCES.lessons.free as readonly string[]).includes(
+    resourceId
+  );
+}
+
+export function isFreeGuide(resourceId: string): boolean {
+  return (FREEMIUM_RESOURCES.guides.free as readonly string[]).includes(
+    resourceId
+  );
+}
 
 const TIER_RANK: Record<SubscriptionTier, number> = {
   FREE: 0,
@@ -93,12 +112,12 @@ export function getRequiredTierForResource(
   }
 
   if (resourceType === "lesson") {
-    if (resourceId === FREEMIUM_RESOURCES.lessons.free) return "FREE";
+    if (isFreeLesson(resourceId)) return "FREE";
     return "TIER_2";
   }
 
   if (resourceType === "guide") {
-    if (resourceId === FREEMIUM_RESOURCES.guides.free) return "FREE";
+    if (isFreeGuide(resourceId)) return "FREE";
     return "TIER_2";
   }
 

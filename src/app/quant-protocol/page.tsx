@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Bot, Check, ExternalLink, Zap } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
+import { TrackedCheckoutLink } from "@/components/analytics/TrackedCheckoutLink";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
 import { MoneyBackGuarantee } from "@/components/marketing/MoneyBackGuarantee";
 import { PremiumEverythingIncluded } from "@/components/marketing/PremiumEverythingIncluded";
@@ -13,7 +14,6 @@ import {
   QUICKSILVER_QUANT_PROTOCOL,
 } from "@/lib/premium-includes";
 import {
-  getPremiumCheckoutUrl,
   PREMIUM_PRICE,
   PREMIUM_PROMO_CODE,
   PREMIUM_PROMO_FIRST_MONTH,
@@ -65,8 +65,6 @@ const FAQS = [
 ];
 
 export default function QuantProtocolLandingPage() {
-  const checkoutUrl = getPremiumCheckoutUrl(true);
-
   const jsonLd = [
     breadcrumbJsonLd([
       { name: "Home", path: "/" },
@@ -129,12 +127,12 @@ export default function QuantProtocolLandingPage() {
           Then {PREMIUM_PRICE}/mo · {PREMIUM_PROMO_NOTE}
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <a href={checkoutUrl} target="_blank" rel="noopener noreferrer">
+          <TrackedCheckoutLink source="quant_protocol_hero">
             <Button variant="primary" size="lg">
               <Zap className="h-4 w-4" />
               Unlock Premium Quant — {PREMIUM_PROMO_CODE}
             </Button>
-          </a>
+          </TrackedCheckoutLink>
           <a
             href={QUICKSILVER_QUANT_PROTOCOL.href}
             target="_blank"
@@ -251,11 +249,11 @@ export default function QuantProtocolLandingPage() {
           </li>
         </ol>
         <div className="mt-6 flex flex-wrap gap-3">
-          <a href={checkoutUrl} target="_blank" rel="noopener noreferrer">
+          <TrackedCheckoutLink source="quant_protocol_steps">
             <Button variant="primary" size="md">
               Subscribe — {PREMIUM_PROMO_CODE}
             </Button>
-          </a>
+          </TrackedCheckoutLink>
           <Link href={TRADING_BOTS_NAV.quantProtocol}>
             <Button variant="secondary" size="md">
               Open bot settings (members)
@@ -296,16 +294,11 @@ export default function QuantProtocolLandingPage() {
           {PROP_FIRM_CHALLENGE_DAYS}-day playbook · {TOOL_COUNT} tools ·{" "}
           {CHART_ACADEMY_STATS.lessonCount} lessons · live terminal · Quant Protocol
         </p>
-        <a
-          href={checkoutUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-6 inline-block"
-        >
+        <TrackedCheckoutLink source="quant_protocol_footer" className="mt-6 inline-block">
           <Button variant="primary" size="lg">
             Get Premium Quant — {PREMIUM_PROMO_FIRST_MONTH} first month
           </Button>
-        </a>
+        </TrackedCheckoutLink>
       </section>
     </article>
   );

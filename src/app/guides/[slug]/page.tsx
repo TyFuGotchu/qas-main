@@ -28,6 +28,8 @@ const GUIDE_TOOL_MAP: Record<string, string> = {
   "trading-styles": "regime-oracle",
   fibonacci: "execution-protocol",
   "market-structure": "regime-oracle",
+  forex: "risk-matrix",
+  cfd: "risk-matrix",
 };
 
 export function generateStaticParams() {

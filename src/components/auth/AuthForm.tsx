@@ -12,6 +12,7 @@ import {
   PASSWORD_REQUIREMENTS_HINT,
   validatePassword,
 } from "@/lib/security/password";
+import { trackLogin, trackSignUp } from "@/lib/analytics/ga-events";
 
 interface AuthFormProps {
   mode: "login" | "register";
@@ -93,6 +94,11 @@ export function AuthForm({ mode }: AuthFormProps) {
       }
 
       setUser(data.user);
+      if (mode === "register") {
+        trackSignUp("email");
+      } else {
+        trackLogin("email");
+      }
       const destination =
         mode === "register"
           ? "/onboarding/pricing"

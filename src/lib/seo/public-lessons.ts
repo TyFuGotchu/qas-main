@@ -25,6 +25,8 @@ const CATEGORY_TOOL_MAP: Record<string, string> = {
   "trading-styles": "regime-oracle",
   fibonacci: "execution-protocol",
   "market-structure": "regime-oracle",
+  forex: "risk-matrix",
+  cfd: "risk-matrix",
 };
 
 const LESSON_TOOL_OVERRIDES: Record<string, string> = {
@@ -139,7 +141,9 @@ const CATEGORY_GUIDES: ChartingGuide[] = ACADEMY_CATEGORIES.map((cat) => ({
     {
       question: `Who can access the ${cat.title} guide?`,
       answer:
-        "Preview any guide for free (first 300 words). Free tier unlocks 1 guide; Premium ($149.99/mo) unlocks the full library.",
+        cat.id === "chart-reading"
+          ? "The Chart Reading guide is free. Other guides (including Forex and CFDs) require Premium — free members still get a short preview."
+          : "Preview the first section free. Full Forex, CFD, and other guides unlock with Premium Quant ($149.99/mo).",
     },
   ],
 }));

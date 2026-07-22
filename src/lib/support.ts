@@ -104,7 +104,7 @@ export const SITE_FAQS: FaqItem[] = [
     category: "Chart Academy",
     question: "How many lessons are in Chart Academy?",
     answer:
-      "Chart Academy includes 89 interactive lessons across chart reading, candlesticks, market structure, Fibonacci, trading styles, and a prop firm playbook. Premium unlocks the full library.",
+      "Chart Academy covers chart reading, candlesticks, market structure, Fibonacci, trading styles, forex, CFDs, and a prop firm playbook. Free members get selected intro lessons; Premium unlocks the full library.",
   },
   {
     id: "lesson-progress",

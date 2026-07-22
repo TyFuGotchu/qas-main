@@ -1,19 +1,24 @@
+"use client";
+
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { MoneyBackGuarantee } from "@/components/marketing/MoneyBackGuarantee";
-import { TOTAL_SEO_LANDING_PAGES } from "@/lib/seo/seo-index";
+import { TrackedCheckoutLink } from "@/components/analytics/TrackedCheckoutLink";
 import {
   PROP_FIRM_CHALLENGE_DAYS,
-  PROP_FIRM_MARKETING_HEADLINE,
   PROP_FIRM_PLAYBOOK_HREF,
 } from "@/lib/prop-firm-challenge-marketing";
 import {
   PREMIUM_INCLUDES_ANCHOR,
-  PREMIUM_INCLUDES_ONE_LINER,
   QUICKSILVER_QUANT_PROTOCOL,
 } from "@/lib/premium-includes";
-import { PREMIUM_PROMO_CODE, PREMIUM_PROMO_FIRST_MONTH } from "@/lib/pricing-tiers";
+import {
+  PREMIUM_PROMO_CODE,
+  PREMIUM_PROMO_FIRST_MONTH,
+  PREMIUM_PRICE,
+} from "@/lib/pricing-tiers";
 import { TOOL_COUNT } from "@/lib/tools-registry";
+import { trackSelectContent, trackViewQuantProtocol } from "@/lib/analytics/ga-events";
 import {
   BarChart3,
   Bot,
@@ -38,7 +43,7 @@ export function Hero() {
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-amber-400/25 bg-gradient-to-r from-amber-500/10 via-slate-900/60 to-cyan-500/5 px-4 py-1.5">
             <Bot className="h-3.5 w-3.5 text-amber-400" />
             <span className="font-mono text-xs uppercase tracking-[0.15em] text-amber-200/90">
-              {QUICKSILVER_QUANT_PROTOCOL.name} — live on TradeLocker
+              TradeLocker · {QUICKSILVER_QUANT_PROTOCOL.name}
             </span>
           </div>
 
@@ -48,30 +53,43 @@ export function Hero() {
               <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
             </span>
             <span className="font-mono text-xs uppercase tracking-[0.2em] text-slate-300">
-              Premium · Playbook + {TOOL_COUNT} Tools + Bot + Academy
+              Premium Quant · Bot + Playbook + {TOOL_COUNT} Tools + Academy
             </span>
           </div>
 
           <h1 className="mx-auto max-w-4xl font-mono text-3xl font-bold tracking-tight text-slate-50 sm:text-5xl lg:text-6xl">
-            {PROP_FIRM_MARKETING_HEADLINE}
+            Unlock Quant Protocol — and the full Premium trader stack
           </h1>
 
           <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-slate-400 sm:text-lg">
-            {PREMIUM_INCLUDES_ONE_LINER} Follow the day-by-day playbook, run the planning
-            engines, deploy the in-house algo — one subscription.
+            Requested the bot on TradeLocker? Premium Quant includes{" "}
+            <strong className="text-slate-300">{QUICKSILVER_QUANT_PROTOCOL.name}</strong>{" "}
+            plus the {PROP_FIRM_CHALLENGE_DAYS}-Day Prop Firm Playbook, {TOOL_COUNT} planning
+            engines, Chart Academy (forex &amp; CFDs), and live terminal risk tools — one
+            subscription.
+          </p>
+
+          <p className="mt-4 font-mono text-sm text-slate-500">
+            {PREMIUM_PROMO_FIRST_MONTH} first month with{" "}
+            <span className="text-cyan-400">{PREMIUM_PROMO_CODE}</span>
+            <span className="text-slate-600"> · then {PREMIUM_PRICE}/mo</span>
           </p>
 
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-            <Link href="/launch">
+            <Link
+              href="/quant-protocol"
+              onClick={() => trackViewQuantProtocol("homepage_hero")}
+            >
               <Button variant="primary" size="lg">
-                Join the Launch — {PREMIUM_PROMO_CODE} ({PREMIUM_PROMO_FIRST_MONTH})
+                <Bot className="h-4 w-4" />
+                Unlock Quant Protocol
               </Button>
             </Link>
-            <Link href={`/#${PREMIUM_INCLUDES_ANCHOR}`}>
+            <TrackedCheckoutLink source="homepage_hero">
               <Button variant="secondary" size="lg">
-                See Everything in Premium
+                Get Premium — {PREMIUM_PROMO_CODE}
               </Button>
-            </Link>
+            </TrackedCheckoutLink>
           </div>
           <div className="mx-auto mt-5 max-w-xl">
             <MoneyBackGuarantee variant="inline" />
@@ -81,74 +99,94 @@ export function Hero() {
               Free account
             </Link>
             {" · "}
-            <Link href={PROP_FIRM_PLAYBOOK_HREF} className="text-cyan-accent hover:underline">
-              Playbook preview
+            <Link href="/launch" className="text-cyan-accent hover:underline">
+              7-Day Playbook
             </Link>
             {" · "}
-            <Link href={QUICKSILVER_QUANT_PROTOCOL.href} className="text-cyan-accent hover:underline">
-              Quant Protocol bot
+            <Link
+              href="/lessons/forex-what-is-forex-trading"
+              className="text-cyan-accent hover:underline"
+              onClick={() => trackSelectContent("lesson", "forex-free")}
+            >
+              Free forex lesson
             </Link>
             {" · "}
-            <Link href="/learn" className="text-cyan-accent hover:underline">
-              {TOTAL_SEO_LANDING_PAGES}+ guides
+            <Link
+              href="/lessons/cfd-what-are-cfds"
+              className="text-cyan-accent hover:underline"
+              onClick={() => trackSelectContent("lesson", "cfd-free")}
+            >
+              Free CFD lesson
+            </Link>
+            {" · "}
+            <Link
+              href={`/#${PREMIUM_INCLUDES_ANCHOR}`}
+              className="text-cyan-accent hover:underline"
+            >
+              Everything in Premium
             </Link>
           </p>
         </div>
 
         <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <a
-            href={QUICKSILVER_QUANT_PROTOCOL.href}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/quant-protocol"
+            onClick={() => trackViewQuantProtocol("homepage_card")}
             className="qs-panel-shine group rounded-xl border border-amber-500/30 bg-gradient-to-br from-amber-500/5 to-slate-950 p-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all hover:-translate-y-0.5 hover:border-amber-400/40 sm:col-span-2 lg:col-span-1 lg:row-span-2"
           >
             <div className="mb-4 inline-flex rounded-lg border border-amber-500/30 bg-amber-500/10 p-2.5">
               <Bot className="h-7 w-7 text-amber-400" />
             </div>
             <p className="font-mono text-[10px] uppercase tracking-widest text-amber-400/90">
-              Ready to launch · TradeLocker Hub
+              #1 for TradeLocker bot requesters
             </p>
             <h3 className="mt-2 font-mono text-base font-semibold text-slate-100">
               {QUICKSILVER_QUANT_PROTOCOL.name}
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-slate-500">
-              {QUICKSILVER_QUANT_PROTOCOL.tagline}. Institutional execution with prop-aware
-              parameters — included with Premium.
+              {QUICKSILVER_QUANT_PROTOCOL.tagline}. Premium unlocks the bot workflow and the
+              full prop-aware stack around it.
             </p>
             <p className="mt-4 font-mono text-xs text-amber-300/80 group-hover:underline">
-              Open TradeLocker Hub →
+              See what&apos;s included →
             </p>
-          </a>
+          </Link>
 
           {[
             {
               icon: Calendar,
               title: `${PROP_FIRM_CHALLENGE_DAYS}-Day Playbook`,
               desc: "Profit caps, consistency checks & challenge tracker",
+              href: PROP_FIRM_PLAYBOOK_HREF,
             },
             {
               icon: BarChart3,
               title: `${TOOL_COUNT} Planning Engines`,
               desc: "Confluence, risk matrix, prop survival & more",
+              href: "/tools",
             },
             {
               icon: LineChart,
               title: "Live Terminal",
               desc: "TradeLocker connect + 4 in-terminal pro tools",
+              href: "/dashboard/bot",
             },
             {
               icon: Sparkles,
-              title: "89 Chart Academy Lessons",
-              desc: "Full library wired into playbook workflow",
+              title: "Forex & CFD Academy",
+              desc: "Free intro lessons + Premium deep dives",
+              href: "/lessons/forex-what-is-forex-trading",
             },
             {
               icon: Shield,
               title: "Prop OS + Journal",
               desc: "Command center, growth dashboard & community",
+              href: "/dashboard",
             },
           ].map((feature) => (
-            <div
+            <Link
               key={feature.title}
+              href={feature.href}
               className="qs-panel-shine group rounded-xl border border-slate-700/30 bg-qs-panel p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 hover:border-cyan-400/25"
             >
               <div className="mb-3 inline-flex rounded-lg border border-cyan-500/20 bg-cyan-500/5 p-2">
@@ -158,7 +196,7 @@ export function Hero() {
                 {feature.title}
               </h3>
               <p className="mt-1.5 text-xs leading-relaxed text-slate-500">{feature.desc}</p>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

@@ -9,6 +9,7 @@ import {
   PREMIUM_PROMO_CODE,
   PREMIUM_PROMO_FIRST_MONTH,
 } from "@/lib/pricing-constants";
+import { countAcademyLessons } from "@/lib/academy/content";
 import { LOCAL_TOOL_COUNT, QS_TOOL_COUNT, TOOL_COUNT } from "@/lib/tools-registry";
 
 export const PREMIUM_INCLUDES_ANCHOR = "premium-includes";
@@ -46,11 +47,11 @@ export const PROP_OS_FEATURES = [
 ] as const;
 
 export const CHART_ACADEMY_STATS = {
-  lessonCount: 89,
-  guideCount: 6,
+  lessonCount: countAcademyLessons(),
+  guideCount: 8,
   label: "Chart Academy",
   description:
-    "Structured lessons on price action, market structure, Fibonacci, candlesticks, trading styles — wired into the playbook workflow.",
+    "Structured lessons on price action, market structure, forex, CFDs, Fibonacci, candlesticks, and trading styles — wired into the playbook workflow.",
 } as const;
 
 export interface PremiumIncludeCategory {
