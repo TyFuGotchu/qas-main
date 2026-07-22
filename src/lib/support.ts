@@ -55,7 +55,7 @@ export const SITE_FAQS: FaqItem[] = [
     category: "Billing & Premium",
     question: "How much does Premium cost?",
     answer:
-      "Premium is $149.99/month and centers on the 7-Day Prop Firm Playbook — a day-by-day challenge plan to pass in one week while staying under the 20% consistency rule. Also includes all nine planning engines, Chart Academy, TradeLocker bot, and priority email support. Use code FIRST100 for $60 off your first month (first 100 users).",
+      "Premium is $149.99/month for the full stack: Quant Protocol on TradeLocker, the 7-Day Prop Firm Playbook (day-by-day challenge plan under the 20% consistency rule), all nine planning engines and Trading Tools, Chart Academy, and priority email support. Use code FIRST100 for $60 off your first month (first 100 users).",
   },
   {
     id: "prop-firm-playbook",
