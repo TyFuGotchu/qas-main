@@ -69,7 +69,7 @@ async function main() {
         data: {
           title: "Welcome to Quicksilver Algo",
           content:
-            "Connect TradeLocker via HeroFX to run the Quicksilver Quant Protocol bot. Premium unlocks the 7-Day Prop Firm Playbook, Chart Academy, and all planning tools.",
+            "Premium unlocks Quant Protocol (any TradeLocker broker), the 7-Day Prop Firm Playbook, Chart Academy, and all planning tools. HeroFX is optional if you need a retail account.",
           authorId: admin.id,
         },
       });

@@ -121,9 +121,9 @@ export const TRADING_BOT_EXTERNAL_LINKS: TradingBotExternalLink[] = [
   },
   {
     id: "herofx-broker",
-    label: "HeroFX (recommended broker)",
+    label: "HeroFX (optional recommended broker)",
     description:
-      "Partner broker for TradeLocker accounts — open or fund an account for live bot execution.",
+      "Optional partner if you need a retail TradeLocker account. Not required — Quant Protocol works with any TradeLocker-compatible broker.",
     href: HEROFX_PARTNER_URL,
     badge: "Broker",
     external: true,

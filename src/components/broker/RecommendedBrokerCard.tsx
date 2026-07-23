@@ -1,9 +1,14 @@
+import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
-import { TRADELOCKER_BOT_URL, HEROFX_PARTNER_URL } from "@/lib/constants";
-import { ExternalLink, Building2, TrendingUp } from "lucide-react";
+import { HEROFX_PARTNER_URL } from "@/lib/constants";
+import { ExternalLink, Building2 } from "lucide-react";
 
+/**
+ * Broker recommendation only — not bot setup.
+ * Quant Protocol runs on any TradeLocker-compatible broker; HeroFX is optional.
+ */
 export function RecommendedBrokerCard() {
   return (
     <Card className="border-emerald-500/20 bg-gradient-to-br from-obsidian-900/80 to-emerald-500/5">
@@ -18,30 +23,32 @@ export function RecommendedBrokerCard() {
                 Recommended Broker
               </Badge>
               <h3 className="font-mono text-lg font-bold text-slate-200">
-                TradeLocker + HeroFX
+                HeroFX
               </h3>
               <p className="mt-2 max-w-xl text-sm text-slate-500">
-                Deploy the Quicksilver Quant Protocol on{" "}
-                <span className="text-cyan-400">TradeLocker</span> with{" "}
-                <span className="text-emerald-400">HeroFX</span> as your
-                execution broker. Institutional-grade infrastructure optimized
-                for automated algo deployment.
+                Looking for a retail broker with TradeLocker access? We
+                recommend{" "}
+                <span className="text-emerald-400">HeroFX</span> as a smooth
+                place to open or fund an account.{" "}
+                <span className="text-slate-400">
+                  Not required — any TradeLocker-compatible broker works
+                </span>{" "}
+                (prop firms, funded accounts, and other TL brokers included).
+              </p>
+              <p className="mt-2 max-w-xl text-xs text-slate-600">
+                Bot setup lives under{" "}
+                <Link
+                  href="/dashboard/trading-bots"
+                  className="text-cyan-500/80 underline-offset-2 hover:text-cyan-400 hover:underline"
+                >
+                  Trading Bots
+                </Link>
+                , separate from this broker recommendation.
               </p>
             </div>
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row lg:ml-auto lg:shrink-0">
-            <a
-              href={TRADELOCKER_BOT_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button variant="secondary" size="md" className="w-full sm:w-auto">
-                <TrendingUp className="h-4 w-4" />
-                TradeLocker Platform
-                <ExternalLink className="h-3.5 w-3.5" />
-              </Button>
-            </a>
             <a
               href={HEROFX_PARTNER_URL}
               target="_blank"
