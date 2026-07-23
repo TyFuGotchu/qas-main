@@ -25,13 +25,6 @@ export function getAuthSecret(): string {
   return secret;
 }
 
-export function getHeroFxPartnerLink(): string {
-  return (
-    process.env.HEROFX_PARTNER_LINK ??
-    "https://herofx.co/?partner_code=9149459"
-  );
-}
-
 export interface EnvValidationResult {
   valid: boolean;
   missing: string[];
@@ -48,7 +41,6 @@ export function validateCoreProductionEnv(): EnvValidationResult {
     NEXTAUTH_SECRET:
       process.env.NEXTAUTH_SECRET ?? process.env.JWT_SECRET,
     STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
-    HEROFX_PARTNER_LINK: process.env.HEROFX_PARTNER_LINK,
   };
 
   const missing = Object.entries(required)

@@ -64,9 +64,9 @@ const FAQS = [
       "Install TradeLocker Desktop (required) → log into Quicksilver → Trading Bots → Quant Protocol for setup and asset settings → from desktop, open the marketplace hub and enable Quant Protocol on your account.",
   },
   {
-    question: "Do I need HeroFX or a specific broker?",
+    question: "Do I need a specific broker or prop firm?",
     answer:
-      "Any TradeLocker-compatible broker works. We recommend HeroFX for a smooth connect path. Premium also includes the live terminal tools once your account is linked.",
+      "Any TradeLocker-compatible broker or firm works. Our currently active verified partners are Risen FX (broker) and FunderPro (prop firm) — both allow bots/EAs. Ask in dashboard Command Center which workflow you use (bots vs manual) before picking a partner. Premium also includes live terminal tools once an account is linked.",
   },
 ];
 

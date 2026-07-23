@@ -128,6 +128,13 @@ export const SITE_FAQS: FaqItem[] = [
       "Planning tools work on any charting platform — no broker connection required. TradeLocker integration is optional for bot execution and live dashboard features only.",
   },
   {
+    id: "recommended-partners",
+    category: "Trading",
+    question: "Which brokers or prop firms do you recommend?",
+    answer:
+      "First tell us your workflow: Quicksilver automated bots (EAs) or manual/discretionary trading. Our currently active verified partners for both are Risen FX (broker) and FunderPro (prop firm) — both allow bots/EAs. Links and framing live on the dashboard under Recommended platforms. Other partners stay off the list until officially approved.",
+  },
+  {
     id: "tradelocker-setup",
     category: "Trading",
     question: "How do I connect TradeLocker?",

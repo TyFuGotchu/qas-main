@@ -1,4 +1,5 @@
-import { TRADELOCKER_BOT_URL, HEROFX_PARTNER_URL } from "@/lib/constants";
+import { TRADELOCKER_BOT_URL } from "@/lib/constants";
+import { ACTIVE_PARTNERS } from "@/lib/partners";
 
 /** External / marketplace destinations shown under Trading Bots. */
 export interface TradingBotExternalLink {
@@ -128,15 +129,15 @@ export const TRADING_BOT_EXTERNAL_LINKS: TradingBotExternalLink[] = [
     badge: "Primary bot",
     external: true,
   },
-  {
-    id: "herofx-broker",
-    label: "HeroFX (optional recommended broker)",
+  ...ACTIVE_PARTNERS.map((p) => ({
+    id: `partner-${p.id}`,
+    label: `${p.name} (${p.kindLabel})`,
     description:
-      "Optional partner if you need a retail TradeLocker account. Not required — Quant Protocol works with any TradeLocker-compatible broker.",
-    href: HEROFX_PARTNER_URL,
-    badge: "Broker",
-    external: true,
-  },
+      "Active verified partner — allows bots/EAs and works for manual trading. Not required; any TradeLocker-compatible account is fine.",
+    href: p.href,
+    badge: "Partner",
+    external: true as const,
+  })),
   {
     id: "live-terminal",
     label: "Live TradeLocker Terminal",

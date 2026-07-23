@@ -111,7 +111,7 @@ export function TradeLockerConnectForm({
             </h3>
           </div>
           <p className="mt-2 font-mono text-xs text-slate-500">
-            Works with any TradeLocker broker (FTMO, HeroFX, funded accounts,
+            Works with any TradeLocker broker (Risen FX, FunderPro, funded accounts,
             etc.). Credentials go only to our secure server proxy — tokens never
             touch the browser.
           </p>
@@ -148,7 +148,7 @@ export function TradeLockerConnectForm({
             />
             <p className="-mt-2 font-mono text-[10px] leading-relaxed text-slate-600">
               Use the exact server name from the TradeLocker app login screen —
-              case and spelling must match (e.g. FTMO, HeroFX, AquaFunded).
+              case and spelling must match your broker’s TradeLocker server name.
             </p>
 
             <Select

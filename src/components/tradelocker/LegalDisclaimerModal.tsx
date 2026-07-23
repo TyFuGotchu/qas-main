@@ -25,7 +25,7 @@ const LEGAL_CLAUSES = [
   },
   {
     title: "Execution and API Liability",
-    body: "By connecting your broker account (e.g., HeroFX) via the TradeLocker API, you acknowledge that Quicksilver Algo Systems is strictly a software conduit. We hold no liability for API outages, latency, execution delays, broker-side rejections, or financial losses resulting from the use of our automated algorithms.",
+    body: "By connecting your broker or prop-firm account via the TradeLocker API, you acknowledge that Quicksilver Algo Systems is strictly a software conduit. We hold no liability for API outages, latency, execution delays, broker-side rejections, or financial losses resulting from the use of our automated algorithms.",
   },
   {
     title: "User Control & Responsibility",
