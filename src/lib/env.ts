@@ -25,6 +25,14 @@ export function getAuthSecret(): string {
   return secret;
 }
 
+/** HeroFX affiliate link — override with HEROFX_PARTNER_LINK when needed. */
+export function getHeroFxPartnerLink(): string {
+  return (
+    process.env.HEROFX_PARTNER_LINK ??
+    "https://herofx.co/?partner_code=9149459"
+  );
+}
+
 export interface EnvValidationResult {
   valid: boolean;
   missing: string[];

@@ -3,9 +3,9 @@ name: partner-recommendations
 description: >
   How Quicksilver presents recommended brokers and prop firms. Use whenever a
   user asks about recommended platforms, funding, brokers, prop firms, partners,
-  "where should I trade", Risen FX, FunderPro, or affiliate links. Enforces
-  ask-first routing (bots vs manual), the active partner list only, and style-
-  specific framing. Never show pending partners.
+  "where should I trade", Risen FX, HeroFX, FunderPro, or affiliate links.
+  Enforces ask-first routing (bots vs manual), the full active partner list,
+  and style-specific framing. Never invent pending firms without links.
 ---
 
 # Partner recommendations (brokers & prop firms)
@@ -22,12 +22,13 @@ Follow this structure **exactly** when users ask about recommended platforms, fu
 
 ## 2. Universal partner list (after they answer)
 
-Same list for **both** manual traders and bot/EA runners:
+Same list for **both** manual traders and bot/EA runners. **Include every active affiliate link** (maximize revenue paths):
 
 - **Risen FX (Broker):** https://secure.risenfx.com/links/go/3587
+- **HeroFX (Broker):** use product `HEROFX_PARTNER_URL` / default `https://herofx.co/?partner_code=9149459` (override env `HEROFX_PARTNER_LINK` if set)
 - **FunderPro (Prop Firm):** https://funderpro.cxclick.com/visit/?bta=49026&brand=funderpro
 
-Source of truth in the product: `src/lib/partners.ts` → `ACTIVE_PARTNERS`.
+Source of truth: `src/lib/partners.ts` → `ACTIVE_PARTNERS`.
 
 ## 3. Presentation rules
 
@@ -35,25 +36,24 @@ Use clear bullet points. Frame by their answer:
 
 ### Manual / discretionary
 
-- Call these excellent top-tier platforms for **manual execution**.
-- **Must** highlight that both platforms **fully allow trading bots and EAs**.
+- Call these excellent platforms for **manual execution**.
+- **Must** highlight that these platforms **allow trading bots and EAs**.
 - Frame that as a benefit: if they later scale into Quicksilver automation, they will not need to switch brokers/firms.
 
 ### Bot / EA runners
 
-- Give the same links.
-- **Heavily emphasize** these platforms are verified by us **because** they explicitly allow bots/EAs and are optimized for Quicksilver algorithms (including Quant Protocol where TradeLocker is used).
+- Give the **same full list** of partner links.
+- Emphasize these platforms allow bots/EAs and work with Quicksilver algorithms (including Quant Protocol where TradeLocker is used).
 - Reminder when relevant: Quant Protocol runs on **TradeLocker Desktop**, not TradeLocker Web.
 
-## 4. Pending platforms (internal only — never display)
+## 4. Pending platforms (no live link yet — do not invent URLs)
 
-Keep in memory only. **Do not name, recommend, or link** these until the user (owner) green-lights live URLs:
+Do not recommend until the owner adds a live affiliate URL to `ACTIVE_PARTNERS`:
 
 - Goat Funded Trader (GFT)
 - AquaFunded
-- HeroFX
 - Lucid Trading
 
 ## Product UI
 
-Dashboard/homepage use `PartnerRecommendationFlow` (ask-first, then list). Do not reintroduce HeroFX or other pending names into user-facing UI.
+Dashboard/homepage: `PartnerRecommendationFlow` (ask-first, then full active list including HeroFX).

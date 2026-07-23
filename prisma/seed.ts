@@ -69,7 +69,7 @@ async function main() {
         data: {
           title: "Welcome to Quicksilver Algo",
           content:
-            "Premium unlocks Quant Protocol (any TradeLocker broker), the 7-Day Prop Firm Playbook, Chart Academy, and all planning tools. Verified partners: Risen FX and FunderPro (both bot-friendly).",
+            "Premium unlocks Quant Protocol (any TradeLocker broker), the 7-Day Prop Firm Playbook, Chart Academy, and all planning tools. Partner links: Risen FX, HeroFX, FunderPro (bot-friendly).",
           authorId: admin.id,
         },
       });

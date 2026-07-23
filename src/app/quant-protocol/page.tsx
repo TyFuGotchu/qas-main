@@ -66,7 +66,7 @@ const FAQS = [
   {
     question: "Do I need a specific broker or prop firm?",
     answer:
-      "Any TradeLocker-compatible broker or firm works. Our currently active verified partners are Risen FX (broker) and FunderPro (prop firm) — both allow bots/EAs. Ask in dashboard Command Center which workflow you use (bots vs manual) before picking a partner. Premium also includes live terminal tools once an account is linked.",
+      "Any TradeLocker-compatible broker or firm works. Our active partner links include Risen FX and HeroFX (brokers) and FunderPro (prop firm) — all allow bots/EAs. On the dashboard, pick bots vs manual first, then open any partner. Premium also includes live terminal tools once an account is linked.",
   },
 ];
 

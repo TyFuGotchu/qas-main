@@ -1,8 +1,10 @@
+import { HEROFX_PARTNER_URL } from "@/lib/constants";
+
 /**
  * Quicksilver partner / platform recommendations.
  *
  * ACTIVE partners are the only ones shown to users (UI, support, marketing).
- * Pending platforms stay in comments + Grok skill only — never render them.
+ * Keep every live affiliate / partner URL here so we maximize revenue paths.
  *
  * Presentation rule: always identify trading style (manual vs bots/EAs) BEFORE
  * dumping links when the user is asking for recommendations.
@@ -20,7 +22,10 @@ export interface ActivePartner {
   href: string;
 }
 
-/** Currently active, verified partners — same list for manual and bot users. */
+/**
+ * Currently active partners with live affiliate links.
+ * Same list for manual and bot users — order: brokers first, then prop firms.
+ */
 export const ACTIVE_PARTNERS: readonly ActivePartner[] = [
   {
     id: "risen-fx",
@@ -28,6 +33,13 @@ export const ACTIVE_PARTNERS: readonly ActivePartner[] = [
     kind: "broker",
     kindLabel: "Broker",
     href: "https://secure.risenfx.com/links/go/3587",
+  },
+  {
+    id: "herofx",
+    name: "HeroFX",
+    kind: "broker",
+    kindLabel: "Broker",
+    href: HEROFX_PARTNER_URL,
   },
   {
     id: "funderpro",
@@ -39,14 +51,12 @@ export const ACTIVE_PARTNERS: readonly ActivePartner[] = [
 ] as const;
 
 /**
- * Pending partners — NOT READY. Do not display, mention, or recommend.
- * Waiting on official links / back-end approval:
+ * Pending partners — no live affiliate URL yet. Do not display until approved:
  * - Goat Funded Trader (GFT)
  * - AquaFunded
- * - HeroFX
  * - Lucid Trading
  *
- * Add here only after green light + live URLs, then move into ACTIVE_PARTNERS.
+ * When ready, add to ACTIVE_PARTNERS with the partner link.
  */
 
 export const PARTNER_ROUTING_QUESTION =
@@ -77,18 +87,18 @@ export function getPartnerFraming(style: TradingStyle): {
     return {
       headline: "Top-tier platforms for manual execution",
       intro:
-        "These are our currently active, verified partners — excellent for discretionary trading with our playbook, planning engines, and live terminal tools.",
+        "These are our currently active partners with live signup links — excellent for discretionary trading with our playbook, planning engines, and live terminal tools.",
       highlight:
-        "Important benefit: both platforms fully allow trading bots and EAs. If you later scale into Quicksilver automated systems, you will not need to switch brokers or firms.",
+        "Important benefit: these platforms allow trading bots and EAs. If you later scale into Quicksilver automated systems, you will not need to switch brokers or firms.",
     };
   }
 
   return {
     headline: "Verified bot-friendly partners",
     intro:
-      "These platforms are specifically verified by Quicksilver because they explicitly allow trading bots / EAs and are optimized for our automated algorithms (including Quant Protocol on TradeLocker where supported).",
+      "These platforms are on our partner list because they allow trading bots / EAs and work well with Quicksilver algorithms (including Quant Protocol on TradeLocker where supported).",
     highlight:
-      "Use the partner links below to open or fund an account, then enable Quant Protocol from the TradeLocker desktop app when you are ready.",
+      "Use any partner link below to open or fund an account, then enable Quant Protocol from the TradeLocker desktop app when you are ready.",
   };
 }
 

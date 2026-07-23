@@ -132,7 +132,7 @@ export const SITE_FAQS: FaqItem[] = [
     category: "Trading",
     question: "Which brokers or prop firms do you recommend?",
     answer:
-      "First tell us your workflow: Quicksilver automated bots (EAs) or manual/discretionary trading. Our currently active verified partners for both are Risen FX (broker) and FunderPro (prop firm) — both allow bots/EAs. Links and framing live on the dashboard under Recommended platforms. Other partners stay off the list until officially approved.",
+      "First tell us your workflow: Quicksilver automated bots (EAs) or manual/discretionary trading. Active partner links for both: Risen FX and HeroFX (brokers) and FunderPro (prop firm) — bot/EA friendly. Full list with framing is on the dashboard under Recommended platforms.",
   },
   {
     id: "tradelocker-setup",
