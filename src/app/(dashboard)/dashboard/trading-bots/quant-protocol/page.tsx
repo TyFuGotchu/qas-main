@@ -3,6 +3,7 @@ import { Cpu, ExternalLink, ArrowLeft } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
+import { QuantProtocolDesktopNotice } from "@/components/trading-bots/QuantProtocolDesktopNotice";
 import { QuantProtocolSettings } from "@/components/trading-bots/QuantProtocolSettings";
 import {
   QUANT_PROTOCOL,
@@ -36,6 +37,8 @@ export default function QuantProtocolPage() {
         </p>
       </div>
 
+      <QuantProtocolDesktopNotice />
+
       <Card className="border-cyan-500/30 bg-gradient-to-br from-cyan-500/10 to-slate-950">
         <CardContent className="flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -43,7 +46,8 @@ export default function QuantProtocolPage() {
               Direct marketplace link
             </h3>
             <p className="mt-1 text-xs text-slate-500">
-              Subscribe and enable the bot on your TradeLocker account from the official hub.
+              Open this hub from the TradeLocker desktop app, then subscribe and enable the bot
+              on your account. Desktop only — not TradeLocker Web.
             </p>
           </div>
           <a
@@ -68,22 +72,30 @@ export default function QuantProtocolPage() {
           <ol className="space-y-3 font-mono text-sm text-slate-400">
             <li className="flex gap-3">
               <span className="text-cyan-400">01.</span>
-              Open the TradeLocker Hub link above and subscribe to Quant Protocol
+              Install and open the{" "}
+              <strong className="text-slate-300">TradeLocker desktop app</strong>{" "}
+              (not the web platform) and log in with your broker account
             </li>
             <li className="flex gap-3">
               <span className="text-cyan-400">02.</span>
-              Enable the bot on the funded / live account you want to trade
+              From desktop, open the TradeLocker Hub / marketplace, request access or
+              subscribe to Quant Protocol
             </li>
             <li className="flex gap-3">
               <span className="text-cyan-400">03.</span>
-              Apply the per-asset settings listed below for each symbol you run
+              Enable the bot on the funded / live account you want to trade
             </li>
             <li className="flex gap-3">
               <span className="text-cyan-400">04.</span>
+              Apply the per-asset settings listed below for each symbol you run
+            </li>
+            <li className="flex gap-3">
+              <span className="text-cyan-400">05.</span>
               Monitor fills and risk in{" "}
               <Link href="/dashboard/bot" className="text-cyan-400 hover:underline">
                 TradeLocker Terminal
-              </Link>
+              </Link>{" "}
+              (Quicksilver dashboard) while the bot runs on desktop
             </li>
           </ol>
         </CardContent>

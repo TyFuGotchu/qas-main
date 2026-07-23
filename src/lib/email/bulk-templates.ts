@@ -41,8 +41,8 @@ WHAT YOU GET WITH PREMIUM QUANT (${PREMIUM_PRICE}/mo)
 
 1) Quicksilver Quant Protocol (TradeLocker)
    • Flagship algo on the TradeLocker marketplace
-   • Connect & enable on your account — no local installs
-   • Runs alongside the live terminal and risk tools
+   • IMPORTANT: requires the TradeLocker DESKTOP app (not TradeLocker Web)
+   • Request access / enable the bot from desktop only
    • Marketplace: ${TRADELOCKER_BOT_URL}
 
 2) ${PROP_FIRM_CHALLENGE_DAYS}-Day Prop Firm Playbook
@@ -73,8 +73,9 @@ Use code ${PREMIUM_PROMO_CODE} for $60 off → ${PREMIUM_PROMO_FIRST_MONTH} your
 START HERE
 1. Subscribe to Premium Quant (code ${PREMIUM_PROMO_CODE} at checkout)
 2. Create / log into your Quicksilver account
-3. Open Trading Bots → Quant Protocol for setup + asset settings
-4. Connect TradeLocker and enable Quant Protocol on your account
+3. Install TradeLocker Desktop (required — bot not on web platform)
+4. Open Trading Bots → Quant Protocol for setup + asset settings
+5. From desktop, enable Quant Protocol on your TradeLocker account
 
 Full details (built for bot access requests):
 ${QUANT_PROTOCOL_PATH}
@@ -105,8 +106,9 @@ Same subscription also unlocks:
 
 1) Details: ${QUANT_PROTOCOL_PATH}
 2) Subscribe: ${CHECKOUT}
-3) Log in → Trading Bots → Quant Protocol (settings + setup)
-4) Enable the bot on your TradeLocker account
+3) Install TradeLocker Desktop (required — not web)
+4) Log in → Trading Bots → Quant Protocol (settings + setup)
+5) From desktop, enable the bot on your TradeLocker account
 
 Reply if you need help getting live.
 
@@ -117,6 +119,8 @@ function tradelockerBotFollowUpBody(): string {
   return `Quick follow-up on your Quicksilver Quant Protocol (TradeLocker) access request.
 
 Premium Quant = Quant Protocol on TradeLocker + the full prop-firm toolkit (playbook, risk tools, academy, live terminal).
+
+Reminder: the bot requires the TradeLocker desktop app — it will not appear or run on TradeLocker Web.
 
 ${PREMIUM_PROMO_CODE} → ${PREMIUM_PROMO_FIRST_MONTH} first month:
 ${CHECKOUT}

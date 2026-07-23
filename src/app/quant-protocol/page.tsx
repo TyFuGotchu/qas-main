@@ -7,6 +7,7 @@ import { TrackedCheckoutLink } from "@/components/analytics/TrackedCheckoutLink"
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
 import { MoneyBackGuarantee } from "@/components/marketing/MoneyBackGuarantee";
 import { PremiumEverythingIncluded } from "@/components/marketing/PremiumEverythingIncluded";
+import { QuantProtocolDesktopNotice } from "@/components/trading-bots/QuantProtocolDesktopNotice";
 import {
   CHART_ACADEMY_STATS,
   LIVE_TERMINAL_TOOLS,
@@ -48,6 +49,11 @@ const FAQS = [
     answer: `Premium Quant (${PREMIUM_PRICE}/mo) unlocks the full Quicksilver stack, including the workflow to enable Quicksilver Quant Protocol on your TradeLocker account. Use code ${PREMIUM_PROMO_CODE} for ${PREMIUM_PROMO_FIRST_MONTH} your first month.`,
   },
   {
+    question: "Do I need TradeLocker Desktop, or does the web platform work?",
+    answer:
+      "Desktop only. To request access and run Quicksilver Quant Protocol you must use the TradeLocker desktop application. The bot is not available on TradeLocker Web — install desktop, log in there, then request or enable the bot from the desktop marketplace.",
+  },
+  {
     question: "Is the bot a separate purchase from Premium?",
     answer:
       "No. Premium Quant is one subscription: Quant Protocol on TradeLocker, the 7-Day Prop Firm Playbook, planning engines, Chart Academy, live terminal tools, and Prop OS.",
@@ -55,7 +61,7 @@ const FAQS = [
   {
     question: "What do I do after I subscribe?",
     answer:
-      "Log into Quicksilver → Trading Bots → Quant Protocol for setup and asset settings → connect TradeLocker → enable Quant Protocol on your account from the marketplace hub.",
+      "Install TradeLocker Desktop (required) → log into Quicksilver → Trading Bots → Quant Protocol for setup and asset settings → from desktop, open the marketplace hub and enable Quant Protocol on your account.",
   },
   {
     question: "Do I need HeroFX or a specific broker?",
@@ -90,8 +96,12 @@ export default function QuantProtocolLandingPage() {
           text: "Copy asset settings (e.g. NAS100) and follow the setup checklist.",
         },
         {
-          name: "Enable the bot on TradeLocker",
-          text: "Subscribe/enable Quicksilver Quant Protocol on the TradeLocker hub and run it on your account.",
+          name: "Install TradeLocker Desktop",
+          text: "The bot is not available on TradeLocker Web. Download the desktop app and log in with your broker account.",
+        },
+        {
+          name: "Enable the bot on TradeLocker Desktop",
+          text: "From the desktop marketplace hub, subscribe/enable Quicksilver Quant Protocol and run it on your account.",
         },
       ],
     }),
@@ -146,6 +156,9 @@ export default function QuantProtocolLandingPage() {
         </div>
         <div className="mx-auto mt-6 max-w-2xl">
           <MoneyBackGuarantee variant="strip" />
+        </div>
+        <div className="mx-auto mt-6 max-w-2xl text-left">
+          <QuantProtocolDesktopNotice />
         </div>
       </header>
 

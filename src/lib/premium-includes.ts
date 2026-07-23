@@ -17,16 +17,16 @@ export const PREMIUM_INCLUDES_ANCHOR = "premium-includes";
 export const QUICKSILVER_QUANT_PROTOCOL = {
   name: "Quicksilver Quant Protocol",
   subtitle: "Apex Institutional Engine",
-  tagline: "Ready to launch on TradeLocker — no local installs",
+  tagline: "TradeLocker Desktop marketplace bot",
   description:
-    "Our flagship in-house algorithm on the TradeLocker marketplace. Subscribe through the hub, enable it on your account, and run institutional-grade execution alongside your live terminal — prop-firm-aware risk parameters built in.",
+    "Our flagship in-house algorithm on the TradeLocker marketplace. Requires the TradeLocker desktop app (not TradeLocker Web) to request access and run the bot. Enable it on your account from desktop, then use Quicksilver for settings and live terminal risk tools.",
   href: TRADELOCKER_BOT_URL,
   dashboardHref: "/dashboard/bot",
   highlights: [
-    "Live on TradeLocker Hub today",
-    "Connect & deploy in minutes",
-    "Runs with your live terminal + 4 pro tools",
-    "Premium members get full access workflow",
+    "TradeLocker Desktop required (not web)",
+    "Live on TradeLocker Hub marketplace",
+    "Enable from desktop on your broker account",
+    "Premium members get full setup + settings workflow",
   ],
 } as const;
 

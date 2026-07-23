@@ -40,7 +40,7 @@ export async function sendPremiumAccessConfirmation(params: {
       not just one product.
     </p>
     <ul style="color:#cbd5e1;padding-left:18px;margin:0 0 20px;">
-      <li style="margin-bottom:10px;"><strong style="color:#e2e8f0;">Quant Protocol on TradeLocker</strong> — bot setup &amp; settings in Dashboard → Trading Bots</li>
+      <li style="margin-bottom:10px;"><strong style="color:#e2e8f0;">Quant Protocol on TradeLocker</strong> — setup in Dashboard → Trading Bots. Requires the TradeLocker <em>desktop</em> app (not TradeLocker Web)</li>
       <li style="margin-bottom:10px;"><strong style="color:#e2e8f0;">7-Day Prop Firm Playbook</strong> — day-by-day challenge plan under consistency rules</li>
       <li style="margin-bottom:10px;"><strong style="color:#e2e8f0;">All planning engines &amp; Trading Tools</strong> — risk, consistency, expectancy, and more</li>
       <li style="margin-bottom:10px;"><strong style="color:#e2e8f0;">Chart Academy</strong> — full lesson library</li>

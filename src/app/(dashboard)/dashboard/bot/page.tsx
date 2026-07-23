@@ -46,9 +46,10 @@ export default function TradingPage() {
               Quicksilver Quant Protocol — Apex Institutional Engine
             </h3>
             <p className="mt-2 text-sm text-slate-500">
-              Our flagship algorithm on the TradeLocker marketplace. Subscribe
-              through the hub, enable it on your account, and run it alongside
-              your live terminal — no local installs required.
+              Our flagship algorithm on the TradeLocker marketplace. Request
+              access and run it from the TradeLocker desktop app only — it is
+              not available on TradeLocker Web. Use setup &amp; asset settings
+              under Trading Bots.
             </p>
           </div>
           <div className="flex shrink-0 flex-col gap-2">

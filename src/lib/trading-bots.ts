@@ -39,6 +39,15 @@ export const QUANT_PROTOCOL = {
   dashboardPath: "/dashboard/trading-bots/quant-protocol",
   /** Public landing for TradeLocker bot access requesters */
   publicPath: "/quant-protocol",
+  /**
+   * TradeLocker limitation: marketplace bots (including Quant Protocol) run on
+   * the desktop application only — not TradeLocker Web.
+   */
+  desktopRequiredTitle: "TradeLocker desktop app required",
+  desktopRequiredSummary:
+    "To request access and run Quicksilver Quant Protocol, you need the TradeLocker desktop application installed. The bot is not available on the TradeLocker web platform.",
+  desktopRequiredDetail:
+    "Download and install TradeLocker Desktop, log in with your broker account there, then request or enable Quant Protocol from the desktop marketplace. Web charts and web trading will not show or run this bot.",
 } as const;
 
 /**
@@ -114,7 +123,7 @@ export const TRADING_BOT_EXTERNAL_LINKS: TradingBotExternalLink[] = [
     id: "quant-protocol-hub",
     label: "TradeLocker Hub — Quant Protocol",
     description:
-      "Official marketplace listing for Quicksilver Quant Protocol (Apex Institutional Engine).",
+      "Official marketplace listing for Quicksilver Quant Protocol. Open from TradeLocker Desktop only — not available on the web platform.",
     href: TRADELOCKER_BOT_URL,
     badge: "Primary bot",
     external: true,

@@ -3,6 +3,7 @@ import { Bot, ExternalLink, Cpu, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
+import { QuantProtocolDesktopNotice } from "@/components/trading-bots/QuantProtocolDesktopNotice";
 import {
   QUANT_PROTOCOL,
   TRADING_BOT_EXTERNAL_LINKS,
@@ -27,6 +28,8 @@ export default function TradingBotsHubPage() {
           execution.
         </p>
       </div>
+
+      <QuantProtocolDesktopNotice />
 
       <Card className="border-cyan-500/30 bg-gradient-to-br from-cyan-500/10 to-slate-950">
         <CardContent className="flex flex-col gap-6 py-8 sm:flex-row sm:items-center">
