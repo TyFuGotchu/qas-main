@@ -26,16 +26,13 @@ model User {
   stripeCustomerId   String?
   stripePriceId      String?
   stripeSessionId    String?
-  /** Unique share code for invite links (?ref=CODE) */
+  /// Unique share code for invite links (?ref=CODE)
   referralCode       String?        @unique
-  /** User who referred this account (set at register only) */
+  /// User who referred this account (set at register only)
   referredById       String?
   referredBy         User?          @relation("UserReferrals", fields: [referredById], references: [id], onDelete: SetNull)
   referrals          User[]         @relation("UserReferrals")
-  /**
-   * Spendable promotional Premium credit in cents (from unlocked referral rewards).
-   * Prefer applying to Stripe — not taxable wages; cash-out is optional & manual.
-   */
+  /// Spendable promotional Premium credit in cents (unlocked referral rewards)
   referralCreditCents Int           @default(0)
   paypalEmail        String?
   createdAt          DateTime       @default(now())
@@ -54,10 +51,8 @@ model User {
   referralPayouts        ReferralPayoutRequest[]
 }
 
-/**
- * $5 promotional credit when a referred user becomes paid Premium.
- * pending → available (after hold) → applied_to_premium | cashed_out | clawed_back
- */
+// $5 promotional credit when a referred user becomes paid Premium.
+// status: pending | available | applied_to_premium | cashed_out | clawed_back
 model ReferralReward {
   id              String   @id @default(cuid())
   referrerId      String
@@ -78,7 +73,7 @@ model ReferralReward {
   @@index([availableAt, status])
 }
 
-/** Manual PayPal cash-out of promotional credit (min threshold). Admin pays offline. */
+// Manual PayPal cash-out of promotional credit (min threshold). Admin pays offline.
 model ReferralPayoutRequest {
   id           String    @id @default(cuid())
   userId       String
