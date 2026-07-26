@@ -28,6 +28,7 @@ import { HeatGauge } from "@/components/tools/qs/HeatGauge";
 import { ScoreRing } from "@/components/tools/qs/ScoreRing";
 import { TerminalPanel } from "@/components/ui/TerminalPanel";
 import { PremiumUpgradeNudge } from "@/components/engagement/PremiumUpgradeNudge";
+import { LivePortfolioLab } from "@/components/live-growth/LivePortfolioLab";
 import { cn } from "@/lib/utils";
 import {
   Activity,
@@ -215,6 +216,8 @@ export function LiveAccountGrowthCenter() {
       </div>
 
       <PremiumUpgradeNudge feature="Live Account Growth & scale planning" />
+
+      <LivePortfolioLab />
 
       {showPropBanner && (
         <Card className="border-cyan-500/30 bg-cyan-500/5">

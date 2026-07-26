@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
@@ -13,6 +13,8 @@ import {
   validatePassword,
 } from "@/lib/security/password";
 import { trackLogin, trackSignUp } from "@/lib/analytics/ga-events";
+import { RecaptchaField } from "@/components/auth/RecaptchaField";
+import { isRecaptchaSiteKeyPresent } from "@/lib/security/recaptcha-public";
 
 interface AuthFormProps {
   mode: "login" | "register";
@@ -24,6 +26,8 @@ export function AuthForm({ mode }: AuthFormProps) {
   const { setUser } = useSession();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const captchaRequired = mode === "register" && isRecaptchaSiteKeyPresent();
 
   const redirectParam = searchParams.get("redirect");
 
@@ -32,6 +36,10 @@ export function AuthForm({ mode }: AuthFormProps) {
     password: "",
     name: "",
   });
+
+  const onCaptchaToken = useCallback((token: string | null) => {
+    setCaptchaToken(token);
+  }, []);
 
   function getPostAuthRedirect(user: {
     onboardingComplete: boolean;
@@ -57,6 +65,11 @@ export function AuthForm({ mode }: AuthFormProps) {
         setLoading(false);
         return;
       }
+      if (captchaRequired && !captchaToken) {
+        setError("Please complete the captcha verification");
+        setLoading(false);
+        return;
+      }
     }
 
     try {
@@ -65,7 +78,10 @@ export function AuthForm({ mode }: AuthFormProps) {
       const body =
         mode === "login"
           ? { email: form.email, password: form.password }
-          : form;
+          : {
+              ...form,
+              recaptchaToken: captchaToken ?? undefined,
+            };
 
       const res = await fetch(endpoint, {
         method: "POST",
@@ -160,6 +176,10 @@ export function AuthForm({ mode }: AuthFormProps) {
             <p className="font-mono text-[10px] text-slate-600">
               {PASSWORD_REQUIREMENTS_HINT}
             </p>
+          )}
+
+          {mode === "register" && (
+            <RecaptchaField onToken={onCaptchaToken} />
           )}
 
           {error && (

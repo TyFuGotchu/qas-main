@@ -11,6 +11,10 @@ import {
   enforceRateLimit,
   rateLimitResponse,
 } from "@/lib/security/rate-limit";
+import {
+  isDisposableEmail,
+  verifyRecaptchaToken,
+} from "@/lib/security/recaptcha";
 
 const REGISTER_LIMIT = 5;
 const REGISTER_WINDOW_MS = 15 * 60 * 1000;
@@ -28,10 +32,11 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { email, password, name } = body as {
+    const { email, password, name, recaptchaToken } = body as {
       email: string;
       password: string;
       name?: string;
+      recaptchaToken?: string;
     };
 
     if (!email || !password || !name?.trim()) {
@@ -45,6 +50,28 @@ export async function POST(request: NextRequest) {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
       return NextResponse.json(
         { error: "A valid email address is required" },
+        { status: 400 }
+      );
+    }
+
+    if (isDisposableEmail(normalizedEmail)) {
+      return NextResponse.json(
+        {
+          error:
+            "Please use a permanent email address (temporary/disposable emails are not allowed)",
+        },
+        { status: 400 }
+      );
+    }
+
+    const captcha = await verifyRecaptchaToken(
+      recaptchaToken,
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+        request.headers.get("x-real-ip")
+    );
+    if (!captcha.ok) {
+      return NextResponse.json(
+        { error: captcha.error ?? "Captcha verification failed" },
         { status: 400 }
       );
     }

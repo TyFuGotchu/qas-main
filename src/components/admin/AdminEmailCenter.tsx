@@ -80,7 +80,14 @@ export function AdminEmailCenter() {
     audience: "all",
     customEmails: "",
   });
+  const [singleForm, setSingleForm] = useState({
+    to: "",
+    subject: "",
+    body: "",
+    fromSupport: true,
+  });
   const [templateId, setTemplateId] = useState("");
+  const [singleTemplateId, setSingleTemplateId] = useState("");
 
   const selected = inbox.find((e) => e.id === selectedId) ?? null;
 
@@ -105,6 +112,52 @@ export function AdminEmailCenter() {
     }));
     setPreviewCount(null);
     setMessage(`Loaded template: ${template.label}`);
+  }
+
+  function applySingleTemplate(id: string) {
+    setSingleTemplateId(id);
+    if (!id) return;
+    const template = getBulkEmailTemplate(id);
+    if (!template) return;
+    setSingleForm((f) => ({
+      ...f,
+      subject: template.subject,
+      body: template.body,
+    }));
+    setMessage(`Loaded template for single send: ${template.label}`);
+  }
+
+  async function sendSingle(e: React.FormEvent) {
+    e.preventDefault();
+    if (
+      !window.confirm(
+        `Send this email only to ${singleForm.to.trim()}?`
+      )
+    ) {
+      return;
+    }
+    setSending(true);
+    setMessage("");
+    try {
+      const res = await fetch("/api/admin/email/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          to: singleForm.to,
+          subject: singleForm.subject,
+          body: singleForm.body,
+          fromSupport: singleForm.fromSupport,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setMessage(`Single email sent to ${data.to} (id ${data.id ?? "ok"})`);
+      } else {
+        setMessage(data.error ?? "Single send failed");
+      }
+    } finally {
+      setSending(false);
+    }
   }
 
   const loadAll = useCallback(async (opts?: { sync?: boolean }) => {
@@ -281,7 +334,7 @@ export function AdminEmailCenter() {
           Email Center
         </h3>
         <p className="mt-1 font-mono text-xs text-slate-500">
-          Bulk broadcasts to users + support inbox for{" "}
+          Single emails, bulk broadcasts, templates, and support inbox for{" "}
           <span className="text-cyan-400">
             {status?.supportInbox ?? "supportteam@quicksilveralgo.com"}
           </span>
@@ -335,6 +388,90 @@ export function AdminEmailCenter() {
       )}
 
       <div className="grid gap-6 xl:grid-cols-2">
+        <Card className="border-emerald-500/20">
+          <CardHeader>
+            <h4 className="flex items-center gap-2 font-mono text-sm font-semibold text-slate-200">
+              <Mail className="h-4 w-4 text-emerald-400" />
+              Single email
+            </h4>
+            <p className="font-mono text-[10px] text-slate-600">
+              One recipient only — for support replies, access notes, or one-off
+              promos. Use bulk for lists.
+            </p>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={(e) => void sendSingle(e)} className="space-y-3">
+              <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-3 space-y-2">
+                <p className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-emerald-400/90">
+                  <FileText className="h-3.5 w-3.5" />
+                  Templates
+                </p>
+                <Select
+                  label="Load template"
+                  options={templateOptions}
+                  value={singleTemplateId}
+                  onChange={(e) => applySingleTemplate(e.target.value)}
+                />
+              </div>
+              <Input
+                label="To (one email)"
+                type="email"
+                required
+                value={singleForm.to}
+                onChange={(e) =>
+                  setSingleForm({ ...singleForm, to: e.target.value })
+                }
+                placeholder="trader@email.com"
+              />
+              <Input
+                label="Subject"
+                required
+                value={singleForm.subject}
+                onChange={(e) =>
+                  setSingleForm({ ...singleForm, subject: e.target.value })
+                }
+              />
+              <div className="flex flex-col gap-1.5">
+                <label className="font-mono text-xs uppercase tracking-wider text-slate-400">
+                  Message body
+                </label>
+                <textarea
+                  value={singleForm.body}
+                  onChange={(e) =>
+                    setSingleForm({ ...singleForm, body: e.target.value })
+                  }
+                  required
+                  rows={8}
+                  className="w-full rounded border border-slate-700 bg-obsidian-800 px-3 py-2 font-mono text-sm text-slate-200 focus:border-cyan-500/50 focus:outline-none"
+                  placeholder="Write a one-to-one email, or load a template…"
+                />
+              </div>
+              <label className="flex items-center gap-2 font-mono text-xs text-slate-400">
+                <input
+                  type="checkbox"
+                  checked={singleForm.fromSupport}
+                  onChange={(e) =>
+                    setSingleForm({
+                      ...singleForm,
+                      fromSupport: e.target.checked,
+                    })
+                  }
+                  className="rounded border-slate-600"
+                />
+                Send from support address (recommended for 1:1)
+              </label>
+              <Button
+                type="submit"
+                variant="primary"
+                size="sm"
+                disabled={sending}
+              >
+                {sending ? "Sending…" : "Send single email"}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+
         <Card>
           <CardHeader>
             <h4 className="flex items-center gap-2 font-mono text-sm font-semibold text-slate-200">
@@ -362,7 +499,7 @@ export function AdminEmailCenter() {
                       "custom" && (
                       <>
                         {" "}
-                        Paste TradeLocker bot requesters under{" "}
+                        Paste addresses under{" "}
                         <strong className="text-slate-400">Custom email list</strong>.
                       </>
                     )}

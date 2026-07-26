@@ -184,6 +184,150 @@ Or read the full stack: ${QUANT_PROTOCOL_PATH}
 
 — Quicksilver Algo`,
   },
+  {
+    id: "first100-few-spots",
+    label: "FIRST100 — only a few spots left",
+    description:
+      "Scarcity promo: first-month discount is nearly gone. Great for free users or custom leads.",
+    defaultAudience: "free",
+    subject: `Only a few ${PREMIUM_PROMO_CODE} spots left — ${PREMIUM_PROMO_FIRST_MONTH} first month`,
+    body: `Hi,
+
+Quick heads-up: the ${PREMIUM_PROMO_CODE} first-month offer is almost full.
+
+We capped the promo at the first 100 Premium redemptions. Only a few spots remain for:
+
+• ${PREMIUM_PROMO_FIRST_MONTH} your first month (then ${PREMIUM_PRICE}/mo)
+• Full Premium stack: Quant Protocol (TradeLocker Desktop), ${PROP_FIRM_CHALLENGE_DAYS}-Day Playbook, ${TOOL_COUNT} planning tools, Chart Academy, live terminal
+
+If you've been waiting to upgrade, this is the window.
+
+Claim ${PREMIUM_PROMO_CODE} at checkout:
+${CHECKOUT}
+
+(Code may not apply after the 100 redemptions are gone.)
+
+Questions? Just reply.
+
+— Quicksilver Algo`,
+  },
+  {
+    id: "first100-last-call",
+    label: "FIRST100 — last call (urgent)",
+    description: "Shorter urgency version of the few-spots promo.",
+    defaultAudience: "free",
+    subject: `Last call: ${PREMIUM_PROMO_CODE} almost gone`,
+    body: `Last call —
+
+${PREMIUM_PROMO_CODE} (${PREMIUM_PROMO_FIRST_MONTH} first month) is down to the final redemptions.
+
+${CHECKOUT}
+
+After that, standard ${PREMIUM_PRICE}/mo applies.
+
+— Quicksilver`,
+  },
+  {
+    id: "welcome-premium",
+    label: "Welcome — Premium access confirmed",
+    description: "Single or small-batch note after you grant Premium in admin.",
+    defaultAudience: "custom",
+    subject: "Welcome to Premium — your access is live",
+    body: `Hi,
+
+Your Quicksilver Premium access is confirmed.
+
+What's unlocked:
+• Quant Protocol on TradeLocker (desktop app required — not web)
+• ${PROP_FIRM_CHALLENGE_DAYS}-Day Prop Firm Playbook
+• All planning engines + Trading Tools
+• Chart Academy + live terminal tools
+
+Start here:
+1) Dashboard → Trading Bots → Quant Protocol (settings)
+2) Dashboard → Playbook
+3) Dashboard → Tools
+
+Login: ${SITE_URL.replace(/\/$/, "")}/login
+
+If anything looks wrong, reply to this email.
+
+— Quicksilver Algo`,
+  },
+  {
+    id: "bot-desktop-reminder",
+    label: "Bot — desktop app required",
+    description: "Clarify Quant Protocol needs TradeLocker Desktop, not web.",
+    defaultAudience: "custom",
+    subject: "Important: TradeLocker Desktop required for Quant Protocol",
+    body: `Hi,
+
+Quick clarification on Quicksilver Quant Protocol:
+
+The bot is only available through the TradeLocker DESKTOP application.
+It will not appear or run on TradeLocker Web.
+
+Steps:
+1) Download / install TradeLocker Desktop
+2) Log in with your broker / prop account
+3) Request or enable Quant Protocol from the desktop marketplace
+4) Use Quicksilver → Trading Bots for asset settings
+
+Marketplace: ${TRADELOCKER_BOT_URL}
+Setup guide: ${QUANT_PROTOCOL_PATH}
+
+— Quicksilver Algo`,
+  },
+  {
+    id: "support-received",
+    label: "Support — we got your message",
+    description: "Acknowledge an inbound support ticket while you dig in.",
+    defaultAudience: "custom",
+    subject: "We received your message — Quicksilver Support",
+    body: `Hi,
+
+Thanks for writing in. We received your message and will get back to you as soon as we can.
+
+If you have screenshots, account email, or more detail, reply to this thread so everything stays in one place.
+
+— Quicksilver Support`,
+  },
+  {
+    id: "billing-help",
+    label: "Billing — how to manage subscription",
+    description: "Common reply for cancel / change / invoice questions.",
+    defaultAudience: "custom",
+    subject: "Re: billing / subscription help",
+    body: `Hi,
+
+Happy to help with billing.
+
+Premium is billed through Stripe. To cancel or update payment:
+1) Reply with the email on your Quicksilver account (subject: Billing), or
+2) Use the customer portal link from your Stripe receipt email if you have one
+
+We can also confirm whether ${PREMIUM_PROMO_CODE} applied to your first invoice.
+
+— Quicksilver Support`,
+  },
+  {
+    id: "access-login-help",
+    label: "Access — login / password help",
+    description: "When someone can't get into the dashboard.",
+    defaultAudience: "custom",
+    subject: "Re: login help",
+    body: `Hi,
+
+Sorry you're stuck on login.
+
+Try:
+1) https://quicksilveralgo.com/login with the exact email you registered
+2) If you need a password reset, reply with that email and we'll set a temporary password for you (min 10 chars, upper + lower + number)
+
+If you paid but still see Free tier, reply with the payment email — we can grant Premium from admin.
+
+— Quicksilver Support`,
+  },
 ];
 
 export function getBulkEmailTemplate(id: string): BulkEmailTemplate | undefined {
