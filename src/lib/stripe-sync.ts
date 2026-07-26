@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getStripe } from "@/lib/stripe";
 import { getStripeMappingFromPriceId } from "@/lib/stripe-tiers";
 import { triggerOnboardingSequence } from "@/lib/email/onboarding-sequence";
+import { awardReferralOnPaidPremium } from "@/lib/referrals";
 import { isPremiumTier } from "@/lib/tiers";
 import type { AccountTier } from "@/types";
 
@@ -88,6 +89,19 @@ export async function syncUserTierFromStripePriceId(params: {
     }).catch((err) =>
       console.error("[stripe-sync] Onboarding email error:", err)
     );
+
+    awardReferralOnPaidPremium({
+      paidUserId: updatedUser.id,
+      stripeSessionId: params.stripeSessionId,
+    })
+      .then((r) =>
+        console.info(
+          `[stripe-sync] referral award paidUser=${updatedUser.id} awarded=${r.awarded} reason=${r.reason}`
+        )
+      )
+      .catch((err) =>
+        console.error("[stripe-sync] Referral award error:", err)
+      );
   }
 
   return {

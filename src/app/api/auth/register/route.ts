@@ -15,6 +15,11 @@ import {
   isDisposableEmail,
   verifyRecaptchaToken,
 } from "@/lib/security/recaptcha";
+import {
+  ensureUserReferralCode,
+  generateReferralCode,
+  resolveReferrerIdByCode,
+} from "@/lib/referrals";
 
 const REGISTER_LIMIT = 5;
 const REGISTER_WINDOW_MS = 15 * 60 * 1000;
@@ -32,11 +37,12 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { email, password, name, recaptchaToken } = body as {
+    const { email, password, name, recaptchaToken, referralCode } = body as {
       email: string;
       password: string;
       name?: string;
       recaptchaToken?: string;
+      referralCode?: string;
     };
 
     if (!email || !password || !name?.trim()) {
@@ -96,6 +102,18 @@ export async function POST(request: NextRequest) {
 
     const passwordHash = await bcrypt.hash(password, 12);
 
+    const referredById = await resolveReferrerIdByCode(referralCode);
+
+    let ownCode = generateReferralCode();
+    for (let i = 0; i < 5; i++) {
+      const clash = await prisma.user.findUnique({
+        where: { referralCode: ownCode },
+        select: { id: true },
+      });
+      if (!clash) break;
+      ownCode = generateReferralCode();
+    }
+
     const user = await prisma.user.create({
       data: {
         email: normalizedEmail,
@@ -104,8 +122,18 @@ export async function POST(request: NextRequest) {
         accountTier: "Free",
         subscriptionTier: "FREE",
         onboardingComplete: false,
+        referralCode: ownCode,
+        // Never self-refer (impossible at create) — skip if invalid code
+        referredById: referredById ?? undefined,
       },
     });
+
+    // If code allocation somehow failed uniqueness, ensure later
+    try {
+      await ensureUserReferralCode(user.id);
+    } catch {
+      /* non-fatal */
+    }
 
     const sessionUser = toUserSession(user);
     const token = await createSessionToken(sessionUser);

@@ -9,6 +9,7 @@ import Button from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { TerminalPanel } from "@/components/ui/TerminalPanel";
 import { AdminEmailCenter } from "@/components/admin/AdminEmailCenter";
+import { AdminReferralsPanel } from "@/components/admin/AdminReferralsPanel";
 import {
   Users,
   Megaphone,
@@ -18,6 +19,7 @@ import {
   Crown,
   KeyRound,
   CheckCircle2,
+  Gift,
 } from "lucide-react";
 
 interface AdminUser {
@@ -38,7 +40,7 @@ interface AdminAnnouncement {
   createdAt: string;
 }
 
-type AdminTab = "users" | "email" | "announcements";
+type AdminTab = "users" | "email" | "announcements" | "referrals";
 
 function isPremium(tier: string) {
   return tier === ACCOUNT_TIERS.PREMIUM_QUANT;
@@ -352,6 +354,7 @@ export function AdminDashboard() {
   const tabs: { id: AdminTab; label: string; icon: typeof Users }[] = [
     { id: "users", label: "Users", icon: Users },
     { id: "email", label: "Email", icon: Mail },
+    { id: "referrals", label: "Referrals", icon: Gift },
     { id: "announcements", label: "Announcements", icon: Megaphone },
   ];
 
@@ -581,6 +584,8 @@ export function AdminDashboard() {
       )}
 
       {tab === "email" && <AdminEmailCenter />}
+
+      {tab === "referrals" && <AdminReferralsPanel />}
 
       {tab === "announcements" && (
         <div className="grid gap-6 lg:grid-cols-2">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
@@ -30,12 +30,24 @@ export function AuthForm({ mode }: AuthFormProps) {
   const captchaRequired = mode === "register" && isRecaptchaSiteKeyPresent();
 
   const redirectParam = searchParams.get("redirect");
+  const refFromUrl = searchParams.get("ref");
 
   const [form, setForm] = useState({
     email: "",
     password: "",
     name: "",
   });
+
+  // Persist invite code so checkout path still attributes if they bounce
+  useEffect(() => {
+    if (mode !== "register" || !refFromUrl) return;
+    try {
+      localStorage.setItem("qs_ref", refFromUrl.trim().toUpperCase());
+      document.cookie = `qs_ref=${encodeURIComponent(refFromUrl.trim().toUpperCase())};path=/;max-age=${60 * 60 * 24 * 30};samesite=lax`;
+    } catch {
+      /* ignore */
+    }
+  }, [mode, refFromUrl]);
 
   const onCaptchaToken = useCallback((token: string | null) => {
     setCaptchaToken(token);
@@ -75,12 +87,23 @@ export function AuthForm({ mode }: AuthFormProps) {
     try {
       const endpoint =
         mode === "login" ? "/api/auth/login" : "/api/auth/register";
+      let referralCode: string | undefined;
+      if (mode === "register") {
+        referralCode =
+          refFromUrl?.trim().toUpperCase() ||
+          (typeof window !== "undefined"
+            ? localStorage.getItem("qs_ref") ?? undefined
+            : undefined) ||
+          undefined;
+      }
+
       const body =
         mode === "login"
           ? { email: form.email, password: form.password }
           : {
               ...form,
               recaptchaToken: captchaToken ?? undefined,
+              referralCode,
             };
 
       const res = await fetch(endpoint, {

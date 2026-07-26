@@ -7,6 +7,7 @@ import { accountTierToSubscriptionTier } from "@/lib/accessControl";
 import { validatePassword } from "@/lib/security/password";
 import { sendPremiumAccessConfirmation } from "@/lib/email/premium-confirmation";
 import { triggerOnboardingSequence } from "@/lib/email/onboarding-sequence";
+import { awardReferralOnPaidPremium } from "@/lib/referrals";
 import { isPremiumTier } from "@/lib/tiers";
 import { ACCOUNT_TIERS, type AccountTier } from "@/types";
 
@@ -159,6 +160,18 @@ export async function PATCH(
         error: err instanceof Error ? err.message : "Email send failed",
       };
     }
+  }
+
+  if (becamePremium) {
+    awardReferralOnPaidPremium({ paidUserId: user.id })
+      .then((r) =>
+        console.info(
+          `[admin] referral award user=${user.id} awarded=${r.awarded} reason=${r.reason}`
+        )
+      )
+      .catch((err) =>
+        console.error("[admin] referral award after grant:", err)
+      );
   }
 
   return NextResponse.json({

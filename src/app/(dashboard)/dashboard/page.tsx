@@ -99,6 +99,25 @@ export default async function DashboardPage() {
 
       <AnnouncementBanner />
 
+      <Card className="border-emerald-500/25 bg-emerald-500/5">
+        <CardContent className="flex flex-wrap items-center gap-4 py-4">
+          <div className="flex-1">
+            <p className="font-mono text-sm font-semibold text-emerald-300">
+              Invite friends — earn $5 Premium credit
+            </p>
+            <p className="mt-1 text-xs text-slate-500">
+              When someone you invite pays for Premium, you get promotional
+              credit (Stripe invoice credit preferred; PayPal only after $25).
+            </p>
+          </div>
+          <Link href="/dashboard/invite">
+            <Button variant="primary" size="sm">
+              Invite &amp; Earn
+            </Button>
+          </Link>
+        </CardContent>
+      </Card>
+
       <RecommendedBrokerCard />
 
       <PlaybookChallengeWidget variant="compact" />
