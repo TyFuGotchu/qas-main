@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
-import {
-  formatCents,
-  requestPaypalPayout,
-} from "@/lib/referrals";
+import { requestPaypalPayout } from "@/lib/referrals";
 
 export const dynamic = "force-dynamic";
 
