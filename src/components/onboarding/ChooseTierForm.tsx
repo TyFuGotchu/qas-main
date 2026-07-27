@@ -4,10 +4,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { AccountTier } from "@/types";
 import {
-  PREMIUM_PROMO_FIRST_MONTH,
-  PREMIUM_PROMO_NOTE,
   PRICING_TIERS,
   getPremiumCheckoutUrl,
+  PREMIUM_PRICE,
 } from "@/lib/pricing-tiers";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
@@ -18,7 +17,7 @@ import { cn } from "@/lib/utils";
 import { trackBeginCheckout } from "@/lib/analytics/ga-events";
 import { MoneyBackGuarantee } from "@/components/marketing/MoneyBackGuarantee";
 
-const PREMIUM_CHECKOUT = getPremiumCheckoutUrl(true);
+const PREMIUM_CHECKOUT = getPremiumCheckoutUrl();
 
 export function ChooseTierForm() {
   const router = useRouter();
@@ -136,7 +135,7 @@ export function ChooseTierForm() {
           Select Your <span className="text-cyan-terminal">Access Tier</span>
         </h1>
         <p className="mx-auto mt-3 max-w-xl font-mono text-sm text-slate-500">
-          Premium unlocks instantly after Stripe checkout — {PREMIUM_PROMO_NOTE.toLowerCase()}.
+          Premium unlocks instantly after Stripe checkout — {"".toLowerCase()}.
           Or start free and upgrade anytime.
         </p>
       </div>
@@ -176,7 +175,7 @@ export function ChooseTierForm() {
                 </div>
                 {tier.tier === "Premium Quant" && (
                   <p className="mt-2 font-mono text-xs text-emerald-terminal">
-                    {PREMIUM_PROMO_FIRST_MONTH} first month with FIRST100
+                    Full access · {PREMIUM_PRICE}/mo
                   </p>
                 )}
               </CardHeader>
@@ -202,7 +201,7 @@ export function ChooseTierForm() {
                       handlePremiumCheckout();
                     }}
                   >
-                    Pay {PREMIUM_PROMO_FIRST_MONTH} via Stripe
+                    Pay {PREMIUM_PRICE} via Stripe
                     <ExternalLink className="h-3.5 w-3.5" />
                   </Button>
                 ) : (
@@ -243,7 +242,7 @@ export function ChooseTierForm() {
           {loading
             ? "Activating..."
             : selectedTier === "Premium Quant"
-              ? `Subscribe — ${PREMIUM_PROMO_FIRST_MONTH} First Month`
+              ? `Subscribe — ${PREMIUM_PRICE}/mo`
               : selectedTier === "Free"
                 ? "Continue with Free Access"
                 : "Select a Plan"}

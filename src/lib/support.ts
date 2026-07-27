@@ -55,7 +55,7 @@ export const SITE_FAQS: FaqItem[] = [
     category: "Billing & Premium",
     question: "How much does Premium cost?",
     answer:
-      "Premium is $149.99/month for the full stack: Quant Protocol on TradeLocker, the 7-Day Prop Firm Playbook (day-by-day challenge plan under the 20% consistency rule), all nine planning engines and Trading Tools, Chart Academy, and priority email support. Use code FIRST100 for $60 off your first month (first 100 users).",
+      "Premium is $149.99/month for the full stack: Quant Protocol on TradeLocker, the 7-Day Prop Firm Playbook (day-by-day challenge plan under the 20% consistency rule), all nine planning engines and Trading Tools, Chart Academy, and priority email support.",
   },
   {
     id: "prop-firm-playbook",
@@ -70,13 +70,6 @@ export const SITE_FAQS: FaqItem[] = [
     question: "What are the Premium Trading Tools?",
     answer:
       "Three proprietary calculators — Strategy Expectancy Validator, Dynamic ATR Pip-Range, and Prop Firm Compounding Matrix. All three are included with Premium alongside the six QS Planning Modules. Browse previews at quicksilveralgo.com/tools or unlock inside Dashboard → Trading Tools.",
-  },
-  {
-    id: "first100-promo",
-    category: "Billing & Premium",
-    question: "How do I use the FIRST100 promo code?",
-    answer:
-      "Enter FIRST100 at Stripe checkout when subscribing to Premium. Your first month is $89.99 instead of $149.99. The code is limited to the first 100 redemptions.",
   },
   {
     id: "cancel-subscription",
@@ -199,7 +192,7 @@ export function getFaqsByCategory(category: string): FaqItem[] {
 export const SUPPORT_TOPICS = [
   {
     title: "Billing & subscriptions",
-    description: "Upgrades, FIRST100 promo, cancellations, and Stripe receipts",
+    description: "Upgrades, cancellations, and Stripe receipts",
     subject: "Billing",
   },
   {

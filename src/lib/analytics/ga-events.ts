@@ -18,8 +18,7 @@ export function trackGaEvent(eventName: string, params?: GaEventParams): void {
 export function trackBeginCheckout(source: string): void {
   trackGaEvent("begin_checkout", {
     currency: "USD",
-    value: 89.99,
-    coupon: "FIRST100",
+    value: 149.99,
     source,
   });
 }

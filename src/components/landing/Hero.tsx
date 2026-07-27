@@ -13,8 +13,6 @@ import {
   QUICKSILVER_QUANT_PROTOCOL,
 } from "@/lib/premium-includes";
 import {
-  PREMIUM_PROMO_CODE,
-  PREMIUM_PROMO_FIRST_MONTH,
   PREMIUM_PRICE,
 } from "@/lib/pricing-tiers";
 import { TOOL_COUNT } from "@/lib/tools-registry";
@@ -70,9 +68,7 @@ export function Hero() {
           </p>
 
           <p className="mt-4 font-mono text-sm text-slate-500">
-            {PREMIUM_PROMO_FIRST_MONTH} first month with{" "}
-            <span className="text-cyan-400">{PREMIUM_PROMO_CODE}</span>
-            <span className="text-slate-600"> · then {PREMIUM_PRICE}/mo</span>
+            Premium Quant · {PREMIUM_PRICE}/mo
           </p>
 
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
@@ -87,7 +83,7 @@ export function Hero() {
             </Link>
             <TrackedCheckoutLink source="homepage_hero">
               <Button variant="secondary" size="lg">
-                Get Premium — {PREMIUM_PROMO_CODE}
+                Get Premium
               </Button>
             </TrackedCheckoutLink>
           </div>

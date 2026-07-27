@@ -20,8 +20,6 @@ import { PromoLandingCTA } from "@/components/seo/landing/PromoLandingCTA";
 import { Badge } from "@/components/ui/Badge";
 import {
   PREMIUM_PRICE,
-  PREMIUM_PROMO_CODE,
-  PREMIUM_PROMO_FIRST_MONTH,
 } from "@/lib/pricing-tiers";
 
 export function generateStaticParams() {
@@ -40,9 +38,8 @@ export function generateMetadata({
     description: page.metaDescription,
     ...pageRobotsMetadata(isIndexableOffer(page)),
     keywords: [
-      PREMIUM_PROMO_CODE,
-      "Quicksilver Premium promo",
-      "trading tools discount",
+      "Quicksilver Premium",
+      "prop firm tools",
       page.market?.shortName,
       page.propFirm?.shortName,
       page.topic?.name,
@@ -77,9 +74,7 @@ export default function PromoLandingPage({
       description: page.metaDescription,
       slug: page.slug,
       publishedAt: page.publishedAt,
-      promoCode: PREMIUM_PROMO_CODE,
       fullPrice: PREMIUM_PRICE,
-      discountedPrice: PREMIUM_PROMO_FIRST_MONTH,
     }),
     faqJsonLd(page.faqs),
   ];
@@ -96,7 +91,7 @@ export default function PromoLandingPage({
           ← Offers Hub
         </Link>
         <div className="mt-3 flex flex-wrap gap-2">
-          <Badge variant="success">Code {PREMIUM_PROMO_CODE}</Badge>
+          <Badge variant="success">Premium</Badge>
           {page.market && (
             <Badge variant="success">{page.market.shortName}</Badge>
           )}
@@ -109,7 +104,7 @@ export default function PromoLandingPage({
           {page.lessonTitle && (
             <Badge variant="warning">{page.lessonTitle}</Badge>
           )}
-          <Badge variant="warning">{PREMIUM_PROMO_FIRST_MONTH} month 1</Badge>
+          <Badge variant="warning">{PREMIUM_PRICE}/mo</Badge>
         </div>
         <h1 className="mt-4 font-mono text-2xl font-bold text-slate-100 sm:text-3xl">
           {page.h1}
@@ -172,7 +167,7 @@ export default function PromoLandingPage({
       {page.relatedSlugs.length > 0 && (
         <section>
           <h2 className="mb-3 font-mono text-sm font-semibold uppercase tracking-widest text-slate-500">
-            Related FIRST100 offers
+            Related  offers
           </h2>
           <ul className="grid gap-2 sm:grid-cols-2">
             {page.relatedSlugs.map((rel) => {

@@ -1,8 +1,6 @@
-import { getPremiumCheckoutUrl } from "@/lib/pricing-constants";
 import {
+  getPremiumCheckoutUrl,
   PREMIUM_PRICE,
-  PREMIUM_PROMO_CODE,
-  PREMIUM_PROMO_FIRST_MONTH,
 } from "@/lib/pricing-constants";
 import { TRADELOCKER_BOT_URL } from "@/lib/constants";
 import { TOOL_COUNT } from "@/lib/tools-registry";
@@ -16,7 +14,7 @@ const SITE_URL =
 
 const QUANT_PROTOCOL_PATH = `${SITE_URL.replace(/\/$/, "")}/quant-protocol`;
 const LAUNCH_PATH = `${SITE_URL.replace(/\/$/, "")}/launch`;
-const CHECKOUT = getPremiumCheckoutUrl(true);
+const CHECKOUT = getPremiumCheckoutUrl();
 
 export interface BulkEmailTemplate {
   id: string;
@@ -66,12 +64,11 @@ WHAT YOU GET WITH PREMIUM QUANT (${PREMIUM_PRICE}/mo)
 6) Priority support
    • Direct email help when you're stuck
 
-FIRST MONTH OFFER
-Use code ${PREMIUM_PROMO_CODE} for $60 off → ${PREMIUM_PROMO_FIRST_MONTH} your first month
-(then ${PREMIUM_PRICE}/mo — cancel anytime)
+PRICING
+${PREMIUM_PRICE}/mo — cancel anytime
 
 START HERE
-1. Subscribe to Premium Quant (code ${PREMIUM_PROMO_CODE} at checkout)
+1. Subscribe to Premium Quant at checkout
 2. Create / log into your Quicksilver account
 3. Install TradeLocker Desktop (required — bot not on web platform)
 4. Open Trading Bots → Quant Protocol for setup + asset settings
@@ -80,7 +77,7 @@ START HERE
 Full details (built for bot access requests):
 ${QUANT_PROTOCOL_PATH}
 
-Checkout (${PREMIUM_PROMO_CODE} prefilled when supported):
+Checkout:
 ${CHECKOUT}
 
 Launch / playbook overview:
@@ -96,7 +93,7 @@ Questions? Reply to this email or write supportteam@quicksilveralgo.com
 function tradelockerBotAccessShortBody(): string {
   return `Thanks for requesting the Quicksilver Quant Protocol on TradeLocker.
 
-Access is included with Premium Quant (${PREMIUM_PRICE}/mo — ${PREMIUM_PROMO_FIRST_MONTH} first month with code ${PREMIUM_PROMO_CODE}).
+Access is included with Premium Quant (${PREMIUM_PRICE}/mo).
 
 Same subscription also unlocks:
 • ${PROP_FIRM_CHALLENGE_DAYS}-Day Prop Firm Playbook + challenge tracker
@@ -122,7 +119,7 @@ Premium Quant = Quant Protocol on TradeLocker + the full prop-firm toolkit (play
 
 Reminder: the bot requires the TradeLocker desktop app — it will not appear or run on TradeLocker Web.
 
-${PREMIUM_PROMO_CODE} → ${PREMIUM_PROMO_FIRST_MONTH} first month:
+ ${PREMIUM_PRICE}/mo:
 ${CHECKOUT}
 
 Full stack overview:
@@ -165,7 +162,7 @@ export const BULK_EMAIL_TEMPLATES: BulkEmailTemplate[] = [
     label: "Premium stack overview",
     description: "General Premium pitch (not specific to bot requesters).",
     defaultAudience: "custom",
-    subject: `Premium Quant — bot, playbook & tools (${PREMIUM_PROMO_CODE})`,
+    subject: `Premium Quant — bot, playbook & tools`,
     body: `Hi,
 
 Premium Quant is the full Quicksilver system for prop-firm and manual traders:
@@ -176,56 +173,13 @@ Premium Quant is the full Quicksilver system for prop-firm and manual traders:
 • Chart Academy (${CHART_ACADEMY_STATS.lessonCount} lessons)
 • Live terminal tools + Prop OS
 
-${PREMIUM_PROMO_CODE} → ${PREMIUM_PROMO_FIRST_MONTH} first month (${PREMIUM_PRICE}/mo after)
+${PREMIUM_PRICE}/mo
 
 ${CHECKOUT}
 
 Or read the full stack: ${QUANT_PROTOCOL_PATH}
 
 — Quicksilver Algo`,
-  },
-  {
-    id: "first100-few-spots",
-    label: "FIRST100 — only a few spots left",
-    description:
-      "Scarcity promo: first-month discount is nearly gone. Great for free users or custom leads.",
-    defaultAudience: "free",
-    subject: `Only a few ${PREMIUM_PROMO_CODE} spots left — ${PREMIUM_PROMO_FIRST_MONTH} first month`,
-    body: `Hi,
-
-Quick heads-up: the ${PREMIUM_PROMO_CODE} first-month offer is almost full.
-
-We capped the promo at the first 100 Premium redemptions. Only a few spots remain for:
-
-• ${PREMIUM_PROMO_FIRST_MONTH} your first month (then ${PREMIUM_PRICE}/mo)
-• Full Premium stack: Quant Protocol (TradeLocker Desktop), ${PROP_FIRM_CHALLENGE_DAYS}-Day Playbook, ${TOOL_COUNT} planning tools, Chart Academy, live terminal
-
-If you've been waiting to upgrade, this is the window.
-
-Claim ${PREMIUM_PROMO_CODE} at checkout:
-${CHECKOUT}
-
-(Code may not apply after the 100 redemptions are gone.)
-
-Questions? Just reply.
-
-— Quicksilver Algo`,
-  },
-  {
-    id: "first100-last-call",
-    label: "FIRST100 — last call (urgent)",
-    description: "Shorter urgency version of the few-spots promo.",
-    defaultAudience: "free",
-    subject: `Last call: ${PREMIUM_PROMO_CODE} almost gone`,
-    body: `Last call —
-
-${PREMIUM_PROMO_CODE} (${PREMIUM_PROMO_FIRST_MONTH} first month) is down to the final redemptions.
-
-${CHECKOUT}
-
-After that, standard ${PREMIUM_PRICE}/mo applies.
-
-— Quicksilver`,
   },
   {
     id: "welcome-premium",
@@ -306,7 +260,7 @@ Premium is billed through Stripe. To cancel or update payment:
 1) Reply with the email on your Quicksilver account (subject: Billing), or
 2) Use the customer portal link from your Stripe receipt email if you have one
 
-We can also confirm whether ${PREMIUM_PROMO_CODE} applied to your first invoice.
+We can also confirm whether  applied to your first invoice.
 
 — Quicksilver Support`,
   },

@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           error:
-            "Premium unlocks after Stripe checkout. Subscribe with FIRST100, then continue.",
+            "Premium unlocks after Stripe checkout. Subscribe with , then continue.",
           code: "PAYMENT_REQUIRED",
         },
         { status: 402 }

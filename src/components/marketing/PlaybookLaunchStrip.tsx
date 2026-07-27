@@ -5,7 +5,9 @@ import {
   PLAYBOOK_LAUNCH_TAGLINE,
 } from "@/lib/playbook-launch";
 import { GUARANTEE_HEADLINE } from "@/lib/money-back-guarantee";
-import { PREMIUM_PROMO_CODE, PREMIUM_PROMO_FIRST_MONTH } from "@/lib/pricing-constants";
+import {
+  PREMIUM_PRICE,
+} from "@/lib/pricing-constants";
 
 export function PlaybookLaunchStrip() {
   return (
@@ -17,8 +19,8 @@ export function PlaybookLaunchStrip() {
         </span>
         <p className="font-mono text-xs text-slate-300">
           {PLAYBOOK_LAUNCH_TAGLINE} — code{" "}
-          <strong className="text-emerald-300">{PREMIUM_PROMO_CODE}</strong> →{" "}
-          {PREMIUM_PROMO_FIRST_MONTH} first month
+          <strong className="text-emerald-300"></strong> →{" "}
+          {PREMIUM_PRICE} first month
         </p>
         <span className="font-mono text-[10px] text-emerald-400/90">
           {GUARANTEE_HEADLINE}

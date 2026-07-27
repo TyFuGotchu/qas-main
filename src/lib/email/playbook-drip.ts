@@ -13,7 +13,6 @@ import {
 } from "@/lib/prop-firm-challenge-marketing";
 import {
   getPremiumCheckoutUrl,
-  PREMIUM_PROMO_CODE,
 } from "@/lib/pricing-tiers";
 import { isPremiumTier } from "@/lib/tiers";
 import type { AccountTier } from "@/types";
@@ -38,7 +37,7 @@ function buildDayEmailHtml(params: {
   const tools = getDayToolLinks(params.day);
   const playbookUrl = `${SITE_URL}/dashboard/playbook`;
   const guideUrl = `${SITE_URL}${PROP_FIRM_PLAYBOOK_HREF}`;
-  const premiumUrl = getPremiumCheckoutUrl(true);
+  const premiumUrl = getPremiumCheckoutUrl();
 
   const tasksHtml = plan.tasks
     .map((t) => `<li style="margin-bottom:8px;">${t}</li>`)
@@ -53,7 +52,7 @@ function buildDayEmailHtml(params: {
 
   const ctaBlock = params.isPremium
     ? `<p style="margin:24px 0;"><a href="${playbookUrl}" style="background:#00e5ff;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Open Day ${params.day} in dashboard →</a></p>`
-    : `<p style="margin:24px 0;"><a href="${premiumUrl}" style="background:#10b981;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Unlock Playbook — ${PREMIUM_PROMO_CODE} →</a></p>`;
+    : `<p style="margin:24px 0;"><a href="${premiumUrl}" style="background:#10b981;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Unlock Playbook —  →</a></p>`;
 
   return emailShell(`
     <h1 style="color:#00e5ff;font-size:20px;">Day ${params.day}: ${plan.title}</h1>

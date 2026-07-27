@@ -16,9 +16,6 @@ import {
 } from "@/lib/premium-includes";
 import {
   PREMIUM_PRICE,
-  PREMIUM_PROMO_CODE,
-  PREMIUM_PROMO_FIRST_MONTH,
-  PREMIUM_PROMO_NOTE,
 } from "@/lib/pricing-constants";
 import { PROP_FIRM_CHALLENGE_DAYS } from "@/lib/prop-firm-challenge-marketing";
 import { TOOL_COUNT } from "@/lib/tools-registry";
@@ -32,7 +29,7 @@ const PATH = QUANT_PROTOCOL_LANDING_PATH;
 export const metadata: Metadata = rankingPageMetadata({
   title: "Quicksilver Quant Protocol — TradeLocker Bot + Premium Stack",
   description:
-    "Requested TradeLocker bot access? Premium Quant unlocks Quicksilver Quant Protocol plus the 7-Day Playbook, planning tools, Chart Academy, and live terminal. FIRST100 first month.",
+    "Requested TradeLocker bot access? Premium Quant unlocks Quicksilver Quant Protocol plus the 7-Day Playbook, planning tools, Chart Academy, and live terminal.  first month.",
   path: PATH,
   keywords: [
     "Quicksilver Quant Protocol",
@@ -46,7 +43,7 @@ export const metadata: Metadata = rankingPageMetadata({
 const FAQS = [
   {
     question: "I requested the bot on TradeLocker — how do I get access?",
-    answer: `Premium Quant (${PREMIUM_PRICE}/mo) unlocks the full Quicksilver stack, including the workflow to enable Quicksilver Quant Protocol on your TradeLocker account. Use code ${PREMIUM_PROMO_CODE} for ${PREMIUM_PROMO_FIRST_MONTH} your first month.`,
+    answer: `Premium Quant (${PREMIUM_PRICE}/mo) unlocks the full Quicksilver stack, including the workflow to enable Quicksilver Quant Protocol on your TradeLocker account.`,
   },
   {
     question: "Do I need TradeLocker Desktop, or does the web platform work?",
@@ -85,7 +82,7 @@ export default function QuantProtocolLandingPage() {
       steps: [
         {
           name: "Subscribe to Premium Quant",
-          text: `Checkout with code ${PREMIUM_PROMO_CODE} for ${PREMIUM_PROMO_FIRST_MONTH} first month.`,
+          text: `Checkout for Premium Quant at ${PREMIUM_PRICE}/mo.`,
         },
         {
           name: "Create or log into Quicksilver",
@@ -128,19 +125,17 @@ export default function QuantProtocolLandingPage() {
           stack: playbook, planning engines, Chart Academy, and live terminal tools.
         </p>
         <p className="mt-6 font-mono text-2xl font-bold text-slate-100">
-          {PREMIUM_PROMO_FIRST_MONTH}{" "}
-          <span className="text-base font-normal text-slate-500">
-            first month with {PREMIUM_PROMO_CODE}
-          </span>
+          {PREMIUM_PRICE}
+          <span className="text-base font-normal text-slate-500">/mo</span>
         </p>
         <p className="mt-1 font-mono text-xs text-slate-600">
-          Then {PREMIUM_PRICE}/mo · {PREMIUM_PROMO_NOTE}
+          One plan · full Premium stack
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <TrackedCheckoutLink source="quant_protocol_hero">
             <Button variant="primary" size="lg">
               <Zap className="h-4 w-4" />
-              Unlock Premium Quant — {PREMIUM_PROMO_CODE}
+              Unlock Premium Quant
             </Button>
           </TrackedCheckoutLink>
           <a
@@ -246,7 +241,7 @@ export default function QuantProtocolLandingPage() {
         <ol className="mt-4 space-y-3 font-mono text-sm text-slate-400">
           <li className="flex gap-3">
             <span className="text-cyan-400">01.</span>
-            Checkout with code {PREMIUM_PROMO_CODE} → {PREMIUM_PROMO_FIRST_MONTH} first month
+            Checkout → {PREMIUM_PRICE} first month
           </li>
           <li className="flex gap-3">
             <span className="text-cyan-400">02.</span>
@@ -264,7 +259,7 @@ export default function QuantProtocolLandingPage() {
         <div className="mt-6 flex flex-wrap gap-3">
           <TrackedCheckoutLink source="quant_protocol_steps">
             <Button variant="primary" size="md">
-              Subscribe — {PREMIUM_PROMO_CODE}
+              Subscribe
             </Button>
           </TrackedCheckoutLink>
           <Link href={TRADING_BOTS_NAV.quantProtocol}>
@@ -309,7 +304,7 @@ export default function QuantProtocolLandingPage() {
         </p>
         <TrackedCheckoutLink source="quant_protocol_footer" className="mt-6 inline-block">
           <Button variant="primary" size="lg">
-            Get Premium Quant — {PREMIUM_PROMO_FIRST_MONTH} first month
+            Get Premium Quant — {PREMIUM_PRICE} first month
           </Button>
         </TrackedCheckoutLink>
       </section>

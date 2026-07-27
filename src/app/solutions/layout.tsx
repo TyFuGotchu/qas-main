@@ -16,7 +16,7 @@ export default function SolutionsLayout({
             </Link>
             {" · "}
             <Link href="/offers" className="text-cyan-accent hover:underline">
-              FIRST100 Offers
+               Offers
             </Link>
             {" · "}
             <Link href="/learn" className="text-cyan-accent hover:underline">

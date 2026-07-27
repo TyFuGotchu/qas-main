@@ -15,24 +15,22 @@ import {
   PROP_FIRM_PREMIUM_PITCH,
 } from "@/lib/prop-firm-challenge-marketing";
 import { Badge } from "@/components/ui/Badge";
-import {
-  PREMIUM_PROMO_CODE,
-  PREMIUM_PROMO_DISCOUNT,
-  PREMIUM_PROMO_FIRST_MONTH,
-  PREMIUM_PROMO_NOTE,
-  PREMIUM_PRICE,
-} from "@/lib/pricing-tiers";
+import { PREMIUM_PRICE } from "@/lib/pricing-tiers";
 
 export const metadata: Metadata = {
-  title: `${PREMIUM_PROMO_CODE} Promo Offers — ${PREMIUM_PROMO_DISCOUNT} Off Premium | Quicksilver`,
-  description: `${PROP_FIRM_MARKETING_HEADLINE}. ${PREMIUM_PROMO_NOTE} ${PREMIUM_PROMO_FIRST_MONTH} first month on Premium (${PREMIUM_PRICE}/mo).`,
+  title: `Premium Offers | Quicksilver`,
+  description: `${PROP_FIRM_MARKETING_HEADLINE}. Premium is ${PREMIUM_PRICE}/mo — tools, playbook, academy, and Quant Protocol.`,
 };
 
 const BUNDLE_LINKS: { slug: string; label: string; href?: string }[] = [
   { slug: "launch", label: "Official launch page", href: "/launch" },
-  { slug: "prop-firm-one-week", label: "7-Day Prop Firm Playbook", href: "/guides/prop-firm-one-week" },
-  { slug: "first100-prop-firm-one-week", label: "Playbook + FIRST100 deal" },
-  { slug: "first100-premium", label: "Main FIRST100 offer" },
+  {
+    slug: "prop-firm-one-week",
+    label: "7-Day Prop Firm Playbook",
+    href: "/guides/prop-firm-one-week",
+  },
+  { slug: "first100-prop-firm-one-week", label: "Playbook offer page" },
+  { slug: "first100-premium", label: "Main Premium offer" },
   { slug: "local-tools", label: "Trading Tools hub", href: "/tools" },
   { slug: "first100-chart-academy", label: "Chart Academy bundle" },
   { slug: "first100-trading-bot", label: "TradeLocker bot deal" },
@@ -45,14 +43,14 @@ export default function OffersHubPage() {
     <div className="space-y-12">
       <header>
         <Badge variant="success" className="mb-3">
-          Limited-time promo
+          Premium
         </Badge>
         <h1 className="font-mono text-3xl font-bold text-slate-100 sm:text-4xl">
-          {PREMIUM_PROMO_CODE} Promo Hub
+          Premium Offers Hub
         </h1>
         <p className="mt-3 max-w-2xl text-slate-400">
-          {PROP_FIRM_PREMIUM_PITCH} Code {PREMIUM_PROMO_CODE} drops month one to{" "}
-          {PREMIUM_PROMO_FIRST_MONTH}. Find deals by market, prop firm, or trading topic below.
+          {PROP_FIRM_PREMIUM_PITCH} Premium is {PREMIUM_PRICE}/mo. Browse by
+          market, prop firm, or topic below.
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
           {BUNDLE_LINKS.map((link) => (
@@ -71,53 +69,52 @@ export default function OffersHubPage() {
 
       <section>
         <h2 className="mb-4 font-mono text-sm font-semibold uppercase tracking-widest text-slate-500">
-          Browse by market
+          By market
         </h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {SEO_MARKETS.slice(0, 12).map((market) => {
-            const pages = getPromoPagesByMarket(market.slug);
-            const sample = pages.find((p) => p.slug.endsWith("-premium-deal"));
+          {SEO_MARKETS.map((market) => {
+            const sample = getPromoPagesByMarket(market.slug)[0];
             return (
               <Link
                 key={market.slug}
-                href={sample ? `/offers/${sample.slug}` : `/offers/first100-${market.slug}-setup-scoring`}
-                className="rounded-lg border border-slate-800/60 bg-slate-900/40 px-4 py-3 hover:border-emerald-500/30"
+                href={
+                  sample
+                    ? `/offers/${sample.slug}`
+                    : `/offers/first100-${market.slug}-setup-scoring`
+                }
+                className="rounded-xl border border-slate-800/60 bg-slate-950/40 p-4 transition-colors hover:border-cyan-500/30"
               >
                 <p className="font-mono text-sm font-semibold text-slate-200">
                   {market.shortName}
                 </p>
-                <p className="mt-1 font-mono text-[10px] text-slate-600">
-                  {market.session}
-                </p>
+                <p className="mt-1 text-xs text-slate-500">{market.name}</p>
               </Link>
             );
           })}
         </div>
-        <p className="mt-3 font-mono text-xs text-slate-600">
-          More markets and topics in the sections below.
-        </p>
       </section>
 
       <section>
         <h2 className="mb-4 font-mono text-sm font-semibold uppercase tracking-widest text-slate-500">
-          Browse by prop firm
+          By prop firm
         </h2>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {SEO_PROP_FIRMS.map((firm) => {
-            const pages = getPromoPagesByPropFirm(firm.slug);
-            const sample = pages.find((p) => p.slug.endsWith("-premium-deal"));
+            const sample = getPromoPagesByPropFirm(firm.slug)[0];
             return (
               <Link
                 key={firm.slug}
-                href={sample ? `/offers/${sample.slug}` : `/offers/first100-${firm.slug}-prop-firm-challenge`}
-                className="rounded-lg border border-slate-800/60 bg-slate-900/40 px-4 py-3 hover:border-emerald-500/30"
+                href={
+                  sample
+                    ? `/offers/${sample.slug}`
+                    : `/offers/first100-${firm.slug}-prop-firm-challenge`
+                }
+                className="rounded-xl border border-slate-800/60 bg-slate-950/40 p-4 transition-colors hover:border-cyan-500/30"
               >
                 <p className="font-mono text-sm font-semibold text-slate-200">
                   {firm.shortName}
                 </p>
-                <p className="mt-1 font-mono text-[10px] text-slate-600">
-                  {firm.profitTarget}
-                </p>
+                <p className="mt-1 text-xs text-slate-500">{firm.name}</p>
               </Link>
             );
           })}
@@ -126,14 +123,14 @@ export default function OffersHubPage() {
 
       <section>
         <h2 className="mb-4 font-mono text-sm font-semibold uppercase tracking-widest text-slate-500">
-          Browse by topic
+          By topic
         </h2>
         <div className="flex flex-wrap gap-2">
-          {SEO_TOPICS.slice(0, 24).map((topic) => (
+          {SEO_TOPICS.map((topic) => (
             <Link
               key={topic.slug}
               href={`/offers/first100-${topic.slug}-deal`}
-              className="rounded-full border border-slate-800/60 px-3 py-1.5 font-mono text-[10px] text-slate-400 hover:border-cyan-accent/30 hover:text-cyan-accent"
+              className="rounded-lg border border-slate-700 bg-slate-900/50 px-3 py-2 font-mono text-xs text-slate-300 hover:border-cyan-500/40"
             >
               {topic.name}
             </Link>
@@ -143,25 +140,22 @@ export default function OffersHubPage() {
 
       <section className="rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-6">
         <h2 className="font-mono text-lg font-bold text-slate-100">
-          How to redeem {PREMIUM_PROMO_CODE}
+          How to subscribe
         </h2>
         <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm text-slate-400">
           <li>Pick any offer page above (or start with the main bundle).</li>
+          <li>Click Subscribe to open Stripe checkout.</li>
           <li>
-            Click Subscribe — checkout opens with code {PREMIUM_PROMO_CODE}{" "}
-            prefilled when supported.
-          </li>
-          <li>
-            Pay {PREMIUM_PROMO_FIRST_MONTH} for month one; full access activates
+            Pay {PREMIUM_PRICE}/mo for Premium; full access activates
             immediately.
           </li>
-          <li>Month two onward is {PREMIUM_PRICE}/mo — cancel anytime.</li>
+          <li>Cancel anytime from billing support.</li>
         </ol>
         <Link
           href="/offers/first100-premium"
           className="mt-4 inline-block font-mono text-sm text-emerald-400 hover:underline"
         >
-          Go to main FIRST100 offer →
+          Go to main Premium offer →
         </Link>
       </section>
     </div>

@@ -1,5 +1,7 @@
 import { PROP_FIRM_CHALLENGE_DAYS } from "@/lib/prop-firm-challenge-marketing";
-import { PREMIUM_PROMO_FIRST_MONTH, PREMIUM_PRICE } from "@/lib/pricing-constants";
+import {
+  PREMIUM_PRICE,
+} from "@/lib/pricing-constants";
 import { SUPPORT_EMAIL } from "@/lib/support";
 
 export const GUARANTEE_PATH = "/guarantee";
@@ -17,7 +19,7 @@ export const GUARANTEE_SHORT =
 export const GUARANTEE_CTA_LINE = `Risk-free first month — ${GUARANTEE_HEADLINE}`;
 
 export const GUARANTEE_ELIGIBILITY_STEPS = [
-  `Subscribe to Premium (${PREMIUM_PROMO_FIRST_MONTH} first month with FIRST100, then ${PREMIUM_PRICE}/mo).`,
+  `Subscribe to Premium (${PREMIUM_PRICE}/mo).`,
   `Start the 7-Day Prop Firm Playbook in Dashboard → Playbook and mark all ${PROP_FIRM_CHALLENGE_DAYS} days complete.`,
   "Run Prop Survival (Monte Carlo) before Day 1 and respect daily profit caps from the playbook.",
   "Use Edge Confluence + Risk Matrix on every trade session as outlined in each day's tasks.",

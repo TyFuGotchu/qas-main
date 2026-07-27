@@ -9,8 +9,6 @@ import {
 import {
   getPremiumCheckoutUrl,
   PREMIUM_PRICE,
-  PREMIUM_PROMO_CODE,
-  PREMIUM_PROMO_NOTE,
 } from "@/lib/pricing-tiers";
 
 const SITE_URL =
@@ -18,7 +16,7 @@ const SITE_URL =
   process.env.NEXT_PUBLIC_APP_URL ??
   "https://quicksilveralgo.com";
 
-const PREMIUM_CHECKOUT = getPremiumCheckoutUrl(true);
+const PREMIUM_CHECKOUT = getPremiumCheckoutUrl();
 
 const DRIP_STEPS = [
   {
@@ -32,7 +30,7 @@ const DRIP_STEPS = [
         <p style="color:#94a3b8;line-height:1.6;">${PROP_FIRM_MARKETING_SUBHEADLINE}</p>
         <p style="color:#94a3b8;line-height:1.6;">Preview the day-by-day plan free — Premium unlocks full tasks, tools, and daily challenge emails.</p>
         <p style="margin:24px 0;"><a href="${guideUrl}" style="background:#00e5ff;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Preview the playbook →</a></p>
-        <p style="color:#64748b;font-size:12px;">${PREMIUM_PROMO_NOTE}</p>
+        <p style="color:#64748b;font-size:12px;"></p>
       `);
     },
   },
@@ -45,7 +43,7 @@ const DRIP_STEPS = [
       return dripShell(`
         <h1 style="color:#00e5ff;font-size:20px;">What Day 1 looks like</h1>
         <p style="color:#94a3b8;line-height:1.6;">Foundation day: max 2 trades, +1.0–1.5% cap, full confluence before every entry. Premium tracks your progress and emails each day&apos;s tasks.</p>
-        <p style="margin:24px 0;"><a href="${PREMIUM_CHECKOUT}" style="background:#10b981;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Start challenge — ${PREMIUM_PROMO_CODE} →</a></p>
+        <p style="margin:24px 0;"><a href="${PREMIUM_CHECKOUT}" style="background:#10b981;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Start challenge →</a></p>
         <p style="color:#64748b;font-size:12px;"><a href="${guideUrl}" style="color:#00e5ff;">Read Day 1 preview</a></p>
       `);
     },
@@ -81,7 +79,7 @@ const DRIP_STEPS = [
           <li><a href="${solutions}" style="color:#00e5ff;">Free prop firm calculators</a></li>
           <li><a href="${SITE_URL}${PROP_FIRM_PLAYBOOK_HREF}" style="color:#00e5ff;">Playbook preview</a></li>
         </ul>
-        <p style="margin:24px 0;"><a href="${PREMIUM_CHECKOUT}" style="background:#00e5ff;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Go Premium — ${PREMIUM_PROMO_CODE} →</a></p>
+        <p style="margin:24px 0;"><a href="${PREMIUM_CHECKOUT}" style="background:#00e5ff;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Go Premium →</a></p>
       `);
     },
   },

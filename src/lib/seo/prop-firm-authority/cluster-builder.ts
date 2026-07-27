@@ -12,13 +12,11 @@ import {
 } from "@/lib/seo/prop-firm-authority/data";
 import type { AuthoritySection, PropFirmClusterPage } from "@/lib/seo/prop-firm-authority/types";
 import {
-  PREMIUM_PROMO_CODE,
-  PREMIUM_PROMO_FIRST_MONTH,
   PREMIUM_PRICE,
 } from "@/lib/pricing-constants";
 
 const PUBLISHED_AT = "2026-07-06";
-const PREMIUM_CTA = `Quicksilver Premium (${PREMIUM_PRICE}/mo, code ${PREMIUM_PROMO_CODE} → ${PREMIUM_PROMO_FIRST_MONTH} first month) unlocks the 7-Day Prop Firm Playbook, Prop Survival Monte Carlo simulator, and all 9 planning tools.`;
+const PREMIUM_CTA = `Quicksilver Premium (${PREMIUM_PRICE}/mo) unlocks the 7-Day Prop Firm Playbook, Prop Survival Monte Carlo simulator, and all 9 planning tools.`;
 
 function premiumPlaybookLink(): string {
   return PILLAR_PATHS.playbook;

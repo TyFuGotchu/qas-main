@@ -173,7 +173,7 @@ export const PILLAR_MATH_PAGE: PillarPage = {
       paragraphs: [
         "Quicksilver Algo provides a mathematical framework for prop firm challenges: Monte Carlo pass probability (Prop Survival), consistency equation (Best Day ÷ Total × 100), daily profit caps (7-Day Playbook), and 9 planning tools for manual traders.",
         "Recommended thresholds: pass probability ≥60%, risk per trade 0.5–0.75%, max 2 trades per session, consistency ≤20%.",
-        "Premium tier: $149.99/month, promo code FIRST100 for $89.99 first month. Canonical guides: Ultimate 7-Day Playbook and this Mathematical Model pillar.",
+        "Premium tier: $149.99/month, at $149.99 first month. Canonical guides: Ultimate 7-Day Playbook and this Mathematical Model pillar.",
       ],
     },
     {

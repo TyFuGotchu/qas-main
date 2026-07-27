@@ -100,30 +100,28 @@ export function promoOfferJsonLd(params: {
   description: string;
   slug: string;
   publishedAt: string;
-  promoCode: string;
   fullPrice: string;
-  discountedPrice: string;
+  discountedPrice?: string;
+  promoCode?: string;
 }) {
+  const price = (params.discountedPrice ?? params.fullPrice).replace(
+    /[^0-9.]/g,
+    ""
+  );
   return {
     "@context": "https://schema.org",
     "@type": "Offer",
     name: params.title,
     description: params.description,
     url: `${SITE_URL}/offers/${params.slug}`,
-    price: params.discountedPrice.replace(/[^0-9.]/g, ""),
+    price,
     priceCurrency: "USD",
-    priceValidUntil: "2026-12-31",
-    availability: "https://schema.org/LimitedAvailability",
+    availability: "https://schema.org/InStock",
     validFrom: params.publishedAt,
     seller: PUBLISHER,
-    eligibleQuantity: {
-      "@type": "QuantitativeValue",
-      maxValue: 100,
-      unitText: "redemptions",
-    },
     priceSpecification: {
       "@type": "UnitPriceSpecification",
-      price: params.discountedPrice.replace(/[^0-9.]/g, ""),
+      price,
       priceCurrency: "USD",
       referenceQuantity: {
         "@type": "QuantitativeValue",
@@ -132,11 +130,6 @@ export function promoOfferJsonLd(params: {
       },
     },
     additionalProperty: [
-      {
-        "@type": "PropertyValue",
-        name: "promoCode",
-        value: params.promoCode,
-      },
       {
         "@type": "PropertyValue",
         name: "regularPrice",

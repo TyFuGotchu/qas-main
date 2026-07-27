@@ -21,14 +21,16 @@ import {
 } from "@/lib/prop-firm-challenge-marketing";
 import { MoneyBackGuarantee } from "@/components/marketing/MoneyBackGuarantee";
 import { PremiumEverythingIncluded } from "@/components/marketing/PremiumEverythingIncluded";
-import { getPremiumCheckoutUrl, PREMIUM_PROMO_CODE } from "@/lib/pricing-constants";
+import {
+  getPremiumCheckoutUrl,
+} from "@/lib/pricing-constants";
 import { rankingPageMetadata } from "@/lib/seo/page-metadata";
 import { breadcrumbJsonLd, faqJsonLd, howToJsonLd } from "@/lib/seo/json-ld";
 
 export const metadata: Metadata = rankingPageMetadata({
   title: "How to Pass a Prop Firm Challenge in 7 Days | Playbook",
   description:
-    "Step-by-step 7-day prop firm challenge plan: daily profit caps, 20% consistency rule, risk limits for FTMO & funded accounts. Free preview + FIRST100.",
+    "Step-by-step 7-day prop firm challenge plan: daily profit caps, 20% consistency rule, risk limits for FTMO & funded accounts. Free preview + .",
   path: PLAYBOOK_LAUNCH_PATH,
   keywords: [
     "pass prop firm challenge in 7 days",
@@ -40,7 +42,7 @@ export const metadata: Metadata = rankingPageMetadata({
 });
 
 export default function PlaybookLaunchPage() {
-  const premiumUrl = getPremiumCheckoutUrl(true);
+  const premiumUrl = getPremiumCheckoutUrl();
 
   const jsonLd = [
     breadcrumbJsonLd([
@@ -160,7 +162,7 @@ export default function PlaybookLaunchPage() {
           Ready to run your challenge?
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-sm text-emerald-200/80">
-          Join the first 100 traders on the official 7-day playbook. Premium starts your tracker,
+          Join the traders on the official 7-day playbook. Premium starts your tracker,
           Day 1 email, and full tool access immediately.
         </p>
         <a
@@ -170,7 +172,7 @@ export default function PlaybookLaunchPage() {
           className="mt-6 inline-block"
         >
           <Button variant="primary" size="lg">
-            Claim {PREMIUM_PROMO_CODE} Launch Offer
+            Claim  Launch Offer
           </Button>
         </a>
       </section>

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ArrowUpCircle } from "lucide-react";
 import { useSession } from "@/providers/SessionProvider";
 import { canAccessToolsBySubscription } from "@/lib/tiers";
-import { PREMIUM_PROMO_CODE, PREMIUM_PROMO_FIRST_MONTH } from "@/lib/pricing-tiers";
+import { PREMIUM_PRICE } from "@/lib/pricing-tiers";
 import Button from "@/components/ui/Button";
 
 interface PremiumUpgradeNudgeProps {
@@ -31,8 +31,7 @@ export function PremiumUpgradeNudge({
         >
           Upgrade
         </Link>{" "}
-        to unlock full {feature} · code {PREMIUM_PROMO_CODE} —{" "}
-        {PREMIUM_PROMO_FIRST_MONTH} month one
+        to unlock full {feature} · {PREMIUM_PRICE}/mo
       </p>
     );
   }
@@ -45,8 +44,8 @@ export function PremiumUpgradeNudge({
             Unlock {feature} with Premium
           </p>
           <p className="mt-0.5 font-mono text-[10px] text-slate-500">
-            Chart Academy, Prop OS, journal analytics, live terminal & all tools
-            · {PREMIUM_PROMO_CODE} — {PREMIUM_PROMO_FIRST_MONTH} first month
+            Chart Academy, Prop OS, journal analytics, live terminal &amp; all
+            tools · {PREMIUM_PRICE}/mo
           </p>
         </div>
         <Link href="/dashboard/upgrade">

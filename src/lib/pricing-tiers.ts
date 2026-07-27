@@ -3,19 +3,13 @@ import { LOCAL_TOOL_COUNT, QS_TOOL_COUNT, TOOL_COUNT } from "@/lib/tools-registr
 
 export {
   PREMIUM_CHECKOUT_URL,
-  PREMIUM_PROMO_CODE,
-  PREMIUM_PROMO_STRIPE_ID,
   PREMIUM_PRICE,
-  PREMIUM_PROMO_DISCOUNT,
-  PREMIUM_PROMO_FIRST_MONTH,
-  PREMIUM_PROMO_NOTE,
   getPremiumCheckoutUrl,
 } from "@/lib/pricing-constants";
 
 import { GUARANTEE_HEADLINE } from "@/lib/money-back-guarantee";
 import {
   PREMIUM_PRICE,
-  PREMIUM_PROMO_NOTE,
   getPremiumCheckoutUrl,
 } from "@/lib/pricing-constants";
 
@@ -50,9 +44,8 @@ export const PRICING_TIERS: PricingTier[] = [
       "Priority email support (support@quicksilveralgo.com)",
       "Live trading terminal + 4 account pro tools",
       GUARANTEE_HEADLINE,
-      PREMIUM_PROMO_NOTE,
     ],
-    ctaLink: getPremiumCheckoutUrl(true),
+    ctaLink: getPremiumCheckoutUrl(),
     recommended: true,
   },
 ];

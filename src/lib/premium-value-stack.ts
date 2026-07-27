@@ -6,9 +6,6 @@ import {
 } from "@/lib/tools-registry";
 import {
   PREMIUM_PRICE,
-  PREMIUM_PROMO_CODE,
-  PREMIUM_PROMO_FIRST_MONTH,
-  PREMIUM_PROMO_NOTE,
 } from "@/lib/pricing-tiers";
 import {
   PROP_FIRM_CHALLENGE_DAYS,
@@ -56,8 +53,8 @@ export const PREMIUM_VALUE_PILLARS = [
 
 export const PREMIUM_HEADLINE = PROP_FIRM_MARKETING_HEADLINE;
 
-export const PREMIUM_SUBHEADLINE = `${PROP_FIRM_MARKETING_SUBHEADLINE} Premium (${PREMIUM_PRICE}/mo) unlocks the full playbook plus every tool. ${PREMIUM_PROMO_NOTE}`;
+export const PREMIUM_SUBHEADLINE = `${PROP_FIRM_MARKETING_SUBHEADLINE} Premium (${PREMIUM_PRICE}/mo) unlocks the full playbook plus every tool. `;
 
-export const PREMIUM_CTA_LABEL = `Get the Playbook — ${PREMIUM_PROMO_CODE} (${PREMIUM_PROMO_FIRST_MONTH})`;
+export const PREMIUM_CTA_LABEL = `Get the Playbook —  (${PREMIUM_PRICE})`;
 
 export { PROP_FIRM_PREMIUM_FEATURES_LEAD };

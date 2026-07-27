@@ -131,8 +131,8 @@ export default async function DashboardPage() {
                 Free tier — preview 1 lesson, 1 guide & Setup Scorer
               </p>
               <p className="mt-1 text-xs text-slate-500">
-                Premium unlocks the 7-day prop firm playbook + all tools — code
-                FIRST100 for $60 off your first month.
+                Premium unlocks the 7-day prop firm playbook + all tools at
+                $149.99/mo.
               </p>
             </div>
             <Link href="/dashboard/upgrade">

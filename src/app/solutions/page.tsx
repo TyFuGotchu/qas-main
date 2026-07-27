@@ -11,8 +11,7 @@ import {
 import { PropFirmChallengePromo } from "@/components/marketing/PropFirmChallengePromo";
 import { Badge } from "@/components/ui/Badge";
 import {
-  PREMIUM_PROMO_FIRST_MONTH,
-  PREMIUM_PROMO_CODE,
+  PREMIUM_PRICE,
 } from "@/lib/pricing-tiers";
 
 export const metadata: Metadata = {
@@ -162,7 +161,7 @@ export default function SolutionsHubPage() {
             href="/offers"
             className="font-mono text-xs text-emerald-400 hover:underline"
           >
-            {PREMIUM_PROMO_CODE} promo — {PREMIUM_PROMO_FIRST_MONTH} first month →
+            Premium — {PREMIUM_PRICE}/mo →
           </Link>
           <Link
             href="/learn"

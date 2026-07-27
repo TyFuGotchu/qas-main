@@ -7,7 +7,9 @@ import { PremiumUpsellBanner } from "@/components/tools/LocalToolsPromo";
 import { PremiumValueStack } from "@/components/tools/PremiumValueStack";
 import { Badge } from "@/components/ui/Badge";
 import { PREMIUM_SUBHEADLINE } from "@/lib/premium-value-stack";
-import { getPremiumCheckoutUrl, PREMIUM_PROMO_CODE } from "@/lib/pricing-tiers";
+import {
+  getPremiumCheckoutUrl,
+} from "@/lib/pricing-tiers";
 
 import { rankingPageMetadata } from "@/lib/seo/page-metadata";
 
@@ -129,12 +131,12 @@ export default function ToolsHubPage() {
         </p>
         <p className="text-center">
           <a
-            href={getPremiumCheckoutUrl(true)}
+            href={getPremiumCheckoutUrl()}
             target="_blank"
             rel="noopener noreferrer"
             className="font-mono text-sm text-emerald-400 hover:underline"
           >
-            Get Premium with {PREMIUM_PROMO_CODE} →
+            Get Premium with  →
           </a>
         </p>
       </div>

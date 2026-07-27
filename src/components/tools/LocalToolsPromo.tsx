@@ -9,8 +9,6 @@ import { PropFirmChallengePromo } from "@/components/marketing/PropFirmChallenge
 import {
   getPremiumCheckoutUrl,
   PREMIUM_PRICE,
-  PREMIUM_PROMO_CODE,
-  PREMIUM_PROMO_FIRST_MONTH,
 } from "@/lib/pricing-tiers";
 
 interface LocalToolsPromoProps {
@@ -19,7 +17,7 @@ interface LocalToolsPromoProps {
 }
 
 export function LocalToolsPromo({ variant = "full", className }: LocalToolsPromoProps) {
-  const premiumUrl = getPremiumCheckoutUrl(true);
+  const premiumUrl = getPremiumCheckoutUrl();
 
   if (variant === "compact") {
     return (
@@ -27,8 +25,8 @@ export function LocalToolsPromo({ variant = "full", className }: LocalToolsPromo
         <p className="font-mono text-xs text-slate-400">
           <strong className="text-emerald-400">Premium Trading Tools</strong> — Expectancy,
           ATR Pip-Range & Compounding Matrix included with Premium ({PREMIUM_PRICE}/mo). Code{" "}
-          <strong className="text-slate-200">{PREMIUM_PROMO_CODE}</strong> →{" "}
-          {PREMIUM_PROMO_FIRST_MONTH} first month.
+          <strong className="text-slate-200"></strong> →{" "}
+          {PREMIUM_PRICE} first month.
         </p>
         <Link href="/tools" className="mt-2 inline-block font-mono text-xs text-cyan-accent hover:underline">
           Browse tools →
@@ -62,7 +60,7 @@ export function LocalToolsPromo({ variant = "full", className }: LocalToolsPromo
           <a href={premiumUrl} target="_blank" rel="noopener noreferrer">
             <Button variant="primary" size="sm">
               <Zap className="h-3.5 w-3.5" />
-              Premium — {PREMIUM_PROMO_CODE}
+              Premium — 
             </Button>
           </a>
         </div>

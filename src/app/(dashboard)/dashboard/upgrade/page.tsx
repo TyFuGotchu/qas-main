@@ -7,7 +7,9 @@ import {
   PROP_FIRM_MARKETING_HEADLINE,
 } from "@/lib/prop-firm-challenge-marketing";
 import { ALL_TOOLS, LOCAL_TOOL_COUNT, QS_TOOL_COUNT } from "@/lib/tools-registry";
-import { PREMIUM_PRICE, PREMIUM_PROMO_NOTE } from "@/lib/pricing-tiers";
+import {
+  PREMIUM_PRICE,
+} from "@/lib/pricing-tiers";
 import { SUPPORT_EMAIL } from "@/lib/support";
 import { Lock } from "lucide-react";
 
@@ -27,7 +29,7 @@ export default function UpgradePage({
 }) {
   const paywallNote =
     PAYWALL_MESSAGES[searchParams.paywall ?? ""] ??
-    `${PROP_FIRM_MARKETING_HEADLINE} — Premium (${PREMIUM_PRICE}/mo) unlocks the full playbook, all planning tools, TradeLocker bot, and priority support at ${SUPPORT_EMAIL}. ${PREMIUM_PROMO_NOTE}`;
+    `${PROP_FIRM_MARKETING_HEADLINE} — Premium (${PREMIUM_PRICE}/mo) unlocks the full playbook, all planning tools, TradeLocker bot, and priority support at ${SUPPORT_EMAIL}. `;
 
   return (
     <div className="space-y-8">
@@ -51,7 +53,7 @@ export default function UpgradePage({
             <p className="mt-2 text-sm text-slate-500">
               One Premium subscription unlocks the {PROP_FIRM_CHALLENGE_DAYS}-day prop firm
               playbook, Chart Academy, all planning modules, TradeLocker bot, live dashboard, and
-              priority email support at {SUPPORT_EMAIL}. {PREMIUM_PROMO_NOTE}
+              priority email support at {SUPPORT_EMAIL}. 
             </p>
             <ul className="mt-4 space-y-2 text-sm text-slate-400">
               {ALL_TOOLS.map((tool) => (

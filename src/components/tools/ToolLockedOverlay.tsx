@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { Lock, Zap } from "lucide-react";
 import { TIER_LABELS } from "@/lib/accessControl";
-import { getPremiumCheckoutUrl, PREMIUM_PROMO_CODE } from "@/lib/pricing-tiers";
+import {
+  getPremiumCheckoutUrl,
+} from "@/lib/pricing-tiers";
 import type { ToolDefinition } from "@/lib/tools-registry";
 import { isLocalToolDefinition, TOOL_COUNT } from "@/lib/tools-registry";
 import {
@@ -25,7 +27,7 @@ export function ToolLockedOverlay({
   userTier,
 }: ToolLockedOverlayProps) {
   const Icon = tool.icon;
-  const premiumUrl = getPremiumCheckoutUrl(true);
+  const premiumUrl = getPremiumCheckoutUrl();
   const isLocal = isLocalToolDefinition(tool);
 
   return (
@@ -77,7 +79,7 @@ export function ToolLockedOverlay({
             <a href={premiumUrl} target="_blank" rel="noopener noreferrer">
               <Button variant="primary" size="lg">
                 <Zap className="h-4 w-4" />
-                Upgrade to Premium ({PREMIUM_PROMO_CODE})
+                Upgrade to Premium ()
               </Button>
             </a>
           </div>

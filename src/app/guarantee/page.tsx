@@ -9,7 +9,10 @@ import {
   GUARANTEE_POLICY_SECTIONS,
   GUARANTEE_TAGLINE,
 } from "@/lib/money-back-guarantee";
-import { getPremiumCheckoutUrl, PREMIUM_PROMO_FIRST_MONTH } from "@/lib/pricing-constants";
+import {
+  getPremiumCheckoutUrl,
+  PREMIUM_PRICE,
+} from "@/lib/pricing-constants";
 import { SUPPORT_EMAIL } from "@/lib/support";
 
 import { rankingPageMetadata } from "@/lib/seo/page-metadata";
@@ -29,7 +32,7 @@ export const metadata: Metadata = rankingPageMetadata({
 });
 
 export default function GuaranteePage() {
-  const checkoutUrl = getPremiumCheckoutUrl(true);
+  const checkoutUrl = getPremiumCheckoutUrl();
   const jsonLd = [
     breadcrumbJsonLd([
       { name: "Home", path: "/" },
@@ -105,7 +108,7 @@ export default function GuaranteePage() {
         <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
           <a href={checkoutUrl} target="_blank" rel="noopener noreferrer">
             <Button variant="primary" size="lg">
-              Subscribe — {PREMIUM_PROMO_FIRST_MONTH}
+              Subscribe — {PREMIUM_PRICE}
             </Button>
           </a>
           <Link href="/register">

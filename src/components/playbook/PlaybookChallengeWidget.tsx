@@ -16,7 +16,9 @@ import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import { PropFirmTimeline } from "@/components/academy/PropFirmTimeline";
 import { PROP_FIRM_MARKETING_HEADLINE } from "@/lib/prop-firm-challenge-marketing";
-import { getPremiumCheckoutUrl, PREMIUM_PROMO_CODE } from "@/lib/pricing-tiers";
+import {
+  getPremiumCheckoutUrl,
+} from "@/lib/pricing-tiers";
 
 interface DayPlan {
   day: number;
@@ -56,7 +58,7 @@ export function PlaybookChallengeWidget({
   const [data, setData] = useState<PlaybookResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [acting, setActing] = useState(false);
-  const premiumUrl = getPremiumCheckoutUrl(true);
+  const premiumUrl = getPremiumCheckoutUrl();
 
   const load = useCallback(async () => {
     try {
@@ -195,7 +197,7 @@ export function PlaybookChallengeWidget({
           <a href={premiumUrl} target="_blank" rel="noopener noreferrer" className="mt-4 inline-block">
             <Button variant="primary">
               <Zap className="h-4 w-4" />
-              Upgrade — {PREMIUM_PROMO_CODE}
+              Upgrade — 
             </Button>
           </a>
           <p className="mt-3">
