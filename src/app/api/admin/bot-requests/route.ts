@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
         email = parts[4].trim().toLowerCase();
         unsubscribed = parts[5]?.trim().toLowerCase() === "true";
       } else {
-        const found = parts.find((p) => p.includes("@"));
+        const found = parts.find((p: string) => p.includes("@"));
         if (found) email = found.trim().toLowerCase();
       }
       if (email && !unsubscribed) emails.push(email);
