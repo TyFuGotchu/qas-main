@@ -6,6 +6,7 @@ export const PREMIUM_CHECKOUT_URL =
 export const PREMIUM_PRICE = "$149.99";
 
 /** Plain Stripe checkout — promo codes are no longer used. */
-export function getPremiumCheckoutUrl(_withPromo = false): string {
+export function getPremiumCheckoutUrl(withPromo = false): string {
+  void withPromo; // kept for call-site compatibility; promo codes removed
   return PREMIUM_CHECKOUT_URL;
 }

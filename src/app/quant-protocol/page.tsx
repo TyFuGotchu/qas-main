@@ -29,7 +29,7 @@ const PATH = QUANT_PROTOCOL_LANDING_PATH;
 export const metadata: Metadata = rankingPageMetadata({
   title: "Quicksilver Quant Protocol — TradeLocker Bot + Premium Stack",
   description:
-    "Requested TradeLocker bot access? Premium Quant unlocks Quicksilver Quant Protocol plus the 7-Day Playbook, planning tools, Chart Academy, and live terminal.  first month.",
+    "Requested TradeLocker bot access? Premium Quant unlocks Quicksilver Quant Protocol plus the 7-Day Playbook, planning tools, Chart Academy, and live terminal. $149.99/mo.",
   path: PATH,
   keywords: [
     "Quicksilver Quant Protocol",

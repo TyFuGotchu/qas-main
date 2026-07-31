@@ -22,7 +22,7 @@ import { rankingPageMetadata } from "@/lib/seo/page-metadata";
 export const metadata: Metadata = rankingPageMetadata({
   title: "Pass Prop Firm Challenges in 7 Days | Quicksilver Algo",
   description:
-    "7-Day Prop Firm Playbook, risk & consistency tools, Chart Academy, and TradeLocker Quant Protocol. Free demos for manual traders.  first month.",
+    "7-Day Prop Firm Playbook, risk & consistency tools, Chart Academy, and TradeLocker Quant Protocol. Free demos for manual traders. Premium from $149.99/mo.",
   path: "/",
   keywords: [
     "prop firm challenge playbook",

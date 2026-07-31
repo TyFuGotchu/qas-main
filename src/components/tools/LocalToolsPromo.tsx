@@ -24,9 +24,7 @@ export function LocalToolsPromo({ variant = "full", className }: LocalToolsPromo
       <GlassPanel className={`border-emerald-500/20 p-4 ${className ?? ""}`}>
         <p className="font-mono text-xs text-slate-400">
           <strong className="text-emerald-400">Premium Trading Tools</strong> — Expectancy,
-          ATR Pip-Range & Compounding Matrix included with Premium ({PREMIUM_PRICE}/mo). Code{" "}
-          <strong className="text-slate-200"></strong> →{" "}
-          {PREMIUM_PRICE} first month.
+          ATR Pip-Range & Compounding Matrix included with Premium ({PREMIUM_PRICE}/mo).
         </p>
         <Link href="/tools" className="mt-2 inline-block font-mono text-xs text-cyan-accent hover:underline">
           Browse tools →
@@ -60,7 +58,7 @@ export function LocalToolsPromo({ variant = "full", className }: LocalToolsPromo
           <a href={premiumUrl} target="_blank" rel="noopener noreferrer">
             <Button variant="primary" size="sm">
               <Zap className="h-3.5 w-3.5" />
-              Premium — 
+              Get Premium
             </Button>
           </a>
         </div>
