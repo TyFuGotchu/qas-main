@@ -278,3 +278,21 @@ model SupportInboundEmail {
   @@index([receivedAt])
   @@index([read, archived])
 }
+
+/// People who requested Quant Protocol / bot access on TradeLocker (marketplace leads)
+model TradeLockerBotRequest {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  /// pending | emailed | converted | dismissed
+  status    String   @default("pending")
+  /// e.g. tradelocker_marketplace, csv_import, manual
+  source    String   @default("tradelocker_marketplace")
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  emailedAt DateTime?
+
+  @@index([status, createdAt])
+  @@index([createdAt])
+}

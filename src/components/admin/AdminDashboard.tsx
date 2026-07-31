@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/Badge";
 import { TerminalPanel } from "@/components/ui/TerminalPanel";
 import { AdminEmailCenter } from "@/components/admin/AdminEmailCenter";
 import { AdminReferralsPanel } from "@/components/admin/AdminReferralsPanel";
+import { AdminBotRequestsPanel } from "@/components/admin/AdminBotRequestsPanel";
 import {
   Users,
   Megaphone,
@@ -20,6 +21,7 @@ import {
   KeyRound,
   CheckCircle2,
   Gift,
+  Bot,
 } from "lucide-react";
 
 interface AdminUser {
@@ -40,7 +42,7 @@ interface AdminAnnouncement {
   createdAt: string;
 }
 
-type AdminTab = "users" | "email" | "announcements" | "referrals";
+type AdminTab = "users" | "email" | "announcements" | "referrals" | "bot-requests";
 
 function isPremium(tier: string) {
   return tier === ACCOUNT_TIERS.PREMIUM_QUANT;
@@ -353,6 +355,7 @@ export function AdminDashboard() {
 
   const tabs: { id: AdminTab; label: string; icon: typeof Users }[] = [
     { id: "users", label: "Users", icon: Users },
+    { id: "bot-requests", label: "Bot requests", icon: Bot },
     { id: "email", label: "Email", icon: Mail },
     { id: "referrals", label: "Referrals", icon: Gift },
     { id: "announcements", label: "Announcements", icon: Megaphone },
@@ -582,6 +585,8 @@ export function AdminDashboard() {
           </CardContent>
         </Card>
       )}
+
+      {tab === "bot-requests" && <AdminBotRequestsPanel />}
 
       {tab === "email" && <AdminEmailCenter />}
 
