@@ -241,7 +241,7 @@ export default function QuantProtocolLandingPage() {
         <ol className="mt-4 space-y-3 font-mono text-sm text-slate-400">
           <li className="flex gap-3">
             <span className="text-cyan-400">01.</span>
-            Checkout → {PREMIUM_PRICE} first month
+            Checkout → {PREMIUM_PRICE}/mo
           </li>
           <li className="flex gap-3">
             <span className="text-cyan-400">02.</span>
