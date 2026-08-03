@@ -6,7 +6,7 @@ const SITE_URL =
   "https://quicksilveralgo.com";
 
 /** Content freshness signal for Google (update when money pages materially improve). */
-export const SEO_CONTENT_REFRESHED = "2026-07-20";
+export const SEO_CONTENT_REFRESHED = "2026-08-03";
 
 export function absoluteUrl(path: string): string {
   if (path.startsWith("http")) return path;
@@ -19,6 +19,7 @@ export function absoluteUrl(path: string): string {
  * - Absolute title (avoids template dilution)
  * - Self-referencing canonical
  * - Indexable robots + large snippets
+ * - OG/Twitter cards for share + discovery
  */
 export function rankingPageMetadata(params: {
   title: string;
@@ -27,11 +28,13 @@ export function rankingPageMetadata(params: {
   keywords?: string[];
   type?: "website" | "article";
   publishedAt?: string;
+  modifiedAt?: string;
   noIndex?: boolean;
 }): Metadata {
   const url = absoluteUrl(params.path);
   const title = params.title.slice(0, 70);
   const description = params.description.slice(0, 160);
+  const modified = params.modifiedAt ?? params.publishedAt ?? SEO_CONTENT_REFRESHED;
 
   return {
     title: { absolute: title },
@@ -57,11 +60,23 @@ export function rankingPageMetadata(params: {
       title,
       description,
       siteName: "Quicksilver Algo Systems",
+      locale: "en_US",
+      images: [
+        {
+          url: absoluteUrl("/icon.png"),
+          width: 512,
+          height: 512,
+          alt: "Quicksilver Algo Systems",
+        },
+      ],
+      ...(params.publishedAt ? { publishedTime: params.publishedAt } : {}),
+      ...(modified ? { modifiedTime: modified } : {}),
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: [absoluteUrl("/icon.png")],
     },
   };
 }

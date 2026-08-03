@@ -12,23 +12,39 @@ import { LocalToolsPromo } from "@/components/tools/LocalToolsPromo";
 import { PremiumEverythingIncluded } from "@/components/marketing/PremiumEverythingIncluded";
 import { PremiumValueStack } from "@/components/tools/PremiumValueStack";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
+import { HomeAuthoritySection } from "@/components/seo/HomeAuthoritySection";
 import {
   organizationJsonLd,
   websiteJsonLd,
   breadcrumbJsonLd,
+  faqJsonLd,
+  moneyPageItemListJsonLd,
+  subscriptionProductJsonLd,
 } from "@/lib/seo/json-ld";
 import { rankingPageMetadata } from "@/lib/seo/page-metadata";
+import {
+  HOMEPAGE_FAQS,
+  MONEY_PAGES,
+  SEO_RECOVERY_REFRESHED,
+} from "@/lib/seo/money-pages";
+import {
+  getPremiumCheckoutUrl,
+  PREMIUM_PRICE,
+} from "@/lib/pricing-constants";
 
 export const metadata: Metadata = rankingPageMetadata({
   title: "Pass Prop Firm Challenges in 7 Days | Quicksilver Algo",
   description:
     "7-Day Prop Firm Playbook, risk & consistency tools, Chart Academy, and TradeLocker Quant Protocol. Free demos for manual traders. Premium from $149.99/mo.",
   path: "/",
+  modifiedAt: SEO_RECOVERY_REFRESHED,
   keywords: [
     "prop firm challenge playbook",
     "pass prop firm challenge",
     "FTMO challenge plan",
     "prop firm consistency rule",
+    "TradeLocker bot",
+    "Quicksilver Quant Protocol",
     "trading risk calculator",
     "break of structure",
   ],
@@ -48,7 +64,7 @@ const SEO_HUB_LINKS = [
   {
     href: "/launch",
     title: "7-Day Prop Firm Playbook",
-    body: "Day-by-day challenge plan with consistency rules and  pricing.",
+    body: "Day-by-day challenge plan with consistency rules and Premium pricing.",
   },
   {
     href: "/prop-firm",
@@ -73,10 +89,29 @@ const SEO_HUB_LINKS = [
 ];
 
 export default function LandingPage() {
+  const priceNum = Number.parseFloat(PREMIUM_PRICE.replace(/[^0-9.]/g, "")) || 149.99;
   const jsonLd = [
     websiteJsonLd(),
     organizationJsonLd(),
     breadcrumbJsonLd([{ name: "Home", path: "/" }]),
+    faqJsonLd(HOMEPAGE_FAQS),
+    moneyPageItemListJsonLd(
+      MONEY_PAGES.filter((p) => p.priority === "core").map((p) => ({
+        name: p.title,
+        path: p.href === "/" ? "/" : p.href,
+        description: p.description,
+      }))
+    ),
+    subscriptionProductJsonLd({
+      name: "Premium Quant — Quicksilver Algo",
+      description:
+        "TradeLocker Quant Protocol, 7-Day Prop Firm Playbook, planning tools, Chart Academy, and live terminal.",
+      path: "/",
+      price: priceNum,
+      checkoutUrl: getPremiumCheckoutUrl(),
+      category: "FinanceApplication",
+      datePublished: SEO_RECOVERY_REFRESHED,
+    }),
   ];
 
   return (
@@ -101,6 +136,8 @@ export default function LandingPage() {
         </div>
       </section>
 
+      <HomeAuthoritySection />
+
       <section
         aria-labelledby="seo-hub-heading"
         className="border-t border-slate-800/60 px-4 py-16 sm:px-6 lg:px-8"
@@ -114,7 +151,7 @@ export default function LandingPage() {
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-slate-500">
             Free previews, prop firm guides, Chart Academy, and Premium planning engines —
-            built for manual traders.
+            built for manual and systematic traders.
           </p>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {SEO_HUB_LINKS.map((item) => (

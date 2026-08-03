@@ -23,15 +23,23 @@ import { MoneyBackGuarantee } from "@/components/marketing/MoneyBackGuarantee";
 import { PremiumEverythingIncluded } from "@/components/marketing/PremiumEverythingIncluded";
 import {
   getPremiumCheckoutUrl,
+  PREMIUM_PRICE,
 } from "@/lib/pricing-constants";
-import { rankingPageMetadata } from "@/lib/seo/page-metadata";
-import { breadcrumbJsonLd, faqJsonLd, howToJsonLd } from "@/lib/seo/json-ld";
+import { rankingPageMetadata, SEO_CONTENT_REFRESHED } from "@/lib/seo/page-metadata";
+import {
+  breadcrumbJsonLd,
+  faqJsonLd,
+  howToJsonLd,
+  subscriptionProductJsonLd,
+} from "@/lib/seo/json-ld";
+import { AuthorityCrossLinks } from "@/components/seo/AuthorityCrossLinks";
 
 export const metadata: Metadata = rankingPageMetadata({
   title: "How to Pass a Prop Firm Challenge in 7 Days | Playbook",
   description:
-    "Step-by-step 7-day prop firm challenge plan: daily profit caps, 20% consistency rule, risk limits for FTMO & funded accounts. Free preview + .",
+    "Step-by-step 7-day prop firm challenge plan: daily profit caps, 20% consistency rule, risk limits for FTMO & funded accounts. Free preview + Premium tracker.",
   path: PLAYBOOK_LAUNCH_PATH,
+  modifiedAt: SEO_CONTENT_REFRESHED,
   keywords: [
     "pass prop firm challenge in 7 days",
     "prop firm consistency rule",
@@ -43,6 +51,7 @@ export const metadata: Metadata = rankingPageMetadata({
 
 export default function PlaybookLaunchPage() {
   const premiumUrl = getPremiumCheckoutUrl();
+  const priceNum = Number.parseFloat(PREMIUM_PRICE.replace(/[^0-9.]/g, "")) || 149.99;
 
   const jsonLd = [
     breadcrumbJsonLd([
@@ -61,6 +70,16 @@ export default function PlaybookLaunchPage() {
       })),
     }),
     faqJsonLd([...PLAYBOOK_LAUNCH_FAQS]),
+    subscriptionProductJsonLd({
+      name: "7-Day Prop Firm Playbook — Premium Quant",
+      description:
+        "Day-by-day prop firm challenge tracker, consistency rules, and full Quicksilver Premium stack.",
+      path: PLAYBOOK_LAUNCH_PATH,
+      price: priceNum,
+      checkoutUrl: premiumUrl,
+      category: "FinanceApplication",
+      datePublished: SEO_CONTENT_REFRESHED,
+    }),
   ];
 
   return (
@@ -163,7 +182,7 @@ export default function PlaybookLaunchPage() {
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-sm text-emerald-200/80">
           Join the traders on the official 7-day playbook. Premium starts your tracker,
-          Day 1 email, and full tool access immediately.
+          Day 1 email, and full tool access immediately — {PREMIUM_PRICE}/mo.
         </p>
         <a
           href={premiumUrl}
@@ -172,10 +191,12 @@ export default function PlaybookLaunchPage() {
           className="mt-6 inline-block"
         >
           <Button variant="primary" size="lg">
-            Claim  Launch Offer
+            Get Premium Quant
           </Button>
         </a>
       </section>
+
+      <AuthorityCrossLinks currentPath={PLAYBOOK_LAUNCH_PATH} />
     </div>
   );
 }

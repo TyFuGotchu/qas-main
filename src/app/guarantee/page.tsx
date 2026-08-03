@@ -15,15 +15,17 @@ import {
 } from "@/lib/pricing-constants";
 import { SUPPORT_EMAIL } from "@/lib/support";
 
-import { rankingPageMetadata } from "@/lib/seo/page-metadata";
+import { rankingPageMetadata, SEO_CONTENT_REFRESHED } from "@/lib/seo/page-metadata";
 import { faqJsonLd, breadcrumbJsonLd } from "@/lib/seo/json-ld";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
+import { AuthorityCrossLinks } from "@/components/seo/AuthorityCrossLinks";
 
 export const metadata: Metadata = rankingPageMetadata({
   title: "30-Day Prop Firm Playbook Money-Back Guarantee",
   description:
     "Complete the 7-Day Prop Firm Playbook within 30 days of Premium — full first-month refund if not satisfied. Clear eligibility and how to claim.",
   path: "/guarantee",
+  modifiedAt: SEO_CONTENT_REFRESHED,
   keywords: [
     "prop firm tools money back guarantee",
     "trading software refund",
@@ -121,6 +123,8 @@ export default function GuaranteePage() {
           Questions? {SUPPORT_EMAIL}
         </p>
       </div>
+
+      <AuthorityCrossLinks currentPath="/guarantee" />
     </div>
   );
 }

@@ -15,14 +15,21 @@ import {
   QUICKSILVER_QUANT_PROTOCOL,
 } from "@/lib/premium-includes";
 import {
+  getPremiumCheckoutUrl,
   PREMIUM_PRICE,
 } from "@/lib/pricing-constants";
 import { PROP_FIRM_CHALLENGE_DAYS } from "@/lib/prop-firm-challenge-marketing";
 import { TOOL_COUNT } from "@/lib/tools-registry";
-import { rankingPageMetadata } from "@/lib/seo/page-metadata";
-import { breadcrumbJsonLd, faqJsonLd, howToJsonLd } from "@/lib/seo/json-ld";
+import { rankingPageMetadata, SEO_CONTENT_REFRESHED } from "@/lib/seo/page-metadata";
+import {
+  breadcrumbJsonLd,
+  faqJsonLd,
+  howToJsonLd,
+  subscriptionProductJsonLd,
+} from "@/lib/seo/json-ld";
 import { QUANT_PROTOCOL_LANDING_PATH } from "@/lib/email/bulk-templates";
 import { TRADING_BOTS_NAV } from "@/lib/trading-bots";
+import { AuthorityCrossLinks } from "@/components/seo/AuthorityCrossLinks";
 
 const PATH = QUANT_PROTOCOL_LANDING_PATH;
 
@@ -31,12 +38,14 @@ export const metadata: Metadata = rankingPageMetadata({
   description:
     "Requested TradeLocker bot access? Premium Quant unlocks Quicksilver Quant Protocol plus the 7-Day Playbook, planning tools, Chart Academy, and live terminal. $149.99/mo.",
   path: PATH,
+  modifiedAt: SEO_CONTENT_REFRESHED,
   keywords: [
     "Quicksilver Quant Protocol",
     "TradeLocker bot",
     "prop firm trading bot",
     "Premium Quant",
     "TradeLocker algo",
+    "TradeLocker desktop bot",
   ],
 });
 
@@ -68,6 +77,7 @@ const FAQS = [
 ];
 
 export default function QuantProtocolLandingPage() {
+  const priceNum = Number.parseFloat(PREMIUM_PRICE.replace(/[^0-9.]/g, "")) || 149.99;
   const jsonLd = [
     breadcrumbJsonLd([
       { name: "Home", path: "/" },
@@ -103,6 +113,16 @@ export default function QuantProtocolLandingPage() {
       ],
     }),
     faqJsonLd(FAQS),
+    subscriptionProductJsonLd({
+      name: "Quicksilver Quant Protocol — Premium Quant",
+      description:
+        "TradeLocker Quant Protocol bot access plus 7-Day Playbook, planning tools, Chart Academy, and live terminal.",
+      path: PATH,
+      price: priceNum,
+      checkoutUrl: getPremiumCheckoutUrl(),
+      category: "FinanceApplication",
+      datePublished: SEO_CONTENT_REFRESHED,
+    }),
   ];
 
   return (
@@ -304,10 +324,12 @@ export default function QuantProtocolLandingPage() {
         </p>
         <TrackedCheckoutLink source="quant_protocol_footer" className="mt-6 inline-block">
           <Button variant="primary" size="lg">
-            Get Premium Quant — {PREMIUM_PRICE} first month
+            Get Premium Quant — {PREMIUM_PRICE}/mo
           </Button>
         </TrackedCheckoutLink>
       </section>
+
+      <AuthorityCrossLinks currentPath={PATH} />
     </article>
   );
 }

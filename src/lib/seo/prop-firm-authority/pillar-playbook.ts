@@ -159,7 +159,7 @@ export const PILLAR_PLAYBOOK_PAGE: PillarPage = {
       level: 2,
       paragraphs: [
         "This pillar page is the canonical guide. Premium members get the interactive 7-Day Playbook tracker in-dashboard, day-complete emails, stall nudges, and full access to all 9 planning tools.",
-        "$149.99/mo. Start at /launch or /offers/first100-prop-firm-one-week.",
+        "$149.99/mo. Start at /launch for the playbook tracker, or /quant-protocol if you need TradeLocker bot access.",
       ],
       listItems: [
         "Prop Survival — Monte Carlo pass probability before day 1",

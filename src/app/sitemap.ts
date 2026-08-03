@@ -10,11 +10,14 @@ import {
   PILLAR_PAGES,
   PROP_FIRM_CLUSTER_PAGES,
 } from "@/lib/seo/prop-firm-authority";
+import { SEO_RECOVERY_REFRESHED } from "@/lib/seo/money-pages";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://quicksilveralgo.com";
 
-/** Stable lastmod — bump when money-page content materially improves. */
-const SITE_UPDATED = new Date("2026-07-20");
+/** Money-page lastmod — bump with SEO_RECOVERY_REFRESHED on authority updates. */
+const SITE_UPDATED = new Date(SEO_RECOVERY_REFRESHED);
+/** Long-tail programmatic pages — slower churn signal. */
+const PROGRAMMATIC_UPDATED = new Date("2026-07-20");
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
@@ -134,37 +137,37 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const offerPages: MetadataRoute.Sitemap = INDEXABLE_OFFER_PAGES.map((page) => ({
     url: `${SITE_URL}/offers/${page.slug}`,
-    lastModified: new Date(page.publishedAt),
-    changeFrequency: "weekly" as const,
-    priority: page.variant === "bundle" ? 0.95 : 0.82,
+    lastModified: PROGRAMMATIC_UPDATED,
+    changeFrequency: "monthly" as const,
+    priority: page.variant === "bundle" ? 0.9 : 0.75,
   }));
 
   const solutionPages: MetadataRoute.Sitemap = INDEXABLE_SOLUTION_PAGES.map((page) => ({
     url: `${SITE_URL}/solutions/${page.slug}`,
-    lastModified: new Date(page.publishedAt),
+    lastModified: PROGRAMMATIC_UPDATED,
     changeFrequency: "monthly" as const,
-    priority: page.market && page.propFirm === null ? 0.78 : 0.72,
+    priority: page.market && page.propFirm === null ? 0.72 : 0.65,
   }));
 
   const learnPages: MetadataRoute.Sitemap = INDEXABLE_LEARN_PAGES.map((page) => ({
     url: `${SITE_URL}/learn/${page.slug}`,
-    lastModified: new Date(page.publishedAt),
+    lastModified: PROGRAMMATIC_UPDATED,
     changeFrequency: "monthly" as const,
-    priority: 0.7,
+    priority: 0.65,
   }));
 
   const pillarPages: MetadataRoute.Sitemap = PILLAR_PAGES.map((pillar) => ({
     url: `${SITE_URL}/guides/pillar/${pillar.slug}`,
-    lastModified: new Date(pillar.publishedAt),
+    lastModified: SITE_UPDATED,
     changeFrequency: "weekly" as const,
     priority: 0.99,
   }));
 
   const clusterPages: MetadataRoute.Sitemap = PROP_FIRM_CLUSTER_PAGES.map((page) => ({
     url: `${SITE_URL}/prop-firm/${page.slug}`,
-    lastModified: new Date(page.publishedAt),
+    lastModified: PROGRAMMATIC_UPDATED,
     changeFrequency: "monthly" as const,
-    priority: page.topic === "pass-in-7-days" ? 0.9 : 0.82,
+    priority: page.topic === "pass-in-7-days" ? 0.88 : 0.78,
   }));
 
   return [

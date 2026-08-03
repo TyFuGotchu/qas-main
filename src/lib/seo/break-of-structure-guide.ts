@@ -9,6 +9,7 @@ export const BOS_GUIDE = {
     "What is break of structure (BOS) in trading? Clear definition, bullish vs bearish BOS, BOS vs liquidity sweep, and how to trade the retest. Free chart examples.",
   h1: "What Is Break of Structure (BOS) in Trading?",
   publishedAt: "2026-07-20",
+  /** Keep in sync with SEO_CONTENT_REFRESHED when body material changes */
   keywords: [
     "break of structure",
     "break of structure trading",

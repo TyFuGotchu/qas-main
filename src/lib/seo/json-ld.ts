@@ -320,6 +320,7 @@ export function websiteJsonLd(params?: {
       params?.description ??
       "Prop firm challenge tools, 7-day playbook, Chart Academy, and TradeLocker Quant Protocol.",
     url: SITE_URL,
+    inLanguage: "en-US",
     publisher: PUBLISHER,
     potentialAction: {
       "@type": "SearchAction",
@@ -337,11 +338,57 @@ export function organizationJsonLd() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Quicksilver Algo Systems",
+    alternateName: ["Quicksilver Algo", "QuicksilverAlgo"],
     url: SITE_URL,
-    logo: `${SITE_URL}/icon.png`,
+    logo: {
+      "@type": "ImageObject",
+      url: `${SITE_URL}/icon.png`,
+      width: 512,
+      height: 512,
+    },
     description:
-      "Educational trading platform: prop firm playbooks, quant planning tools, and sports prop edge scanning.",
+      "Educational trading platform for prop firm challenges and TradeLocker automation: 7-day playbooks, planning tools, Chart Academy, and Quicksilver Quant Protocol.",
+    email: "supportteam@quicksilveralgo.com",
+    foundingDate: "2024",
+    areaServed: "Worldwide",
+    knowsAbout: [
+      "prop firm challenges",
+      "TradeLocker trading bots",
+      "risk management",
+      "break of structure",
+      "FTMO challenge planning",
+      "funded trader education",
+    ],
     sameAs: [] as string[],
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      email: "supportteam@quicksilveralgo.com",
+      url: `${SITE_URL}/support`,
+      availableLanguage: "English",
+    },
+  };
+}
+
+/** ItemList of core money pages — helps crawlers prioritize authority URLs. */
+export function moneyPageItemListJsonLd(
+  pages: { name: string; path: string; description?: string }[]
+) {
+  const base = SITE_URL.replace(/\/$/, "");
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Quicksilver Algo core resources",
+    itemListElement: pages.map((page, index) => {
+      const path = page.path === "/" ? "" : page.path.startsWith("/") ? page.path : `/${page.path}`;
+      return {
+        "@type": "ListItem",
+        position: index + 1,
+        name: page.name,
+        url: `${base}${path || ""}`,
+        description: page.description,
+      };
+    }),
   };
 }
 

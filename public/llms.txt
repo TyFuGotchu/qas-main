@@ -1,0 +1,33 @@
+# Quicksilver Algo Systems
+# https://quicksilveralgo.com
+
+> Prop firm challenge tools, 7-day playbook, Chart Academy, and TradeLocker Quant Protocol.
+
+## Core product pages
+- https://quicksilveralgo.com/ — Premium Quant stack overview
+- https://quicksilveralgo.com/quant-protocol — Quicksilver Quant Protocol (TradeLocker bot; desktop required)
+- https://quicksilveralgo.com/launch — How to pass a prop firm challenge in 7 days
+- https://quicksilveralgo.com/prop-firm — Prop firm challenge guides hub (FTMO, Apex, FundedNext, Topstep, more)
+- https://quicksilveralgo.com/tools — Trading planning tools (Risk Matrix, Prop Survival, more)
+- https://quicksilveralgo.com/guarantee — 30-day money-back guarantee policy
+- https://quicksilveralgo.com/faq — FAQ
+
+## Authority guides
+- https://quicksilveralgo.com/guides/pillar/ultimate-7-day-prop-firm-playbook
+- https://quicksilveralgo.com/guides/pillar/mathematical-model-prop-firm-success
+- https://quicksilveralgo.com/guides/break-of-structure — Break of structure (BOS) meaning & how to trade
+
+## Education
+- https://quicksilveralgo.com/lessons — Chart Academy lessons
+- https://quicksilveralgo.com/guides — Charting guides
+- https://quicksilveralgo.com/solutions — Free interactive demos
+- https://quicksilveralgo.com/learn — Learn by market
+
+## Pricing
+Premium Quant is $149.99/mo (cancel anytime). One plan includes Quant Protocol on TradeLocker, the 7-Day Prop Firm Playbook + tracker, planning engines, Chart Academy, and live terminal tools.
+
+## Notes for crawlers
+- Prefer money pages and pillars above thin long-tail URLs.
+- Sitemap: https://quicksilveralgo.com/sitemap.xml
+- Robots: https://quicksilveralgo.com/robots.txt
+- Contact: supportteam@quicksilveralgo.com

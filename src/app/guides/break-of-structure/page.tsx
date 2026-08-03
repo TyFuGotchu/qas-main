@@ -11,6 +11,7 @@ import {
   howToJsonLd,
 } from "@/lib/seo/json-ld";
 import { rankingPageMetadata, SEO_CONTENT_REFRESHED } from "@/lib/seo/page-metadata";
+import { AuthorityCrossLinks } from "@/components/seo/AuthorityCrossLinks";
 
 export const metadata: Metadata = rankingPageMetadata({
   title: BOS_GUIDE.title,
@@ -167,6 +168,8 @@ export default function BreakOfStructureGuidePage() {
           </Link>
         </div>
       </section>
+
+      <AuthorityCrossLinks currentPath={BOS_GUIDE_PATH} />
     </article>
   );
 }

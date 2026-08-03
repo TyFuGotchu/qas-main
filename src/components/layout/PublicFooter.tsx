@@ -3,17 +3,16 @@ import Link from "next/link";
 const PRODUCT_LINKS = [
   { href: "/launch", label: "7-Day Playbook Launch" },
   { href: "/quant-protocol", label: "Quant Protocol (TradeLocker bot)" },
-  { href: "/guides/pillar/ultimate-7-day-prop-firm-playbook", label: "Prop Firm Playbook" },
-  { href: "/guides/pillar/mathematical-model-prop-firm-success", label: "Prop Firm Math Model" },
+  { href: "/guides/pillar/ultimate-7-day-prop-firm-playbook", label: "Prop Firm Playbook Pillar" },
+  { href: "/guides/pillar/mathematical-prop-firm-model", label: "Prop Firm Math Model" },
+  { href: "/prop-firm", label: "Prop Firm Challenge Hub" },
   { href: "/guarantee", label: "Money-Back Guarantee" },
   { href: "/tools", label: "Trading Tools" },
   { href: "/offers", label: "Premium Offers" },
-  { href: "/dashboard/trading-bots", label: "Trading Bots (members)" },
 ];
 
 const LEARN_LINKS = [
   { href: "/guides/break-of-structure", label: "Break of Structure (BOS)" },
-  { href: "/prop-firm", label: "Prop Firm Guides Hub" },
   { href: "/guides", label: "Charting Guides" },
   { href: "/lessons", label: "Chart Academy Lessons" },
   { href: "/lessons/market-structure-what-is-bos", label: "What Is BOS Lesson" },
@@ -35,7 +34,8 @@ export function PublicFooter() {
           </p>
           <p className="mt-3 text-sm leading-relaxed text-slate-500">
             Prop firm challenge tools, 7-day playbook, Chart Academy, and TradeLocker Quant
-            Protocol — built for manual traders.
+            Protocol — built for manual traders and systematic bot users on TradeLocker
+            Desktop.
           </p>
           <Link
             href="/register"
