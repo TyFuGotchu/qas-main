@@ -14,10 +14,12 @@ import {
   POSITIONING,
   PROFILE_BIOS,
   REEL_SCRIPTS,
+  FOUNDER_PROFILE_LINKS_BLOCK,
   SOCIAL_LINKS,
   WEEKLY_CADENCE,
   X_POSTS,
 } from "@/lib/social-kit";
+import { FOUNDER } from "@/lib/founder-social";
 
 export const metadata: Metadata = {
   title: "Social Kit | Admin",
@@ -87,8 +89,12 @@ export default async function AdminSocialKitPage() {
       </header>
 
       <Section id="bios" title="1. Profile bios">
+        <p className="font-mono text-xs text-slate-500">
+          Personal brand: {FOUNDER.displayName} · {FOUNDER.role}
+        </p>
         <CopyBlock label="Short (IG / TikTok)" text={PROFILE_BIOS.short} />
         <CopyBlock label="Medium" text={PROFILE_BIOS.medium} />
+        <CopyBlock label="Founder profile URLs (site footer)" text={FOUNDER_PROFILE_LINKS_BLOCK} />
       </Section>
 
       <Section id="links" title="2. Links (UTM ready)">

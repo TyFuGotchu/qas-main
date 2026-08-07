@@ -6,6 +6,7 @@
 import { PREMIUM_PRICE } from "@/lib/pricing-constants";
 import { PROP_FIRM_CHALLENGE_DAYS } from "@/lib/prop-firm-challenge-marketing";
 import { TOOL_COUNT } from "@/lib/tools-registry";
+import { FOUNDER, FOUNDER_SOCIAL_LINKS } from "@/lib/founder-social";
 
 const SITE = "https://quicksilveralgo.com";
 
@@ -38,16 +39,22 @@ export const SOCIAL_LINKS = {
 } as const;
 
 export const PROFILE_BIOS = {
-  short: `Prop firm playbook · risk tools · academy
+  short: `Founder of Quicksilver Algo Systems
+Prop firm playbook · risk tools · academy
 + Quant Protocol on TradeLocker Desktop
 Full trader stack — not bot-only
 ↓ start here`,
-  medium: `Quicksilver Algo — full trader arsenal
+  medium: `${FOUNDER.displayName} · ${FOUNDER.role}
+Quicksilver Algo — full trader arsenal
 ${PROP_FIRM_CHALLENGE_DAYS}-Day Playbook · ${TOOL_COUNT} tools · Chart Academy · live terminal
 Quant Protocol on TradeLocker Desktop (Premium)
 Not a bot-only product · ${PREMIUM_PRICE}/mo
 ↓ link`,
 } as const;
+
+export const FOUNDER_PROFILE_LINKS_BLOCK = FOUNDER_SOCIAL_LINKS.map(
+  (l) => `${l.label}: ${l.href}`
+).join("\n");
 
 export const HASHTAG_SETS = {
   core: "#PropFirm #FundedTrader #TradingTools #TradingEducation #RiskManagement",

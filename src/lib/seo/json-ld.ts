@@ -1,13 +1,19 @@
+import { FOUNDER, FOUNDER_SAME_AS } from "@/lib/founder-social";
+
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://quicksilveralgo.com";
 const PUBLISHER = {
   "@type": "Organization" as const,
-  name: "Quicksilver Algo System",
+  name: "Quicksilver Algo Systems",
   url: SITE_URL,
 };
 
 export const AUTHORITY_AUTHOR = {
   "@type": "Person" as const,
-  name: "Quicksilver Lead Dev",
+  name: FOUNDER.displayName,
+  alternateName: FOUNDER.handle,
+  jobTitle: FOUNDER.role,
+  url: FOUNDER_SAME_AS[0],
+  sameAs: FOUNDER_SAME_AS,
   worksFor: PUBLISHER,
 };
 
@@ -359,7 +365,14 @@ export function organizationJsonLd() {
       "FTMO challenge planning",
       "funded trader education",
     ],
-    sameAs: [] as string[],
+    sameAs: FOUNDER_SAME_AS,
+    founder: {
+      "@type": "Person",
+      name: FOUNDER.displayName,
+      alternateName: FOUNDER.handle,
+      jobTitle: FOUNDER.role,
+      sameAs: FOUNDER_SAME_AS,
+    },
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer support",
