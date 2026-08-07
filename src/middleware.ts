@@ -13,7 +13,6 @@ const PUBLIC_ROUTES = [
   "/support",
   "/faq",
   "/guarantee",
-  "/social-kit",
 ];
 const SEO_PUBLIC_PREFIXES = [
   "/lessons",
@@ -163,6 +162,11 @@ export async function middleware(request: NextRequest) {
       );
     }
     return NextResponse.redirect(new URL("/dashboard/upgrade", request.url));
+  }
+
+  // Old public social-kit URL → admin-only location
+  if (pathname === "/social-kit" || pathname.startsWith("/social-kit/")) {
+    return NextResponse.redirect(new URL("/admin/social-kit", request.url));
   }
 
   if (isAdminRoute(pathname)) {

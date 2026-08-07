@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Badge } from "@/components/ui/Badge";
 import { CopyBlock } from "@/components/social/CopyBlock";
+import { getSession } from "@/lib/auth";
+import { isAdminUser } from "@/lib/admin";
 import {
   CAROUSEL_STACK,
   COMPLIANCE_LINES,
@@ -17,7 +20,7 @@ import {
 } from "@/lib/social-kit";
 
 export const metadata: Metadata = {
-  title: "Social Kit (internal) | Quicksilver Algo",
+  title: "Social Kit | Admin",
   description: "Internal bios, posts, Reels scripts, and carousels for Quicksilver social.",
   robots: { index: false, follow: false },
 };
@@ -39,16 +42,22 @@ function Section({
   );
 }
 
-export default function SocialKitPage() {
+export default async function AdminSocialKitPage() {
+  const session = await getSession();
+  if (!session || !isAdminUser(session)) {
+    redirect("/login?redirect=/admin/social-kit");
+  }
+
   return (
-    <div className="mx-auto max-w-3xl space-y-14 px-4 py-10 sm:px-6">
+    <div className="mx-auto max-w-3xl space-y-14 pb-10">
       <header className="space-y-4">
-        <Badge variant="warning">Internal · noindex</Badge>
+        <Badge variant="warning">Admin only · noindex</Badge>
         <h1 className="font-mono text-3xl font-bold text-slate-50 sm:text-4xl">
           Social kit
         </h1>
         <p className="text-sm leading-relaxed text-slate-400">
-          Copy-ready bios, posts, Reels scripts, carousels, and links. Bookmark this page.
+          Copy-ready bios, posts, Reels scripts, carousels, and links. Bookmark{" "}
+          <span className="font-mono text-cyan-400/90">/admin/social-kit</span>.
           Primary destination is always the full arsenal — not bot-only.
         </p>
         <p className="rounded-lg border border-cyan-500/20 bg-cyan-500/5 px-4 py-3 text-sm text-slate-300">

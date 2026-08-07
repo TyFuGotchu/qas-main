@@ -20,12 +20,26 @@ export default function AdminLayout({
               QS<span className="text-cyan-400">.ADMIN</span>
             </span>
           </Link>
-          <Link
-            href="/dashboard"
-            className="font-mono text-xs uppercase tracking-widest text-slate-500 hover:text-cyan-400"
-          >
-            ← Back to Dashboard
-          </Link>
+          <div className="flex flex-wrap items-center gap-4">
+            <Link
+              href="/admin/social-kit"
+              className="font-mono text-xs uppercase tracking-widest text-slate-500 hover:text-cyan-400"
+            >
+              Social kit
+            </Link>
+            <Link
+              href="/admin/dashboard"
+              className="font-mono text-xs uppercase tracking-widest text-slate-500 hover:text-cyan-400"
+            >
+              Admin
+            </Link>
+            <Link
+              href="/dashboard"
+              className="font-mono text-xs uppercase tracking-widest text-slate-500 hover:text-cyan-400"
+            >
+              ← Dashboard
+            </Link>
+          </div>
         </div>
       </header>
       <main className="relative z-[1] mx-auto max-w-7xl overflow-x-hidden p-4 sm:p-6">
