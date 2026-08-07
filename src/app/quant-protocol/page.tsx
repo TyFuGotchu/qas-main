@@ -5,7 +5,6 @@ import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import { TrackedCheckoutLink } from "@/components/analytics/TrackedCheckoutLink";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
-import { MoneyBackGuarantee } from "@/components/marketing/MoneyBackGuarantee";
 import { PremiumEverythingIncluded } from "@/components/marketing/PremiumEverythingIncluded";
 import { QuantProtocolDesktopNotice } from "@/components/trading-bots/QuantProtocolDesktopNotice";
 import {
@@ -168,9 +167,6 @@ export default function QuantProtocolLandingPage() {
               TradeLocker Hub listing
             </Button>
           </a>
-        </div>
-        <div className="mx-auto mt-6 max-w-2xl">
-          <MoneyBackGuarantee variant="strip" />
         </div>
         <div className="mx-auto mt-6 max-w-2xl text-left">
           <QuantProtocolDesktopNotice />

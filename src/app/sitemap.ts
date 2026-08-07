@@ -41,12 +41,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.98,
     },
     {
-      url: `${SITE_URL}/guarantee`,
-      lastModified: SITE_UPDATED,
-      changeFrequency: "monthly",
-      priority: 0.95,
-    },
-    {
       url: `${SITE_URL}/prop-firm`,
       lastModified: SITE_UPDATED,
       changeFrequency: "weekly",

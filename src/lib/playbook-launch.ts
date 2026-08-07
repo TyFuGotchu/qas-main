@@ -3,7 +3,6 @@ import {
   PROP_FIRM_CHALLENGE_DAYS,
   PROP_FIRM_MARKETING_HEADLINE,
 } from "@/lib/prop-firm-challenge-marketing";
-import { GUARANTEE_FAQ } from "@/lib/money-back-guarantee";
 import { PREMIUM_PRICE } from "@/lib/pricing-constants";
 
 export const PLAYBOOK_LAUNCH_PATH = "/launch";
@@ -35,11 +34,7 @@ export const PLAYBOOK_LAUNCH_STEPS = [
   },
 ] as const;
 
-export const PLAYBOOK_LAUNCH_FAQS = [
-  GUARANTEE_FAQ[0],
-  ...PROP_FIRM_ONE_WEEK_GUIDE.faqs,
-  GUARANTEE_FAQ[1],
-];
+export const PLAYBOOK_LAUNCH_FAQS = [...PROP_FIRM_ONE_WEEK_GUIDE.faqs];
 
 /** Share this URL everywhere for the launch */
 export function getPlaybookLaunchUrl(siteUrl?: string): string {

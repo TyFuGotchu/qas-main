@@ -1,5 +1,4 @@
 import { TRADELOCKER_BOT_URL } from "@/lib/constants";
-import { GUARANTEE_HEADLINE } from "@/lib/money-back-guarantee";
 import {
   PROP_FIRM_CHALLENGE_DAYS,
   PROP_FIRM_PLAYBOOK_HREF,
@@ -111,7 +110,7 @@ export const PREMIUM_INCLUDE_STRIP_ITEMS = [
   `${CHART_ACADEMY_STATS.lessonCount} Academy Lessons`,
   "Live TradeLocker Terminal",
   "Prop OS + Journal",
-  GUARANTEE_HEADLINE,
+  "Priority Support",
 ] as const;
 
 export const PREMIUM_INCLUDES_HEADLINE = "Everything in Premium — One Subscription";

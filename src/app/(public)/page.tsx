@@ -81,11 +81,6 @@ const SEO_HUB_LINKS = [
     title: "Chart Academy Lessons",
     body: "Market structure, candlesticks, Fibonacci, and prop firm execution education.",
   },
-  {
-    href: "/guarantee",
-    title: "30-Day Guarantee",
-    body: "Money-back policy for Premium members who complete the playbook.",
-  },
 ];
 
 export default function LandingPage() {

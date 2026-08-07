@@ -15,7 +15,7 @@ import { useSession } from "@/providers/SessionProvider";
 import { Check, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { trackBeginCheckout } from "@/lib/analytics/ga-events";
-import { MoneyBackGuarantee } from "@/components/marketing/MoneyBackGuarantee";
+
 
 const PREMIUM_CHECKOUT = getPremiumCheckoutUrl();
 
@@ -227,10 +227,6 @@ export function ChooseTierForm() {
           {error}
         </p>
       )}
-
-      <div className="mx-auto max-w-2xl">
-        <MoneyBackGuarantee variant="panel" />
-      </div>
 
       <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
         <Button

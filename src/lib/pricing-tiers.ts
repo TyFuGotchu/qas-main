@@ -7,7 +7,6 @@ export {
   getPremiumCheckoutUrl,
 } from "@/lib/pricing-constants";
 
-import { GUARANTEE_HEADLINE } from "@/lib/money-back-guarantee";
 import {
   PREMIUM_PRICE,
   getPremiumCheckoutUrl,
@@ -43,7 +42,6 @@ export const PRICING_TIERS: PricingTier[] = [
       "Live TradeLocker terminal + 4 in-terminal pro tools",
       "Priority email support (support@quicksilveralgo.com)",
       "Live trading terminal + 4 account pro tools",
-      GUARANTEE_HEADLINE,
     ],
     ctaLink: getPremiumCheckoutUrl(),
     recommended: true,

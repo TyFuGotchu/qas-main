@@ -10,7 +10,6 @@ import {
   Terminal,
   Zap,
 } from "lucide-react";
-import { MoneyBackGuarantee } from "@/components/marketing/MoneyBackGuarantee";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import { GlassPanel } from "@/components/ui/GlassPanel";
@@ -29,14 +28,16 @@ import { ALL_TOOLS } from "@/lib/tools-registry";
 
 interface PremiumEverythingIncludedProps {
   className?: string;
+  /** @deprecated Guarantee removed — kept for call-site compatibility */
   showGuarantee?: boolean;
 }
 
 export function PremiumEverythingIncluded({
   className,
-  showGuarantee = true,
+  showGuarantee: _showGuarantee = false,
 }: PremiumEverythingIncludedProps) {
-  const checkoutUrl = getPremiumCheckoutUrl(true);
+  void _showGuarantee;
+  const checkoutUrl = getPremiumCheckoutUrl();
 
   return (
     <section
@@ -237,12 +238,6 @@ export function PremiumEverythingIncluded({
             ))}
           </ul>
         </div>
-
-        {showGuarantee && (
-          <div className="mt-8">
-            <MoneyBackGuarantee variant="panel" />
-          </div>
-        )}
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <a href={checkoutUrl} target="_blank" rel="noopener noreferrer">

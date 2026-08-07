@@ -7,14 +7,13 @@ import {
   getPremiumCheckoutUrl,
   PREMIUM_PRICE,
 } from "@/lib/pricing-constants";
-import { MoneyBackGuarantee } from "@/components/marketing/MoneyBackGuarantee";
 import { PLAYBOOK_LAUNCH_PATH } from "@/lib/playbook-launch";
 
 export function AuthorityPillarCTA() {
   return (
     <GlassPanel className="border-cyan-accent/30 bg-gradient-to-br from-slate-950 to-cyan-accent/5 p-6 sm:p-8">
       <Badge variant="success" className="mb-4">
-         — {PREMIUM_PRICE} first month
+        Premium · {PREMIUM_PRICE}/mo
       </Badge>
       <div className="flex items-start gap-4">
         <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-cyan-accent/30 bg-cyan-accent/10">
@@ -30,10 +29,6 @@ export function AuthorityPillarCTA() {
           </p>
         </div>
       </div>
-      <div className="mt-5">
-        <MoneyBackGuarantee variant="inline" />
-      </div>
-
       <div className="mt-6 flex flex-wrap gap-3">
         <a href={getPremiumCheckoutUrl()} target="_blank" rel="noopener noreferrer">
           <Button variant="primary" size="lg">

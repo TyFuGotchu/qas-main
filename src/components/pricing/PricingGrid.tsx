@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import { Check, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { MoneyBackGuarantee } from "@/components/marketing/MoneyBackGuarantee";
+
 
 export function PricingGrid() {
   return (
@@ -73,7 +73,6 @@ export function PricingGrid() {
         </Card>
       ))}
     </div>
-    <MoneyBackGuarantee variant="panel" className="mx-auto max-w-3xl" />
     </div>
   );
 }

@@ -85,12 +85,6 @@ export const MONEY_PAGES: MoneyPageLink[] = [
     priority: "learn",
   },
   {
-    href: "/guarantee",
-    title: "30-day money-back guarantee",
-    description: "Complete the playbook within 30 days — clear refund policy.",
-    priority: "support",
-  },
-  {
     href: "/faq",
     title: "FAQ",
     description: "Pricing, Premium access, bots, and account help.",
@@ -122,9 +116,8 @@ export const HOMEPAGE_FAQS: { question: string; answer: string }[] = [
     answer: `Premium Quant is ${PREMIUM_PRICE}/mo, cancel anytime. It is one subscription for the bot, playbook, tools, academy, and live terminal — not a separate bot upsell.`,
   },
   {
-    question: "Is there a money-back guarantee?",
-    answer:
-      "Yes. Complete the 7-Day Prop Firm Playbook within 30 days of Premium under the published rules and you can request a full first-month refund if not satisfied. Details are on the guarantee page.",
+    question: "Can I cancel Premium anytime?",
+    answer: `Yes. Premium Quant is ${PREMIUM_PRICE}/mo and you can cancel anytime to stop future billing. Manage via support or your Stripe receipt portal. Trading involves risk — results are never guaranteed.`,
   },
 ];
 

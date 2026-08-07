@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import Button from "@/components/ui/Button";
-import { MoneyBackGuarantee } from "@/components/marketing/MoneyBackGuarantee";
 import { TrackedCheckoutLink } from "@/components/analytics/TrackedCheckoutLink";
 import {
   PROP_FIRM_CHALLENGE_DAYS,
@@ -86,9 +85,6 @@ export function Hero() {
                 Get Premium
               </Button>
             </TrackedCheckoutLink>
-          </div>
-          <div className="mx-auto mt-5 max-w-xl">
-            <MoneyBackGuarantee variant="inline" />
           </div>
           <p className="mt-4 font-mono text-xs text-slate-500">
             <Link href="/register" className="text-cyan-accent hover:underline">

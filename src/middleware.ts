@@ -12,7 +12,6 @@ const PUBLIC_ROUTES = [
   "/register",
   "/support",
   "/faq",
-  "/guarantee",
 ];
 const SEO_PUBLIC_PREFIXES = [
   "/lessons",
@@ -167,6 +166,11 @@ export async function middleware(request: NextRequest) {
   // Old public social-kit URL → admin-only location
   if (pathname === "/social-kit" || pathname.startsWith("/social-kit/")) {
     return NextResponse.redirect(new URL("/admin/social-kit", request.url));
+  }
+
+  // Money-back guarantee product removed
+  if (pathname === "/guarantee" || pathname.startsWith("/guarantee/")) {
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   if (isAdminRoute(pathname)) {

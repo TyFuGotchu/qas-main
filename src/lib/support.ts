@@ -79,18 +79,11 @@ export const SITE_FAQS: FaqItem[] = [
       `Email ${SUPPORT_EMAIL} with the subject line "Billing" and include the email on your Quicksilver account. We will help you manage cancellation or plan changes through Stripe.`,
   },
   {
-    id: "money-back-guarantee",
-    category: "Billing & Premium",
-    question: "What is the 30-Day Playbook Money-Back Guarantee?",
-    answer:
-      `Complete all 7 days of the Prop Firm Playbook in your Premium dashboard tracker within 30 days of your first charge. If you are not satisfied, email ${SUPPORT_EMAIL} with subject "Guarantee Claim" for a full first-month refund. See quicksilveralgo.com/guarantee for full terms.`,
-  },
-  {
     id: "refund-policy",
     category: "Billing & Premium",
     question: "What is your refund policy?",
     answer:
-      `Premium subscribers who complete the full 7-Day Playbook qualify for our 30-Day Money-Back Guarantee (full first-month refund). Billing errors are also corrected within 7 days. Email ${SUPPORT_EMAIL}. Full policy at quicksilveralgo.com/guarantee.`,
+      `Premium is a monthly subscription billed through Stripe. You can cancel anytime to stop future billing. For billing errors or payment issues, email ${SUPPORT_EMAIL} with subject "Billing" and the email on your account. We do not offer a general money-back guarantee on subscription fees.`,
   },
   {
     id: "lesson-access",
