@@ -13,6 +13,7 @@ const PUBLIC_ROUTES = [
   "/support",
   "/faq",
   "/guarantee",
+  "/social-kit",
 ];
 const SEO_PUBLIC_PREFIXES = [
   "/lessons",
