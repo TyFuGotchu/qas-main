@@ -56,14 +56,22 @@ export const metadata: Metadata = {
     title: "Pass Prop Firm Challenges in 7 Days | Quicksilver Algo",
     description:
       "Day-by-day prop firm playbook, planning tools, Chart Academy, and TradeLocker Quant Protocol. Free demos included.",
-    images: [{ url: "/icon.png", width: 512, height: 512, alt: "Quicksilver Algo Systems" }],
+    images: [
+      {
+        url: "/og?v=default",
+        width: 1200,
+        height: 630,
+        alt: "Quicksilver Algo — full trader arsenal",
+        type: "image/png",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Pass Prop Firm Challenges in 7 Days | Quicksilver Algo",
     description:
-      "Prop firm playbook, risk tools, and TradeLocker Quant Protocol — Premium Quant stack.",
-    images: ["/icon.png"],
+      "Prop firm playbook, risk tools, academy, live terminal — Premium Quant stack.",
+    images: ["/og?v=default"],
   },
   robots: {
     index: true,

@@ -36,6 +36,17 @@ export function rankingPageMetadata(params: {
   const description = params.description.slice(0, 160);
   const modified = params.modifiedAt ?? params.publishedAt ?? SEO_CONTENT_REFRESHED;
 
+  /** 1200×630 share card — path maps to /og?v=… (see src/app/og/route.tsx) */
+  const ogVariant =
+    params.path === "/quant-protocol" || params.path.startsWith("/quant-protocol")
+      ? "quant-protocol"
+      : params.path === "/launch" || params.path.startsWith("/launch")
+        ? "launch"
+        : params.path === "/" || params.path === ""
+          ? "default"
+          : "stack";
+  const ogImageUrl = absoluteUrl(`/og?v=${ogVariant}`);
+
   return {
     title: { absolute: title },
     description,
@@ -63,10 +74,11 @@ export function rankingPageMetadata(params: {
       locale: "en_US",
       images: [
         {
-          url: absoluteUrl("/icon.png"),
-          width: 512,
-          height: 512,
-          alt: "Quicksilver Algo Systems",
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: title,
+          type: "image/png",
         },
       ],
       ...(params.publishedAt ? { publishedTime: params.publishedAt } : {}),
@@ -76,7 +88,7 @@ export function rankingPageMetadata(params: {
       card: "summary_large_image",
       title,
       description,
-      images: [absoluteUrl("/icon.png")],
+      images: [ogImageUrl],
     },
   };
 }
