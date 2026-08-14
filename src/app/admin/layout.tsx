@@ -22,6 +22,12 @@ export default function AdminLayout({
           </Link>
           <div className="flex flex-wrap items-center gap-4">
             <Link
+              href="/admin/sprint"
+              className="font-mono text-xs uppercase tracking-widest text-slate-500 hover:text-cyan-400"
+            >
+              Sprint
+            </Link>
+            <Link
               href="/admin/social-kit"
               className="font-mono text-xs uppercase tracking-widest text-slate-500 hover:text-cyan-400"
             >

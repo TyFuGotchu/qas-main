@@ -12,6 +12,7 @@ const PUBLIC_ROUTES = [
   "/register",
   "/support",
   "/faq",
+  "/challenge-kit",
 ];
 const SEO_PUBLIC_PREFIXES = [
   "/lessons",
