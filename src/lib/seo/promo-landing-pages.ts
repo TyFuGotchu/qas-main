@@ -72,7 +72,7 @@ function basePromoFaqs(context: string): { question: string; answer: string }[] 
  {
  question: "What does Premium include?",
  answer:
- `Everything in one subscription: the ${PROP_FIRM_CHALLENGE_DAYS}-Day Prop Firm Playbook (${PROP_FIRM_PLAYBOOK_HREF}), ${TOOL_COUNT} planning engines, 89 Chart Academy lessons, TradeLocker Quicksilver Quant Protocol bot, live dashboard, and priority email support at support@quicksilveralgo.com.`,
+ `Everything in one subscription: the ${PROP_FIRM_CHALLENGE_DAYS}-Day Prop Firm Playbook (${PROP_FIRM_PLAYBOOK_HREF}), ${TOOL_COUNT} planning engines, 89 Chart Academy lessons, TradeLocker Quicksilver Quant Protocol bot, live dashboard, and priority email support at supportteam@quicksilveralgo.com.`,
  },
  {
  question: "Is there a free tier?",
@@ -181,8 +181,8 @@ function buildPropTopicPromo(
  {
  heading: "Prop firm workflow with Quicksilver Premium",
  paragraphs: [
- `Score every setup with the demo below, log best-day share of profit, then upgrade with for exportable reports and unlimited challenge simulations.`,
- `Priority email support at support@quicksilveralgo.com is included — get help while you prep for ${propFirm.shortName}.`,
+ `Score every setup with the demo below, log best-day share of profit, then upgrade for exportable reports and unlimited challenge simulations.`,
+ `Priority email support at supportteam@quicksilveralgo.com is included — get help while you prep for ${propFirm.shortName}.`,
  ],
  },
  premiumUnlockSection(tool?.name),

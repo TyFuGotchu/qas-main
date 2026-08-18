@@ -12,7 +12,6 @@ const PUBLIC_ROUTES = [
   "/register",
   "/support",
   "/faq",
-  "/challenge-kit",
 ];
 const SEO_PUBLIC_PREFIXES = [
   "/lessons",
@@ -171,6 +170,11 @@ export async function middleware(request: NextRequest) {
 
   // Money-back guarantee product removed
   if (pathname === "/guarantee" || pathname.startsWith("/guarantee/")) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  // $29 challenge kit removed from the public site
+  if (pathname === "/challenge-kit" || pathname.startsWith("/challenge-kit/")) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 

@@ -7,7 +7,6 @@ const PRODUCT_LINKS = [
   { href: "/guides/pillar/ultimate-7-day-prop-firm-playbook", label: "Prop Firm Playbook Pillar" },
   { href: "/guides/pillar/mathematical-prop-firm-model", label: "Prop Firm Math Model" },
   { href: "/prop-firm", label: "Prop Firm Challenge Hub" },
-  { href: "/challenge-kit", label: "7-Day Challenge Kit ($29)" },
   { href: "/tools", label: "Trading Tools" },
   { href: "/offers", label: "Premium Offers" },
 ];

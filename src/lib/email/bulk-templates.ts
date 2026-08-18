@@ -6,6 +6,7 @@ import { TRADELOCKER_BOT_URL } from "@/lib/constants";
 import { TOOL_COUNT } from "@/lib/tools-registry";
 import { CHART_ACADEMY_STATS } from "@/lib/premium-includes";
 import { PROP_FIRM_CHALLENGE_DAYS } from "@/lib/prop-firm-challenge-marketing";
+import { SUPPORT_EMAIL } from "@/lib/support";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ??
@@ -85,7 +86,7 @@ ${LAUNCH_PATH}
 
 If you only wanted "a bot," know this: Premium isn't a separate upsell on top of the algo — it's how Quant Protocol fits into a full prop-aware trading system (risk, playbook, education, live tools).
 
-Questions? Reply to this email or write supportteam@quicksilveralgo.com
+Questions? Reply to this email or write ${SUPPORT_EMAIL}
 
 — Quicksilver Algo`;
 }
@@ -107,7 +108,7 @@ Same subscription also unlocks:
 4) Log in → Trading Bots → Quant Protocol (settings + setup)
 5) From desktop, enable the bot on your TradeLocker account
 
-Reply if you need help getting live.
+Reply if you need help getting live, or write ${SUPPORT_EMAIL}.
 
 — Quicksilver Algo`;
 }
@@ -125,7 +126,7 @@ ${CHECKOUT}
 Full stack overview:
 ${QUANT_PROTOCOL_PATH}
 
-Happy to answer one question if something's blocking you — just reply.
+Happy to answer one question if something's blocking you — reply or write ${SUPPORT_EMAIL}.
 
 — Quicksilver`;
 }
@@ -179,6 +180,8 @@ ${CHECKOUT}
 
 Or read the full stack: ${QUANT_PROTOCOL_PATH}
 
+Questions? Reply or write ${SUPPORT_EMAIL}
+
 — Quicksilver Algo`,
   },
   {
@@ -204,7 +207,7 @@ Start here:
 
 Login: ${SITE_URL.replace(/\/$/, "")}/login
 
-If anything looks wrong, reply to this email.
+If anything looks wrong, reply to this email or write ${SUPPORT_EMAIL}.
 
 — Quicksilver Algo`,
   },
@@ -230,6 +233,8 @@ Steps:
 Marketplace: ${TRADELOCKER_BOT_URL}
 Setup guide: ${QUANT_PROTOCOL_PATH}
 
+Questions? Reply or write ${SUPPORT_EMAIL}
+
 — Quicksilver Algo`,
   },
   {
@@ -244,7 +249,7 @@ Thanks for writing in. We received your message and will get back to you as soon
 
 If you have screenshots, account email, or more detail, reply to this thread so everything stays in one place.
 
-— Quicksilver Support`,
+— Quicksilver Support (${SUPPORT_EMAIL})`,
   },
   {
     id: "billing-help",
@@ -260,9 +265,9 @@ Premium is billed through Stripe. To cancel or update payment:
 1) Reply with the email on your Quicksilver account (subject: Billing), or
 2) Use the customer portal link from your Stripe receipt email if you have one
 
-We can also confirm whether  applied to your first invoice.
+We can also confirm whether a promo applied to your first invoice.
 
-— Quicksilver Support`,
+— Quicksilver Support (${SUPPORT_EMAIL})`,
   },
   {
     id: "access-login-help",
@@ -280,7 +285,7 @@ Try:
 
 If you paid but still see Free tier, reply with the payment email — we can grant Premium from admin.
 
-— Quicksilver Support`,
+— Quicksilver Support (${SUPPORT_EMAIL})`,
   },
 ];
 

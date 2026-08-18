@@ -97,7 +97,7 @@ export const PREMIUM_INCLUDE_CATEGORIES: PremiumIncludeCategory[] = [
   {
     id: "support",
     title: "Priority Email Support",
-    description: "Direct line to support@quicksilveralgo.com — 1 business day SLA for Premium members.",
+    description: "Direct line to supportteam@quicksilveralgo.com — 1 business day SLA for Premium members.",
     href: "/support",
   },
 ];

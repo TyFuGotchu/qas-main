@@ -118,15 +118,22 @@ export function getDefaultFromAddress(): string {
   return "Quicksilver Algo <onboarding@quicksilveralgo.com>";
 }
 
+function isBlockedSupportAlias(address: string | undefined): boolean {
+  if (!address) return false;
+  return /support@quicksilveralgo\.com/i.test(address);
+}
+
 /** Support team mailbox for inbound + support replies. */
 export function getSupportFromAddress(): string {
   const from = cleanEnvValue(process.env.RESEND_SUPPORT_FROM);
-  if (from) return from;
+  if (from && !isBlockedSupportAlias(from)) return from;
   return `Quicksilver Support <${SUPPORT_EMAIL}>`;
 }
 
 export function getDefaultReplyTo(): string {
-  return cleanEnvValue(process.env.RESEND_REPLY_TO) || SUPPORT_EMAIL;
+  const replyTo = cleanEnvValue(process.env.RESEND_REPLY_TO);
+  if (replyTo && !isBlockedSupportAlias(replyTo)) return replyTo;
+  return SUPPORT_EMAIL;
 }
 
 /**

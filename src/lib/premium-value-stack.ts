@@ -47,7 +47,7 @@ export const PREMIUM_VALUE_PILLARS = [
   {
     id: "support",
     title: "Priority Support",
-    description: "Direct email support at support@quicksilveralgo.com.",
+    description: "Direct email support at supportteam@quicksilveralgo.com.",
   },
 ] as const;
 

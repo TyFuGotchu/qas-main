@@ -1,6 +1,18 @@
-/** Primary support mailbox (inbound + reply-to). Override with SUPPORT_EMAIL env if needed. */
-export const SUPPORT_EMAIL =
-  process.env.SUPPORT_EMAIL?.trim() || "supportteam@quicksilveralgo.com";
+/** Live inbox until support@ is connected in Google/Resend. */
+export const CANONICAL_SUPPORT_EMAIL = "supportteam@quicksilveralgo.com";
+
+const BLOCKED_SUPPORT_ALIASES = new Set(["support@quicksilveralgo.com"]);
+
+function resolveSupportEmail(): string {
+  const raw = process.env.SUPPORT_EMAIL?.trim();
+  if (!raw || BLOCKED_SUPPORT_ALIASES.has(raw.toLowerCase())) {
+    return CANONICAL_SUPPORT_EMAIL;
+  }
+  return raw;
+}
+
+/** Primary support mailbox (inbound + reply-to). */
+export const SUPPORT_EMAIL = resolveSupportEmail();
 
 export const SUPPORT_MAILTO = `mailto:${SUPPORT_EMAIL}`;
 
