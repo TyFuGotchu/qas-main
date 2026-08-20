@@ -18,7 +18,6 @@ import {
   Target,
   Bot,
   Cpu,
-  Gift,
   X,
 } from "lucide-react";
 import { TRADING_BOTS_NAV } from "@/lib/trading-bots";
@@ -67,7 +66,6 @@ const navSections: NavSection[] = [
     title: "Tools & Account",
     items: [
       { href: "/dashboard/tools", label: "Trading Tools", icon: Wrench },
-      { href: "/dashboard/invite", label: "Invite & Earn", icon: Gift },
       { href: "/dashboard/support", label: "Support", icon: HelpCircle },
       { href: "/dashboard/upgrade", label: "Upgrade Tier", icon: ArrowUpCircle },
     ],

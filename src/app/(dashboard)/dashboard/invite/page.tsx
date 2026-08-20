@@ -1,5 +1,6 @@
-import { InviteEarnPanel } from "@/components/referrals/InviteEarnPanel";
+import { redirect } from "next/navigation";
 
-export default function InvitePage() {
-  return <InviteEarnPanel />;
+/** Member invite program removed from the product UI. */
+export default function InviteRedirectPage() {
+  redirect("/dashboard");
 }
