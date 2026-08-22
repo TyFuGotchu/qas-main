@@ -21,7 +21,7 @@ export default async function DashboardSupportPage() {
           Support Center
         </h2>
         <p className="mt-1 font-mono text-sm text-slate-500">
-          All requests → {SUPPORT_EMAIL}
+          Official channel → {SUPPORT_EMAIL} · never Discord or DMs
         </p>
       </div>
 

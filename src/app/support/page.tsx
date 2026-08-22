@@ -33,7 +33,7 @@ export default function SupportPage() {
           Quicksilver <span className="text-cyan-terminal">Support</span>
         </h1>
         <p className="mt-3 max-w-2xl text-slate-400">
-          All support is handled by email at{" "}
+          Official contact is email only — not Discord, Telegram, or DMs. Write{" "}
           <a
             href={`mailto:${SUPPORT_EMAIL}`}
             className="text-cyan-accent hover:underline"

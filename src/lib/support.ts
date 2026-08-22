@@ -18,6 +18,20 @@ export const SUPPORT_MAILTO = `mailto:${SUPPORT_EMAIL}`;
 
 export const SUPPORT_HOURS = "Monday–Friday, 9:00 AM – 6:00 PM ET";
 
+/** Public anti-impersonation policy. Do not add Discord/Telegram as official support. */
+export const OFFICIAL_CONTACT_POLICY = {
+  email: CANONICAL_SUPPORT_EMAIL,
+  loginUrl: "https://quicksilveralgo.com/login",
+  oneOnOne: "Google Meet only, scheduled by email after you are a client",
+  never: [
+    "Discord",
+    "Telegram",
+    "WhatsApp",
+    "Instagram DMs",
+    "random Google Meet links we did not email you",
+  ],
+} as const;
+
 export const SUPPORT_RESPONSE_SLA = {
   free: "2–3 business days",
   premium: "1 business day",
@@ -186,7 +200,14 @@ export const SITE_FAQS: FaqItem[] = [
     category: "Account & Technical",
     question: "How do I contact support?",
     answer:
-      `All support requests go to ${SUPPORT_EMAIL}. Include your account email, a clear subject line, and as much detail as possible. We do not offer phone or live chat support at this time.`,
+      `Official support is email only: ${SUPPORT_EMAIL}. Include your account email and a clear subject. We do not use Discord, Telegram, WhatsApp, or Instagram DMs for billing, bot access, or support. Paid 1-on-1 sessions are Google Meet only and are scheduled through that same email — never a cold Discord add. Log in only at https://quicksilveralgo.com/login.`,
+  },
+  {
+    id: "impersonation",
+    category: "Account & Technical",
+    question: "Someone messaged me on Discord / chat claiming to be Quicksilver. Is that you?",
+    answer:
+      `No. Quicksilver staff will not DM you on Discord or other chat apps for support, payments, or bot access. If someone does, it is not us. Do not send money, passwords, or card details. Email ${SUPPORT_EMAIL} and we will confirm from this domain. The only live video we use with clients is Google Meet that we schedule by email.`,
   },
 ];
 

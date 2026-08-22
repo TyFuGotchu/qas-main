@@ -112,6 +112,10 @@ export function PublicFooter() {
           © {year} Quicksilver Algo Systems · Founded by {FOUNDER.displayName} · Educational
           tools only — not financial advice
         </p>
+        <p className="mt-2 font-mono text-[10px] text-slate-600">
+          Official support: email only (supportteam@quicksilveralgo.com). We never contact
+          members on Discord. 1-on-1s are Google Meet scheduled by email.
+        </p>
       </div>
     </footer>
   );

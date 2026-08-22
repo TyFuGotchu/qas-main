@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {
   buildSupportMailto,
+  OFFICIAL_CONTACT_POLICY,
   SUPPORT_EMAIL,
   SUPPORT_HOURS,
   SUPPORT_RESPONSE_SLA,
@@ -63,9 +64,8 @@ export function SupportContactPanel({
                 {SUPPORT_EMAIL}
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-slate-400">
-                All support requests — billing, technical issues, TradeLocker,
-                academy access, and account help — go to this address. We respond
-                during {SUPPORT_HOURS}.
+                All support — billing, TradeLocker, academy, and account help —
+                goes to this address only. We respond during {SUPPORT_HOURS}.
               </p>
               <div className="mt-4 flex flex-wrap gap-4 text-sm text-slate-500">
                 <span className="flex items-center gap-2">
@@ -92,6 +92,38 @@ export function SupportContactPanel({
               </div>
             </div>
           </div>
+        </CardContent>
+      </Card>
+
+      <Card className="border-amber-500/30 bg-amber-500/5">
+        <CardHeader>
+          <h3 className="font-mono text-sm font-semibold text-amber-200">
+            How we actually contact you
+          </h3>
+        </CardHeader>
+        <CardContent className="space-y-3 text-sm leading-relaxed text-slate-400">
+          <p>
+            Official support is <strong className="text-slate-200">email only</strong>{" "}
+            ({OFFICIAL_CONTACT_POLICY.email}). Log in only at{" "}
+            <a
+              href={OFFICIAL_CONTACT_POLICY.loginUrl}
+              className="text-cyan-accent hover:underline"
+            >
+              quicksilveralgo.com/login
+            </a>
+            .
+          </p>
+          <p>
+            Paid 1-on-1s are <strong className="text-slate-200">{OFFICIAL_CONTACT_POLICY.oneOnOne}</strong>.
+            We will never cold-add you on Discord or send a Meet link you did not
+            request by email.
+          </p>
+          <p>
+            Anyone messaging you on {OFFICIAL_CONTACT_POLICY.never.slice(0, 4).join(", ")}{" "}
+            about billing, the bot, or access is <strong className="text-slate-200">not us</strong>.
+            Do not send money, passwords, or card details. Forward it to{" "}
+            {SUPPORT_EMAIL}.
+          </p>
         </CardContent>
       </Card>
 
