@@ -58,7 +58,13 @@ export function AuthForm({ mode }: AuthFormProps) {
     profileComplete: boolean;
     isAdmin: boolean;
   }) {
-    if (redirectParam) return redirectParam;
+    if (
+      redirectParam &&
+      redirectParam.startsWith("/") &&
+      !redirectParam.startsWith("//")
+    ) {
+      return redirectParam;
+    }
     if (!user.onboardingComplete) return "/onboarding/pricing";
     if (!user.profileComplete) return "/onboarding/profile";
     if (user.isAdmin) return "/admin/dashboard";

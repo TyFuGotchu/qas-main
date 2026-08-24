@@ -79,7 +79,7 @@ export function ToolLockedOverlay({
             <a href={premiumUrl} target="_blank" rel="noopener noreferrer">
               <Button variant="primary" size="lg">
                 <Zap className="h-4 w-4" />
-                Upgrade to Premium ()
+                Upgrade to Premium
               </Button>
             </a>
           </div>

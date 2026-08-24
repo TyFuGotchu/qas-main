@@ -15,7 +15,7 @@ import {
   promoOfferJsonLd,
 } from "@/lib/seo/json-ld";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
-import { LandingDemoWidget } from "@/components/seo/landing/LandingDemoWidget";
+import { GatedLandingDemo } from "@/components/seo/landing/GatedLandingDemo";
 import { PromoLandingCTA } from "@/components/seo/landing/PromoLandingCTA";
 import { Badge } from "@/components/ui/Badge";
 import {
@@ -121,9 +121,10 @@ export default function PromoLandingPage({
           <h2 className="mb-4 font-mono text-sm font-bold uppercase tracking-widest text-slate-500">
             Try free before you upgrade
           </h2>
-          <LandingDemoWidget
+          <GatedLandingDemo
             demo={page.demo}
             marketName={page.market?.name}
+            returnTo={`/offers/${page.slug}`}
           />
         </section>
       )}

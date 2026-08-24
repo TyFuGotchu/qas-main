@@ -5,6 +5,7 @@ import { isLocalToolDefinition } from "@/lib/tools-registry";
 import { Badge } from "@/components/ui/Badge";
 import { ToolLockedOverlay } from "@/components/tools/ToolLockedOverlay";
 import { PremiumUpsellBanner } from "@/components/tools/LocalToolsPromo";
+import { AccountRequiredPanel } from "@/components/auth/AccountRequiredPanel";
 import { getFreshSession } from "@/lib/access-control";
 import { checkResourceAccess } from "@/lib/accessControl";
 
@@ -63,7 +64,9 @@ export async function PublicToolShell({ tool, children }: PublicToolShellProps) 
         </div>
       </div>
 
-      {!access.allowed ? (
+      {!user ? (
+        <AccountRequiredPanel title={tool.shortName} returnTo={tool.publicHref} />
+      ) : !access.allowed ? (
         <ToolLockedOverlay
           tool={tool}
           requiredTier={access.requiredTier}

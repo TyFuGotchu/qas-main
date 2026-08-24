@@ -39,6 +39,10 @@ export default function ToolsHubPage() {
         <p className="mx-auto mt-3 max-w-2xl text-slate-400">
           {PREMIUM_SUBHEADLINE}
         </p>
+        <p className="mx-auto mt-2 max-w-2xl font-mono text-xs text-slate-500">
+          Interactive calculators require a free Quicksilver account. Create a profile, then
+          run the tool.
+        </p>
       </header>
 
       <div className="grid gap-3 sm:grid-cols-3">

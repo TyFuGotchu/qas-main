@@ -11,7 +11,7 @@ import {
 } from "@/lib/seo/indexing-tiers";
 import { faqJsonLd, landingPageJsonLd } from "@/lib/seo/json-ld";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
-import { LandingDemoWidget } from "@/components/seo/landing/LandingDemoWidget";
+import { GatedLandingDemo } from "@/components/seo/landing/GatedLandingDemo";
 import { SeoLandingCTA } from "@/components/seo/landing/SeoLandingCTA";
 import { Badge } from "@/components/ui/Badge";
 
@@ -89,9 +89,10 @@ export default function SolutionLandingPage({
       </header>
 
       <section aria-label="Interactive demo">
-        <LandingDemoWidget
+        <GatedLandingDemo
           demo={page.demo}
           marketName={page.market?.name}
+          returnTo={`/solutions/${page.slug}`}
         />
       </section>
 
