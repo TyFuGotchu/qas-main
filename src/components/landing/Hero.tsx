@@ -6,6 +6,7 @@ import { TrackedCheckoutLink } from "@/components/analytics/TrackedCheckoutLink"
 import { HOME_HERO } from "@/lib/homepage-copy";
 import { PREMIUM_PRICE } from "@/lib/pricing-tiers";
 import { trackViewQuantProtocol } from "@/lib/analytics/ga-events";
+import { HomeHeroVideo } from "@/components/landing/HomeHeroVideo";
 import { Bot, Check } from "lucide-react";
 
 export function Hero() {
@@ -26,6 +27,7 @@ export function Hero() {
         <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-slate-400 sm:text-lg">
           {HOME_HERO.subhead}
         </p>
+        <HomeHeroVideo />
         <ul className="mx-auto mt-8 max-w-xl space-y-2 text-left">
           {HOME_HERO.bullets.map((item) => (
             <li key={item} className="flex items-start gap-2 text-sm text-slate-300">
