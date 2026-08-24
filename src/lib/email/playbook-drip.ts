@@ -208,7 +208,7 @@ export async function runPlaybookNudgeBatch(): Promise<{
       subject: `Reminder: Day ${progress.currentDay} tasks waiting — ${plan.title}`,
       html: emailShell(`
         <h1 style="color:#fbbf24;font-size:18px;">Still on Day ${progress.currentDay}?</h1>
-        <p style="color:#94a3b8;line-height:1.6;">${displayName}, you haven&apos;t marked Day ${progress.currentDay} complete yet. Today&apos;s cap is +${plan.profitCapPercent}% — stick to the plan to pass in 7 days.</p>
+        <p style="color:#94a3b8;line-height:1.6;">${displayName}, you haven&apos;t marked Day ${progress.currentDay} complete yet. Today&apos;s cap is +${plan.profitCapPercent}% — stick to the day’s cap and the plan.</p>
         <p style="margin:24px 0;"><a href="${playbookUrl}" style="background:#00e5ff;color:#020617;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:bold;">Continue Day ${progress.currentDay} →</a></p>
       `),
       idempotencyKey: `playbook-nudge/${progress.userId}/day-${progress.currentDay}`,

@@ -103,8 +103,8 @@ export const HOMEPAGE_FAQS: { question: string; answer: string }[] = [
       "Subscribe to Premium Quant, install TradeLocker Desktop (the bot is not available on TradeLocker Web), open Quicksilver → Trading Bots → Quant Protocol for settings, then enable the bot from the TradeLocker desktop marketplace.",
   },
   {
-    question: "How do you pass a prop firm challenge in 7 days?",
-    answer: `Use daily profit caps so no single day becomes more than ~20% of total profit (consistency rule), keep fixed risk per trade, and follow a structured day-by-day plan. Quicksilver’s free playbook preview and Premium tracker are built for that workflow.`,
+    question: "Is the 7-day playbook a guaranteed pass?",
+    answer: `No. It is a day-by-day framework: profit caps so no single day becomes more than ~20% of total profit where that rule applies, fixed risk, and a tracker. You can still lose. Confirm your firm’s current rules.`,
   },
   {
     question: "What does break of structure (BOS) mean in trading?",
@@ -128,7 +128,7 @@ export const HOMEPAGE_AUTHORITY_BLOCKS: {
   {
     heading: "Built for prop firm challenges and TradeLocker automation",
     paragraphs: [
-      `Quicksilver Algo Systems helps manual and systematic traders pass prop firm challenges without blowing consistency or daily loss rules. The core stack is Premium Quant: Quicksilver Quant Protocol on TradeLocker Desktop, a ${PROP_FIRM_CHALLENGE_DAYS}-day challenge playbook with day-complete tracking, ${TOOL_COUNT} planning engines (risk, survival sims, confluence, expectancy), Chart Academy lessons, and live terminal tools once your account is connected.`,
+      `Quicksilver Algo Systems is the TradeLocker prop-challenge operating system: daily loss control, consistency discipline, and optional Quant Protocol. The core stack is Premium Quant: Quicksilver Quant Protocol on TradeLocker Desktop, a ${PROP_FIRM_CHALLENGE_DAYS}-day challenge playbook with day-complete tracking, ${TOOL_COUNT} planning engines (risk, survival sims, confluence, expectancy), Chart Academy lessons, and live terminal tools once your account is connected.`,
       "If you requested the bot on TradeLocker, access is not a separate marketplace purchase — it is included with Premium Quant. You still need TradeLocker Desktop; the bot does not run on TradeLocker Web.",
     ],
   },

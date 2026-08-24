@@ -30,7 +30,7 @@ export const PLAYBOOK_LAUNCH_STEPS = [
     step: 3,
     title: "Execute 7 sessions",
     description:
-      "Mark each day complete. Get the next day's tasks by email. Pass cleanly.",
+      "Mark each day complete. Get the next day's tasks by email. Stay inside your firm’s rules.",
   },
 ] as const;
 

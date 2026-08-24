@@ -13,10 +13,10 @@ export const PROP_FIRM_CONSISTENCY_TARGET =
   PROP_FIRM_ONE_WEEK_GUIDE.consistencyTargetPercent;
 
 export const PROP_FIRM_MARKETING_HEADLINE =
-  "Pass Your Prop Firm Challenge in 7 Days";
+  "7-Day Prop Firm Playbook";
 
 export const PROP_FIRM_MARKETING_SUBHEADLINE =
-  "Follow our day-by-day manual trading playbook — profit caps, consistency rules, and QS tool integration — to hit your target in one week while staying under the 20% consistency threshold.";
+  "A day-by-day framework for common evaluation windows — profit caps, consistency awareness, and QS tool integration. Not a guaranteed pass. Confirm your firm’s current rules.";
 
 export const PROP_FIRM_MARKETING_TAGLINE =
   "The 7-Day Prop Firm Playbook is the core of Quicksilver Premium.";

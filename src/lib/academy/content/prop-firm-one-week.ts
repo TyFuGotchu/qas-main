@@ -21,9 +21,9 @@ export interface PropFirmOneWeekGuide {
 
 export const PROP_FIRM_ONE_WEEK_GUIDE: PropFirmOneWeekGuide = {
   slug: "prop-firm-one-week",
-  title: "Pass Your Prop Firm Challenge in 1 Week",
+  title: "7-Day Prop Firm Playbook",
   description:
-    "A day-by-day manual trading playbook to hit your profit target in seven sessions while keeping your consistency score at or below 20% — the threshold most funded programs require.",
+    "A day-by-day framework for common evaluation windows — profit caps and consistency awareness around a ≤20% best-day ratio. Not a guaranteed pass. Confirm your firm’s rules.",
   consistencyTargetPercent: 20,
   overview: [
     "This guide assumes a standard 2-phase or 1-phase challenge with an 8–10% profit target, 5% max daily loss, and 10% max trailing drawdown. Adjust lot sizes in the Prop Survival module if your firm uses different rules.",

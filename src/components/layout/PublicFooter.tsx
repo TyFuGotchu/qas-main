@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FOUNDER, FOUNDER_SOCIAL_LINKS } from "@/lib/founder-social";
+import { TrustBox } from "@/components/marketing/TrustBox";
 
 const PRODUCT_LINKS = [
   { href: "/launch", label: "7-Day Playbook Launch" },
@@ -107,10 +108,10 @@ export function PublicFooter() {
         </div>
       </div>
 
-      <div className="border-t border-slate-800/40 px-4 py-4 text-center">
-        <p className="font-mono text-[10px] text-slate-600">
-          © {year} Quicksilver Algo Systems · Founded by {FOUNDER.displayName} · Educational
-          tools only — not financial advice
+      <div className="border-t border-slate-800/40 px-4 py-6 text-center">
+        <TrustBox className="mx-auto max-w-3xl text-center text-[11px] text-slate-600" />
+        <p className="mt-4 font-mono text-[10px] text-slate-600">
+          © {year} Quicksilver Algo Systems · Founded by {FOUNDER.displayName}
         </p>
         <p className="mt-2 font-mono text-[10px] text-slate-600">
           Official support: email only (supportteam@quicksilveralgo.com). We never contact

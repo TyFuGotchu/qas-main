@@ -23,7 +23,7 @@ const siteUrl =
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Pass Prop Firm Challenges in 7 Days | Quicksilver Algo",
+    default: "TradeLocker Prop-Challenge OS | Quicksilver Algo",
     template: "%s | Quicksilver Algo",
   },
   description:
@@ -53,9 +53,9 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: siteUrl,
     siteName: "Quicksilver Algo Systems",
-    title: "Pass Prop Firm Challenges in 7 Days | Quicksilver Algo",
+    title: "TradeLocker Prop-Challenge OS | Quicksilver Algo",
     description:
-      "Day-by-day prop firm playbook, planning tools, Chart Academy, and TradeLocker Quant Protocol. Free demos included.",
+      "Playbook, risk tools, Chart Academy, and optional Quant Protocol on TradeLocker Desktop. Educational tools — not a pass guarantee.",
     images: [
       {
         url: "/og?v=default",
@@ -68,7 +68,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pass Prop Firm Challenges in 7 Days | Quicksilver Algo",
+    title: "TradeLocker Prop-Challenge OS | Quicksilver Algo",
     description:
       "Prop firm playbook, risk tools, academy, live terminal — Premium Quant stack.",
     images: ["/og?v=default"],

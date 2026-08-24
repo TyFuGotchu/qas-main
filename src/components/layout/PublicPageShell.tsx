@@ -25,7 +25,7 @@ export function PublicPageShell({
         <PublicNav />
         <main
           className={cn(
-            "mx-auto w-full max-w-4xl flex-1 overflow-x-hidden px-4 py-8 pt-32 sm:px-6 sm:py-10 sm:pt-36",
+            "mx-auto w-full max-w-4xl flex-1 overflow-x-hidden px-4 py-8 pt-28 sm:px-6 sm:py-10 sm:pt-32",
             mainClassName
           )}
         >

@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils";
 import Button from "@/components/ui/Button";
 import { useSession } from "@/providers/SessionProvider";
 import { Menu, X, Zap } from "lucide-react";
-import { PlaybookLaunchStrip } from "@/components/marketing/PlaybookLaunchStrip";
-import { PremiumIncludesStrip } from "@/components/marketing/PremiumIncludesStrip";
+import { AnnouncementBar } from "@/components/marketing/AnnouncementBar";
+import { TrackedCheckoutLink } from "@/components/analytics/TrackedCheckoutLink";
 
 function isNavLinkActive(pathname: string, href: string): boolean {
   if (href === "/") return pathname === "/";
@@ -16,18 +16,12 @@ function isNavLinkActive(pathname: string, href: string): boolean {
 }
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/launch", label: "Launch" },
+  { href: "/launch", label: "Playbook" },
   { href: "/quant-protocol", label: "Quant Protocol" },
-  { href: "/prop-firm", label: "Prop Firms" },
-  { href: "/guides/pillar/ultimate-7-day-prop-firm-playbook", label: "7-Day Playbook" },
-  { href: "/tools", label: "Trading Tools" },
-  { href: "/solutions", label: "Demos" },
-  { href: "/offers", label: "Offers" },
-  { href: "/lessons", label: "Lessons" },
-  { href: "/guides", label: "Guides" },
+  { href: "/tools", label: "Tools" },
+  { href: "/lessons", label: "Academy" },
+  { href: "/#premium-includes", label: "Pricing" },
   { href: "/faq", label: "FAQ" },
-  { href: "/support", label: "Support" },
 ];
 
 export function PublicNav() {
@@ -49,8 +43,7 @@ export function PublicNav() {
   return (
     <>
       <header className="qs-nav-glass fixed top-0 z-50 w-full">
-        <PlaybookLaunchStrip />
-        <PremiumIncludesStrip />
+        <AnnouncementBar />
         <div className="mx-auto flex h-14 min-h-14 max-w-7xl items-center justify-between gap-3 px-4 sm:h-16 sm:px-6 lg:px-8">
           <Link href="/" className="group flex min-w-0 shrink items-center gap-2">
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-cyan-400/30 bg-gradient-to-br from-cyan-500/15 to-slate-900/50 shadow-[0_0_20px_rgba(0,229,255,0.15),inset_0_1px_0_rgba(232,244,252,0.08)] transition-all group-hover:border-cyan-300/50 group-hover:shadow-[0_0_28px_rgba(0,229,255,0.25)]">
@@ -100,12 +93,16 @@ export function PublicNav() {
                     Login
                   </Button>
                 </Link>
-                <Link href="/register">
-                  <Button variant="primary" size="sm">
-                    <span className="sm:hidden">Join</span>
-                    <span className="hidden sm:inline">Get Access</span>
+                <Link href="/register" className="hidden sm:block">
+                  <Button variant="ghost" size="sm">
+                    Create Profile
                   </Button>
                 </Link>
+                <TrackedCheckoutLink source="nav_start_premium">
+                  <Button variant="primary" size="sm">
+                    Start Premium
+                  </Button>
+                </TrackedCheckoutLink>
               </>
             )}
             <button
@@ -170,6 +167,13 @@ export function PublicNav() {
                 className="rounded-lg px-4 py-3 font-mono text-sm uppercase tracking-widest text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
               >
                 Login
+              </Link>
+              <Link
+                href="/register"
+                onClick={() => setMobileOpen(false)}
+                className="rounded-lg px-4 py-3 font-mono text-sm uppercase tracking-widest text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
+              >
+                Create Profile
               </Link>
             )}
           </nav>

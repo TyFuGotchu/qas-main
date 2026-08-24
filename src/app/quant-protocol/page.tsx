@@ -29,6 +29,7 @@ import {
 import { QUANT_PROTOCOL_LANDING_PATH } from "@/lib/email/bulk-templates";
 import { TRADING_BOTS_NAV } from "@/lib/trading-bots";
 import { AuthorityCrossLinks } from "@/components/seo/AuthorityCrossLinks";
+import { QUANT_PROTOCOL_STEPS } from "@/lib/homepage-copy";
 
 const PATH = QUANT_PROTOCOL_LANDING_PATH;
 
@@ -172,6 +173,23 @@ export default function QuantProtocolLandingPage() {
           <QuantProtocolDesktopNotice />
         </div>
       </header>
+
+      <section className="rounded-xl border border-slate-800/60 bg-slate-950/40 p-6 sm:p-8">
+        <h2 className="font-mono text-lg font-bold text-slate-100">How to go live</h2>
+        <ol className="mt-6 space-y-4">
+          {QUANT_PROTOCOL_STEPS.map((s) => (
+            <li key={s.step} className="flex gap-4">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-cyan-500/30 font-mono text-sm text-cyan-400">
+                {s.step}
+              </span>
+              <div>
+                <p className="font-mono text-sm font-semibold text-slate-200">{s.title}</p>
+                <p className="mt-1 text-sm text-slate-500">{s.text}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
 
       <section className="rounded-xl border border-cyan-500/30 bg-gradient-to-br from-cyan-500/10 to-slate-950 p-6 sm:p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start">

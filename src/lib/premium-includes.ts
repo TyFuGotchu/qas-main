@@ -113,9 +113,9 @@ export const PREMIUM_INCLUDE_STRIP_ITEMS = [
   "Priority Support",
 ] as const;
 
-export const PREMIUM_INCLUDES_HEADLINE = "Everything in Premium — One Subscription";
+export const PREMIUM_INCLUDES_HEADLINE = "One plan. The full Quicksilver stack.";
 
-export const PREMIUM_INCLUDES_SUBHEADLINE = `One ${PREMIUM_PRICE}/mo plan ( ${PREMIUM_PRICE}/mo) unlocks the full institutional stack — flagship TradeLocker bot, playbook, tools, academy, and live terminal.`;
+export const PREMIUM_INCLUDES_SUBHEADLINE = `One ${PREMIUM_PRICE}/mo plan (cancel anytime) unlocks Quant Protocol on TradeLocker Desktop plus the playbook, tools, academy, and live terminal.`;
 
 export const PREMIUM_INCLUDES_ONE_LINER =
   `Premium includes: Quicksilver Quant Protocol bot, ${PROP_FIRM_CHALLENGE_DAYS}-day playbook, ${TOOL_COUNT} tools, ${CHART_ACADEMY_STATS.lessonCount} lessons, live terminal & Prop OS.`;
