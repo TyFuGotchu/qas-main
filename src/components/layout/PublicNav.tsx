@@ -161,20 +161,22 @@ export function PublicNav() {
                 </Link>
               </>
             ) : (
-              <Link
-                href="/login"
-                onClick={() => setMobileOpen(false)}
-                className="rounded-lg px-4 py-3 font-mono text-sm uppercase tracking-widest text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
-              >
-                Login
-              </Link>
-              <Link
-                href="/register"
-                onClick={() => setMobileOpen(false)}
-                className="rounded-lg px-4 py-3 font-mono text-sm uppercase tracking-widest text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
-              >
-                Create Profile
-              </Link>
+              <>
+                <Link
+                  href="/login"
+                  onClick={() => setMobileOpen(false)}
+                  className="rounded-lg px-4 py-3 font-mono text-sm uppercase tracking-widest text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/register"
+                  onClick={() => setMobileOpen(false)}
+                  className="rounded-lg px-4 py-3 font-mono text-sm uppercase tracking-widest text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
+                >
+                  Create Profile
+                </Link>
+              </>
             )}
           </nav>
         </div>

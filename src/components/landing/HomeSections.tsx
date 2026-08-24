@@ -3,7 +3,6 @@ import { Check, X } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { TrackedCheckoutLink } from "@/components/analytics/TrackedCheckoutLink";
 import { TrustBox } from "@/components/marketing/TrustBox";
-import { TraderFeedback } from "@/components/landing/TraderFeedback";
 import {
   HOME_FAQS,
   HOME_FOR,
