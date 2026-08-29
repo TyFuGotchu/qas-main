@@ -16,7 +16,7 @@ export const E8_PARTNER_LINE = "Official E8 Markets Partner";
 export const E8_BAR_LINE =
   "E8 Execution Center — Challenges, Rules, Direct Signup";
 export const E8_EXCLUSIVE_LINE =
-  "E8 Markets is the exclusive recommended prop firm.";
+  "E8 Markets is Quicksilver’s exclusive recommended prop firm.";
 
 export const E8_COMPLIANCE = {
   educational: "Educational tools only.",
@@ -37,7 +37,7 @@ export const E8_COMPLIANCE_BLOCK = [
   E8_COMPLIANCE.bot,
 ].join(" ");
 
-/** Placeholders until live partner assets exist. */
+/** Backend keys only — never render these strings in customer UI. */
 export const E8_PLACEHOLDERS = {
   referralLink: "E8_REFERRAL_LINK",
   dailyLossRule: "E8_DAILY_LOSS_RULE",
@@ -101,12 +101,7 @@ export const E8_CARD_TABS: E8CenterTab[] = [
 export const E8_OVERVIEW = {
   title: "E8 Execution Center",
   subtitle:
-    "Exclusive prop partner. Account rules, direct registration, and preset risk configurations.",
-  body: [
-    "E8 Markets is the exclusive recommended prop firm on Quicksilver.",
-    "Quicksilver provides the workflow, risk presets, journal, playbook, live growth terminal, and optional Quant Protocol bot.",
-    "The goal is structured evaluation trading and funded-account survival — not hype, not a guaranteed pass.",
-  ],
+    "Account rules, direct registration, and preset risk configurations.",
   stack: [
     "Plan → execute → enforce risk → journal → review",
     "E8-mapped risk presets (software guardrails)",
@@ -118,23 +113,21 @@ export const E8_OVERVIEW = {
 export const E8_RULES = {
   intro:
     "These are educational E8-style risk frames for planning inside Quicksilver. They are not official E8 legal terms. Confirm current rules on E8 Markets before you trade an evaluation.",
+  officialClose: "Official rules are on E8’s site.",
   frames: [
     {
       id: "daily",
       title: "Daily loss awareness",
-      placeholder: E8_PLACEHOLDERS.dailyLossRule,
       text: "Know the remaining daily-loss room before you size a trade. Quicksilver surfaces daily-loss pressure so you can stop before a breach — you still supervise the session.",
     },
     {
       id: "trailing",
-      title: "Dynamic / trailing drawdown awareness",
-      placeholder: E8_PLACEHOLDERS.trailingRule,
+      title: "Trailing / dynamic drawdown awareness",
       text: "Trailing or dynamic drawdown can move as the account grows. Plan as if the floor can rise. Do not treat a green day as unlimited room.",
     },
     {
       id: "presets",
       title: "Pre-configured risk presets",
-      placeholder: null,
       text: "Use E8 Daily Guard, E8 Trailing Guard, Conservative Evaluation, and Funded Survival as planning presets. They are software tools, not a pass certificate.",
     },
   ],
@@ -142,10 +135,11 @@ export const E8_RULES = {
 
 export const E8_SIGNUP = {
   cta: "Open E8 Account",
-  attribution:
-    "Signup through this center uses unique Quicksilver referral attribution when the live partner link is connected.",
-  comingSoon:
-    "Direct signup is Partner Preview until E8_REFERRAL_LINK is live. Do not use a guessed URL.",
+  pendingBody:
+    "Partner signup link is being connected. Check back here for the official Quicksilver referral path.",
+  pendingCta: "Notify Me / Check Back Soon",
+  liveBody:
+    "Open your E8 account through the official Quicksilver referral path so attribution stays on this desk.",
 } as const;
 
 export const E8_PRESETS = [
@@ -191,26 +185,31 @@ export const E8_GIVEAWAYS = [
     id: "zero-to-funded",
     name: "Zero-to-Funded Suite Pack",
     blurb: "Campaign pack for evaluation-to-funded process coverage.",
+    live: false,
   },
   {
     id: "risk-discipline",
     name: "Risk Discipline Showdown",
     blurb: "Public discipline contest framed around preset adherence, not P&L bragging.",
+    live: false,
   },
   {
     id: "flash-sprint",
     name: "48-Hour Volatility Flash Sprint",
     blurb: "Short window campaign for structured session execution.",
+    live: false,
   },
   {
     id: "live-drops",
     name: "Live Session Execution Drops",
     blurb: "Drop-style live session notes tied to the journal + presets.",
+    live: false,
   },
   {
     id: "zero-violation",
     name: "Zero-Violation Monthly Raffle",
     blurb: "Raffle for operators who keep a clean rule month in the journal.",
+    live: false,
   },
 ] as const;
 
@@ -218,36 +217,41 @@ export const E8_DISCOUNTS = [
   {
     id: "software-rebate",
     name: "Dual-Platform Software Rebate",
-    blurb:
-      "50% off Quicksilver when an E8 challenge is purchased with code QUICKSILVER.",
-    codePlaceholder: E8_PLACEHOLDERS.codeQuicksilver,
+    blurb: "Software rebate when an E8 challenge is purchased through the official path.",
+    live: false,
   },
   {
     id: "milestone-credit",
     name: "Funded Milestone Credit",
     blurb:
       "Pass using Quicksilver risk presets → software fee credit/refund. Not a funded-account guarantee.",
-    codePlaceholder: null,
+    live: false,
   },
   {
     id: "launch-code",
-    name: "Tiered Launch Code E8LAUNCH",
-    blurb:
-      "25% off Quicksilver for the first 50 E8 signups via the partner link.",
-    codePlaceholder: E8_PLACEHOLDERS.codeE8Launch,
+    name: "Tiered Launch Code",
+    blurb: "Launch discount for the first E8 signups via the partner link.",
+    live: false,
   },
   {
     id: "bundle",
     name: "Co-Branded Checkout Bundle",
-    blurb: "Combined Quicksilver + E8 challenge offer when live.",
-    codePlaceholder: E8_PLACEHOLDERS.bundleCheckout,
+    blurb: "Combined Quicksilver + E8 challenge offer.",
+    live: false,
   },
 ] as const;
 
+export function getLiveGiveaways() {
+  return E8_GIVEAWAYS.filter((item) => item.live);
+}
+
+export function getLiveDiscounts() {
+  return E8_DISCOUNTS.filter((item) => item.live);
+}
+
 export const E8_SERIES = {
   title: "Challenge to Funded",
-  blurb:
-    "Public educational series: live process, journal, risk presets, TradeLocker execution. Not a pass promise.",
+  empty: "Series links will appear here when the first episode is published.",
   watchCta: "Watch / Follow",
 } as const;
 

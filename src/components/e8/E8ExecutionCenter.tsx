@@ -2,29 +2,27 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { Check, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import {
   E8_CARD_TABS,
   E8_CENTER_TABS,
-  E8_COMPLIANCE,
   E8_DASHBOARD_PATH,
-  E8_DISCOUNTS,
   E8_EXCLUSIVE_LINE,
-  E8_GIVEAWAYS,
   E8_OVERVIEW,
   E8_PARTNER_LINE,
-  E8_PLACEHOLDERS,
   E8_PRESETS,
   E8_PUBLIC_PATH,
   E8_RULES,
   E8_SERIES,
   E8_SIGNUP,
   type E8CenterTab,
-  getE8BundleCheckoutUrl,
+  getE8ReferralUrl,
   getE8XUrl,
   getE8YoutubeUrl,
+  getLiveDiscounts,
+  getLiveGiveaways,
 } from "@/lib/e8-partner";
 import { E8ComplianceNote } from "@/components/e8/E8ComplianceNote";
 import { E8SignupButton } from "@/components/e8/E8SignupButton";
@@ -104,6 +102,8 @@ export function E8ExecutionCenter({
         {active === "promos" && <PromosTab />}
         {active === "content" && <ContentTab />}
       </div>
+
+      <E8ComplianceNote className="mt-8 border-t border-white/[0.06] pt-5 font-mono text-[11px] leading-relaxed text-slate-500" />
     </div>
   );
 }
@@ -111,17 +111,7 @@ export function E8ExecutionCenter({
 function OverviewTab() {
   return (
     <div>
-      <p className="font-mono text-xs uppercase tracking-widest text-indigo-300">
-        {E8_EXCLUSIVE_LINE}
-      </p>
-      <ul className="mt-4 space-y-3">
-        {E8_OVERVIEW.body.map((item) => (
-          <li key={item} className="flex gap-2 text-sm leading-relaxed text-slate-300">
-            <Check className="mt-0.5 h-4 w-4 shrink-0 text-indigo-300" />
-            {item}
-          </li>
-        ))}
-      </ul>
+      <p className="text-sm leading-relaxed text-slate-200">{E8_EXCLUSIVE_LINE}</p>
       <ul className="mt-6 grid gap-2 sm:grid-cols-2">
         {E8_OVERVIEW.stack.map((item) => (
           <li
@@ -132,7 +122,6 @@ function OverviewTab() {
           </li>
         ))}
       </ul>
-      <E8ComplianceNote />
     </div>
   );
 }
@@ -147,37 +136,27 @@ function RulesTab() {
             key={frame.id}
             className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4"
           >
-            <div className="flex flex-wrap items-center gap-2">
-              <h3 className="font-mono text-sm font-semibold text-white">{frame.title}</h3>
-              {frame.placeholder && (
-                <span className="font-mono text-[10px] text-indigo-300">
-                  {frame.placeholder}
-                </span>
-              )}
-            </div>
+            <h3 className="font-mono text-sm font-semibold text-white">{frame.title}</h3>
             <p className="mt-2 text-sm leading-relaxed text-slate-400">{frame.text}</p>
           </article>
         ))}
       </div>
-      <p className="mt-4 text-xs text-slate-500">{E8_COMPLIANCE.officialRules}</p>
+      <p className="mt-4 text-sm text-slate-400">{E8_RULES.officialClose}</p>
     </div>
   );
 }
 
 function SignupTab() {
+  const href = getE8ReferralUrl();
   return (
     <div>
       <h3 className="font-mono text-lg font-semibold text-white">{E8_SIGNUP.cta}</h3>
       <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-400">
-        {E8_SIGNUP.attribution}
-      </p>
-      <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-500">
-        {E8_SIGNUP.comingSoon}
+        {href ? E8_SIGNUP.liveBody : E8_SIGNUP.pendingBody}
       </p>
       <div className="mt-6">
         <E8SignupButton />
       </div>
-      <E8ComplianceNote />
     </div>
   );
 }
@@ -187,8 +166,7 @@ function PresetsTab() {
     <div>
       <p className="text-sm leading-relaxed text-slate-400">
         Software guardrails and planning tools mapped to E8-style protection. Not a
-        guaranteed pass. Hard equity-stop automation is labeled coming soon if it is
-        not live.
+        guaranteed pass.
       </p>
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
         {E8_PRESETS.map((preset) => (
@@ -198,129 +176,112 @@ function PresetsTab() {
           >
             <div className="flex items-center justify-between gap-2">
               <h3 className="font-mono text-sm font-semibold text-white">{preset.name}</h3>
-              <span
-                className={cn(
-                  "font-mono text-[10px] uppercase tracking-widest",
-                  preset.live ? "text-indigo-300" : "text-gold-muted"
-                )}
-              >
-                {preset.live ? "Planning tool" : "Coming soon"}
-              </span>
+              {!preset.live && (
+                <span className="font-mono text-[10px] uppercase tracking-widest text-gold-muted">
+                  Coming soon
+                </span>
+              )}
             </div>
             <p className="mt-2 text-sm leading-relaxed text-slate-400">{preset.intent}</p>
           </article>
         ))}
       </div>
-      <E8ComplianceNote />
     </div>
   );
 }
 
 function PromosTab() {
-  const bundle = getE8BundleCheckoutUrl();
+  const giveaways = getLiveGiveaways();
+  const discounts = getLiveDiscounts();
+  const hasLive = giveaways.length > 0 || discounts.length > 0;
+
+  if (!hasLive) {
+    return (
+      <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] px-5 py-8 text-center">
+        <p className="font-mono text-sm text-slate-200">
+          No live giveaways or promos right now.
+        </p>
+        <p className="mt-2 text-sm text-slate-500">Active campaigns will appear here.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
-      <section>
-        <h3 className="font-mono text-sm uppercase tracking-widest text-indigo-300">
-          Giveaway campaigns
-        </h3>
-        <div className="mt-3 grid gap-3 sm:grid-cols-2">
-          {E8_GIVEAWAYS.map((item) => (
-            <CampaignCard key={item.id} name={item.name} blurb={item.blurb} />
-          ))}
-        </div>
-      </section>
-      <section>
-        <h3 className="font-mono text-sm uppercase tracking-widest text-indigo-300">
-          Discount modules
-        </h3>
-        <div className="mt-3 grid gap-3 sm:grid-cols-2">
-          {E8_DISCOUNTS.map((item) => (
-            <CampaignCard
-              key={item.id}
-              name={item.name}
-              blurb={item.blurb}
-              code={item.codePlaceholder}
-              liveHref={item.id === "bundle" ? bundle : null}
-            />
-          ))}
-        </div>
-      </section>
-      <E8ComplianceNote />
+      {giveaways.length > 0 && (
+        <section>
+          <h3 className="font-mono text-sm uppercase tracking-widest text-indigo-300">
+            Giveaways
+          </h3>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            {giveaways.map((item) => (
+              <article
+                key={item.id}
+                className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4"
+              >
+                <h4 className="font-mono text-sm font-semibold text-white">{item.name}</h4>
+                <p className="mt-2 text-sm leading-relaxed text-slate-400">{item.blurb}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+      {discounts.length > 0 && (
+        <section>
+          <h3 className="font-mono text-sm uppercase tracking-widest text-indigo-300">
+            Discounts
+          </h3>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            {discounts.map((item) => (
+              <article
+                key={item.id}
+                className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4"
+              >
+                <h4 className="font-mono text-sm font-semibold text-white">{item.name}</h4>
+                <p className="mt-2 text-sm leading-relaxed text-slate-400">{item.blurb}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
-  );
-}
-
-function CampaignCard({
-  name,
-  blurb,
-  code,
-  liveHref,
-}: {
-  name: string;
-  blurb: string;
-  code?: string | null;
-  liveHref?: string | null;
-}) {
-  return (
-    <article className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
-      <div className="flex items-center justify-between gap-2">
-        <h4 className="font-mono text-sm font-semibold text-white">{name}</h4>
-        <span className="rounded border border-gold-soft/30 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-widest text-gold-muted">
-          {liveHref ? "Live" : "Partner Preview"}
-        </span>
-      </div>
-      <p className="mt-2 text-sm leading-relaxed text-slate-400">{blurb}</p>
-      {code && (
-        <p className="mt-2 font-mono text-[10px] text-slate-500">Placeholder {code}</p>
-      )}
-      {liveHref ? (
-        <a href={liveHref} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block">
-          <Button variant="gold" size="sm">
-            Open offer
-            <ExternalLink className="h-3.5 w-3.5" />
-          </Button>
-        </a>
-      ) : (
-        <p className="mt-3 font-mono text-[10px] uppercase tracking-widest text-slate-600">
-          Coming soon
-        </p>
-      )}
-    </article>
   );
 }
 
 function ContentTab() {
   const youtube = getE8YoutubeUrl();
   const x = getE8XUrl();
+  const hasLinks = Boolean(youtube || x);
+
+  if (!hasLinks) {
+    return (
+      <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] px-5 py-8 text-center">
+        <p className="text-sm text-slate-400">{E8_SERIES.empty}</p>
+      </div>
+    );
+  }
+
   return (
     <div>
       <h3 className="font-mono text-lg font-semibold text-white">{E8_SERIES.title}</h3>
-      <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-400">{E8_SERIES.blurb}</p>
       <div className="mt-5 flex flex-wrap gap-3">
-        {youtube ? (
+        {youtube && (
           <a href={youtube} target="_blank" rel="noopener noreferrer">
-            <Button variant="gold">{E8_SERIES.watchCta} · YouTube</Button>
+            <Button variant="gold">
+              {E8_SERIES.watchCta} · YouTube
+              <ExternalLink className="h-4 w-4" />
+            </Button>
           </a>
-        ) : (
-          <Button variant="secondary" disabled>
-            {E8_SERIES.watchCta} · YouTube Coming Soon
-          </Button>
         )}
-        {x ? (
+        {x && (
           <a href={x} target="_blank" rel="noopener noreferrer">
-            <Button variant="secondary">{E8_SERIES.watchCta} · X</Button>
+            <Button variant="secondary">
+              {E8_SERIES.watchCta} · X
+              <ExternalLink className="h-4 w-4" />
+            </Button>
           </a>
-        ) : (
-          <Button variant="ghost" disabled>
-            Follow on X — Coming Soon
-          </Button>
         )}
       </div>
-      <p className="mt-3 font-mono text-[10px] text-slate-500">
-        Placeholders {E8_PLACEHOLDERS.youtube} / {E8_PLACEHOLDERS.x}
-      </p>
-      <E8ComplianceNote />
     </div>
   );
 }

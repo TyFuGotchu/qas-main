@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { E8ExecutionCenter } from "@/components/e8/E8ExecutionCenter";
 import { rankingPageMetadata } from "@/lib/seo/page-metadata";
 import {
-  E8_COMPLIANCE_BLOCK,
   E8_FIRM_NAME,
   E8_OVERVIEW,
   E8_PARTNER_LINE,
@@ -43,9 +42,6 @@ export default function E8PublicPage() {
       </h1>
       <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-400">
         {E8_POSITIONING}
-      </p>
-      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-500">
-        {E8_COMPLIANCE_BLOCK}
       </p>
       <div className="mt-10">
         <E8ExecutionCenter variant="full" context="public" />
