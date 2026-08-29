@@ -27,10 +27,16 @@ export default async function DashboardPage() {
 
   const quickLinks = [
     {
+      href: "/dashboard/e8",
+      label: "E8 Execution Center",
+      icon: Shield,
+      desc: "Exclusive prop partner — rules, signup, E8 risk presets",
+    },
+    {
       href: "/dashboard/playbook",
       label: "7-Day Playbook",
       icon: Target,
-      desc: "Track your prop firm challenge day-by-day",
+      desc: "Track your E8 evaluation day-by-day",
     },
     {
       href: "/dashboard/academy",
@@ -72,7 +78,7 @@ export default async function DashboardPage() {
       href: "/dashboard/tools",
       label: "Trading Tools",
       icon: Wrench,
-      desc: `${TOOL_COUNT} engines for the 7-day prop firm playbook`,
+      desc: `${TOOL_COUNT} engines for E8 evaluation planning and live growth`,
     },
     {
       href: "/dashboard/support",
@@ -112,8 +118,8 @@ export default async function DashboardPage() {
                 Free tier — preview 1 lesson, 1 guide & Setup Scorer
               </p>
               <p className="mt-1 text-xs text-slate-500">
-                Premium unlocks the 7-day prop firm playbook + all tools at
-                $149.99/mo.
+                Premium unlocks the E8 workflow stack, playbook, live growth tools,
+                and Quant Protocol at $149.99/mo.
               </p>
             </div>
             <Link href="/dashboard/upgrade">

@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { Hero } from "@/components/landing/Hero";
 import {
-  HomeAudience,
+  HomeE8Presets,
+  HomeE8Promos,
   HomeFaq,
   HomeFinalCta,
-  HomePlaybook,
-  HomePremiumStack,
+  HomeLiveGrowth,
+  HomePricingChooser,
   HomeQuantProtocol,
-  HomeSocialProof,
-  HomeToolsAcademy,
+  HomeWhyE8,
 } from "@/components/landing/HomeSections";
 import { TraderFeedback } from "@/components/landing/TraderFeedback";
 import { StickyMobileCta } from "@/components/marketing/StickyMobileCta";
@@ -24,25 +24,28 @@ import {
 import { rankingPageMetadata } from "@/lib/seo/page-metadata";
 import { MONEY_PAGES, SEO_RECOVERY_REFRESHED } from "@/lib/seo/money-pages";
 import { HOME_FAQS } from "@/lib/homepage-copy";
-import { getPremiumCheckoutUrl, PREMIUM_PRICE } from "@/lib/pricing-constants";
+import {
+  getDiscountCheckoutUrl,
+  PREMIUM_PRICE_NUMBER,
+} from "@/lib/pricing-constants";
+import { E8_POSITIONING } from "@/lib/e8-partner";
 
 export const metadata: Metadata = rankingPageMetadata({
-  title: "TradeLocker Prop-Challenge Operating System | Quicksilver Algo",
-  description:
-    "Quicksilver is the operating system for TradeLocker Desktop traders: daily loss control, consistency discipline, 7-Day Playbook, and optional Quant Protocol. $149.99/mo, cancel anytime. Educational tools only.",
+  title: "E8 Markets Partner | TradeLocker Trading OS | Quicksilver Algo",
+  description: `${E8_POSITIONING} Structure, risk presets, journaling, live growth tools, and optional Quant Protocol. 3-day free trial (bot not included) or first month 30% off. Educational tools only.`,
   path: "/",
   modifiedAt: SEO_RECOVERY_REFRESHED,
   keywords: [
-    "prop firm challenge playbook",
-    "TradeLocker Desktop bot",
+    "E8 Markets",
+    "E8 Execution Center",
+    "TradeLocker Desktop trading OS",
+    "trading journal and risk workflow",
+    "live growth terminal",
     "Quicksilver Quant Protocol",
-    "prop firm consistency rule",
-    "trading risk calculator",
   ],
 });
 
 export default function LandingPage() {
-  const priceNum = Number.parseFloat(PREMIUM_PRICE.replace(/[^0-9.]/g, "")) || 149.99;
   const jsonLd = [
     websiteJsonLd(),
     organizationJsonLd(),
@@ -57,11 +60,10 @@ export default function LandingPage() {
     ),
     subscriptionProductJsonLd({
       name: "Premium Quant — Quicksilver Algo",
-      description:
-        "TradeLocker Quant Protocol, 7-Day Prop Firm Playbook, planning tools, Chart Academy, and live terminal.",
+      description: `${E8_POSITIONING} Workflow stack, live growth terminal, E8 Execution Center, optional Quant Protocol.`,
       path: "/",
-      price: priceNum,
-      checkoutUrl: getPremiumCheckoutUrl(),
+      price: PREMIUM_PRICE_NUMBER,
+      checkoutUrl: getDiscountCheckoutUrl(),
       category: "FinanceApplication",
       datePublished: SEO_RECOVERY_REFRESHED,
     }),
@@ -71,14 +73,14 @@ export default function LandingPage() {
     <>
       <JsonLdScript data={jsonLd} />
       <Hero />
-      <HomeSocialProof />
-      <HomeAudience />
-      <HomePremiumStack />
+      <HomeWhyE8 />
+      <HomeE8Presets />
+      <HomeE8Promos />
+      <HomeLiveGrowth />
       <HomeQuantProtocol />
-      <HomePlaybook />
-      <HomeToolsAcademy />
-      <TraderFeedback />
+      <HomePricingChooser />
       <HomeFaq />
+      <TraderFeedback />
       <HomeFinalCta />
       <StickyMobileCta />
     </>

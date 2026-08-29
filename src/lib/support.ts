@@ -60,14 +60,42 @@ export const SITE_FAQS: FaqItem[] = [
     category: "Getting Started",
     question: "What is Quicksilver Algo?",
     answer:
-      "Quicksilver is manual-trading education and planning software. You analyze charts, score setups, plan risk, and optionally connect TradeLocker for bot execution. We are not a broker and do not provide personalized investment advice.",
+      "Quicksilver is the TradeLocker Desktop operating system for traders who need structure, risk control, journaling, growth tracking, and optional supervised automation in one stack. It serves live-account traders using the growth terminal and prop-challenge / evaluation traders via a dedicated prop module. We are not a broker and do not provide personalized investment advice.",
+  },
+  {
+    id: "only-for-prop",
+    category: "Getting Started",
+    question: "Is Quicksilver only for prop traders?",
+    answer:
+      "No. It includes live growth terminal tools for live-account traders, plus the E8 Execution Center for evaluations. E8 Markets is the exclusive recommended prop firm — not the entire product.",
+  },
+  {
+    id: "manual-without-bot",
+    category: "Getting Started",
+    question: "Can manual traders use Quicksilver without the bot?",
+    answer:
+      "Yes. The core system is built for manual operators. The bot is optional.",
   },
   {
     id: "free-vs-premium",
     category: "Getting Started",
     question: "What is included in the free tier?",
     answer:
-      "Free accounts get one full lesson, one charting guide, and the Setup Scorer planning module. You can preview all other lessons and tools before upgrading to Premium.",
+      "Free accounts get one full lesson, one charting guide, and the Setup Scorer planning module. You can preview all other lessons and tools before upgrading. A 3-day free trial of the workflow stack is also available — bot not included in free trial.",
+  },
+  {
+    id: "trial-includes",
+    category: "Billing & Premium",
+    question: "Is the bot included in the free trial?",
+    answer:
+      "No. The free trial covers the workflow/manual stack. Quant Protocol requires Premium. Bot not included in free trial. TradeLocker Hub bot enablement is also excluded from the trial.",
+  },
+  {
+    id: "first-month-discount",
+    category: "Billing & Premium",
+    question: "What is the first-month discount?",
+    answer:
+      "30% off the first month ($104.99), then $149.99/mo. That path is the full Premium stack, including Quant Protocol access request on TradeLocker Desktop.",
   },
   {
     id: "how-to-register",
@@ -81,7 +109,7 @@ export const SITE_FAQS: FaqItem[] = [
     category: "Billing & Premium",
     question: "How much does Premium cost?",
     answer:
-      "Premium is $149.99/month for the full stack: Quant Protocol on TradeLocker, the 7-Day Prop Firm Playbook (day-by-day challenge plan under the 20% consistency rule), all nine planning engines and Trading Tools, Chart Academy, and priority email support.",
+      "Premium Quant is $149.99/month after trial or first-month discount. It includes the workflow stack, live growth terminal tools, prop module, Chart Academy, Quant Protocol access path on TradeLocker Desktop, and priority email support. Start with a 3-day free trial (bot not included) or first month 30% off ($104.99).",
   },
   {
     id: "prop-firm-playbook",
@@ -140,11 +168,18 @@ export const SITE_FAQS: FaqItem[] = [
       "Planning tools work on any charting platform — no broker connection required. TradeLocker integration is optional for bot execution and live dashboard features only.",
   },
   {
+    id: "e8-exclusive",
+    category: "Prop Firms",
+    question: "Is E8 Markets the only recommended prop firm?",
+    answer:
+      "Yes. E8 Markets is the exclusive recommended prop firm. The E8 Execution Center covers challenge rules, risk presets, and direct signup. HeroFX and Risen FX are live-account broker options only. Quicksilver does not list competing prop firms as equal recommendations.",
+  },
+  {
     id: "recommended-partners",
     category: "Trading",
     question: "Which brokers or prop firms do you recommend?",
     answer:
-      "First tell us your workflow: Quicksilver automated bots (EAs) or manual/discretionary trading. Active partner links for both: Risen FX and HeroFX (brokers) and FunderPro (prop firm) — bot/EA friendly. Full list with framing is on the dashboard under Recommended platforms.",
+      "E8 Markets is the exclusive recommended prop firm. Open the E8 Execution Center at /e8 for rules, risk presets, and direct signup. HeroFX and Risen FX may be used as live-account brokers only — they are not competing prop recommendations. Quant Protocol remains optional Premium.",
   },
   {
     id: "tradelocker-setup",
@@ -165,14 +200,14 @@ export const SITE_FAQS: FaqItem[] = [
     category: "Prop Firms",
     question: "Will Quicksilver help me pass a prop firm challenge?",
     answer:
-      "Premium unlocks the 7-Day Prop Firm Playbook — daily profit caps, consistency rules, and QS tool workflows designed to pass a standard challenge in one week. Prop Survival simulates pass probability before day one. We do not guarantee passes — you execute every trade yourself.",
+      "Quicksilver is the workflow stack for E8 Markets traders: playbook, E8-mapped risk presets, journal, and live growth tools. It does not guarantee a pass, payout, or funded account. You can lose the evaluation fee and trading capital. Official rules are set by E8 Markets.",
   },
   {
     id: "prop-firm-rules",
     category: "Prop Firms",
     question: "Are prop firm rules in the tools up to date?",
     answer:
-      "Prop firm parameters in demos and SEO pages are illustrative. Always verify current rules on the firm's official website before trading a challenge.",
+      "Risk presets are educational software guardrails. Always verify current official E8 Markets rules on E8’s site before trading an evaluation.",
   },
   {
     id: "password-reset",

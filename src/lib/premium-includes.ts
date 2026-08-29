@@ -64,7 +64,7 @@ export const PREMIUM_INCLUDE_CATEGORIES: PremiumIncludeCategory[] = [
     id: "playbook",
     title: `${PROP_FIRM_CHALLENGE_DAYS}-Day Prop Firm Playbook`,
     description:
-      "Daily profit caps, consistency checks, session tasks, and in-dashboard challenge tracker — pass in one week without breaching the 20% rule.",
+      "Daily profit caps, consistency checks, session tasks, and in-dashboard challenge tracker. A framework for evaluation discipline — not a guaranteed pass.",
     href: PROP_FIRM_PLAYBOOK_HREF,
     badge: "Flagship",
   },
@@ -115,7 +115,7 @@ export const PREMIUM_INCLUDE_STRIP_ITEMS = [
 
 export const PREMIUM_INCLUDES_HEADLINE = "One plan. The full Quicksilver stack.";
 
-export const PREMIUM_INCLUDES_SUBHEADLINE = `One ${PREMIUM_PRICE}/mo plan (cancel anytime) unlocks Quant Protocol on TradeLocker Desktop plus the playbook, tools, academy, and live terminal.`;
+export const PREMIUM_INCLUDES_SUBHEADLINE = `Choose a 3-day free trial (bot not included) or first month 30% off, then ${PREMIUM_PRICE}/mo. Premium unlocks Quant Protocol on TradeLocker Desktop plus the workflow stack, live growth terminal, prop module, tools, and academy.`;
 
 export const PREMIUM_INCLUDES_ONE_LINER =
   `Premium includes: Quicksilver Quant Protocol bot, ${PROP_FIRM_CHALLENGE_DAYS}-day playbook, ${TOOL_COUNT} tools, ${CHART_ACADEMY_STATS.lessonCount} lessons, live terminal & Prop OS.`;

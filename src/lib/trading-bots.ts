@@ -1,5 +1,5 @@
 import { TRADELOCKER_BOT_URL } from "@/lib/constants";
-import { ACTIVE_PARTNERS } from "@/lib/partners";
+import { E8_DASHBOARD_PATH, E8_FIRM_NAME } from "@/lib/e8-partner";
 
 /** External / marketplace destinations shown under Trading Bots. */
 export interface TradingBotExternalLink {
@@ -129,15 +129,15 @@ export const TRADING_BOT_EXTERNAL_LINKS: TradingBotExternalLink[] = [
     badge: "Primary bot",
     external: true,
   },
-  ...ACTIVE_PARTNERS.map((p) => ({
-    id: `partner-${p.id}`,
-    label: `${p.name} (${p.kindLabel})`,
+  {
+    id: "e8-execution-center",
+    label: `${E8_FIRM_NAME} Execution Center`,
     description:
-      "Active verified partner — allows bots/EAs and works for manual trading. Not required; any TradeLocker-compatible account is fine.",
-    href: p.href,
-    badge: "Partner",
-    external: true as const,
-  })),
+      "Exclusive prop partner. E8 rules, risk presets, and direct signup. Not a competing-firm list.",
+    href: E8_DASHBOARD_PATH,
+    badge: "Exclusive",
+    external: false,
+  },
   {
     id: "live-terminal",
     label: "Live TradeLocker Terminal",

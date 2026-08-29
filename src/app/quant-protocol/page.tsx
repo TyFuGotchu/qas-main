@@ -72,7 +72,7 @@ const FAQS = [
   {
     question: "Do I need a specific broker or prop firm?",
     answer:
-      "Any TradeLocker-compatible broker or firm works. Our active partner links include Risen FX and HeroFX (brokers) and FunderPro (prop firm) — all allow bots/EAs. On the dashboard, pick bots vs manual first, then open any partner. Premium also includes live terminal tools once an account is linked.",
+      "E8 Markets is the exclusive recommended prop firm. Open the E8 Execution Center for evaluation routing. HeroFX and Risen FX are live-account broker options only. Quant Protocol is TradeLocker Desktop, operator-supervised, and not included in the free trial.",
   },
 ];
 

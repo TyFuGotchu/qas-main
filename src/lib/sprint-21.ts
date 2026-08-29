@@ -17,7 +17,7 @@ export const SPRINT_DAILY = [
       "Reply same-day to every inbound (bot request, support, DMs)",
       "Send kit offer to people who said price is the blocker for Premium",
       "Confirm Railway green + Stripe Premium checkout works",
-      "If someone asks where to trade: ask bots vs manual, then Risen FX / HeroFX / FunderPro",
+      "If someone asks where to trade: E8 Markets is the exclusive prop firm. Then ask bots vs manual. Brokers (HeroFX / Risen FX) are live-account options only.",
     ],
   },
   {

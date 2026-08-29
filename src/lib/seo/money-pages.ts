@@ -9,7 +9,7 @@ import { TOOL_COUNT } from "@/lib/tools-registry";
 import { CHART_ACADEMY_STATS } from "@/lib/premium-includes";
 
 /** Bump when money-page content materially improves (sitemap + schema freshness). */
-export const SEO_RECOVERY_REFRESHED = "2026-08-03";
+export const SEO_RECOVERY_REFRESHED = "2026-08-24";
 
 export type MoneyPageLink = {
   href: string;
@@ -24,7 +24,14 @@ export const MONEY_PAGES: MoneyPageLink[] = [
     href: "/",
     title: "Quicksilver Algo home",
     description:
-      "Premium Quant stack: TradeLocker Quant Protocol, prop firm playbook, and planning tools.",
+      "Official E8 Markets partner. TradeLocker Desktop trading OS: workflow stack, live growth terminal, E8 Execution Center, optional Quant Protocol.",
+    priority: "core",
+  },
+  {
+    href: "/e8",
+    title: "E8 Execution Center",
+    description:
+      "Official E8 Markets partner hub: challenge rules, risk presets, direct signup, and campaign previews.",
     priority: "core",
   },
   {
@@ -95,7 +102,7 @@ export const MONEY_PAGES: MoneyPageLink[] = [
 export const HOMEPAGE_FAQS: { question: string; answer: string }[] = [
   {
     question: "What is Quicksilver Algo?",
-    answer: `Quicksilver Algo Systems is a prop-firm and TradeLocker trading platform. Premium Quant (${PREMIUM_PRICE}/mo) includes Quicksilver Quant Protocol on TradeLocker Desktop, the ${PROP_FIRM_CHALLENGE_DAYS}-Day Prop Firm Playbook with challenge tracker, ${TOOL_COUNT} planning engines, Chart Academy, and live terminal risk tools.`,
+    answer: `Quicksilver is the TradeLocker Desktop operating system for structure, risk, journaling, live growth tracking, and optional supervised automation. It serves live-account traders and prop/evaluation traders. Premium Quant is ${PREMIUM_PRICE}/mo after trial or first-month discount. The 3-day free trial does not include Quant Protocol.`,
   },
   {
     question: "How do I get the Quicksilver Quant Protocol bot on TradeLocker?",
@@ -113,7 +120,7 @@ export const HOMEPAGE_FAQS: { question: string; answer: string }[] = [
   },
   {
     question: "How much is Premium Quant?",
-    answer: `Premium Quant is ${PREMIUM_PRICE}/mo, cancel anytime. It is one subscription for the bot, playbook, tools, academy, and live terminal — not a separate bot upsell.`,
+    answer: `Premium Quant is ${PREMIUM_PRICE}/mo after trial or first-month discount. Start with a 3-day free trial of the workflow stack (bot not included) or first month 30% off ($104.99). Quant Protocol is Premium-only.`,
   },
   {
     question: "Can I cancel Premium anytime?",
@@ -126,10 +133,10 @@ export const HOMEPAGE_AUTHORITY_BLOCKS: {
   paragraphs: string[];
 }[] = [
   {
-    heading: "Built for prop firm challenges and TradeLocker automation",
+    heading: "Official E8 Markets partner — TradeLocker OS for evaluations and live accounts",
     paragraphs: [
-      `Quicksilver Algo Systems is the TradeLocker prop-challenge operating system: daily loss control, consistency discipline, and optional Quant Protocol. The core stack is Premium Quant: Quicksilver Quant Protocol on TradeLocker Desktop, a ${PROP_FIRM_CHALLENGE_DAYS}-day challenge playbook with day-complete tracking, ${TOOL_COUNT} planning engines (risk, survival sims, confluence, expectancy), Chart Academy lessons, and live terminal tools once your account is connected.`,
-      "If you requested the bot on TradeLocker, access is not a separate marketplace purchase — it is included with Premium Quant. You still need TradeLocker Desktop; the bot does not run on TradeLocker Web.",
+      `Quicksilver is the execution + risk workflow stack for E8 Markets traders on TradeLocker. E8 is the exclusive recommended prop firm. Live-account operators still use the live growth terminal, journal, and review loop. Evaluation traders use the E8 Execution Center, a ${PROP_FIRM_CHALLENGE_DAYS}-day playbook, and E8-mapped risk presets. ${TOOL_COUNT} planning engines and Chart Academy sit in the same desk.`,
+      "Quant Protocol is optional and Premium-only. It is not included in the 3-day free trial and does not run on TradeLocker Web. Manual traders can use the full workflow stack without the bot. Quicksilver does not guarantee a pass, payout, or funded account.",
     ],
   },
   {

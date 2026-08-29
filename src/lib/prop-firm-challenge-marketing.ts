@@ -16,7 +16,7 @@ export const PROP_FIRM_MARKETING_HEADLINE =
   "7-Day Prop Firm Playbook";
 
 export const PROP_FIRM_MARKETING_SUBHEADLINE =
-  "A day-by-day framework for common evaluation windows — profit caps, consistency awareness, and QS tool integration. Not a guaranteed pass. Confirm your firm’s current rules.";
+  "A day-by-day framework for E8 Markets evaluations — profit caps, daily-loss awareness, and QS tool integration. Not a guaranteed pass. Official rules are set by E8 Markets.";
 
 export const PROP_FIRM_MARKETING_TAGLINE =
   "The 7-Day Prop Firm Playbook is the core of Quicksilver Premium.";

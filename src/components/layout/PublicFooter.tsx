@@ -3,6 +3,7 @@ import { FOUNDER, FOUNDER_SOCIAL_LINKS } from "@/lib/founder-social";
 import { TrustBox } from "@/components/marketing/TrustBox";
 
 const PRODUCT_LINKS = [
+  { href: "/e8", label: "E8 Execution Center" },
   { href: "/launch", label: "7-Day Playbook Launch" },
   { href: "/quant-protocol", label: "Quant Protocol (TradeLocker bot)" },
   { href: "/guides/pillar/ultimate-7-day-prop-firm-playbook", label: "Prop Firm Playbook Pillar" },
@@ -34,9 +35,9 @@ export function PublicFooter() {
             QUICKSILVER<span className="text-cyan-400">.ALGO</span>
           </p>
           <p className="mt-3 text-sm leading-relaxed text-slate-500">
-            Prop firm challenge tools, 7-day playbook, Chart Academy, and TradeLocker Quant
-            Protocol — built for manual traders and systematic bot users on TradeLocker
-            Desktop.
+            Official E8 Markets partner. TradeLocker workflow stack, E8 Execution Center,
+            live growth tools, and optional Quant Protocol — for evaluation and live-account
+            operators on TradeLocker Desktop.
           </p>
           <Link
             href="/register"

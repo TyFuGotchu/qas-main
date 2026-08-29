@@ -19,6 +19,12 @@ const config: Config = {
         silver: {
           mist: "#B8C8D8",
           bright: "#E8F4FC",
+          muted: "#8A96A8",
+        },
+        gold: {
+          soft: "#C9A962",
+          muted: "#A89060",
+          bright: "#E8D5A3",
         },
         cyan: {
           terminal: "#66FCF1",
@@ -40,7 +46,7 @@ const config: Config = {
         "qs-mercury":
           "linear-gradient(135deg, rgba(232,244,252,0.9) 0%, rgba(102,252,241,0.7) 30%, rgba(0,229,255,0.5) 55%, rgba(184,200,216,0.6) 100%)",
         "qs-header-line":
-          "linear-gradient(90deg, transparent 0%, rgba(0,229,255,0.4) 50%, transparent 100%)",
+          "linear-gradient(90deg, transparent 0%, rgba(201,169,98,0.45) 50%, transparent 100%)",
       },
       backgroundSize: {
         grid: "40px 40px",

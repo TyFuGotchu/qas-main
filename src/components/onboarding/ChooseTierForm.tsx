@@ -5,9 +5,15 @@ import { useRouter } from "next/navigation";
 import type { AccountTier } from "@/types";
 import {
   PRICING_TIERS,
-  getPremiumCheckoutUrl,
   PREMIUM_PRICE,
 } from "@/lib/pricing-tiers";
+import {
+  type CheckoutOffer,
+  DISCOUNT_FIRST_MONTH_PRICE,
+  DISCOUNT_FIRST_MONTH_PRICE_NUMBER,
+  getCheckoutUrl,
+} from "@/lib/pricing-constants";
+import { HOME_PRICING } from "@/lib/homepage-copy";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
@@ -15,9 +21,6 @@ import { useSession } from "@/providers/SessionProvider";
 import { Check, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { trackBeginCheckout } from "@/lib/analytics/ga-events";
-
-
-const PREMIUM_CHECKOUT = getPremiumCheckoutUrl();
 
 export function ChooseTierForm() {
   const router = useRouter();
@@ -79,11 +82,17 @@ export function ChooseTierForm() {
     setTimeout(() => stopPolling(), 120_000);
   }
 
-  function handlePremiumCheckout() {
+  function handlePremiumCheckout(offer: CheckoutOffer = "discount") {
     setSelectedTier("Premium Quant");
-    trackBeginCheckout("onboarding_pricing");
-    window.open(PREMIUM_CHECKOUT, "_blank", "noopener,noreferrer");
-    startPaymentPolling();
+    const href = getCheckoutUrl(offer);
+    const value = offer === "trial" ? 0 : DISCOUNT_FIRST_MONTH_PRICE_NUMBER;
+    trackBeginCheckout(`onboarding_pricing_${offer}`, value);
+    if (href.startsWith("http")) {
+      window.open(href, "_blank", "noopener,noreferrer");
+      startPaymentPolling();
+      return;
+    }
+    window.location.assign(href);
   }
 
   async function handleFreeContinue() {
@@ -135,8 +144,9 @@ export function ChooseTierForm() {
           Select Your <span className="text-cyan-terminal">Access Tier</span>
         </h1>
         <p className="mx-auto mt-3 max-w-xl font-mono text-sm text-slate-500">
-          Premium unlocks instantly after Stripe checkout — {"".toLowerCase()}.
-          Or start free and upgrade anytime.
+          Choose a 3-day free trial (bot not included) or first month 30% off
+          ({DISCOUNT_FIRST_MONTH_PRICE}, then {PREMIUM_PRICE}/mo). Or start free and
+          upgrade anytime.
         </p>
       </div>
 
@@ -192,18 +202,34 @@ export function ChooseTierForm() {
                   ))}
                 </ul>
                 {tier.ctaLink ? (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="w-full"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handlePremiumCheckout();
-                    }}
-                  >
-                    Pay {PREMIUM_PRICE} via Stripe
-                    <ExternalLink className="h-3.5 w-3.5" />
-                  </Button>
+                  <div className="space-y-2">
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      className="w-full"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handlePremiumCheckout("trial");
+                      }}
+                    >
+                      {HOME_PRICING.trial.cta}
+                    </Button>
+                    <Button
+                      variant="gold"
+                      size="sm"
+                      className="w-full"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handlePremiumCheckout("discount");
+                      }}
+                    >
+                      {HOME_PRICING.discount.cta}
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </Button>
+                    <p className="text-center font-mono text-[10px] text-gold-muted">
+                      Bot not included in free trial
+                    </p>
+                  </div>
                 ) : (
                   <p className="text-center font-mono text-[10px] uppercase tracking-widest text-slate-600">
                     No payment required
@@ -238,7 +264,7 @@ export function ChooseTierForm() {
           {loading
             ? "Activating..."
             : selectedTier === "Premium Quant"
-              ? `Subscribe — ${PREMIUM_PRICE}/mo`
+              ? HOME_PRICING.chooserLabel
               : selectedTier === "Free"
                 ? "Continue with Free Access"
                 : "Select a Plan"}

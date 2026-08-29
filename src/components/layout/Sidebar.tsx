@@ -18,6 +18,7 @@ import {
   Target,
   Bot,
   Cpu,
+  Building2,
   X,
 } from "lucide-react";
 import { TRADING_BOTS_NAV } from "@/lib/trading-bots";
@@ -26,6 +27,8 @@ interface NavItem {
   href: string;
   label: string;
   icon: React.ElementType;
+  badge?: string;
+  featured?: boolean;
 }
 
 interface NavSection {
@@ -37,6 +40,13 @@ const navSections: NavSection[] = [
   {
     items: [
       { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+      {
+        href: "/dashboard/e8",
+        label: "E8 Execution Center",
+        icon: Building2,
+        badge: "Exclusive",
+        featured: true,
+      },
       { href: "/dashboard/playbook", label: "7-Day Playbook", icon: Target },
       { href: "/dashboard/academy", label: "Chart Academy", icon: BookOpen },
       { href: "/dashboard/trade-together", label: "Trade Together", icon: Users },
@@ -137,13 +147,22 @@ export function Sidebar({ mobileOpen = false, onNavigate }: SidebarProps) {
                     onClick={onNavigate}
                     className={cn(
                       "flex items-center gap-3 rounded-lg px-3 py-2.5 font-mono text-xs uppercase tracking-wider transition-all",
-                      active
-                        ? "border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 shadow-[0_0_20px_rgba(0,229,255,0.08)]"
-                        : "border border-transparent text-slate-500 hover:border-slate-700/50 hover:bg-slate-800/40 hover:text-slate-300"
+                      item.featured && !active
+                        ? "border border-indigo-400/25 bg-indigo-500/10 text-indigo-200 hover:border-indigo-400/40"
+                        : active
+                          ? item.featured
+                            ? "border border-indigo-400/40 bg-indigo-500/15 text-indigo-100 shadow-[0_0_20px_rgba(99,102,241,0.12)]"
+                            : "border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 shadow-[0_0_20px_rgba(0,229,255,0.08)]"
+                          : "border border-transparent text-slate-500 hover:border-slate-700/50 hover:bg-slate-800/40 hover:text-slate-300"
                     )}
                   >
                     <Icon className="h-4 w-4 shrink-0" />
                     <span className="flex-1">{item.label}</span>
+                    {item.badge && (
+                      <span className="rounded border border-indigo-400/40 px-1.5 py-0.5 font-mono text-[8px] uppercase tracking-widest text-indigo-200">
+                        {item.badge}
+                      </span>
+                    )}
                   </Link>
                 );
               })}

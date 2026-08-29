@@ -1,8 +1,8 @@
 import { PartnerRecommendationFlow } from "@/components/broker/PartnerRecommendationFlow";
 
 /**
- * Dashboard / homepage partner block.
- * Ask-first routing (manual vs bots), then active verified partners only.
+ * Dashboard partner block.
+ * E8 Execution Center first. Bot vs manual is secondary. No competing prop firms.
  */
 export function RecommendedBrokerCard() {
   return <PartnerRecommendationFlow />;

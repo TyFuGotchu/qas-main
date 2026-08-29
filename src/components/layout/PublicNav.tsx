@@ -8,7 +8,6 @@ import Button from "@/components/ui/Button";
 import { useSession } from "@/providers/SessionProvider";
 import { Menu, X, Zap } from "lucide-react";
 import { AnnouncementBar } from "@/components/marketing/AnnouncementBar";
-import { TrackedCheckoutLink } from "@/components/analytics/TrackedCheckoutLink";
 
 function isNavLinkActive(pathname: string, href: string): boolean {
   if (href === "/") return pathname === "/";
@@ -16,6 +15,7 @@ function isNavLinkActive(pathname: string, href: string): boolean {
 }
 
 const navLinks = [
+  { href: "/e8", label: "E8 Center" },
   { href: "/launch", label: "Playbook" },
   { href: "/quant-protocol", label: "Quant Protocol" },
   { href: "/tools", label: "Tools" },
@@ -98,11 +98,11 @@ export function PublicNav() {
                     Create Profile
                   </Button>
                 </Link>
-                <TrackedCheckoutLink source="nav_start_premium">
-                  <Button variant="primary" size="sm">
-                    Start Premium
+                <Link href="/#pricing">
+                  <Button variant="gold" size="sm">
+                    Choose Trial or Discount
                   </Button>
-                </TrackedCheckoutLink>
+                </Link>
               </>
             )}
             <button
@@ -175,6 +175,13 @@ export function PublicNav() {
                   className="rounded-lg px-4 py-3 font-mono text-sm uppercase tracking-widest text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
                 >
                   Create Profile
+                </Link>
+                <Link
+                  href="/#pricing"
+                  onClick={() => setMobileOpen(false)}
+                  className="rounded-lg px-4 py-3 font-mono text-sm uppercase tracking-widest text-gold-soft hover:bg-slate-800/50"
+                >
+                  Choose Trial or Discount
                 </Link>
               </>
             )}

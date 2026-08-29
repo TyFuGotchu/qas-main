@@ -1,13 +1,16 @@
 import { HEROFX_PARTNER_URL } from "@/lib/constants";
+import {
+  E8_DASHBOARD_PATH,
+  E8_EXCLUSIVE_LINE,
+  E8_FIRM_NAME,
+  E8_PUBLIC_PATH,
+} from "@/lib/e8-partner";
 
 /**
- * Quicksilver partner / platform recommendations.
+ * Partner routing.
  *
- * ACTIVE partners are the only ones shown to users (UI, support, marketing).
- * Keep every live affiliate / partner URL here so we maximize revenue paths.
- *
- * Presentation rule: always identify trading style (manual vs bots/EAs) BEFORE
- * dumping links when the user is asking for recommendations.
+ * Prop recommendations: E8 Markets only.
+ * Brokers may exist as live-account options — never as competing prop firms.
  */
 
 export type PartnerKind = "broker" | "prop_firm";
@@ -17,23 +20,25 @@ export interface ActivePartner {
   id: string;
   name: string;
   kind: PartnerKind;
-  /** Short label e.g. "Broker" | "Prop Firm" */
   kindLabel: string;
   href: string;
 }
 
+/** Exclusive recommended prop firm. Not a multi-firm list. */
+export const EXCLUSIVE_PROP_PARTNER = {
+  id: "e8-markets",
+  name: E8_FIRM_NAME,
+  kind: "prop_firm" as const,
+  kindLabel: "Exclusive prop partner",
+  href: E8_PUBLIC_PATH,
+  dashboardHref: E8_DASHBOARD_PATH,
+};
+
 /**
- * Currently active partners with live affiliate links.
- * Same list for manual and bot users — order: brokers first, then prop firms.
+ * Live-account / broker options only. Never shown as equal prop recommendations.
+ * Hidden from homepage and dashboard default routing.
  */
-export const ACTIVE_PARTNERS: readonly ActivePartner[] = [
-  {
-    id: "risen-fx",
-    name: "Risen FX",
-    kind: "broker",
-    kindLabel: "Broker",
-    href: "https://secure.risenfx.com/links/go/3587",
-  },
+export const LIVE_ACCOUNT_BROKERS: readonly ActivePartner[] = [
   {
     id: "herofx",
     name: "HeroFX",
@@ -42,22 +47,19 @@ export const ACTIVE_PARTNERS: readonly ActivePartner[] = [
     href: HEROFX_PARTNER_URL,
   },
   {
-    id: "funderpro",
-    name: "FunderPro",
-    kind: "prop_firm",
-    kindLabel: "Prop Firm",
-    href: "https://funderpro.cxclick.com/visit/?bta=49026&brand=funderpro",
+    id: "risen-fx",
+    name: "Risen FX",
+    kind: "broker",
+    kindLabel: "Broker",
+    href: "https://secure.risenfx.com/links/go/3587",
   },
 ] as const;
 
 /**
- * Pending partners — no live affiliate URL yet. Do not display until approved:
- * - Goat Funded Trader (GFT)
- * - AquaFunded
- * - Lucid Trading
- *
- * When ready, add to ACTIVE_PARTNERS with the partner link.
+ * @deprecated Do not use for default routing. Competing prop firms are not recommended.
+ * Kept as an empty list so old imports do not render a multi-firm marketplace.
  */
+export const ACTIVE_PARTNERS: readonly ActivePartner[] = [];
 
 export const PARTNER_ROUTING_QUESTION =
   "Are you planning to run the Quicksilver automated bots (EAs), or are you looking to use our manual/discretionary trading arsenal?";
@@ -65,19 +67,18 @@ export const PARTNER_ROUTING_QUESTION =
 export const PARTNER_ROUTING_OPTIONS = {
   bots: {
     id: "bots" as const,
-    label: "Automated bots / EAs",
-    shortLabel: "Bots / EAs",
-    description: "Quicksilver Quant Protocol and automated execution",
+    label: "Automated / Quant Protocol",
+    shortLabel: "Automated",
+    description: "Optional Quant Protocol on TradeLocker Desktop — Premium, operator-supervised",
   },
   manual: {
     id: "manual" as const,
-    label: "Manual / discretionary",
-    shortLabel: "Manual trading",
-    description: "Chart Academy, playbook, planning tools, live terminal",
+    label: "Manual / discretionary stack",
+    shortLabel: "Manual",
+    description: "Workflow, journal, playbook, risk presets, live growth terminal",
   },
 } as const;
 
-/** Framing shown after the user picks a style (same partner links either way). */
 export function getPartnerFraming(style: TradingStyle): {
   headline: string;
   intro: string;
@@ -85,20 +86,18 @@ export function getPartnerFraming(style: TradingStyle): {
 } {
   if (style === "manual") {
     return {
-      headline: "Top-tier platforms for manual execution",
-      intro:
-        "These are our currently active partners with live signup links — excellent for discretionary trading with our playbook, planning engines, and live terminal tools.",
+      headline: `${E8_FIRM_NAME} + the manual stack`,
+      intro: `${E8_EXCLUSIVE_LINE} Use the playbook, risk presets, journal, and live growth terminal. Brokers below are live-account options only — not competing prop firms.`,
       highlight:
-        "Important benefit: these platforms allow trading bots and EAs. If you later scale into Quicksilver automated systems, you will not need to switch brokers or firms.",
+        "Manual first. Quant Protocol stays optional on Premium. Bot not included in free trial.",
     };
   }
 
   return {
-    headline: "Verified bot-friendly partners",
-    intro:
-      "These platforms are on our partner list because they allow trading bots / EAs and work well with Quicksilver algorithms (including Quant Protocol on TradeLocker where supported).",
+    headline: `${E8_FIRM_NAME} + optional Quant Protocol`,
+    intro: `${E8_EXCLUSIVE_LINE} Quant Protocol is operator-supervised on TradeLocker Desktop. Brokers below are live-account options only.`,
     highlight:
-      "Use any partner link below to open or fund an account, then enable Quant Protocol from the TradeLocker desktop app when you are ready.",
+      "The bot is Premium-only and not set-and-forget. You still supervise risk, sessions, and official E8 rules.",
   };
 }
 

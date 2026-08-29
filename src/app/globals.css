@@ -6,11 +6,15 @@
 
 :root {
   --background: #040508;
-  --foreground: #d4d8e0;
+  --foreground: #f4f6f8;
   --cyan-terminal: #66fcf1;
   --cyan-accent: #00e5ff;
   --silver-mist: #b8c8d8;
   --silver-bright: #e8f4fc;
+  --silver-muted: #8a96a8;
+  --gold-soft: #c9a962;
+  --gold-muted: #a89060;
+  --gold-bright: #e8d5a3;
   --emerald-terminal: #45a29e;
   --obsidian-800: #1f2833;
   --obsidian-950: #0b0c10;
@@ -69,9 +73,9 @@ body {
     background: linear-gradient(
       90deg,
       transparent 0%,
-      rgba(184, 200, 216, 0.15) 15%,
-      rgba(0, 229, 255, 0.85) 50%,
-      rgba(184, 200, 216, 0.15) 85%,
+      rgba(184, 200, 216, 0.18) 15%,
+      rgba(201, 169, 98, 0.75) 50%,
+      rgba(184, 200, 216, 0.18) 85%,
       transparent 100%
     );
     background-size: 200% 100%;
@@ -199,10 +203,10 @@ body {
 /* Institutional backdrop — must stay outside @layer so Tailwind doesn't override */
 .qs-backdrop-base {
   background:
-    radial-gradient(ellipse 120% 80% at 50% -15%, rgba(0, 229, 255, 0.14) 0%, transparent 52%),
+    radial-gradient(ellipse 120% 80% at 50% -15%, rgba(201, 169, 98, 0.1) 0%, transparent 52%),
     radial-gradient(ellipse 70% 55% at 85% 15%, rgba(184, 200, 216, 0.08) 0%, transparent 48%),
-    radial-gradient(ellipse 80% 60% at 10% 80%, rgba(69, 162, 158, 0.1) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(0, 229, 255, 0.03) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 60% at 10% 80%, rgba(69, 162, 158, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(201, 169, 98, 0.03) 0%, transparent 70%),
     linear-gradient(180deg, #030408 0%, #080c14 38%, #05070c 100%);
 }
 
@@ -274,7 +278,11 @@ body {
 }
 
 .qs-orb-cyan {
-  background: radial-gradient(circle, rgba(0, 229, 255, 0.55) 0%, transparent 68%);
+  background: radial-gradient(circle, rgba(201, 169, 98, 0.28) 0%, transparent 68%);
+}
+
+.qs-orb-gold {
+  background: radial-gradient(circle, rgba(201, 169, 98, 0.4) 0%, transparent 68%);
 }
 
 .qs-orb-emerald {

@@ -15,10 +15,10 @@ export function trackGaEvent(eventName: string, params?: GaEventParams): void {
 }
 
 /** Mark as Key Event in GA4: begin_checkout */
-export function trackBeginCheckout(source: string): void {
+export function trackBeginCheckout(source: string, value = 149.99): void {
   trackGaEvent("begin_checkout", {
     currency: "USD",
-    value: 149.99,
+    value,
     source,
   });
 }

@@ -3,57 +3,70 @@ name: partner-recommendations
 description: >
   How Quicksilver presents recommended brokers and prop firms. Use whenever a
   user asks about recommended platforms, funding, brokers, prop firms, partners,
-  "where should I trade", Risen FX, HeroFX, FunderPro, or affiliate links.
-  Enforces ask-first routing (bots vs manual), the full active partner list,
-  and style-specific framing. Never invent pending firms without links.
+  "where should I trade", E8 Markets, HeroFX, or affiliate links. E8 Markets is
+  the exclusive recommended prop firm. Never list competing prop firms. Never
+  invent pending firms or live referral URLs.
 ---
 
-# Partner recommendations (brokers & prop firms)
+# Partner recommendations
 
 Follow this structure **exactly** when users ask about recommended platforms, funding, brokers, or prop firms.
 
-## 1. Routing phase (ask first)
+## 1. Exclusive prop firm
 
-**Before any links**, identify trading style with this direct question:
+**E8 Markets is the only recommended prop firm.**
+
+Primary line:
+
+> Quicksilver is the execution + risk workflow stack for E8 Markets traders on TradeLocker.
+
+Route them to:
+
+- Public: `/e8` (E8 Execution Center)
+- Dashboard: `/dashboard/e8`
+
+Do **not** recommend FunderPro, FTMO, Apex, FundedNext, Topstep, Goat Funded Trader, AquaFunded, Lucid Trading, or any other prop firm as a Quicksilver partner.
+
+## 2. Routing phase (after E8, not instead of E8)
+
+Keep the bot vs manual split as a **secondary** step:
 
 > Are you planning to run the Quicksilver automated bots (EAs), or are you looking to use our manual/discretionary trading arsenal?
 
-**Rule:** Do not dump all partner links at once. Wait for their answer, then tailor framing.
+Do not dump a multi-firm list. E8 stays first.
 
-## 2. Universal partner list (after they answer)
+## 3. Brokers (live-account options only)
 
-Same list for **both** manual traders and bot/EA runners. **Include every active affiliate link** (maximize revenue paths):
+HeroFX and Risen FX may be mentioned **only** as live-account / broker options — never as competing prop recommendations.
 
+- **HeroFX (Broker):** product `HEROFX_PARTNER_URL` / default `https://herofx.co/?partner_code=9149459` (override env `HEROFX_PARTNER_LINK`)
 - **Risen FX (Broker):** https://secure.risenfx.com/links/go/3587
-- **HeroFX (Broker):** use product `HEROFX_PARTNER_URL` / default `https://herofx.co/?partner_code=9149459` (override env `HEROFX_PARTNER_LINK` if set)
-- **FunderPro (Prop Firm):** https://funderpro.cxclick.com/visit/?bta=49026&brand=funderpro
 
-Source of truth: `src/lib/partners.ts` → `ACTIVE_PARTNERS`.
+Source of truth: `src/lib/e8-partner.ts` and `src/lib/partners.ts` (`LIVE_ACCOUNT_BROKERS`).
 
-## 3. Presentation rules
+## 4. Placeholders — do not invent live terms
 
-Use clear bullet points. Frame by their answer:
+If the E8 referral, discount code, or bundle is not live, say **Coming Soon** or **Partner Preview**. Placeholders:
+
+- `E8_REFERRAL_LINK` → `NEXT_PUBLIC_E8_REFERRAL_LINK`
+- `CODE_QUICKSILVER`
+- `CODE_E8LAUNCH`
+- `BUNDLE_CHECKOUT_LINK`
+
+Do not promise a guaranteed pass, payout, or funded account.
+
+## 5. Framing
 
 ### Manual / discretionary
 
-- Call these excellent platforms for **manual execution**.
-- **Must** highlight that these platforms **allow trading bots and EAs**.
-- Frame that as a benefit: if they later scale into Quicksilver automation, they will not need to switch brokers/firms.
+- E8 Execution Center + Quicksilver workflow, journal, presets, live growth terminal.
+- Bot is optional Premium.
 
 ### Bot / EA runners
 
-- Give the **same full list** of partner links.
-- Emphasize these platforms allow bots/EAs and work with Quicksilver algorithms (including Quant Protocol where TradeLocker is used).
-- Reminder when relevant: Quant Protocol runs on **TradeLocker Desktop**, not TradeLocker Web.
-
-## 4. Pending platforms (no live link yet — do not invent URLs)
-
-Do not recommend until the owner adds a live affiliate URL to `ACTIVE_PARTNERS`:
-
-- Goat Funded Trader (GFT)
-- AquaFunded
-- Lucid Trading
+- Same exclusive prop partner: E8 Markets.
+- Quant Protocol is TradeLocker **Desktop** only, operator-supervised, not in the free trial.
 
 ## Product UI
 
-Dashboard/homepage: `PartnerRecommendationFlow` (ask-first, then full active list including HeroFX).
+Dashboard/homepage: E8 Execution Center first. `PartnerRecommendationFlow` is secondary bot/manual routing only — no competing prop list.

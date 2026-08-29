@@ -111,9 +111,9 @@ export function TradeLockerConnectForm({
             </h3>
           </div>
           <p className="mt-2 font-mono text-xs text-slate-500">
-            Works with any TradeLocker broker (Risen FX, FunderPro, funded accounts,
-            etc.). Credentials go only to our secure server proxy — tokens never
-            touch the browser.
+            Works with TradeLocker accounts, including E8 Markets evaluations and
+            live-account brokers. Credentials go only to our secure server proxy —
+            tokens never touch the browser.
           </p>
         </CardHeader>
         <CardContent>
