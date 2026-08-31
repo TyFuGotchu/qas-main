@@ -46,7 +46,7 @@ export function E8RulesDesk() {
       ? `${selectedSize} max DD: ${selectedMaxDd}`
       : product.maxDdRange;
 
-  const challengeRows = [
+  const challengeRows: [string, string][] = [
     ["Drawdown type", product.drawdownType],
     ["Max DD", signatureDdNote],
     ["Daily DD", product.dailyDd],
@@ -56,11 +56,11 @@ export function E8RulesDesk() {
     ["Activation", product.activationFee],
   ];
 
-  const performanceRows = [
+  const performanceRows: [string, string][] = [
     ["Consistency", product.consistency],
     ["First payout", product.firstPayout],
     ["Payout split", product.payoutSplit],
-    ...(product.extra ? [["Performance note", product.extra] as [string, string]] : []),
+    ...(product.extra ? ([["Performance note", product.extra]] as [string, string][]) : []),
   ];
 
   return (
