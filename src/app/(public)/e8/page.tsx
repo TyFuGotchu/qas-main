@@ -74,7 +74,7 @@ export default function E8PublicPage() {
       <h1 className="mt-4 text-3xl font-semibold tracking-tight text-[#F3F5F7] sm:text-4xl">
         {E8_FIRM_NAME} Execution Center
       </h1>
-      <p className="mt-3 max-w-2xl text-base leading-relaxed text-[#9AA3B2]">
+      <p className="mt-3 max-w-2xl text-base leading-relaxed text-[#C9C2D6]">
         {E8_POSITIONING} Map E8 One, E8 Pro, and E8 Signature evaluations — daily
         drawdown, dynamic drawdown, static drawdown, and end of day drawdown — to
         Quicksilver risk presets on TradeLocker.
@@ -89,7 +89,7 @@ export default function E8PublicPage() {
             <h2 className="text-xl font-semibold tracking-tight text-[#F3F5F7]">
               {product.name}
             </h2>
-            <p className="mt-2 text-sm leading-relaxed text-[#9AA3B2]">
+            <p className="mt-2 text-sm leading-relaxed text-[#C9C2D6]">
               {product.drawdownType}. Max DD {product.maxDdRange}. {product.dailyDd}.{" "}
               {product.pass}. {product.consistency}. {product.firstPayout}.{" "}
               {product.payoutSplit}. {product.activationFee}. Quicksilver preset:{" "}
@@ -97,7 +97,7 @@ export default function E8PublicPage() {
             </p>
           </div>
         ))}
-        <p className="text-sm text-[#9AA3B2]">{E8_RULES_CONFIRM}</p>
+        <p className="text-sm text-[#C9C2D6]">{E8_RULES_CONFIRM}</p>
       </section>
     </article>
   );

@@ -101,18 +101,18 @@ export function E8PresetDesk({ preset }: { preset: LiveE8Preset }) {
   return (
     <div className="mt-5 space-y-5">
       <div>
-        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#C8ACFF]">
+        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#A89BB8]">
           {preset.code} · {preset.productName}
         </p>
-        <h3 className="mt-1 text-lg font-semibold tracking-tight text-white">{preset.name}</h3>
-        <p className="mt-2 text-sm leading-relaxed text-[#C8ACFF]/80">{preset.warning}</p>
-        <p className="mt-2 text-xs text-[#9AA3B2]">
+        <h3 className="mt-1 text-lg font-semibold tracking-tight text-[#F5F3FA]">{preset.name}</h3>
+        <p className="mt-2 text-sm leading-relaxed text-[#F5F3FA]">{preset.warning}</p>
+        <p className="mt-2 text-xs text-[#C9C2D6]">
           Software planning guardrail. Not a guaranteed pass. Trader still supervises.
         </p>
       </div>
 
       {tlConnected && (
-        <p className="text-[11px] text-[#9AA3B2]">
+        <p className="text-[11px] text-[#C9C2D6]">
           Near-live TradeLocker equity / float · refreshed every few seconds
           {lastGoodAt ? ` · last good ${new Date(lastGoodAt).toLocaleTimeString()}` : ""}
           {error ? ` · ${error}` : ""}
@@ -132,7 +132,7 @@ export function E8PresetDesk({ preset }: { preset: LiveE8Preset }) {
       </div>
 
       {preset.eod && (
-        <p className="text-xs text-[#C8ACFF]/80">
+        <p className="text-xs text-[#C9C2D6]">
           Signature max DD by size: 25K/50K = 4%, 100K/150K = 3%. Planner uses {ddPct}% for $
           {Number(accountSize).toLocaleString()} size.
         </p>
@@ -159,7 +159,7 @@ export function E8PresetDesk({ preset }: { preset: LiveE8Preset }) {
         </Button>
         <E8SignupButton size="md" />
       </div>
-      {journalMsg && <p className="text-xs text-[#C8ACFF]">{journalMsg}</p>}
+      {journalMsg && <p className="text-xs text-[#E4D4FF]">{journalMsg}</p>}
     </div>
   );
 }
@@ -175,13 +175,13 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#C8ACFF]/80">
+      <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#A89BB8]">
         {label}
       </span>
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="mt-1 h-10 w-full rounded-[6px] border border-[rgba(199,170,255,0.18)] bg-[#12081A] px-3 text-sm text-white outline-none focus:border-[#C8ACFF]"
+        className="mt-1 h-10 w-full rounded-[6px] border border-[rgba(199,170,255,0.18)] bg-[#12081A] px-3 text-sm text-white placeholder:text-[#A89BB8] outline-none focus:border-[#E4D4FF]"
       />
     </label>
   );
@@ -190,7 +190,7 @@ function Field({
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-[6px] border border-[rgba(199,170,255,0.18)] bg-[#12081A] px-3 py-2">
-      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#C8ACFF]/70">{label}</p>
+      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#A89BB8]">{label}</p>
       <p className="mt-1 text-sm font-medium text-white">{value}</p>
     </div>
   );
@@ -199,7 +199,7 @@ function Stat({ label, value }: { label: string; value: string }) {
 function StatusPill({ status }: { status: GuardStatus }) {
   return (
     <div className="rounded-[6px] border border-[rgba(199,170,255,0.18)] bg-[#12081A] px-3 py-2">
-      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#C8ACFF]/70">Status</p>
+      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#A89BB8]">Status</p>
       <p
         className={cn(
           "mt-1 text-sm font-semibold",

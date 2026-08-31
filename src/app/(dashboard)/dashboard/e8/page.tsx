@@ -10,10 +10,10 @@ export default function DashboardE8Page() {
             {E8_PARTNER_LINE}
           </span>
         </div>
-        <h1 className="mt-3 text-2xl font-semibold tracking-tight text-[#F3F5F7]">
+        <h1 className="mt-3 text-2xl font-semibold tracking-tight text-[#F5F3FA]">
           {E8_OVERVIEW.title}
         </h1>
-        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#9AA3B2]">
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#C9C2D6]">
           {E8_POSITIONING}
         </p>
       </header>

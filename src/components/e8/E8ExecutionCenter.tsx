@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ExternalLink } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
@@ -35,16 +36,50 @@ interface E8ExecutionCenterProps {
   context?: "public" | "dashboard";
 }
 
-export function E8ExecutionCenter({
+function isCenterTab(value: string | null): value is E8CenterTab {
+  return (
+    value === "overview" ||
+    value === "rules" ||
+    value === "signup" ||
+    value === "presets" ||
+    value === "promos" ||
+    value === "content"
+  );
+}
+
+export function E8ExecutionCenter(props: E8ExecutionCenterProps) {
+  return (
+    <Suspense fallback={<div className="e8-desk rounded-[8px] p-5 text-sm text-[#C9C2D6]">Loading desk…</div>}>
+      <E8ExecutionCenterInner {...props} />
+    </Suspense>
+  );
+}
+
+function E8ExecutionCenterInner({
   variant = "full",
   context = "public",
 }: E8ExecutionCenterProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const tabs = variant === "card" ? E8_CENTER_TABS.filter((t) => E8_CARD_TABS.includes(t.id)) : E8_CENTER_TABS;
-  const [tab, setTab] = useState<E8CenterTab>("overview");
+  const urlTab = searchParams.get("tab");
+  const [tab, setTab] = useState<E8CenterTab>(isCenterTab(urlTab) ? urlTab : "overview");
+
+  useEffect(() => {
+    if (isCenterTab(urlTab) && urlTab !== tab) setTab(urlTab);
+  }, [urlTab, tab]);
+
   const active = useMemo(
     () => (tabs.some((t) => t.id === tab) ? tab : "overview"),
     [tab, tabs]
   );
+
+  function go(id: E8CenterTab) {
+    setTab(id);
+    if (variant === "card") return;
+    const base = context === "dashboard" ? E8_DASHBOARD_PATH : E8_PUBLIC_PATH;
+    router.replace(`${base}?tab=${id}`, { scroll: false });
+  }
 
   const showChrome = variant === "card";
 
@@ -64,11 +99,11 @@ export function E8ExecutionCenter({
                 Exclusive
               </span>
             </div>
-            <p className="mt-2 max-w-2xl text-sm text-[#9AA3B2]">{E8_OVERVIEW.subtitle}</p>
+            <p className="mt-2 max-w-2xl text-sm text-[#C9C2D6]">{E8_OVERVIEW.subtitle}</p>
           </div>
           <Link
             href={context === "dashboard" ? E8_DASHBOARD_PATH : E8_PUBLIC_PATH}
-            className="font-mono text-xs text-[#B7B0D4] hover:text-[#7FE7DC]"
+            className="font-mono text-xs text-[#E4D4FF] hover:text-white"
           >
             Open full center →
           </Link>
@@ -80,12 +115,12 @@ export function E8ExecutionCenter({
           <button
             key={item.id}
             type="button"
-            onClick={() => setTab(item.id)}
+            onClick={() => go(item.id)}
             className={cn(
               "-mb-px shrink-0 border-b px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors",
               active === item.id
-                ? "border-[#C8ACFF] text-[#F3F5F7]"
-                : "border-transparent text-[#C8ACFF]/70 hover:text-[#F3F5F7]"
+                ? "border-[#E4D4FF] text-[#E4D4FF]"
+                : "border-transparent text-[#A89BB8] hover:text-[#F5F3FA]"
             )}
           >
             {item.label}
@@ -97,7 +132,7 @@ export function E8ExecutionCenter({
         {active === "overview" && (
           <OverviewTab
             context={context}
-            onOpenPresets={() => setTab("presets")}
+            onOpenPresets={() => go("presets")}
           />
         )}
         {active === "rules" && <E8RulesDesk />}
@@ -107,7 +142,7 @@ export function E8ExecutionCenter({
         {active === "content" && <ContentTab />}
       </div>
 
-      <E8ComplianceNote className="border-t border-white/[0.08] px-5 py-4 font-mono text-[11px] leading-relaxed text-[#9AA3B2] sm:px-6" />
+      <E8ComplianceNote className="border-t border-[rgba(199,170,255,0.18)] px-5 py-4 font-mono text-[11px] leading-relaxed text-[#C9C2D6] sm:px-6" />
     </div>
   );
 }
@@ -125,7 +160,7 @@ function OverviewTab({
       <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
         {E8_OVERVIEW_CHIPS.map((chip) => {
           const className =
-            "flex min-h-[72px] items-center rounded-[6px] border border-[rgba(199,170,255,0.18)] bg-[#1C122C] px-4 py-3 text-left text-sm text-[#C8ACFF]/80 transition-colors hover:border-[#C8ACFF]/50 hover:text-[#F3F5F7]";
+            "flex min-h-[72px] items-center rounded-[6px] border border-[rgba(199,170,255,0.18)] bg-[#1C122C] px-4 py-3 text-left text-sm text-[#C9C2D6] transition-colors hover:border-[#E4D4FF]/50 hover:text-[#F5F3FA]";
           if ("tab" in chip) {
             return (
               <button key={chip.id} type="button" onClick={onOpenPresets} className={className}>
@@ -149,7 +184,7 @@ function SignupTab() {
   return (
     <div>
       <h3 className="text-lg font-semibold tracking-tight text-[#F3F5F7]">{E8_SIGNUP.cta}</h3>
-      <p className="mt-2 max-w-xl text-sm leading-relaxed text-[#9AA3B2]">{E8_SIGNUP.liveBody}</p>
+      <p className="mt-2 max-w-xl text-sm leading-relaxed text-[#C9C2D6]">{E8_SIGNUP.liveBody}</p>
       <div className="mt-6">
         <E8SignupButton />
       </div>
@@ -164,7 +199,7 @@ function PresetsTab() {
 
   return (
     <div>
-      <p className="text-sm leading-relaxed text-[#C8ACFF]/80">
+      <p className="text-sm leading-relaxed text-[#C9C2D6]">
         Software guardrails and planning tools mapped to E8-style protection. Not a
         guaranteed pass.
       </p>
@@ -189,12 +224,12 @@ function PresetsTab() {
               <div className="flex items-center justify-between gap-2">
                 <h3 className="text-sm font-semibold text-white">{preset.name}</h3>
                 {!preset.live && (
-                  <span className="font-mono text-[10px] uppercase tracking-widest text-[#C8ACFF]/70">
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-[#A89BB8]">
                     Coming soon
                   </span>
                 )}
               </div>
-              <p className="mt-2 text-sm leading-relaxed text-[#C8ACFF]/75">{preset.intent}</p>
+              <p className="mt-2 text-sm leading-relaxed text-[#C9C2D6]">{preset.intent}</p>
             </button>
           );
         })}
@@ -212,8 +247,8 @@ function PromosTab() {
   if (!hasLive) {
     return (
       <div className="py-8 text-center">
-        <p className="text-sm text-[#F3F5F7]">No live giveaways or promos right now.</p>
-        <p className="mt-2 text-sm text-[#9AA3B2]">Active campaigns will appear here.</p>
+        <p className="text-sm text-[#F5F3FA]">No live giveaways or promos right now.</p>
+        <p className="mt-2 text-sm text-[#C9C2D6]">Active campaigns will appear here.</p>
       </div>
     );
   }
@@ -268,7 +303,7 @@ function ContentTab() {
   if (!hasLinks) {
     return (
       <div className="py-8 text-center">
-        <p className="text-sm text-[#9AA3B2]">{E8_SERIES.empty}</p>
+        <p className="text-sm text-[#C9C2D6]">{E8_SERIES.empty}</p>
       </div>
     );
   }

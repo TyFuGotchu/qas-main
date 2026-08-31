@@ -13,7 +13,7 @@ export function E8SignupButton({ size = "lg" }: { size?: "sm" | "md" | "lg" }) {
           <ExternalLink className="h-4 w-4" />
         </Button>
       </a>
-      <p className="mt-2 text-xs leading-relaxed text-[#9AA3B2]">{E8_SIGNUP.codeHint}</p>
+      <p className="mt-2 text-xs leading-relaxed text-[#C9C2D6]">{E8_SIGNUP.codeHint}</p>
     </div>
   );
 }

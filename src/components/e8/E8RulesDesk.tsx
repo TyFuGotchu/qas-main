@@ -55,7 +55,7 @@ export function E8RulesDesk() {
   return (
     <div className="space-y-6">
       <div>
-        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#9AA3B2]">
+        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#A89BB8]">
           Account chooser
         </p>
         <div className="mt-2 grid gap-2 sm:grid-cols-3">
@@ -68,7 +68,7 @@ export function E8RulesDesk() {
                 "rounded-[6px] border px-3 py-2.5 text-left text-sm tracking-tight transition-colors",
                 productId === item.id
                   ? "border-[#7FE7DC]/40 bg-[#7FE7DC]/10 text-[#F3F5F7]"
-                  : "border-white/[0.08] text-[#9AA3B2] hover:text-[#F3F5F7]"
+                  : "border-white/[0.08] text-[#C9C2D6] hover:text-[#F3F5F7]"
               )}
             >
               {item.label}
@@ -77,7 +77,7 @@ export function E8RulesDesk() {
         </div>
       </div>
 
-      <p className="text-sm leading-relaxed text-[#9AA3B2]">
+      <p className="text-sm leading-relaxed text-[#C9C2D6]">
         {E8_MARKET_NOTE} {E8_RULES_CONFIRM}
       </p>
 
@@ -122,7 +122,7 @@ export function E8RulesDesk() {
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div>
-      <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[#9AA3B2]">
+      <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[#A89BB8]">
         {label}
       </p>
       {children}
@@ -133,8 +133,8 @@ function Field({ label, children }: { label: string; children: ReactNode }) {
 function SideBlock({ title, body }: { title: string; body: string }) {
   return (
     <div>
-      <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#9AA3B2]">{title}</p>
-      <p className="mt-1 text-sm leading-relaxed text-[#F3F5F7]">{body}</p>
+      <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#A89BB8]">{title}</p>
+      <p className="mt-1 text-sm leading-relaxed text-[#F5F3FA]">{body}</p>
     </div>
   );
 }
@@ -159,7 +159,7 @@ function Switcher({
             "flex-1 px-3 py-2 text-xs tracking-tight transition-colors sm:text-sm",
             value === opt.id
               ? "bg-white/[0.06] text-[#F3F5F7]"
-              : "text-[#9AA3B2] hover:text-[#F3F5F7]"
+              : "text-[#C9C2D6] hover:text-[#F3F5F7]"
           )}
         >
           {opt.label}
@@ -182,7 +182,7 @@ function ChipRow({
 }) {
   return (
     <div>
-      <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[#9AA3B2]">
+      <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[#A89BB8]">
         {label}
       </p>
       <div className="flex flex-wrap gap-2">
@@ -195,7 +195,7 @@ function ChipRow({
               "rounded-[6px] border px-2.5 py-1.5 text-xs tracking-tight transition-colors",
               value === item
                 ? "border-[#7FE7DC]/40 bg-[#7FE7DC]/10 text-[#F3F5F7]"
-                : "border-white/[0.08] text-[#9AA3B2] hover:text-[#F3F5F7]"
+                : "border-white/[0.08] text-[#C9C2D6] hover:text-[#F3F5F7]"
             )}
           >
             {item}
@@ -213,10 +213,10 @@ function RuleColumn({ title, rows }: { title: string; rows: [string, string][] }
       <dl className="mt-3 space-y-2.5">
         {rows.map(([k, v]) => (
           <div key={k}>
-            <dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#9AA3B2]">
+            <dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#A89BB8]">
               {k}
             </dt>
-            <dd className="mt-0.5 text-sm text-[#F3F5F7]">{v}</dd>
+            <dd className="mt-0.5 text-sm text-white">{v}</dd>
           </div>
         ))}
       </dl>

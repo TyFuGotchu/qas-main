@@ -586,9 +586,31 @@ body {
   --e8-hairline: rgba(199, 170, 255, 0.18);
   --e8-accent: #b794ff;
   --e8-accent-bright: #c8acff;
+  --e8-text: #f5f3fa;
+  --e8-text-secondary: #c9c2d6;
+  --e8-label: #a89bb8;
+  --e8-number: #ffffff;
+  --e8-link: #e4d4ff;
   background: linear-gradient(180deg, #12081a 0%, #1a0f27 100%);
   border-color: var(--e8-hairline);
-  color: #f3f5f7;
+  color: var(--e8-text-secondary);
+}
+
+.e8-desk h1,
+.e8-desk h2,
+.e8-desk h3,
+.e8-desk h4 {
+  color: var(--e8-text);
+}
+
+.e8-desk input,
+.e8-desk textarea {
+  color: var(--e8-number);
+}
+
+.e8-desk input::placeholder,
+.e8-desk textarea::placeholder {
+  color: var(--e8-label);
 }
 
 .e8-bar {
