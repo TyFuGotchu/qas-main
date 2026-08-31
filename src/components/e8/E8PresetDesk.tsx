@@ -154,7 +154,7 @@ export function E8PresetDesk({ preset }: { preset: LiveE8Preset }) {
         <Button variant="e8" type="button" onClick={applySession}>
           {applied ? "Applied to session" : "Apply preset to session"}
         </Button>
-        <Button variant="secondary" type="button" onClick={() => void saveJournal()}>
+        <Button variant="e8" type="button" onClick={() => void saveJournal()}>
           Save to journal
         </Button>
         <E8SignupButton size="md" />

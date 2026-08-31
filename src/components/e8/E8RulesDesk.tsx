@@ -65,10 +65,8 @@ export function E8RulesDesk() {
               type="button"
               onClick={() => selectProduct(item.id)}
               className={cn(
-                "rounded-[6px] border px-3 py-2.5 text-left text-sm tracking-tight transition-colors",
-                productId === item.id
-                  ? "border-[#7FE7DC]/40 bg-[#7FE7DC]/10 text-[#F3F5F7]"
-                  : "border-white/[0.08] text-[#C9C2D6] hover:text-[#F3F5F7]"
+                "e8-chip px-3 py-2.5 text-left text-sm tracking-tight transition-colors",
+                productId === item.id && "is-selected"
               )}
             >
               {item.label}
@@ -149,7 +147,7 @@ function Switcher({
   onChange: (id: string) => void;
 }) {
   return (
-    <div className="flex flex-wrap overflow-hidden rounded-[6px] border border-white/[0.08]">
+    <div className="flex flex-wrap overflow-hidden rounded-[6px] border border-white/[0.28]">
       {options.map((opt) => (
         <button
           key={opt.id}
@@ -158,8 +156,8 @@ function Switcher({
           className={cn(
             "flex-1 px-3 py-2 text-xs tracking-tight transition-colors sm:text-sm",
             value === opt.id
-              ? "bg-white/[0.06] text-[#F3F5F7]"
-              : "text-[#C9C2D6] hover:text-[#F3F5F7]"
+              ? "bg-[#0B0712] text-white"
+              : "bg-transparent text-[#F5F3FA] hover:text-white"
           )}
         >
           {opt.label}
@@ -192,10 +190,8 @@ function ChipRow({
             type="button"
             onClick={() => onChange(item)}
             className={cn(
-              "rounded-[6px] border px-2.5 py-1.5 text-xs tracking-tight transition-colors",
-              value === item
-                ? "border-[#7FE7DC]/40 bg-[#7FE7DC]/10 text-[#F3F5F7]"
-                : "border-white/[0.08] text-[#C9C2D6] hover:text-[#F3F5F7]"
+              "e8-chip px-2.5 py-1.5 text-xs tracking-tight transition-colors",
+              value === item && "is-selected"
             )}
           >
             {item}

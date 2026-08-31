@@ -161,7 +161,7 @@ function OverviewTab({
       <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
         {E8_OVERVIEW_CHIPS.map((chip) => {
           const className =
-            "flex min-h-[72px] items-center rounded-[6px] border border-[rgba(199,170,255,0.18)] bg-[#1C122C] px-4 py-3 text-left text-sm text-[#C9C2D6] transition-colors hover:border-[#E4D4FF]/50 hover:text-[#F5F3FA]";
+            "e8-chip flex min-h-[72px] items-center px-4 py-3 text-left text-sm transition-colors";
           if ("tab" in chip) {
             return (
               <button key={chip.id} type="button" onClick={onOpenPresets} className={className}>
@@ -219,11 +219,9 @@ function PresetsTab() {
               disabled={!clickable}
               onClick={() => clickable && setSelectedId(preset.id)}
               className={cn(
-                "rounded-[6px] border p-4 text-left transition-colors",
+                "e8-chip p-4 text-left transition-colors",
                 clickable ? "cursor-pointer" : "cursor-not-allowed opacity-60",
-                active
-                  ? "border-[#C8ACFF] bg-[#B794FF]/15"
-                  : "border-[rgba(199,170,255,0.18)] bg-[#1C122C] hover:border-[#C8ACFF]/60"
+                active && "is-selected"
               )}
             >
               <div className="flex items-center justify-between gap-2">
@@ -320,7 +318,7 @@ function ContentTab() {
       <div className="mt-5 flex flex-wrap gap-3">
         {youtube && (
           <a href={youtube} target="_blank" rel="noopener noreferrer">
-            <Button variant="gold">
+            <Button variant="e8">
               {E8_SERIES.watchCta} · YouTube
               <ExternalLink className="h-4 w-4" />
             </Button>
@@ -328,7 +326,7 @@ function ContentTab() {
         )}
         {x && (
           <a href={x} target="_blank" rel="noopener noreferrer">
-            <Button variant="secondary">
+            <Button variant="e8Secondary">
               {E8_SERIES.watchCta} · X
               <ExternalLink className="h-4 w-4" />
             </Button>

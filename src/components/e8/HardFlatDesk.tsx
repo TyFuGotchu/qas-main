@@ -279,7 +279,7 @@ export function HardFlatDesk() {
           ARM
         </Button>
         <Button
-          variant="secondary"
+          variant="e8Secondary"
           type="button"
           onClick={() => {
             setArmError("");
@@ -289,7 +289,7 @@ export function HardFlatDesk() {
           DISARM
         </Button>
         <Button
-          variant="ghost"
+          variant="e8Secondary"
           type="button"
           onClick={() =>
             testHardFlatCalculation({
