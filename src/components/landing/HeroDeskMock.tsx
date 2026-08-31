@@ -1,7 +1,7 @@
 export function HeroDeskMock() {
   return (
     <div
-      className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[#07090d] shadow-[0_24px_80px_rgba(0,0,0,0.55)]"
+      className="relative overflow-hidden rounded-[8px] border border-white/[0.08] bg-[#10141C]"
       aria-hidden
     >
       <div className="flex items-center gap-2 border-b border-white/[0.06] px-4 py-2.5">

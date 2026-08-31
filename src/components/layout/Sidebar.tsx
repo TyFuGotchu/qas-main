@@ -98,15 +98,14 @@ export function Sidebar({ mobileOpen = false, onNavigate }: SidebarProps) {
   return (
     <aside
       className={cn(
-        "fixed left-0 top-0 z-50 flex h-screen w-64 max-w-[min(16rem,85vw)] flex-col border-r border-slate-600/20 bg-obsidian-950/65 shadow-[4px_0_48px_rgba(0,0,0,0.45),4px_0_40px_rgba(0,229,255,0.06)] backdrop-blur-2xl transition-transform duration-300 ease-in-out lg:translate-x-0",
+        "fixed left-0 top-0 z-50 flex h-screen w-64 max-w-[min(16rem,85vw)] flex-col border-r border-white/[0.08] bg-[#07080C] transition-transform duration-300 ease-in-out lg:translate-x-0",
         mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
       )}
     >
-      <div className="relative flex h-16 items-center justify-between border-b border-cyan-500/10 bg-gradient-to-r from-cyan-500/[0.06] to-transparent px-4 sm:px-6">
-        <div className="absolute inset-x-0 bottom-0 h-px bg-qs-header-line opacity-60" />
+      <div className="relative flex h-16 items-center justify-between border-b border-white/[0.08] px-4 sm:px-6">
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-cyan-400/30 bg-gradient-to-br from-cyan-500/15 to-slate-900/50 shadow-[0_0_20px_rgba(0,229,255,0.15)]">
-            <Zap className="h-4 w-4 text-cyan-300" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-[6px] border border-white/[0.08] bg-[#141A24]">
+            <Zap className="h-4 w-4 text-[#7FE7DC]" />
           </div>
           <div>
             <span className="block font-mono text-xs font-bold tracking-wider text-slate-200">
@@ -146,20 +145,18 @@ export function Sidebar({ mobileOpen = false, onNavigate }: SidebarProps) {
                     href={item.href}
                     onClick={onNavigate}
                     className={cn(
-                      "flex items-center gap-3 rounded-lg px-3 py-2.5 font-mono text-xs uppercase tracking-wider transition-all",
-                      item.featured && !active
-                        ? "border border-indigo-400/25 bg-indigo-500/10 text-indigo-200 hover:border-indigo-400/40"
-                        : active
-                          ? item.featured
-                            ? "border border-indigo-400/40 bg-indigo-500/15 text-indigo-100 shadow-[0_0_20px_rgba(99,102,241,0.12)]"
-                            : "border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 shadow-[0_0_20px_rgba(0,229,255,0.08)]"
-                          : "border border-transparent text-slate-500 hover:border-slate-700/50 hover:bg-slate-800/40 hover:text-slate-300"
+                      "flex items-center gap-3 rounded-[6px] border-l-2 px-3 py-2 text-[13px] tracking-tight transition-colors",
+                      active
+                        ? "border-l-[#7FE7DC] bg-white/[0.04] text-[#F3F5F7]"
+                        : item.featured
+                          ? "border-l-[#B7B0D4]/50 text-[#B7B0D4] hover:bg-white/[0.03] hover:text-[#F3F5F7]"
+                          : "border-l-transparent text-[#9AA3B2] hover:bg-white/[0.03] hover:text-[#F3F5F7]"
                     )}
                   >
                     <Icon className="h-4 w-4 shrink-0" />
                     <span className="flex-1">{item.label}</span>
                     {item.badge && (
-                      <span className="rounded border border-indigo-400/40 px-1.5 py-0.5 font-mono text-[8px] uppercase tracking-widest text-indigo-200">
+                      <span className="rounded-[4px] border border-[#B7B0D4]/30 px-1.5 py-0.5 font-mono text-[8px] uppercase tracking-[0.14em] text-[#B7B0D4]">
                         {item.badge}
                       </span>
                     )}
@@ -171,8 +168,8 @@ export function Sidebar({ mobileOpen = false, onNavigate }: SidebarProps) {
         ))}
       </nav>
 
-      <div className="border-t border-cyan-500/10 p-4">
-        <div className="qs-glass-panel rounded-lg p-3">
+      <div className="border-t border-white/[0.08] p-4">
+        <div className="rounded-[6px] border border-white/[0.08] bg-[#141A24] p-3">
           <p className="font-mono text-[10px] uppercase tracking-widest text-slate-600">
             System Status
           </p>

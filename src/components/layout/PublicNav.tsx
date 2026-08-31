@@ -46,11 +46,11 @@ export function PublicNav() {
         <AnnouncementBar />
         <div className="mx-auto flex h-14 min-h-14 max-w-7xl items-center justify-between gap-3 px-4 sm:h-16 sm:px-6 lg:px-8">
           <Link href="/" className="group flex min-w-0 shrink items-center gap-2">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-cyan-400/30 bg-gradient-to-br from-cyan-500/15 to-slate-900/50 shadow-[0_0_20px_rgba(0,229,255,0.15),inset_0_1px_0_rgba(232,244,252,0.08)] transition-all group-hover:border-cyan-300/50 group-hover:shadow-[0_0_28px_rgba(0,229,255,0.25)]">
-              <Zap className="h-4 w-4 text-cyan-300" />
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[6px] border border-white/[0.08] bg-[#141A24]">
+              <Zap className="h-4 w-4 text-[#7FE7DC]" />
             </div>
-            <span className="truncate font-mono text-xs font-bold tracking-wider text-slate-200 sm:text-sm">
-              QUICKSILVER<span className="text-cyan-400">.ALGO</span>
+            <span className="truncate text-xs font-semibold tracking-tight text-[#F3F5F7] sm:text-sm">
+              QUICKSILVER<span className="text-[#7FE7DC]">.ALGO</span>
             </span>
           </Link>
 
@@ -60,10 +60,10 @@ export function PublicNav() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "font-mono text-xs uppercase tracking-widest transition-colors",
+                  "text-[13px] tracking-tight transition-colors",
                   isNavLinkActive(pathname, link.href)
-                    ? "text-cyan-400"
-                    : "text-slate-500 hover:text-slate-300"
+                    ? "text-[#7FE7DC]"
+                    : "text-[#9AA3B2] hover:text-[#F3F5F7]"
                 )}
               >
                 {link.label}
@@ -134,10 +134,10 @@ export function PublicNav() {
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
                 className={cn(
-                  "rounded-lg px-4 py-3 font-mono text-sm uppercase tracking-widest transition-colors",
+                  "rounded-[6px] px-4 py-3 text-sm tracking-tight transition-colors",
                   isNavLinkActive(pathname, link.href)
-                    ? "bg-cyan-500/10 text-cyan-400"
-                    : "text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
+                    ? "bg-white/[0.04] text-[#7FE7DC]"
+                    : "text-[#9AA3B2] hover:bg-white/[0.03] hover:text-[#F3F5F7]"
                 )}
               >
                 {link.label}

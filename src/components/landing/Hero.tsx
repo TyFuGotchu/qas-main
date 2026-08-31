@@ -22,7 +22,7 @@ export function Hero() {
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold-soft">
             {HOME_HERO.eyebrow}
           </p>
-          <h1 className="mt-5 font-mono text-3xl font-bold tracking-tight text-white sm:text-5xl lg:text-[3.15rem] lg:leading-[1.12]">
+          <h1 className="mt-5 text-3xl font-semibold tracking-tight text-[#F3F5F7] sm:text-5xl lg:text-[3.15rem] lg:leading-[1.12]">
             {HOME_HERO.h1}
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-slate-300 sm:text-lg">

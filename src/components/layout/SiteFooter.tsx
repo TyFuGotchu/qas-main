@@ -3,12 +3,9 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FOUNDER, FOUNDER_SOCIAL_LINKS } from "@/lib/founder-social";
-import {
-  E8_COMPLIANCE,
-  E8_DASHBOARD_PATH,
-  E8_PUBLIC_PATH,
-} from "@/lib/e8-partner";
+import { FOUNDER } from "@/lib/founder-social";
+import { FounderSocialIcons } from "@/components/marketing/FounderSocialIcons";
+import { E8_DASHBOARD_PATH, E8_PUBLIC_PATH } from "@/lib/e8-partner";
 import { useSession } from "@/providers/SessionProvider";
 
 const PRODUCT_LINKS = [
@@ -18,6 +15,14 @@ const PRODUCT_LINKS = [
   { href: "/launch", label: "7-Day Playbook" },
   { href: "/quant-protocol", label: "Quant Protocol" },
   { href: "/dashboard/journal", label: "Journal" },
+];
+
+const LEGAL_NOTES = [
+  "Educational tools only.",
+  "Trading and prop evaluations are high risk.",
+  "You can lose money or the evaluation fee.",
+  "No guaranteed pass, payout, or funded account.",
+  "Official E8 rules are set by E8 Markets.",
 ];
 
 export function SiteFooter() {
@@ -32,8 +37,8 @@ export function SiteFooter() {
   }
 
   return (
-    <footer className="mt-auto border-t border-white/[0.06] bg-[#07080c]">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-2 lg:grid-cols-5 lg:px-8">
+    <footer className="mt-auto border-t border-white/[0.08] bg-[#07080C]">
+      <div className="mx-auto grid max-w-7xl gap-8 px-6 py-12 sm:px-8 md:grid-cols-2 lg:grid-cols-5 lg:gap-10 lg:px-10">
         <FooterColumn title="Product">
           {PRODUCT_LINKS.map((link) => (
             <FooterLink key={link.href} href={link.href}>
@@ -50,7 +55,7 @@ export function SiteFooter() {
             <button
               type="button"
               onClick={() => void handleLogout()}
-              className="block font-mono text-xs text-slate-400 hover:text-gold-soft"
+              className="flex h-6 items-center text-[13px] text-[#9AA3B2] transition-colors hover:text-[#7FE7DC]"
             >
               Logout
             </button>
@@ -61,69 +66,58 @@ export function SiteFooter() {
 
         <FooterColumn title="Partner">
           <FooterLink href={E8_PUBLIC_PATH}>E8 Markets Execution Center</FooterLink>
-          <FooterLink href={user ? E8_DASHBOARD_PATH : E8_PUBLIC_PATH}>
-            Direct Signup
-          </FooterLink>
-        </FooterColumn>
-
-        <FooterColumn title="Founder">
-          <p className="font-mono text-xs text-slate-300">Ty</p>
-          {FOUNDER_SOCIAL_LINKS.map((link) => (
-            <a
-              key={link.id}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer me"
-              className="block font-mono text-xs text-slate-400 hover:text-gold-soft"
-            >
-              {link.label}
-            </a>
-          ))}
+          <FooterLink href={user ? E8_DASHBOARD_PATH : E8_PUBLIC_PATH}>Direct Signup</FooterLink>
         </FooterColumn>
 
         <div>
-          <p className="font-mono text-[10px] font-semibold uppercase tracking-widest text-slate-500">
-            Legal / notes
+          <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-[#9AA3B2]">
+            Founder
           </p>
-          <ul className="mt-3 space-y-1.5 text-[11px] leading-relaxed text-slate-500">
-            <li>{E8_COMPLIANCE.educational}</li>
-            <li>Trading and prop evaluations are high risk.</li>
-            <li>You can lose money or the evaluation fee.</li>
-            <li>{E8_COMPLIANCE.noGuarantee}</li>
-            <li>Official E8 rules are set by E8 Markets.</li>
+          <p className="mt-3 text-[13px] font-medium tracking-tight text-[#F3F5F7]">
+            {FOUNDER.legalName}
+          </p>
+          <p className="mt-0.5 text-xs text-[#9AA3B2]">{FOUNDER.company}</p>
+          <FounderSocialIcons className="mt-3 flex-wrap" />
+        </div>
+
+        <div>
+          <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-[#9AA3B2]">
+            Legal
+          </p>
+          <ul className="mt-3 space-y-1.5 text-[11px] leading-5 text-[#9AA3B2]">
+            {LEGAL_NOTES.map((note) => (
+              <li key={note}>{note}</li>
+            ))}
           </ul>
         </div>
       </div>
 
-      <div className="border-t border-white/[0.05] px-4 py-4 text-center">
-        <p className="font-mono text-[10px] text-slate-600">
-          © {year} Quicksilver Algo Systems · Founded by {FOUNDER.firstName} · quicksilveralgo.com
+      <div className="border-t border-white/[0.08] px-6 py-3.5 sm:px-8 lg:px-10">
+        <p className="text-center font-mono text-[10px] tracking-wide text-[#9AA3B2]/70">
+          © {year} Quicksilver Algo Systems · Founded by {FOUNDER.legalName} · quicksilveralgo.com
         </p>
       </div>
     </footer>
   );
 }
 
-function FooterColumn({
-  title,
-  children,
-}: {
-  title: string;
-  children: ReactNode;
-}) {
+function FooterColumn({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div>
-      <p className="font-mono text-[10px] font-semibold uppercase tracking-widest text-slate-500">
+      <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-[#9AA3B2]">
         {title}
       </p>
-      <div className="mt-3 space-y-2">{children}</div>
+      <div className="mt-3 space-y-1">{children}</div>
     </div>
   );
 }
 
 function FooterLink({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Link href={href} className="block font-mono text-xs text-slate-400 hover:text-gold-soft">
+    <Link
+      href={href}
+      className="flex h-6 items-center text-[13px] text-[#9AA3B2] transition-colors hover:text-[#7FE7DC]"
+    >
       {children}
     </Link>
   );

@@ -10,11 +10,11 @@ const config: Config = {
     extend: {
       colors: {
         obsidian: {
-          950: "#0B0C10",
-          900: "#12141A",
-          850: "#0E1016",
-          800: "#1F2833",
-          700: "#2A3441",
+          950: "#07080C",
+          900: "#10141C",
+          850: "#0B0E14",
+          800: "#141A24",
+          700: "#1A2130",
         },
         silver: {
           mist: "#B8C8D8",
@@ -46,7 +46,7 @@ const config: Config = {
         "qs-mercury":
           "linear-gradient(135deg, rgba(232,244,252,0.9) 0%, rgba(102,252,241,0.7) 30%, rgba(0,229,255,0.5) 55%, rgba(184,200,216,0.6) 100%)",
         "qs-header-line":
-          "linear-gradient(90deg, transparent 0%, rgba(201,169,98,0.45) 50%, transparent 100%)",
+          "linear-gradient(90deg, transparent 0%, rgba(127,231,220,0.28) 50%, transparent 100%)",
       },
       backgroundSize: {
         grid: "40px 40px",

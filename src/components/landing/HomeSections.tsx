@@ -50,7 +50,7 @@ function SectionFrame({
 
 function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold-soft">{children}</p>
+    <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-[#9AA3B2]">{children}</p>
   );
 }
 
@@ -59,7 +59,7 @@ export function HomeWorkflow() {
     <SectionFrame className="border-t border-white/[0.05]">
       <div className="mx-auto max-w-6xl">
         <Eyebrow>One workflow</Eyebrow>
-        <h2 className="mt-4 max-w-3xl font-mono text-2xl font-bold text-white sm:text-4xl">
+        <h2 className="mt-4 max-w-3xl text-2xl font-semibold tracking-tight text-[#F3F5F7] sm:text-4xl">
           Plan → Execute → Enforce → Journal → Review
         </h2>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-400">
@@ -70,7 +70,7 @@ export function HomeWorkflow() {
           {HOME_WORKFLOW.map((item) => (
             <li
               key={item.step}
-              className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-5"
+              className="rounded-[8px] border border-white/[0.07] bg-white/[0.02] p-5"
             >
               <p className="font-mono text-[11px] text-gold-muted">{item.step}</p>
               <h3 className="mt-3 font-mono text-lg font-semibold text-white">{item.title}</h3>
@@ -89,7 +89,7 @@ export function HomeLiveGrowth() {
       <div className="mx-auto grid max-w-6xl items-start gap-10 lg:grid-cols-2">
         <div>
           <Eyebrow>{HOME_LIVE_GROWTH.eyebrow}</Eyebrow>
-          <h2 className="mt-4 font-mono text-2xl font-bold text-white sm:text-4xl">
+          <h2 className="mt-4 text-2xl font-semibold tracking-tight text-[#F3F5F7] sm:text-4xl">
             {HOME_LIVE_GROWTH.title}
           </h2>
           <p className="mt-4 text-base leading-relaxed text-slate-400">
@@ -100,7 +100,7 @@ export function HomeLiveGrowth() {
           {HOME_LIVE_GROWTH.points.map((item) => (
             <li
               key={item}
-              className="flex gap-3 rounded-xl border border-white/[0.07] bg-white/[0.02] px-4 py-3 text-sm text-slate-200"
+              className="flex gap-3 rounded-[8px] border border-white/[0.07] bg-white/[0.02] px-4 py-3 text-sm text-slate-200"
             >
               <Check className="mt-0.5 h-4 w-4 shrink-0 text-gold-soft" />
               {item}
@@ -118,7 +118,7 @@ export function HomePropModule() {
       <div className="mx-auto grid max-w-6xl items-start gap-10 lg:grid-cols-2">
         <div>
           <Eyebrow>{HOME_PROP_MODULE.eyebrow}</Eyebrow>
-          <h2 className="mt-4 font-mono text-2xl font-bold text-white sm:text-4xl">
+          <h2 className="mt-4 text-2xl font-semibold tracking-tight text-[#F3F5F7] sm:text-4xl">
             {HOME_PROP_MODULE.title}
           </h2>
           <p className="mt-4 text-base leading-relaxed text-slate-400">
@@ -140,7 +140,7 @@ export function HomePropModule() {
           {HOME_PROP_MODULE.points.map((item) => (
             <li
               key={item}
-              className="flex gap-3 rounded-xl border border-white/[0.07] bg-white/[0.02] px-4 py-3 text-sm text-slate-200"
+              className="flex gap-3 rounded-[8px] border border-white/[0.07] bg-white/[0.02] px-4 py-3 text-sm text-slate-200"
             >
               <Check className="mt-0.5 h-4 w-4 shrink-0 text-gold-soft" />
               {item}
@@ -157,14 +157,14 @@ export function HomeWhyE8() {
     <SectionFrame className="border-t border-white/[0.05]">
       <div className="mx-auto max-w-6xl">
         <Eyebrow>Official E8 Markets Partner</Eyebrow>
-        <h2 className="mt-4 font-mono text-2xl font-bold text-white sm:text-4xl">
+        <h2 className="mt-4 text-2xl font-semibold tracking-tight text-[#F3F5F7] sm:text-4xl">
           {E8_WHY.title}
         </h2>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {E8_WHY.points.map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-indigo-400/15 bg-indigo-500/[0.04] p-5"
+              className="rounded-[8px] border border-indigo-400/15 bg-indigo-500/[0.04] p-5"
             >
               <h3 className="font-mono text-sm font-semibold text-indigo-100">{item.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-slate-400">{item.text}</p>
@@ -181,7 +181,7 @@ export function HomeE8Presets() {
     <SectionFrame className="border-t border-white/[0.05]">
       <div className="mx-auto max-w-6xl">
         <Eyebrow>Guardrails</Eyebrow>
-        <h2 className="mt-4 font-mono text-2xl font-bold text-white sm:text-4xl">
+        <h2 className="mt-4 text-2xl font-semibold tracking-tight text-[#F3F5F7] sm:text-4xl">
           E8-mapped risk presets
         </h2>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-400">
@@ -192,7 +192,7 @@ export function HomeE8Presets() {
           {E8_PRESETS.map((preset) => (
             <article
               key={preset.id}
-              className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-5"
+              className="rounded-[8px] border border-white/[0.07] bg-white/[0.02] p-5"
             >
               <div className="flex items-center justify-between gap-2">
                 <h3 className="font-mono text-sm font-semibold text-white">{preset.name}</h3>
@@ -220,14 +220,14 @@ export function HomeE8Promos() {
     <SectionFrame className="border-t border-white/[0.05]">
       <div className="mx-auto max-w-6xl">
         <Eyebrow>Live campaigns</Eyebrow>
-        <h2 className="mt-4 font-mono text-2xl font-bold text-white sm:text-4xl">
+        <h2 className="mt-4 text-2xl font-semibold tracking-tight text-[#F3F5F7] sm:text-4xl">
           Giveaways and launch offers
         </h2>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {live.map((item) => (
             <article
               key={item.id}
-              className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-5"
+              className="rounded-[8px] border border-white/[0.07] bg-white/[0.02] p-5"
             >
               <h3 className="font-mono text-sm font-semibold text-white">{item.name}</h3>
               <p className="mt-2 text-sm leading-relaxed text-slate-400">{item.blurb}</p>
@@ -244,7 +244,7 @@ export function HomeTradeLockerNative() {
     <SectionFrame className="border-t border-white/[0.05]">
       <div className="mx-auto max-w-3xl">
         <Eyebrow>Platform</Eyebrow>
-        <h2 className="mt-4 font-mono text-2xl font-bold text-white sm:text-4xl">
+        <h2 className="mt-4 text-2xl font-semibold tracking-tight text-[#F3F5F7] sm:text-4xl">
           {HOME_TRADELOCKER.title}
         </h2>
         <p className="mt-4 text-base leading-relaxed text-slate-400">
@@ -273,7 +273,7 @@ export function HomeQuantProtocol() {
             {HOME_QUANT.premiumNote}
           </span>
         </div>
-        <h2 className="mt-4 font-mono text-2xl font-bold text-white sm:text-4xl">
+        <h2 className="mt-4 text-2xl font-semibold tracking-tight text-[#F3F5F7] sm:text-4xl">
           {HOME_QUANT.title}
         </h2>
         <p className="mt-4 text-base leading-relaxed text-slate-400">{HOME_QUANT.subhead}</p>
@@ -314,13 +314,13 @@ export function HomeToolsGrid() {
     <SectionFrame className="border-t border-white/[0.05]">
       <div className="mx-auto max-w-6xl">
         <Eyebrow>Desk tools</Eyebrow>
-        <h2 className="mt-4 font-mono text-2xl font-bold text-white sm:text-3xl">
+        <h2 className="mt-4 text-2xl font-semibold tracking-tight text-[#F3F5F7] sm:text-3xl">
           Planning, academy, and the live desk
         </h2>
         <div className="mt-10 grid gap-4 md:grid-cols-3">
           <Link
             href="/tools"
-            className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-6 transition-colors hover:border-gold-soft/35"
+            className="rounded-[8px] border border-white/[0.07] bg-white/[0.02] p-6 transition-colors hover:border-gold-soft/35"
           >
             <h3 className="font-mono text-lg font-bold text-white">
               {TOOL_COUNT} planning engines
@@ -333,7 +333,7 @@ export function HomeToolsGrid() {
           </Link>
           <Link
             href="/lessons"
-            className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-6 transition-colors hover:border-gold-soft/35"
+            className="rounded-[8px] border border-white/[0.07] bg-white/[0.02] p-6 transition-colors hover:border-gold-soft/35"
           >
             <h3 className="font-mono text-lg font-bold text-white">Chart Academy</h3>
             <p className="mt-3 text-sm leading-relaxed text-slate-400">
@@ -342,7 +342,7 @@ export function HomeToolsGrid() {
             </p>
             <p className="mt-4 font-mono text-xs text-gold-soft">Open academy →</p>
           </Link>
-          <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-6">
+          <div className="rounded-[8px] border border-white/[0.07] bg-white/[0.02] p-6">
             <h3 className="font-mono text-lg font-bold text-white">Journal + review</h3>
             <p className="mt-3 text-sm leading-relaxed text-slate-400">
               Emotion, discipline, and habit tracking in the journal. Post-session review so the
@@ -360,11 +360,11 @@ export function HomeComparison() {
     <SectionFrame className="border-t border-white/[0.05]">
       <div className="mx-auto max-w-5xl">
         <Eyebrow>Why one stack</Eyebrow>
-        <h2 className="mt-4 text-center font-mono text-2xl font-bold text-white sm:text-4xl">
+        <h2 className="mt-4 text-center text-2xl font-semibold tracking-tight text-[#F3F5F7] sm:text-4xl">
           {HOME_COMPARISON.title}
         </h2>
         <div className="mt-12 grid gap-6 md:grid-cols-2">
-          <div className="rounded-xl border border-white/[0.06] bg-white/[0.015] p-6">
+          <div className="rounded-[8px] border border-white/[0.06] bg-white/[0.015] p-6">
             <h3 className="font-mono text-sm uppercase tracking-widest text-slate-500">
               {HOME_COMPARISON.scattered.label}
             </h3>
@@ -377,7 +377,7 @@ export function HomeComparison() {
               ))}
             </ul>
           </div>
-          <div className="rounded-xl border border-gold-soft/30 bg-gold-soft/[0.04] p-6">
+          <div className="rounded-[8px] border border-gold-soft/30 bg-gold-soft/[0.04] p-6">
             <h3 className="font-mono text-sm uppercase tracking-widest text-gold-soft">
               {HOME_COMPARISON.stack.label}
             </h3>
@@ -404,11 +404,11 @@ export function HomePricingChooser() {
     >
       <div id="pricing" className="mx-auto max-w-5xl scroll-mt-28">
         <Eyebrow>{HOME_PRICING.chooserLabel}</Eyebrow>
-        <h2 className="mt-4 text-center font-mono text-2xl font-bold text-white sm:text-4xl">
+        <h2 className="mt-4 text-center text-2xl font-semibold tracking-tight text-[#F3F5F7] sm:text-4xl">
           {HOME_PRICING.title}
         </h2>
         <div className="mt-12 grid gap-6 md:grid-cols-2">
-          <article className="flex flex-col rounded-2xl border border-gold-soft/35 bg-gold-soft/[0.05] p-7">
+          <article className="flex flex-col rounded-[8px] border border-gold-soft/35 bg-gold-soft/[0.05] p-7">
             <h3 className="font-mono text-xl font-bold text-white">
               {HOME_PRICING.discount.name}
             </h3>
@@ -434,7 +434,7 @@ export function HomePricingChooser() {
             </div>
           </article>
 
-          <article className="flex flex-col rounded-2xl border border-white/[0.08] bg-white/[0.02] p-7">
+          <article className="flex flex-col rounded-[8px] border border-white/[0.08] bg-white/[0.02] p-7">
             <h3 className="font-mono text-xl font-bold text-white">{HOME_PRICING.trial.name}</h3>
             <p className="mt-4 font-mono text-4xl font-bold text-white">
               {HOME_PRICING.trial.price}
@@ -468,7 +468,7 @@ export function HomeAudience() {
   return (
     <SectionFrame className="border-t border-white/[0.05] py-16 sm:py-20">
       <div className="mx-auto grid max-w-5xl gap-6 md:grid-cols-2">
-        <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-6">
+        <div className="rounded-[8px] border border-white/[0.07] bg-white/[0.02] p-6">
           <h2 className="font-mono text-lg font-bold text-white">Who it’s for</h2>
           <ul className="mt-4 space-y-3">
             {HOME_FOR.map((item) => (
@@ -479,7 +479,7 @@ export function HomeAudience() {
             ))}
           </ul>
         </div>
-        <div className="rounded-xl border border-white/[0.06] bg-white/[0.015] p-6">
+        <div className="rounded-[8px] border border-white/[0.06] bg-white/[0.015] p-6">
           <h2 className="font-mono text-lg font-bold text-white">Who it’s not for</h2>
           <ul className="mt-4 space-y-3">
             {HOME_NOT_FOR.map((item) => (
@@ -504,7 +504,7 @@ export function HomeFaq() {
           {HOME_FAQS.map((item) => (
             <div
               key={item.question}
-              className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-5"
+              className="rounded-[8px] border border-white/[0.07] bg-white/[0.02] p-5"
             >
               <dt className="font-mono text-sm font-semibold text-white">{item.question}</dt>
               <dd className="mt-2 text-sm leading-relaxed text-slate-400">{item.answer}</dd>
@@ -525,7 +525,7 @@ export function HomeFinalCta() {
   return (
     <SectionFrame className="pb-28 md:pb-24">
       <div className="mx-auto max-w-3xl text-center">
-        <h2 className="font-mono text-2xl font-bold text-white sm:text-3xl">
+        <h2 className="text-2xl font-semibold tracking-tight text-[#F3F5F7] sm:text-3xl">
           Start with structure. Add automation only if you need it.
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-slate-400">

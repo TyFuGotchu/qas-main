@@ -8,7 +8,7 @@ export function HomeHeroVideo() {
       <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-gold-muted">
         Watch the stack
       </p>
-      <div className="overflow-hidden rounded-xl border border-white/[0.08] bg-slate-950 shadow-[0_24px_60px_rgba(0,0,0,0.35)]">
+      <div className="overflow-hidden rounded-[8px] border border-white/[0.08] bg-[#10141C]">
         <div className="relative aspect-video w-full">
           <iframe
             className="absolute inset-0 h-full w-full"

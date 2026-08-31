@@ -5,13 +5,15 @@ export default function DashboardE8Page() {
   return (
     <div className="space-y-6">
       <header>
-        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-indigo-300">
-          {E8_PARTNER_LINE}
-        </p>
-        <h1 className="mt-2 font-mono text-2xl font-bold text-slate-100">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="rounded-[4px] border border-[#B7B0D4]/30 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-[#B7B0D4]">
+            {E8_PARTNER_LINE}
+          </span>
+        </div>
+        <h1 className="mt-3 text-2xl font-semibold tracking-tight text-[#F3F5F7]">
           {E8_OVERVIEW.title}
         </h1>
-        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-500">
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#9AA3B2]">
           {E8_POSITIONING}
         </p>
       </header>

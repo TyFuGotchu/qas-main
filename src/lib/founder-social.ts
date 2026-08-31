@@ -6,8 +6,10 @@
 export const FOUNDER = {
   handle: "TyFuGotchu",
   firstName: "Ty",
+  legalName: "Ty Fugate",
   displayName: "TyFuGotchu",
   role: "Founder of Quicksilver Algo Systems",
+  company: "Quicksilver Algo Systems",
   shortBio: "Founder · Quicksilver Algo Systems",
 } as const;
 

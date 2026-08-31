@@ -8,16 +8,16 @@ interface BadgeProps {
 
 export function Badge({ children, className, variant = "default" }: BadgeProps) {
   const variants = {
-    default: "bg-slate-800 text-slate-300 border-slate-600",
-    success: "bg-emerald-500/20 text-emerald-400 border-emerald-500/40",
-    warning: "bg-amber-500/20 text-amber-400 border-amber-500/40",
-    danger: "bg-red-500/20 text-red-400 border-red-500/40",
+    default: "border-white/[0.08] bg-transparent text-[#9AA3B2]",
+    success: "border-[#7FE7DC]/25 bg-transparent text-[#7FE7DC]",
+    warning: "border-[#B7B0D4]/30 bg-transparent text-[#B7B0D4]",
+    danger: "border-red-500/30 bg-transparent text-red-400",
   };
 
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded border px-2 py-0.5 text-xs font-mono uppercase tracking-wider",
+        "inline-flex items-center rounded-[4px] border px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em]",
         variants[variant],
         className
       )}

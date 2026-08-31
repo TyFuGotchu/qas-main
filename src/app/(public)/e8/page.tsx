@@ -34,13 +34,18 @@ export default function E8PublicPage() {
           { name: "E8 Execution Center", path: E8_PUBLIC_PATH },
         ])}
       />
-      <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-indigo-300">
-        {E8_PARTNER_LINE}
-      </p>
-      <h1 className="mt-4 font-mono text-3xl font-bold text-white sm:text-4xl">
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="rounded-[4px] border border-[#B7B0D4]/30 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-[#B7B0D4]">
+          {E8_PARTNER_LINE}
+        </span>
+        <span className="rounded-[4px] border border-[#B7B0D4]/30 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-[#B7B0D4]">
+          Exclusive
+        </span>
+      </div>
+      <h1 className="mt-4 text-3xl font-semibold tracking-tight text-[#F3F5F7] sm:text-4xl">
         {E8_FIRM_NAME} Execution Center
       </h1>
-      <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-400">
+      <p className="mt-3 max-w-2xl text-base leading-relaxed text-[#9AA3B2]">
         {E8_POSITIONING}
       </p>
       <div className="mt-10">
