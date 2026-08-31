@@ -205,7 +205,11 @@ export function HomeE8Presets() {
               <div className="flex items-center justify-between gap-2">
                 <h3 className="font-mono text-sm font-semibold text-white">{preset.name}</h3>
                 <span className="font-mono text-[10px] uppercase tracking-widest text-indigo-300">
-                  {preset.live ? "Live planning" : "Coming soon"}
+                  {preset.live
+                    ? preset.kind === "flatten"
+                      ? "Live"
+                      : "Live planning"
+                    : "Coming soon"}
                 </span>
               </div>
               <p className="mt-2 text-sm leading-relaxed text-slate-400">{preset.intent}</p>

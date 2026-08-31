@@ -238,16 +238,17 @@ export const E8_PRESETS = [
     id: "hard-equity-stop",
     name: "Hard equity-stop automation",
     intent: "Forced flatten at a desk-defined equity floor.",
-    live: false,
-    kind: "coming-soon",
+    live: true,
+    kind: "flatten",
     productId: "one",
     productName: "E8 One",
-    code: "SOON",
+    code: "HARD-FLAT",
     defaultDailyPct: 4,
     defaultDdPct: 8,
     hasDailyCap: false,
     eod: false,
-    warning: "Hard flatten is not live. Do not assume automatic close.",
+    warning:
+      "Hard equity-stop flatten is live. Forced flatten at the desk-defined equity floor. This does not guarantee an E8 pass. Official rules are set by E8 Markets.",
   },
 ] as const;
 

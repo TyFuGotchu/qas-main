@@ -6,6 +6,7 @@ import { InstitutionalBackdrop } from "@/components/layout/InstitutionalBackdrop
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
 import { E8DashboardPartnerBar } from "@/components/e8/E8PartnerBar";
+import { HardFlatWatcher } from "@/components/e8/HardFlatWatcher";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { ToastProvider } from "@/components/ui/Toast";
 
@@ -30,6 +31,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
 
   return (
     <ToastProvider>
+      <HardFlatWatcher />
       <div className="qs-environment relative min-h-screen overflow-x-hidden">
         <InstitutionalBackdrop variant="dashboard" />
         {mobileNavOpen && (

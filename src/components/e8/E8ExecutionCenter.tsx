@@ -29,6 +29,7 @@ import { E8ComplianceNote } from "@/components/e8/E8ComplianceNote";
 import { E8SignupButton } from "@/components/e8/E8SignupButton";
 import { E8RulesDesk } from "@/components/e8/E8RulesDesk";
 import { E8PresetDesk } from "@/components/e8/E8PresetDesk";
+import { HardFlatDesk } from "@/components/e8/HardFlatDesk";
 import { cn } from "@/lib/utils";
 
 interface E8ExecutionCenterProps {
@@ -195,7 +196,11 @@ function SignupTab() {
 function PresetsTab() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selectedRaw = E8_PRESETS.find((p) => p.id === selectedId);
-  const selected = selectedRaw && isLiveE8Preset(selectedRaw) ? selectedRaw : null;
+  const selectedPlanning =
+    selectedRaw && selectedRaw.id !== "hard-equity-stop" && isLiveE8Preset(selectedRaw)
+      ? selectedRaw
+      : null;
+  const selectedHardFlat = selectedRaw?.id === "hard-equity-stop" && selectedRaw.live;
 
   return (
     <div>
@@ -234,7 +239,8 @@ function PresetsTab() {
           );
         })}
       </div>
-      {selected && <E8PresetDesk key={selected.id} preset={selected} />}
+      {selectedHardFlat && <HardFlatDesk />}
+      {selectedPlanning && <E8PresetDesk key={selectedPlanning.id} preset={selectedPlanning} />}
     </div>
   );
 }
