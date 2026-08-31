@@ -14,6 +14,7 @@ import {
   E8_OVERVIEW_CHIPS,
   E8_PARTNER_LINE,
   E8_PRESETS,
+  isLiveE8Preset,
   E8_PUBLIC_PATH,
   E8_SERIES,
   E8_SIGNUP,
@@ -158,7 +159,8 @@ function SignupTab() {
 
 function PresetsTab() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const selected = E8_PRESETS.find((p) => p.id === selectedId && p.live);
+  const selectedRaw = E8_PRESETS.find((p) => p.id === selectedId);
+  const selected = selectedRaw && isLiveE8Preset(selectedRaw) ? selectedRaw : null;
 
   return (
     <div>

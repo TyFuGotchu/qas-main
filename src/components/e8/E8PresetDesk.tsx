@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { E8SignupButton } from "@/components/e8/E8SignupButton";
 import Button from "@/components/ui/Button";
-import { E8_PRESETS } from "@/lib/e8-partner";
+import { type LiveE8Preset } from "@/lib/e8-partner";
 import {
   computePresetGuard,
   signatureDdPctForSize,
@@ -15,9 +15,7 @@ import { cn } from "@/lib/utils";
 
 const SESSION_KEY = "qs-e8-applied-preset";
 
-type LivePreset = Extract<(typeof E8_PRESETS)[number], { live: true }>;
-
-export function E8PresetDesk({ preset }: { preset: LivePreset }) {
+export function E8PresetDesk({ preset }: { preset: LiveE8Preset }) {
   const { dashboard, tlConnected, lastGoodAt, error } =
     useConnectedTradeLockerDashboard({
       refreshIntervalMs: TRADELOCKER_LIVE_REFRESH_MS,

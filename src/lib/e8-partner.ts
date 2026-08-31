@@ -251,6 +251,13 @@ export const E8_PRESETS = [
   },
 ] as const;
 
+export type E8Preset = (typeof E8_PRESETS)[number];
+export type LiveE8Preset = Exclude<E8Preset, { live: false }>;
+
+export function isLiveE8Preset(preset: E8Preset): preset is LiveE8Preset {
+  return preset.live === true;
+}
+
 export const E8_GIVEAWAYS = [
   {
     id: "zero-to-funded",
