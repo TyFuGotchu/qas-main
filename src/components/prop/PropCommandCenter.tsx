@@ -166,7 +166,10 @@ export function PropCommandCenter() {
             Prop Command Center
           </h2>
           <p className="mt-1 font-mono text-sm text-slate-500">
-            Live risk telemetry + challenge survival — wired to your profile
+            Live risk telemetry + challenge survival — wired to your profile.{" "}
+            <Link href="/dashboard/e8" className="text-[#7FE7DC] hover:underline">
+              E8 Execution Center
+            </Link>
           </p>
         </div>
         <div className="flex flex-wrap gap-2">

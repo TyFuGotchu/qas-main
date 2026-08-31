@@ -108,6 +108,11 @@ export default function PlaybookLaunchPage() {
               Free Playbook Preview
             </Button>
           </Link>
+          <Link href="/e8">
+            <Button variant="ghost" size="lg">
+              E8 Execution Center
+            </Button>
+          </Link>
         </div>
         <p className="mt-4 font-mono text-xs text-slate-600">
           Already have an account?{" "}

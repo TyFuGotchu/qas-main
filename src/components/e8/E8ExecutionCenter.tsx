@@ -11,14 +11,13 @@ import {
   E8_DASHBOARD_PATH,
   E8_EXCLUSIVE_LINE,
   E8_OVERVIEW,
+  E8_OVERVIEW_CHIPS,
   E8_PARTNER_LINE,
   E8_PRESETS,
   E8_PUBLIC_PATH,
-  E8_RULES,
   E8_SERIES,
   E8_SIGNUP,
   type E8CenterTab,
-  getE8ReferralUrl,
   getE8XUrl,
   getE8YoutubeUrl,
   getLiveDiscounts,
@@ -26,6 +25,7 @@ import {
 } from "@/lib/e8-partner";
 import { E8ComplianceNote } from "@/components/e8/E8ComplianceNote";
 import { E8SignupButton } from "@/components/e8/E8SignupButton";
+import { E8RulesDesk } from "@/components/e8/E8RulesDesk";
 import { cn } from "@/lib/utils";
 
 interface E8ExecutionCenterProps {
@@ -92,8 +92,13 @@ export function E8ExecutionCenter({
       </div>
 
       <div className={variant === "card" ? "mt-5" : "p-5 sm:p-6"}>
-        {active === "overview" && <OverviewTab />}
-        {active === "rules" && <RulesTab />}
+        {active === "overview" && (
+          <OverviewTab
+            context={context}
+            onOpenPresets={() => setTab("presets")}
+          />
+        )}
+        {active === "rules" && <E8RulesDesk />}
         {active === "signup" && <SignupTab />}
         {active === "presets" && <PresetsTab />}
         {active === "promos" && <PromosTab />}
@@ -105,52 +110,44 @@ export function E8ExecutionCenter({
   );
 }
 
-function OverviewTab() {
+function OverviewTab({
+  context,
+  onOpenPresets,
+}: {
+  context: "public" | "dashboard";
+  onOpenPresets: () => void;
+}) {
   return (
     <div>
       <p className="text-sm leading-relaxed text-[#F3F5F7]">{E8_EXCLUSIVE_LINE}</p>
-      <ul className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
-        {E8_OVERVIEW.stack.map((item) => (
-          <li
-            key={item}
-            className="flex min-h-[72px] items-center rounded-[6px] border border-white/[0.08] bg-[#141A24] px-4 py-3 text-sm text-[#9AA3B2]"
-          >
-            {item}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-function RulesTab() {
-  return (
-    <div>
-      <p className="text-sm leading-relaxed text-slate-400">{E8_RULES.intro}</p>
-      <div className="mt-5 grid gap-3">
-        {E8_RULES.frames.map((frame) => (
-          <article
-            key={frame.id}
-            className="rounded-[6px] border border-white/[0.08] bg-[#141A24] p-4"
-          >
-            <h3 className="font-mono text-sm font-semibold text-white">{frame.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-slate-400">{frame.text}</p>
-          </article>
-        ))}
+      <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
+        {E8_OVERVIEW_CHIPS.map((chip) => {
+          const className =
+            "flex min-h-[72px] items-center rounded-[6px] border border-white/[0.08] bg-[#141A24] px-4 py-3 text-left text-sm text-[#9AA3B2] transition-colors hover:border-[#7FE7DC]/30 hover:text-[#F3F5F7]";
+          if ("tab" in chip) {
+            return (
+              <button key={chip.id} type="button" onClick={onOpenPresets} className={className}>
+                {chip.text}
+              </button>
+            );
+          }
+          const href = context === "dashboard" ? chip.hrefDash : chip.hrefPublic;
+          return (
+            <Link key={chip.id} href={href} className={className}>
+              {chip.text}
+            </Link>
+          );
+        })}
       </div>
-      <p className="mt-4 text-sm text-slate-400">{E8_RULES.officialClose}</p>
     </div>
   );
 }
 
 function SignupTab() {
-  const href = getE8ReferralUrl();
   return (
     <div>
-      <h3 className="font-mono text-lg font-semibold text-white">{E8_SIGNUP.cta}</h3>
-      <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-400">
-        {href ? E8_SIGNUP.liveBody : E8_SIGNUP.pendingBody}
-      </p>
+      <h3 className="text-lg font-semibold tracking-tight text-[#F3F5F7]">{E8_SIGNUP.cta}</h3>
+      <p className="mt-2 max-w-xl text-sm leading-relaxed text-[#9AA3B2]">{E8_SIGNUP.liveBody}</p>
       <div className="mt-6">
         <E8SignupButton />
       </div>

@@ -9,7 +9,7 @@ import { TOOL_COUNT } from "@/lib/tools-registry";
 import { CHART_ACADEMY_STATS } from "@/lib/premium-includes";
 
 /** Bump when money-page content materially improves (sitemap + schema freshness). */
-export const SEO_RECOVERY_REFRESHED = "2026-08-24";
+export const SEO_RECOVERY_REFRESHED = "2026-08-29";
 
 export type MoneyPageLink = {
   href: string;
@@ -31,7 +31,7 @@ export const MONEY_PAGES: MoneyPageLink[] = [
     href: "/e8",
     title: "E8 Execution Center",
     description:
-      "Official E8 Markets partner hub: challenge rules, risk presets, direct signup, and campaign previews.",
+      "TradeLocker workflow for E8 Markets: E8 One, E8 Pro, and E8 Signature rule maps, risk presets, and direct signup.",
     priority: "core",
   },
   {

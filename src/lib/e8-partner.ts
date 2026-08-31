@@ -58,8 +58,11 @@ function publicEnv(name: string): string {
   return process.env[name]?.trim() || "";
 }
 
-export function getE8ReferralUrl(): string | null {
-  return publicEnv(E8_REFERRAL_LINK_ENV) || null;
+export const E8_AFFILIATE_URL = "https://e8markets.com/d/C19F0A0D";
+export const E8_AFFILIATE_CODE = "C19F0A0D";
+
+export function getE8ReferralUrl(): string {
+  return publicEnv(E8_REFERRAL_LINK_ENV) || E8_AFFILIATE_URL;
 }
 
 export function getE8YoutubeUrl(): string | null {
@@ -135,12 +138,36 @@ export const E8_RULES = {
 
 export const E8_SIGNUP = {
   cta: "Open E8 Account",
-  pendingBody:
-    "Partner signup link is being connected. Check back here for the official Quicksilver referral path.",
-  pendingCta: "Notify Me / Check Back Soon",
   liveBody:
     "Open your E8 account through the official Quicksilver referral path so attribution stays on this desk.",
+  codeHint: `Use code ${E8_AFFILIATE_CODE} at checkout if the code field is shown.`,
 } as const;
+
+export const E8_OVERVIEW_CHIPS = [
+  {
+    id: "playbook",
+    text: "Plan → execute → enforce risk → journal → review",
+    hrefPublic: "/launch",
+    hrefDash: "/dashboard/playbook",
+  },
+  {
+    id: "presets",
+    text: "E8-mapped risk presets (software guardrails)",
+    tab: "presets" as const,
+  },
+  {
+    id: "growth",
+    text: "Live growth terminal for funded / live-account operators",
+    hrefPublic: "/dashboard/live-growth",
+    hrefDash: "/dashboard/live-growth",
+  },
+  {
+    id: "quant",
+    text: "Optional Quant Protocol on Premium — not the whole product",
+    hrefPublic: "/quant-protocol",
+    hrefDash: "/quant-protocol",
+  },
+] as const;
 
 export const E8_PRESETS = [
   {

@@ -24,8 +24,9 @@ export default function PlaybookDashboardPage() {
 
       <PlaybookChallengeWidget variant="full" />
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {[
+          { href: "/dashboard/e8", label: "E8 Execution Center", desc: "One / Pro / Signature maps" },
           { href: "/dashboard/tools/prop-survival", label: "Prop Survival", desc: "Simulate before day 1" },
           { href: "/dashboard/journal", label: "Trade Journal", desc: "Log every session" },
           { href: "/dashboard/prop-command", label: "Prop OS", desc: "Live risk telemetry" },

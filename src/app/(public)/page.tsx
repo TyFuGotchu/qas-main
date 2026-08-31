@@ -38,7 +38,11 @@ export const metadata: Metadata = rankingPageMetadata({
   keywords: [
     "E8 Markets",
     "E8 Execution Center",
+    "E8 One",
+    "E8 Pro",
+    "E8 Signature",
     "TradeLocker Desktop trading OS",
+    "prop firm evaluation",
     "trading journal and risk workflow",
     "live growth terminal",
     "Quicksilver Quant Protocol",

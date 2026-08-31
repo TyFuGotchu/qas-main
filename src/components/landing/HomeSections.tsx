@@ -30,6 +30,7 @@ import {
   getLiveDiscounts,
   getLiveGiveaways,
 } from "@/lib/e8-partner";
+import { E8SignupButton } from "@/components/e8/E8SignupButton";
 import { cn } from "@/lib/utils";
 
 function SectionFrame({
@@ -160,6 +161,10 @@ export function HomeWhyE8() {
         <h2 className="mt-4 text-2xl font-semibold tracking-tight text-[#F3F5F7] sm:text-4xl">
           {E8_WHY.title}
         </h2>
+        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-[#9AA3B2]">
+          E8 Markets is the exclusive recommended prop firm. Map E8 One, E8 Pro, and E8
+          Signature evaluations on TradeLocker with Quicksilver risk presets.
+        </p>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {E8_WHY.points.map((item) => (
             <article
@@ -170,6 +175,9 @@ export function HomeWhyE8() {
               <p className="mt-2 text-sm leading-relaxed text-slate-400">{item.text}</p>
             </article>
           ))}
+        </div>
+        <div className="mt-8">
+          <E8SignupButton />
         </div>
       </div>
     </SectionFrame>

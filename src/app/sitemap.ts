@@ -23,6 +23,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
     { url: SITE_URL, lastModified: SITE_UPDATED, changeFrequency: "weekly", priority: 1 },
     {
+      url: `${SITE_URL}/e8`,
+      lastModified: SITE_UPDATED,
+      changeFrequency: "weekly",
+      priority: 0.97,
+    },
+    {
       url: `${SITE_URL}/launch`,
       lastModified: SITE_UPDATED,
       changeFrequency: "weekly",
