@@ -7,6 +7,7 @@ import {
   SELECTED_ACCOUNT_CHANGED_EVENT,
   SELECTED_ACCOUNT_STORAGE_KEY,
 } from "@/lib/tradelocker/selected-account";
+import { TRADELOCKER_LIVE_REFRESH_MS } from "@/lib/tradelocker/constants";
 import type {
   TradeLockerAccount,
   TradeLockerDashboardData,
@@ -19,7 +20,7 @@ interface UseConnectedTradeLockerDashboardOptions {
 export function useConnectedTradeLockerDashboard(
   options: UseConnectedTradeLockerDashboardOptions = {}
 ) {
-  const { refreshIntervalMs = 60_000 } = options;
+  const { refreshIntervalMs = TRADELOCKER_LIVE_REFRESH_MS } = options;
 
   const [dashboard, setDashboard] = useState<TradeLockerDashboardData | null>(
     null
@@ -29,10 +30,10 @@ export function useConnectedTradeLockerDashboard(
   const [tlConnected, setTlConnected] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [lastGoodAt, setLastGoodAt] = useState<number | null>(null);
 
   const load = useCallback(async (showSpinner: boolean) => {
     if (showSpinner) setLoading(true);
-    setError(null);
 
     try {
       const statusRes = await fetch("/api/tradelocker/status", {
@@ -41,8 +42,7 @@ export function useConnectedTradeLockerDashboard(
 
       if (!statusRes.ok) {
         setTlConnected(false);
-        setSelectedAccount(null);
-        setDashboard(null);
+        setError("TradeLocker status unavailable");
         return;
       }
 
@@ -61,8 +61,6 @@ export function useConnectedTradeLockerDashboard(
       });
 
       if (!accountsRes.ok) {
-        setSelectedAccount(null);
-        setDashboard(null);
         setError("Failed to load TradeLocker accounts");
         if (accountsRes.status === 401) setTlConnected(false);
         return;
@@ -90,7 +88,6 @@ export function useConnectedTradeLockerDashboard(
       });
 
       if (!dashRes.ok) {
-        setDashboard(null);
         setError("Failed to load account dashboard");
         if (dashRes.status === 401) setTlConnected(false);
         return;
@@ -102,6 +99,8 @@ export function useConnectedTradeLockerDashboard(
         positions: dash.positions ?? [],
         tradesToday: dash.tradesToday ?? 0,
       });
+      setLastGoodAt(Date.now());
+      setError(null);
     } catch {
       setError("Network error loading TradeLocker data");
     } finally {
@@ -163,6 +162,7 @@ export function useConnectedTradeLockerDashboard(
     tlConnected,
     loading,
     error,
+    lastGoodAt,
     refresh: () => load(false),
   };
 }

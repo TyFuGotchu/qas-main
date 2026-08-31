@@ -95,6 +95,7 @@ export function TradeLockerLiveDashboard() {
     dashboard,
     instruments,
     error,
+    lastGoodAt,
     refreshStatus,
     refreshAccounts,
     placeOrder,
@@ -361,7 +362,12 @@ export function TradeLockerLiveDashboard() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-wrap items-center gap-3">
-          <Badge variant="success">Live TradeLocker</Badge>
+          <Badge variant="success">Near-live TradeLocker</Badge>
+          {lastGoodAt && (
+            <span className="font-mono text-[10px] text-slate-500">
+              Refreshed every few seconds · last good {new Date(lastGoodAt).toLocaleTimeString()}
+            </span>
+          )}
           {environment && (
             <Badge variant="warning">
               {environment === "demo" ? "Demo API" : "Live API"}

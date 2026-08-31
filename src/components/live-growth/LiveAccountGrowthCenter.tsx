@@ -55,6 +55,7 @@ export function LiveAccountGrowthCenter() {
     dashboard,
     selectedAccountLabel,
     tlConnected,
+    lastGoodAt,
   } = useConnectedTradeLockerDashboard();
 
   const [profile, setProfile] = useState<TraderProfileView | null>(null);
@@ -198,6 +199,12 @@ export function LiveAccountGrowthCenter() {
           <p className="mt-1 font-mono text-sm text-slate-500">
             Scale your own capital like a professional — milestones, compounding
             & session edge
+            {tlConnected && (
+              <span className="mt-1 block text-[11px] text-slate-600">
+                Near-live TradeLocker · refreshed every few seconds
+                {lastGoodAt ? ` · last good ${new Date(lastGoodAt).toLocaleTimeString()}` : ""}
+              </span>
+            )}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">

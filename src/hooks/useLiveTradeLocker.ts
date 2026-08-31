@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { clearSelectedTradeLockerAccount } from "@/lib/tradelocker/selected-account";
+import { TRADELOCKER_LIVE_REFRESH_MS } from "@/lib/tradelocker/constants";
 import type {
   TradeLockerAccount,
   TradeLockerDashboardData,
@@ -29,6 +30,7 @@ export function useLiveTradeLocker(options: UseLiveTradeLockerOptions = {}) {
   );
   const [instruments, setInstruments] = useState<TradeLockerInstrument[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [lastGoodAt, setLastGoodAt] = useState<number | null>(null);
 
   const refreshStatus = useCallback(async () => {
     setStatusLoading(true);
@@ -74,14 +76,13 @@ export function useLiveTradeLocker(options: UseLiveTradeLockerOptions = {}) {
     }
   }, []);
 
-  const refreshDashboard = useCallback(async () => {
+  const refreshDashboard = useCallback(async (opts?: { silent?: boolean }) => {
     if (!selectedAccountId || !selectedAccNum) {
       setDashboard(null);
       return;
     }
 
-    setDashboardLoading(true);
-    setError(null);
+    if (!opts?.silent) setDashboardLoading(true);
     try {
       const params = new URLSearchParams({
         accountId: selectedAccountId,
@@ -92,7 +93,6 @@ export function useLiveTradeLocker(options: UseLiveTradeLockerOptions = {}) {
       });
       const data = await res.json();
       if (!res.ok) {
-        setDashboard(null);
         setError(data.error ?? "Failed to load dashboard data");
         if (res.status === 401) setConnected(false);
         return;
@@ -102,11 +102,12 @@ export function useLiveTradeLocker(options: UseLiveTradeLockerOptions = {}) {
         positions: data.positions ?? [],
         tradesToday: data.tradesToday ?? 0,
       });
+      setLastGoodAt(Date.now());
+      setError(null);
     } catch {
       setError("Network error while loading dashboard");
-      setDashboard(null);
     } finally {
-      setDashboardLoading(false);
+      if (!opts?.silent) setDashboardLoading(false);
     }
   }, [selectedAccountId, selectedAccNum]);
 
@@ -268,6 +269,10 @@ export function useLiveTradeLocker(options: UseLiveTradeLockerOptions = {}) {
     if (connected && selectedAccountId && selectedAccNum) {
       refreshDashboard();
       refreshInstruments();
+      const id = setInterval(() => {
+        void refreshDashboard({ silent: true });
+      }, TRADELOCKER_LIVE_REFRESH_MS);
+      return () => clearInterval(id);
     }
   }, [
     connected,
@@ -289,6 +294,7 @@ export function useLiveTradeLocker(options: UseLiveTradeLockerOptions = {}) {
     dashboard,
     instruments,
     error,
+    lastGoodAt,
     refreshStatus,
     refreshAccounts,
     refreshDashboard,

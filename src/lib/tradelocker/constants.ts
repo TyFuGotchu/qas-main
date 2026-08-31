@@ -12,6 +12,9 @@ export const TRADELOCKER_COOKIE_ENV = "tl_api_env";
 
 export const TOKEN_COOKIE_MAX_AGE = 60 * 60 * 24 * 7; // 7 days
 
+/** Near-live account telemetry poll. Keep 5–10s; 7s is the default. */
+export const TRADELOCKER_LIVE_REFRESH_MS = 7_000;
+
 export function resolveTradeLockerApiBase(
   environment: TradeLockerEnvironment
 ): string {

@@ -38,7 +38,7 @@ export function SiteFooter() {
 
   return (
     <footer className="mt-auto border-t border-white/[0.08] bg-[#07080C]">
-      <div className="mx-auto grid max-w-7xl gap-8 px-6 py-12 sm:px-8 md:grid-cols-2 lg:grid-cols-5 lg:gap-10 lg:px-10">
+      <div className="mx-auto grid max-w-7xl gap-8 px-6 py-12 sm:px-8 md:grid-cols-2 lg:grid-cols-6 lg:gap-10 lg:px-10">
         <FooterColumn title="Product">
           {PRODUCT_LINKS.map((link) => (
             <FooterLink key={link.href} href={link.href}>
@@ -65,12 +65,14 @@ export function SiteFooter() {
         </FooterColumn>
 
         <FooterColumn title="Partner">
-          <FooterLink href={E8_PUBLIC_PATH}>E8 Markets Execution Center</FooterLink>
+          <FooterLink href={E8_PUBLIC_PATH} accent="e8">
+            E8 Markets Execution Center
+          </FooterLink>
           <a
             href={getE8ReferralUrl()}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex h-6 items-center text-[13px] text-[#9AA3B2] transition-colors hover:text-[#7FE7DC]"
+            className="flex h-6 items-center text-[13px] text-[#9AA3B2] transition-colors hover:text-[#C8ACFF]"
           >
             Direct Signup
           </a>
@@ -87,7 +89,7 @@ export function SiteFooter() {
           <FounderSocialIcons className="mt-3 flex-wrap" />
         </div>
 
-        <div>
+        <div className="lg:col-span-2">
           <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-[#9AA3B2]">
             Legal
           </p>
@@ -119,11 +121,23 @@ function FooterColumn({ title, children }: { title: string; children: ReactNode 
   );
 }
 
-function FooterLink({ href, children }: { href: string; children: ReactNode }) {
+function FooterLink({
+  href,
+  children,
+  accent = "mint",
+}: {
+  href: string;
+  children: ReactNode;
+  accent?: "mint" | "e8";
+}) {
   return (
     <Link
       href={href}
-      className="flex h-6 items-center text-[13px] text-[#9AA3B2] transition-colors hover:text-[#7FE7DC]"
+      className={
+        accent === "e8"
+          ? "flex h-6 items-center text-[13px] text-[#9AA3B2] transition-colors hover:text-[#C8ACFF]"
+          : "flex h-6 items-center text-[13px] text-[#9AA3B2] transition-colors hover:text-[#7FE7DC]"
+      }
     >
       {children}
     </Link>

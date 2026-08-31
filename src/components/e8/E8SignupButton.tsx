@@ -8,7 +8,7 @@ export function E8SignupButton({ size = "lg" }: { size?: "sm" | "md" | "lg" }) {
   return (
     <div>
       <a href={href} target="_blank" rel="noopener noreferrer">
-        <Button variant="gold" size={size}>
+        <Button variant="e8" size={size}>
           {E8_SIGNUP.cta}
           <ExternalLink className="h-4 w-4" />
         </Button>

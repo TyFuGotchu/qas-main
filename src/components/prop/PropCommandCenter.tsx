@@ -38,6 +38,7 @@ export function PropCommandCenter() {
     dashboard,
     selectedAccountLabel,
     tlConnected,
+    lastGoodAt,
   } = useConnectedTradeLockerDashboard();
 
   const [profile, setProfile] = useState<TraderProfileView | null>(null);
@@ -170,6 +171,11 @@ export function PropCommandCenter() {
             <Link href="/dashboard/e8" className="text-[#7FE7DC] hover:underline">
               E8 Execution Center
             </Link>
+            {tlConnected && lastGoodAt && (
+              <span className="mt-1 block text-[11px] text-slate-600">
+                Near-live TradeLocker · last good {new Date(lastGoodAt).toLocaleTimeString()}
+              </span>
+            )}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">

@@ -26,6 +26,7 @@ import {
 import { E8ComplianceNote } from "@/components/e8/E8ComplianceNote";
 import { E8SignupButton } from "@/components/e8/E8SignupButton";
 import { E8RulesDesk } from "@/components/e8/E8RulesDesk";
+import { E8PresetDesk } from "@/components/e8/E8PresetDesk";
 import { cn } from "@/lib/utils";
 
 interface E8ExecutionCenterProps {
@@ -49,7 +50,7 @@ export function E8ExecutionCenter({
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-[8px] border border-white/[0.08] bg-[#10141C]",
+        "e8-desk overflow-hidden rounded-[8px] border",
         variant === "card" ? "p-5" : "p-0"
       )}
     >
@@ -82,8 +83,8 @@ export function E8ExecutionCenter({
             className={cn(
               "-mb-px shrink-0 border-b px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors",
               active === item.id
-                ? "border-[#7FE7DC] text-[#F3F5F7]"
-                : "border-transparent text-[#9AA3B2] hover:text-[#F3F5F7]"
+                ? "border-[#C8ACFF] text-[#F3F5F7]"
+                : "border-transparent text-[#C8ACFF]/70 hover:text-[#F3F5F7]"
             )}
           >
             {item.label}
@@ -123,7 +124,7 @@ function OverviewTab({
       <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
         {E8_OVERVIEW_CHIPS.map((chip) => {
           const className =
-            "flex min-h-[72px] items-center rounded-[6px] border border-white/[0.08] bg-[#141A24] px-4 py-3 text-left text-sm text-[#9AA3B2] transition-colors hover:border-[#7FE7DC]/30 hover:text-[#F3F5F7]";
+            "flex min-h-[72px] items-center rounded-[6px] border border-[rgba(199,170,255,0.18)] bg-[#1C122C] px-4 py-3 text-left text-sm text-[#C8ACFF]/80 transition-colors hover:border-[#C8ACFF]/50 hover:text-[#F3F5F7]";
           if ("tab" in chip) {
             return (
               <button key={chip.id} type="button" onClick={onOpenPresets} className={className}>
@@ -156,30 +157,47 @@ function SignupTab() {
 }
 
 function PresetsTab() {
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const selected = E8_PRESETS.find((p) => p.id === selectedId && p.live);
+
   return (
     <div>
-      <p className="text-sm leading-relaxed text-slate-400">
+      <p className="text-sm leading-relaxed text-[#C8ACFF]/80">
         Software guardrails and planning tools mapped to E8-style protection. Not a
         guaranteed pass.
       </p>
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
-        {E8_PRESETS.map((preset) => (
-          <article
-            key={preset.id}
-            className="rounded-[6px] border border-white/[0.08] bg-[#141A24] p-4"
-          >
-            <div className="flex items-center justify-between gap-2">
-              <h3 className="font-mono text-sm font-semibold text-white">{preset.name}</h3>
-              {!preset.live && (
-                <span className="font-mono text-[10px] uppercase tracking-widest text-gold-muted">
-                  Coming soon
-                </span>
+        {E8_PRESETS.map((preset) => {
+          const clickable = preset.live;
+          const active = selectedId === preset.id;
+          return (
+            <button
+              key={preset.id}
+              type="button"
+              disabled={!clickable}
+              onClick={() => clickable && setSelectedId(preset.id)}
+              className={cn(
+                "rounded-[6px] border p-4 text-left transition-colors",
+                clickable ? "cursor-pointer" : "cursor-not-allowed opacity-60",
+                active
+                  ? "border-[#C8ACFF] bg-[#B794FF]/15"
+                  : "border-[rgba(199,170,255,0.18)] bg-[#1C122C] hover:border-[#C8ACFF]/60"
               )}
-            </div>
-            <p className="mt-2 text-sm leading-relaxed text-slate-400">{preset.intent}</p>
-          </article>
-        ))}
+            >
+              <div className="flex items-center justify-between gap-2">
+                <h3 className="text-sm font-semibold text-white">{preset.name}</h3>
+                {!preset.live && (
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-[#C8ACFF]/70">
+                    Coming soon
+                  </span>
+                )}
+              </div>
+              <p className="mt-2 text-sm leading-relaxed text-[#C8ACFF]/75">{preset.intent}</p>
+            </button>
+          );
+        })}
       </div>
+      {selected && <E8PresetDesk key={selected.id} preset={selected} />}
     </div>
   );
 }

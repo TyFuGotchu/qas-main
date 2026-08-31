@@ -146,17 +146,19 @@ export function Sidebar({ mobileOpen = false, onNavigate }: SidebarProps) {
                     onClick={onNavigate}
                     className={cn(
                       "flex items-center gap-3 rounded-[6px] border-l-2 px-3 py-2 text-[13px] tracking-tight transition-colors",
-                      active
-                        ? "border-l-[#7FE7DC] bg-white/[0.04] text-[#F3F5F7]"
-                        : item.featured
-                          ? "border-l-[#B7B0D4]/50 text-[#B7B0D4] hover:bg-white/[0.03] hover:text-[#F3F5F7]"
-                          : "border-l-transparent text-[#9AA3B2] hover:bg-white/[0.03] hover:text-[#F3F5F7]"
+                      active && item.featured
+                        ? "border-l-[#B794FF] bg-[#B794FF]/10 text-[#C8ACFF]"
+                        : active
+                          ? "border-l-[#7FE7DC] bg-white/[0.04] text-[#F3F5F7]"
+                          : item.featured
+                            ? "border-l-[#B794FF]/60 text-[#C8ACFF] hover:bg-[#B794FF]/10 hover:text-[#C8ACFF]"
+                            : "border-l-transparent text-[#9AA3B2] hover:bg-white/[0.03] hover:text-[#F3F5F7]"
                     )}
                   >
                     <Icon className="h-4 w-4 shrink-0" />
                     <span className="flex-1">{item.label}</span>
                     {item.badge && (
-                      <span className="rounded-[4px] border border-[#B7B0D4]/30 px-1.5 py-0.5 font-mono text-[8px] uppercase tracking-[0.14em] text-[#B7B0D4]">
+                      <span className="rounded-[4px] border border-[#B794FF]/40 px-1.5 py-0.5 font-mono text-[8px] uppercase tracking-[0.14em] text-[#C8ACFF]">
                         {item.badge}
                       </span>
                     )}

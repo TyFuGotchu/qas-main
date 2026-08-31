@@ -578,6 +578,35 @@ body {
   background: linear-gradient(180deg, #45a29e 0%, #66fcf1 100%);
 }
 
+/* E8 partner desk — isolated to E8 surfaces only */
+.e8-desk {
+  --e8-base: #12081a;
+  --e8-mid: #1a0f27;
+  --e8-card: #1c122c;
+  --e8-hairline: rgba(199, 170, 255, 0.18);
+  --e8-accent: #b794ff;
+  --e8-accent-bright: #c8acff;
+  background: linear-gradient(180deg, #12081a 0%, #1a0f27 100%);
+  border-color: var(--e8-hairline);
+  color: #f3f5f7;
+}
+
+.e8-bar {
+  background: linear-gradient(90deg, #12081a 0%, #1a0f27 50%, #12081a 100%);
+  border-color: rgba(199, 170, 255, 0.18);
+}
+
+.e8-btn {
+  background: #b794ff;
+  color: #fff;
+  border: 1px solid transparent;
+}
+
+.e8-btn:hover {
+  background: #c8acff;
+  color: #fff;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .qs-mercury-blob,
   .qs-mercury-stream,
