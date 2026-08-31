@@ -1,20 +1,19 @@
 import Link from "next/link";
-import { HOME_ANNOUNCEMENT } from "@/lib/homepage-copy";
+import { E8_BAR_LINE, E8_PARTNER_LINE, E8_PUBLIC_PATH } from "@/lib/e8-partner";
 
 export function AnnouncementBar() {
   return (
-    <div className="border-b border-indigo-400/20 bg-gradient-to-r from-slate-950 via-indigo-950/50 to-slate-950">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-4 gap-y-1 px-4 py-2 text-center">
-        <p className="font-mono text-[11px] leading-relaxed text-slate-300 sm:text-xs">
-          {HOME_ANNOUNCEMENT}
+    <Link
+      href={E8_PUBLIC_PATH}
+      className="block border-b border-indigo-400/20 bg-gradient-to-r from-slate-950 via-indigo-950/50 to-slate-950"
+    >
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-2 gap-y-0.5 px-4 py-1.5 text-center">
+        <p className="font-mono text-[11px] leading-relaxed text-indigo-100 sm:text-xs">
+          {E8_PARTNER_LINE}
+          <span className="mx-2 text-indigo-400/50">|</span>
+          {E8_BAR_LINE}
         </p>
-        <Link
-          href="/e8"
-          className="font-mono text-[11px] font-semibold text-indigo-300 hover:underline sm:text-xs"
-        >
-          E8 Execution Center →
-        </Link>
       </div>
-    </div>
+    </Link>
   );
 }

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Hero } from "@/components/landing/Hero";
 import {
   HomeE8Presets,
-  HomeE8Promos,
   HomeFaq,
   HomeFinalCta,
   HomeLiveGrowth,
@@ -10,6 +9,7 @@ import {
   HomeQuantProtocol,
   HomeWhyE8,
 } from "@/components/landing/HomeSections";
+import { FounderConnect } from "@/components/marketing/FounderConnect";
 import { TraderFeedback } from "@/components/landing/TraderFeedback";
 import { StickyMobileCta } from "@/components/marketing/StickyMobileCta";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
@@ -32,7 +32,7 @@ import { E8_POSITIONING } from "@/lib/e8-partner";
 
 export const metadata: Metadata = rankingPageMetadata({
   title: "E8 Markets Partner | TradeLocker Trading OS | Quicksilver Algo",
-  description: `${E8_POSITIONING} Structure, risk presets, journaling, live growth tools, and optional Quant Protocol. 3-day free trial (bot not included) or first month 30% off. Educational tools only.`,
+  description: `${E8_POSITIONING} First month 30% off Premium. 3-day trial available on request. Bot not included. Educational tools only.`,
   path: "/",
   modifiedAt: SEO_RECOVERY_REFRESHED,
   keywords: [
@@ -75,13 +75,15 @@ export default function LandingPage() {
       <Hero />
       <HomeWhyE8 />
       <HomeE8Presets />
-      <HomeE8Promos />
       <HomeLiveGrowth />
       <HomeQuantProtocol />
       <HomePricingChooser />
       <HomeFaq />
       <TraderFeedback />
       <HomeFinalCta />
+      <section className="border-t border-white/[0.05] px-4 py-10">
+        <FounderConnect compact />
+      </section>
       <StickyMobileCta />
     </>
   );

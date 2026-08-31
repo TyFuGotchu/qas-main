@@ -144,9 +144,8 @@ export function ChooseTierForm() {
           Select Your <span className="text-cyan-terminal">Access Tier</span>
         </h1>
         <p className="mx-auto mt-3 max-w-xl font-mono text-sm text-slate-500">
-          Choose a 3-day free trial (bot not included) or first month 30% off
-          ({DISCOUNT_FIRST_MONTH_PRICE}, then {PREMIUM_PRICE}/mo). Or start free and
-          upgrade anytime.
+          Default offer is first month 30% off ({DISCOUNT_FIRST_MONTH_PRICE}, then{" "}
+          {PREMIUM_PRICE}/mo). 3-day trial available on request. Bot not included.
         </p>
       </div>
 
@@ -204,17 +203,6 @@ export function ChooseTierForm() {
                 {tier.ctaLink ? (
                   <div className="space-y-2">
                     <Button
-                      variant="secondary"
-                      size="sm"
-                      className="w-full"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handlePremiumCheckout("trial");
-                      }}
-                    >
-                      {HOME_PRICING.trial.cta}
-                    </Button>
-                    <Button
                       variant="gold"
                       size="sm"
                       className="w-full"
@@ -226,8 +214,8 @@ export function ChooseTierForm() {
                       {HOME_PRICING.discount.cta}
                       <ExternalLink className="h-3.5 w-3.5" />
                     </Button>
-                    <p className="text-center font-mono text-[10px] text-gold-muted">
-                      Bot not included in free trial
+                    <p className="text-center font-mono text-[10px] text-slate-500">
+                      {HOME_PRICING.trial.body}
                     </p>
                   </div>
                 ) : (
@@ -264,7 +252,7 @@ export function ChooseTierForm() {
           {loading
             ? "Activating..."
             : selectedTier === "Premium Quant"
-              ? HOME_PRICING.chooserLabel
+              ? HOME_PRICING.discount.cta
               : selectedTier === "Free"
                 ? "Continue with Free Access"
                 : "Select a Plan"}

@@ -45,7 +45,13 @@ interface AdminAnnouncement {
 type AdminTab = "users" | "email" | "announcements" | "referrals" | "bot-requests";
 
 function isPremium(tier: string) {
-  return tier === ACCOUNT_TIERS.PREMIUM_QUANT;
+  return tier === ACCOUNT_TIERS.PREMIUM_QUANT || tier === ACCOUNT_TIERS.LIFETIME_ALPHA;
+}
+
+function accessLabel(tier: string): "FREE" | "TRIAL" | "PREMIUM" {
+  if (isPremium(tier)) return "PREMIUM";
+  if (tier.toLowerCase().includes("trial")) return "TRIAL";
+  return "FREE";
 }
 
 export function AdminDashboard() {
@@ -477,13 +483,22 @@ export function AdminDashboard() {
                             )}
                           </td>
                           <td className="py-3 pr-3">
-                            {premium ? (
-                              <Badge variant="success">Premium</Badge>
-                            ) : (
-                              <Badge variant="default">
-                                {user.accountTier}
-                              </Badge>
-                            )}
+                            {(() => {
+                              const access = accessLabel(user.accountTier);
+                              return (
+                                <Badge
+                                  variant={
+                                    access === "PREMIUM"
+                                      ? "success"
+                                      : access === "TRIAL"
+                                        ? "warning"
+                                        : "default"
+                                  }
+                                >
+                                  {access}
+                                </Badge>
+                              );
+                            })()}
                           </td>
                           <td className="py-3 pr-3 text-slate-500">
                             {new Date(user.createdAt).toLocaleDateString()}

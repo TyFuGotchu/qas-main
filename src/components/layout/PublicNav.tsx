@@ -100,7 +100,7 @@ export function PublicNav() {
                 </Link>
                 <Link href="/#pricing">
                   <Button variant="gold" size="sm">
-                    Choose Trial or Discount
+                    Start Premium
                   </Button>
                 </Link>
               </>
@@ -181,7 +181,7 @@ export function PublicNav() {
                   onClick={() => setMobileOpen(false)}
                   className="rounded-lg px-4 py-3 font-mono text-sm uppercase tracking-widest text-gold-soft hover:bg-slate-800/50"
                 >
-                  Choose Trial or Discount
+                  Start Premium
                 </Link>
               </>
             )}

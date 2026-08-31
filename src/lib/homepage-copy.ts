@@ -5,7 +5,7 @@ import {
 } from "@/lib/pricing-constants";
 
 export const HOME_ANNOUNCEMENT =
-  "Official E8 Markets Partner. Exclusive prop routing. TradeLocker workflow stack + live growth tools. Bot not included in free trial.";
+  "Official E8 Markets Partner | E8 Execution Center — Challenges, Rules, Direct Signup";
 
 export const HOME_HERO = {
   eyebrow: "Official E8 Markets Partner • TradeLocker Desktop • Trading OS",
@@ -128,29 +128,30 @@ export const HOME_COMPARISON = {
 
 export const HOME_PRICING = {
   title: "Choose how you want to start",
-  chooserLabel: "Choose Trial or First-Month Discount",
+  chooserLabel: "First month 30% off, or request a 3-day trial",
   microcopy:
-    "Cancel anytime. Educational tools only. Trading is high risk. Not financial advice.",
+    "Cancel anytime. Educational tools only. Trading is high risk. Not financial advice. 3-day trial available on request. Bot not included.",
   trial: {
-    name: "3-Day Free Trial",
+    name: "3-Day Trial",
     price: TRIAL_PRICE_TODAY,
-    priceNote: "today",
-    then: `Then ${PREMIUM_PRICE}/mo`,
-    body: "Workflow stack + live growth terminal tools + prop module tools enabled for trial",
+    priceNote: "on request",
+    then: `Then ${PREMIUM_PRICE}/mo if you continue`,
+    body: "3-day trial available on request. Bot not included.",
     exclusion: "Bot not included in free trial",
-    extra: "Does not include Quant Protocol or TradeLocker Hub bot enablement.",
-    cta: "Start Free Trial",
-    heroCta: "Start 3-Day Free Trial",
+    extra:
+      "Workflow, journal, planning, live growth, and prop tools as enabled for trial. Admin grants access. Not a self-serve Stripe checkout.",
+    cta: "Request 3-day trial",
+    heroCta: "Request 3-day trial",
   },
   discount: {
     name: "First Month 30% Off",
     price: DISCOUNT_FIRST_MONTH_PRICE,
     priceNote: "first month",
     then: `Then ${PREMIUM_PRICE}/mo`,
-    body: "Full Premium path including Quant Protocol access request on TradeLocker Desktop",
+    body: "Default Premium path including Quant Protocol access request on TradeLocker Desktop",
     extra: "Eligible for Quant Protocol on TradeLocker Desktop. Priority support included.",
-    cta: "Start Discounted First Month",
-    heroCta: "Get First Month 30% Off",
+    cta: "Start Premium — first month 30% off",
+    heroCta: "Start Premium — first month 30% off",
   },
 } as const;
 
@@ -186,7 +187,7 @@ export const HOME_FAQS: { question: string; answer: string }[] = [
   {
     question: "Is the bot included in the free trial?",
     answer:
-      "No. The free trial covers the workflow/manual stack. Quant Protocol requires Premium. Bot not included in free trial.",
+      "No. 3-day trial available on request. Bot not included. The trial covers the workflow/manual stack. Quant Protocol requires Premium.",
   },
   {
     question: "Can manual traders use Quicksilver without the bot?",
@@ -200,7 +201,7 @@ export const HOME_FAQS: { question: string; answer: string }[] = [
   {
     question: "What is included in the 3-day free trial?",
     answer:
-      "Workflow dashboard, journal, planning and risk tools enabled for trial, live growth terminal features enabled for trial, and prop playbook/tracker features enabled for trial. Academy access follows current access rules. Quant Protocol and TradeLocker Hub bot enablement are not included.",
+      "3-day trial available on request. Bot not included. Admin can grant trial access from the Users panel. Workflow, journal, planning, live growth, and prop tools as enabled for trial. Quant Protocol is Premium-only.",
   },
   {
     question: "Which prop firm does Quicksilver recommend?",

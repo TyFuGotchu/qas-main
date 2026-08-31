@@ -6,6 +6,7 @@ import { InstitutionalBackdrop } from "@/components/layout/InstitutionalBackdrop
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
 import { E8DashboardPartnerBar } from "@/components/e8/E8PartnerBar";
+import { SiteFooter } from "@/components/layout/SiteFooter";
 import { ToastProvider } from "@/components/ui/Toast";
 
 interface DashboardShellProps {
@@ -56,6 +57,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
             />
             <div className="relative z-[1]">{children}</div>
           </main>
+          <SiteFooter />
         </div>
       </div>
     </ToastProvider>

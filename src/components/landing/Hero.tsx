@@ -7,6 +7,7 @@ import { HomeHeroVideo } from "@/components/landing/HomeHeroVideo";
 import { HeroDeskMock } from "@/components/landing/HeroDeskMock";
 import Button from "@/components/ui/Button";
 import { E8_PUBLIC_PATH } from "@/lib/e8-partner";
+import { TRIAL_REQUEST_CTA, getTrialRequestMailto } from "@/lib/trial-request";
 import { Check } from "lucide-react";
 
 export function Hero() {
@@ -35,13 +36,21 @@ export function Hero() {
               </li>
             ))}
           </ul>
-          <div className="mt-10 flex flex-col gap-3">
-            <Link href={E8_PUBLIC_PATH}>
-              <Button variant="gold" size="lg" className="w-full sm:w-auto">
-                Open E8 Execution Center
-              </Button>
-            </Link>
-            <StartOfferCtas source="homepage_hero" className="justify-start" />
+          <div className="mt-10 flex flex-col items-start gap-3">
+            <div className="flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <Link href={E8_PUBLIC_PATH}>
+                <Button variant="gold" size="lg" className="w-full sm:w-auto">
+                  Open E8 Execution Center
+                </Button>
+              </Link>
+              <StartOfferCtas source="homepage_hero" premiumOnly className="justify-start" />
+            </div>
+            <a
+              href={getTrialRequestMailto()}
+              className="font-mono text-sm text-slate-400 underline-offset-4 hover:text-gold-soft hover:underline"
+            >
+              {TRIAL_REQUEST_CTA}
+            </a>
           </div>
           <p className="mt-5 max-w-xl font-mono text-xs leading-relaxed text-slate-500">
             {HOME_HERO.microcopy}

@@ -81,14 +81,14 @@ export const SITE_FAQS: FaqItem[] = [
     category: "Getting Started",
     question: "What is included in the free tier?",
     answer:
-      "Free accounts get one full lesson, one charting guide, and the Setup Scorer planning module. You can preview all other lessons and tools before upgrading. A 3-day free trial of the workflow stack is also available — bot not included in free trial.",
+      "Free accounts get one full lesson, one charting guide, and the Setup Scorer planning module. You can preview all other lessons and tools before upgrading. 3-day trial available on request. Bot not included.",
   },
   {
     id: "trial-includes",
     category: "Billing & Premium",
     question: "Is the bot included in the free trial?",
     answer:
-      "No. The free trial covers the workflow/manual stack. Quant Protocol requires Premium. Bot not included in free trial. TradeLocker Hub bot enablement is also excluded from the trial.",
+      "No. 3-day trial available on request. Bot not included. The trial covers the workflow/manual stack. Quant Protocol requires Premium.",
   },
   {
     id: "first-month-discount",
@@ -109,7 +109,7 @@ export const SITE_FAQS: FaqItem[] = [
     category: "Billing & Premium",
     question: "How much does Premium cost?",
     answer:
-      "Premium Quant is $149.99/month after trial or first-month discount. It includes the workflow stack, live growth terminal tools, prop module, Chart Academy, Quant Protocol access path on TradeLocker Desktop, and priority email support. Start with a 3-day free trial (bot not included) or first month 30% off ($104.99).",
+      "Default public offer is first month 30% off ($104.99), then $149.99/mo. That is the full Premium stack, including Quant Protocol access request on TradeLocker Desktop. 3-day trial available on request. Bot not included.",
   },
   {
     id: "prop-firm-playbook",

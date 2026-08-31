@@ -4,6 +4,7 @@ import { Check, X } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { TrackedCheckoutLink } from "@/components/analytics/TrackedCheckoutLink";
 import { StartOfferCtas } from "@/components/marketing/StartOfferCtas";
+import { TRIAL_REQUEST_COPY, getTrialRequestMailto } from "@/lib/trial-request";
 import { TrustBox } from "@/components/marketing/TrustBox";
 import {
   HOME_COMPARISON,
@@ -23,11 +24,11 @@ import { TOOL_COUNT } from "@/lib/tools-registry";
 import { CHART_ACADEMY_STATS } from "@/lib/premium-includes";
 import { PROP_FIRM_PLAYBOOK_HREF } from "@/lib/prop-firm-challenge-marketing";
 import {
-  E8_DISCOUNTS,
-  E8_GIVEAWAYS,
   E8_PRESETS,
   E8_PUBLIC_PATH,
   E8_WHY,
+  getLiveDiscounts,
+  getLiveGiveaways,
 } from "@/lib/e8-partner";
 import { cn } from "@/lib/utils";
 
@@ -212,27 +213,23 @@ export function HomeE8Presets() {
 }
 
 export function HomeE8Promos() {
+  const live = [...getLiveGiveaways(), ...getLiveDiscounts()];
+  if (live.length === 0) return null;
+
   return (
     <SectionFrame className="border-t border-white/[0.05]">
       <div className="mx-auto max-w-6xl">
-        <Eyebrow>Partner Preview</Eyebrow>
+        <Eyebrow>Live campaigns</Eyebrow>
         <h2 className="mt-4 font-mono text-2xl font-bold text-white sm:text-4xl">
           Giveaways and launch offers
         </h2>
-        <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-400">
-          Campaign structure is ready. Codes and checkout bundles stay Coming Soon until
-          live. No guaranteed funded accounts.
-        </p>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {[...E8_GIVEAWAYS, ...E8_DISCOUNTS].slice(0, 6).map((item) => (
+          {live.map((item) => (
             <article
               key={item.id}
               className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-5"
             >
-              <span className="font-mono text-[10px] uppercase tracking-widest text-gold-muted">
-                Coming soon
-              </span>
-              <h3 className="mt-2 font-mono text-sm font-semibold text-white">{item.name}</h3>
+              <h3 className="font-mono text-sm font-semibold text-white">{item.name}</h3>
               <p className="mt-2 text-sm leading-relaxed text-slate-400">{item.blurb}</p>
             </article>
           ))}
@@ -411,29 +408,6 @@ export function HomePricingChooser() {
           {HOME_PRICING.title}
         </h2>
         <div className="mt-12 grid gap-6 md:grid-cols-2">
-          <article className="flex flex-col rounded-2xl border border-white/[0.08] bg-white/[0.02] p-7">
-            <h3 className="font-mono text-xl font-bold text-white">{HOME_PRICING.trial.name}</h3>
-            <p className="mt-4 font-mono text-4xl font-bold text-white">
-              {HOME_PRICING.trial.price}
-              <span className="ml-2 text-base font-normal text-slate-500">
-                {HOME_PRICING.trial.priceNote}
-              </span>
-            </p>
-            <p className="mt-1 font-mono text-sm text-slate-400">{HOME_PRICING.trial.then}</p>
-            <p className="mt-5 text-sm leading-relaxed text-slate-300">{HOME_PRICING.trial.body}</p>
-            <p className="mt-4 rounded-lg border border-gold-soft/25 bg-gold-soft/[0.06] px-3 py-2 font-mono text-xs text-gold-bright">
-              {HOME_PRICING.trial.exclusion}
-            </p>
-            <p className="mt-3 text-xs leading-relaxed text-slate-500">{HOME_PRICING.trial.extra}</p>
-            <div className="mt-8">
-              <TrackedCheckoutLink source="homepage_pricing" offer="trial">
-                <Button variant="secondary" size="lg" className="w-full">
-                  {HOME_PRICING.trial.cta}
-                </Button>
-              </TrackedCheckoutLink>
-            </div>
-          </article>
-
           <article className="flex flex-col rounded-2xl border border-gold-soft/35 bg-gold-soft/[0.05] p-7">
             <h3 className="font-mono text-xl font-bold text-white">
               {HOME_PRICING.discount.name}
@@ -457,6 +431,28 @@ export function HomePricingChooser() {
                   {HOME_PRICING.discount.cta}
                 </Button>
               </TrackedCheckoutLink>
+            </div>
+          </article>
+
+          <article className="flex flex-col rounded-2xl border border-white/[0.08] bg-white/[0.02] p-7">
+            <h3 className="font-mono text-xl font-bold text-white">{HOME_PRICING.trial.name}</h3>
+            <p className="mt-4 font-mono text-4xl font-bold text-white">
+              {HOME_PRICING.trial.price}
+              <span className="ml-2 text-base font-normal text-slate-500">
+                {HOME_PRICING.trial.priceNote}
+              </span>
+            </p>
+            <p className="mt-5 text-sm leading-relaxed text-slate-300">{HOME_PRICING.trial.body}</p>
+            <p className="mt-4 rounded-lg border border-white/[0.08] px-3 py-2 font-mono text-xs text-slate-400">
+              {TRIAL_REQUEST_COPY}
+            </p>
+            <p className="mt-3 text-xs leading-relaxed text-slate-500">{HOME_PRICING.trial.extra}</p>
+            <div className="mt-8">
+              <a href={getTrialRequestMailto()}>
+                <Button variant="secondary" size="lg" className="w-full">
+                  {HOME_PRICING.trial.cta}
+                </Button>
+              </a>
             </div>
           </article>
         </div>
@@ -533,9 +529,8 @@ export function HomeFinalCta() {
           Start with structure. Add automation only if you need it.
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-slate-400">
-          Open the E8 Execution Center for exclusive evaluation routing, or start a 3-day
-          free trial of the workflow stack. First-month 30% off is the full Premium path,
-          including Quant Protocol on TradeLocker Desktop.
+          Open the E8 Execution Center, or start Premium with first month 30% off. 3-day
+          trial available on request. Bot not included.
         </p>
         <div className="mt-8 flex flex-col items-center gap-3">
           <Link href={E8_PUBLIC_PATH}>
@@ -546,8 +541,8 @@ export function HomeFinalCta() {
           <StartOfferCtas source="homepage_final_cta" />
         </div>
         <p className="mt-5 font-mono text-xs text-slate-500">
-          Bot not included in free trial. Cancel anytime. Educational tools only. Official
-          E8 rules are set by E8 Markets. No pass or payout guarantee.
+          {TRIAL_REQUEST_COPY} Cancel anytime. Educational tools only. Official E8 rules are
+          set by E8 Markets. No pass or payout guarantee.
         </p>
         <TrustBox className="mx-auto mt-10 max-w-2xl text-center" />
       </div>

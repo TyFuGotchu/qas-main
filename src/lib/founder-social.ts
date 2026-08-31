@@ -5,6 +5,7 @@
 
 export const FOUNDER = {
   handle: "TyFuGotchu",
+  firstName: "Ty",
   displayName: "TyFuGotchu",
   role: "Founder of Quicksilver Algo Systems",
   shortBio: "Founder · Quicksilver Algo Systems",
@@ -27,7 +28,7 @@ export interface FounderSocialLink {
 export const FOUNDER_SOCIAL_LINKS: FounderSocialLink[] = [
   {
     id: "x",
-    label: "X (Twitter)",
+    label: "X",
     href: "https://x.com/tyfugotchu",
     handle: "@tyfugotchu",
   },

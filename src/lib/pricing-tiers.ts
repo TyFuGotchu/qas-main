@@ -9,7 +9,7 @@ export {
 
 import {
   PREMIUM_PRICE,
-  getPremiumCheckoutUrl,
+  getDiscountCheckoutUrl,
 } from "@/lib/pricing-constants";
 
 const PROP_FIRM_CHALLENGE_DAYS = 7;
@@ -43,7 +43,7 @@ export const PRICING_TIERS: PricingTier[] = [
       "Chart Academy — 89 lessons + charting guides",
       "Priority email support (supportteam@quicksilveralgo.com)",
     ],
-    ctaLink: getPremiumCheckoutUrl(),
+    ctaLink: getDiscountCheckoutUrl(),
     recommended: true,
   },
 ];

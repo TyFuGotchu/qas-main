@@ -4,6 +4,8 @@ import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import { Check, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { HOME_PRICING } from "@/lib/homepage-copy";
+import { TRIAL_REQUEST_COPY, TRIAL_REQUEST_CTA, getTrialRequestMailto } from "@/lib/trial-request";
 
 
 export function PricingGrid() {
@@ -50,20 +52,30 @@ export function PricingGrid() {
             </ul>
 
             {tier.ctaLink ? (
+              <>
               <a
                 href={tier.ctaLink}
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <Button
-                  variant={tier.recommended ? "primary" : "secondary"}
+                  variant={tier.recommended ? "gold" : "secondary"}
                   size="lg"
                   className="w-full"
                 >
-                  Subscribe via Stripe
+                  {HOME_PRICING.discount.cta}
                   <ExternalLink className="h-4 w-4" />
                 </Button>
               </a>
+              <a href={getTrialRequestMailto()} className="mt-3 block text-center">
+                <span className="font-mono text-xs text-slate-400 hover:text-gold-soft">
+                  {TRIAL_REQUEST_CTA}
+                </span>
+              </a>
+              <p className="mt-2 text-center font-mono text-[10px] text-slate-600">
+                {TRIAL_REQUEST_COPY}
+              </p>
+              </>
             ) : (
               <p className="text-center font-mono text-[10px] uppercase tracking-widest text-slate-600">
                 No payment required
