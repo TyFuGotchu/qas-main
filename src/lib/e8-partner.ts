@@ -140,7 +140,7 @@ export const E8_SIGNUP = {
   cta: "Open E8 Account",
   liveBody:
     "Open your E8 account through the official Quicksilver referral path so attribution stays on this desk.",
-  codeHint: `Use code ${E8_AFFILIATE_CODE} at checkout if the code field is shown.`,
+  codeHint: `Use code ${E8_AFFILIATE_CODE} at checkout if shown.`,
 } as const;
 
 export const E8_OVERVIEW_CHIPS = [
