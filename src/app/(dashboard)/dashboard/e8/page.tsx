@@ -1,5 +1,5 @@
 import { E8ExecutionCenter } from "@/components/e8/E8ExecutionCenter";
-import { E8_OVERVIEW, E8_PARTNER_LINE, E8_POSITIONING } from "@/lib/e8-partner";
+import { E8_HERO_SENTENCE, E8_OVERVIEW, E8_PARTNER_LINE } from "@/lib/e8-partner";
 
 export default function DashboardE8Page() {
   return (
@@ -14,7 +14,7 @@ export default function DashboardE8Page() {
           {E8_OVERVIEW.title}
         </h1>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#C9C2D6]">
-          {E8_POSITIONING}
+          {E8_HERO_SENTENCE}
         </p>
       </header>
       <E8ExecutionCenter variant="full" context="dashboard" />

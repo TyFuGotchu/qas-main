@@ -14,6 +14,8 @@ export const HARD_FLAT_POLL_MS = TRADELOCKER_LIVE_REFRESH_MS;
 export const HARD_FLAT_STALE_MS = 20_000;
 export const HARD_FLAT_TIGHT_BUFFER_USD = 25;
 export const HARD_FLAT_TIGHT_DAILY_FRACTION = 0.15;
+export const HARD_FLAT_BUFFER_TIGHT_USD = 100;
+export const HARD_FLAT_BUFFER_SAFE_USD = 200;
 export const HARD_FLAT_STORAGE_KEY = "qs-e8-hard-flat";
 export const E8_APPLIED_PRESET_KEY = "qs-e8-applied-preset";
 
@@ -195,30 +197,47 @@ export function readAppliedPreset(): AppliedE8Preset | null {
   }
 }
 
-export function prefillFloor(currentEquity: number, startingEquity: number): number {
+export function resolveE8DrawdownLimit(startingEquity: number): {
+  dailyPct: number;
+  ddPct: number;
+  dailyLimit: number;
+  maxDdLimit: number;
+  e8Limit: number;
+} {
   const applied = readAppliedPreset();
-  const start = startingEquity > 0 ? startingEquity : currentEquity;
+  const start = startingEquity > 0 ? startingEquity : 0;
+  const dailyPct =
+    applied && typeof applied.dailyPct === "number" && applied.dailyPct > 0
+      ? applied.dailyPct
+      : 4;
   const ddPct =
     applied && typeof applied.ddPct === "number" && applied.ddPct > 0
       ? applied.ddPct
-      : null;
-  const appliedStart =
-    applied && typeof applied.equity === "number" && applied.equity > 0
-      ? applied.equity
-      : start;
+      : 8;
+  const dailyLimit = start > 0 ? roundMoney(start * (1 - dailyPct / 100)) : 0;
+  const maxDdLimit = start > 0 ? roundMoney(start * (1 - ddPct / 100)) : 0;
+  return {
+    dailyPct,
+    ddPct,
+    dailyLimit,
+    maxDdLimit,
+    e8Limit: roundMoney(Math.max(dailyLimit, maxDdLimit)),
+  };
+}
 
-  if (applied?.presetId === "funded-survival" && ddPct != null) {
-    return roundMoney(appliedStart * (1 - ddPct / 100));
+export function recommendedFloor(e8Limit: number, bufferUsd: number): number {
+  return roundMoney(e8Limit + bufferUsd);
+}
+
+export function prefillFloor(currentEquity: number, startingEquity: number): number {
+  const start = startingEquity > 0 ? startingEquity : currentEquity;
+  const { e8Limit } = resolveE8DrawdownLimit(start);
+  if (e8Limit > 0) {
+    return recommendedFloor(e8Limit, HARD_FLAT_BUFFER_SAFE_USD);
   }
-
-  if (ddPct != null && currentEquity > 0) {
-    return roundMoney(currentEquity - appliedStart * (ddPct / 100));
-  }
-
   if (currentEquity > 0) {
-    return roundMoney(currentEquity * 0.96);
+    return roundMoney(currentEquity * 0.96 + HARD_FLAT_BUFFER_SAFE_USD);
   }
-
   return 0;
 }
 

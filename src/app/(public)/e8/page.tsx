@@ -3,8 +3,8 @@ import { E8ExecutionCenter } from "@/components/e8/E8ExecutionCenter";
 import { rankingPageMetadata } from "@/lib/seo/page-metadata";
 import {
   E8_FIRM_NAME,
+  E8_HERO_SENTENCE,
   E8_PARTNER_LINE,
-  E8_POSITIONING,
   E8_PUBLIC_PATH,
 } from "@/lib/e8-partner";
 import { E8_PRODUCTS, E8_RULES_CONFIRM } from "@/lib/e8-rules";
@@ -75,9 +75,8 @@ export default function E8PublicPage() {
         {E8_FIRM_NAME} Execution Center
       </h1>
       <p className="mt-3 max-w-2xl text-base leading-relaxed text-[#C9C2D6]">
-        {E8_POSITIONING} Map E8 One, E8 Pro, and E8 Signature evaluations — daily
-        drawdown, dynamic drawdown, static drawdown, and end of day drawdown — to
-        Quicksilver risk presets on TradeLocker.
+        {E8_HERO_SENTENCE} Map E8 One, Pro, and Signature on the Rule Desk, then ARM
+        Hard Equity-Stop. Not a guaranteed pass.
       </p>
       <div className="mt-10">
         <E8ExecutionCenter variant="full" context="public" />

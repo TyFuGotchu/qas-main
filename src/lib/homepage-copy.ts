@@ -3,18 +3,18 @@ import {
   PREMIUM_PRICE,
   TRIAL_PRICE_TODAY,
 } from "@/lib/pricing-constants";
+import { E8_HERO_SENTENCE } from "@/lib/e8-partner";
 
 export const HOME_ANNOUNCEMENT =
   "Official E8 Markets Partner | E8 Execution Center — Challenges, Rules, Direct Signup";
 
 export const HOME_HERO = {
   eyebrow: "Official E8 Markets Partner • TradeLocker Desktop • Trading OS",
-  h1: "Trade with structure, not impulse.",
-  subhead:
-    "Quicksilver is an execution + risk workflow stack for E8 Markets traders on TradeLocker — structure, risk presets, journaling, live growth tools, and optional supervised automation.",
+  h1: "Flatten before E8’s drawdown tags the account.",
+  subhead: E8_HERO_SENTENCE,
   bullets: [
-    "E8-exclusive routing — one recommended prop firm, not a multi-firm marketplace",
-    "Risk presets for evaluation discipline: daily-loss and trailing-drawdown awareness",
+    "Hard equity-stop flatten — trip before E8’s daily or max drawdown tags the account",
+    "Rule Desk for E8 One, Pro, and Signature — plan the floor, then ARM it",
     "Live growth terminal for funded and live-account operators",
     "Manual traders welcome. Optional Quant Protocol is Premium.",
   ],

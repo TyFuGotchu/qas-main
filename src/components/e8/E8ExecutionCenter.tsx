@@ -30,6 +30,7 @@ import { E8SignupButton } from "@/components/e8/E8SignupButton";
 import { E8RulesDesk } from "@/components/e8/E8RulesDesk";
 import { E8PresetDesk } from "@/components/e8/E8PresetDesk";
 import { HardFlatDesk } from "@/components/e8/HardFlatDesk";
+import { HardFlatRecommendation } from "@/components/e8/HardFlatRecommendation";
 import { cn } from "@/lib/utils";
 
 interface E8ExecutionCenterProps {
@@ -158,6 +159,13 @@ function OverviewTab({
   return (
     <div>
       <p className="text-sm leading-relaxed text-[#F3F5F7]">{E8_EXCLUSIVE_LINE}</p>
+      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[#C9C2D6]">
+        Hard equity-stop and the Rule Desk are the main desk: flatten before E8’s daily
+        or max drawdown can tag the account. Not a guaranteed pass.
+      </p>
+      <div className="mt-4">
+        <HardFlatRecommendation compact />
+      </div>
       <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
         {E8_OVERVIEW_CHIPS.map((chip) => {
           const className =
@@ -205,9 +213,12 @@ function PresetsTab() {
   return (
     <div>
       <p className="text-sm leading-relaxed text-[#C9C2D6]">
-        Software guardrails and planning tools mapped to E8-style protection. Not a
-        guaranteed pass.
+        Software guardrails mapped to E8-style protection. Hard equity-stop flattens
+        before daily or max drawdown can tag the account. Not a guaranteed pass.
       </p>
+      <div className="mt-4">
+        <HardFlatRecommendation />
+      </div>
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
         {E8_PRESETS.map((preset) => {
           const clickable = preset.live;

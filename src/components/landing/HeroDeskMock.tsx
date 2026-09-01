@@ -44,18 +44,18 @@ export function HeroDeskMock() {
         <div className="rounded-xl border border-gold-soft/25 bg-gold-soft/[0.04] p-3">
           <div className="flex items-center justify-between">
             <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-gold-bright">
-              Quant Protocol
+              HARD-FLAT
             </p>
             <span className="rounded border border-gold-soft/40 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-widest text-gold-soft">
-              Premium
+              Disarmed
             </span>
           </div>
-          <p className="mt-3 font-mono text-xs text-slate-300">Operator-supervised</p>
+          <p className="mt-3 font-mono text-xs text-slate-300">Flatten before E8 tags</p>
           <p className="mt-1 font-mono text-[10px] text-silver-muted">
-            Status: idle · Premium
+            E8 limit · rec +$200 buffer
           </p>
           <p className="mt-3 font-mono text-[10px] leading-relaxed text-slate-500">
-            Enable Quant Protocol with Premium.
+            Rule Desk + hard equity-stop. Not a guaranteed pass.
           </p>
         </div>
       </div>

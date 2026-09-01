@@ -3,15 +3,21 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { E8SignupButton } from "@/components/e8/E8SignupButton";
+import { HardFlatRecommendation } from "@/components/e8/HardFlatRecommendation";
 import Button from "@/components/ui/Button";
 import { useHardFlat } from "@/hooks/useHardFlat";
+import { HARD_FLAT_RECOMMENDATION } from "@/lib/e8-partner";
 import {
   armHardFlat,
   disarmHardFlat,
   floorFromPct,
+  HARD_FLAT_BUFFER_SAFE_USD,
+  HARD_FLAT_BUFFER_TIGHT_USD,
   pctFromFloor,
   prefillFloor,
   readAppliedPreset,
+  recommendedFloor,
+  resolveE8DrawdownLimit,
   retryHardFlatTick,
   roundMoney,
   testHardFlatCalculation,
@@ -68,6 +74,13 @@ export function HardFlatDesk() {
     displayDistance != null && view.lastEquity
       ? roundMoney((displayDistance / view.lastEquity) * 100)
       : null;
+  const e8Limits = resolveE8DrawdownLimit(startNum);
+  const rec100 = e8Limits.e8Limit > 0
+    ? recommendedFloor(e8Limits.e8Limit, HARD_FLAT_BUFFER_TIGHT_USD)
+    : null;
+  const rec200 = e8Limits.e8Limit > 0
+    ? recommendedFloor(e8Limits.e8Limit, HARD_FLAT_BUFFER_SAFE_USD)
+    : null;
   const dailyRoom =
     applied && typeof applied.dailyPct === "number" && applied.dailyPct > 0 && startNum > 0
       ? roundMoney(startNum * (applied.dailyPct / 100))
@@ -98,6 +111,13 @@ export function HardFlatDesk() {
     if (start > 0 && Number.isFinite(pct) && pct > 0) {
       setFloor(String(floorFromPct(start, pct)));
     }
+  }
+
+  function useBuffer(bufferUsd: number) {
+    if (locked || e8Limits.e8Limit <= 0) return;
+    const next = recommendedFloor(e8Limits.e8Limit, bufferUsd);
+    setFloor(String(next));
+    if (startNum > 0) setFloorPct(String(pctFromFloor(startNum, next)));
   }
 
   function onArm() {
@@ -139,10 +159,11 @@ export function HardFlatDesk() {
         </p>
         <p className="mt-2 text-sm leading-relaxed text-[#C9C2D6]">
           Hard equity-stop flatten is live. Forced flatten at the desk-defined
-          equity floor. This does not guarantee an E8 pass. Official rules are
-          set by E8 Markets.
+          equity floor. {HARD_FLAT_RECOMMENDATION.disclaimer}
         </p>
       </div>
+
+      <HardFlatRecommendation />
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         <label className="block">
@@ -192,6 +213,33 @@ export function HardFlatDesk() {
           disabled={locked}
         />
       </div>
+
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <Stat
+          label="E8 limit $"
+          value={e8Limits.e8Limit > 0 ? money(e8Limits.e8Limit) : "—"}
+        />
+        <Stat
+          label={`Recommended floor (+$${HARD_FLAT_BUFFER_TIGHT_USD})`}
+          value={rec100 != null ? money(rec100) : "—"}
+        />
+        <Stat
+          label={`Recommended floor (+$${HARD_FLAT_BUFFER_SAFE_USD})`}
+          value={rec200 != null ? money(rec200) : "—"}
+        />
+      </div>
+      <p className="text-xs text-[#C9C2D6]">
+        E8 limit is the nearer of daily {e8Limits.dailyPct}% and max DD {e8Limits.ddPct}%
+        from starting equity. Floor = limit + buffer so flatten trips first.
+      </p>
+      <Button
+        variant="e8Secondary"
+        type="button"
+        onClick={() => useBuffer(HARD_FLAT_BUFFER_SAFE_USD)}
+        disabled={locked || rec200 == null}
+      >
+        Use $200 buffer
+      </Button>
 
       {!view.tlConnected && (
         <p className="text-xs text-[#C9C2D6]">

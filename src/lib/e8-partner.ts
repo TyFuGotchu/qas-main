@@ -9,8 +9,20 @@ export const E8_PUBLIC_PATH = "/e8";
 export const E8_DASHBOARD_PATH = "/dashboard/e8";
 export const E8_ALT_PUBLIC_PATH = "/e8-execution-center";
 
-export const E8_POSITIONING =
-  "Quicksilver is the execution + risk workflow stack for E8 Markets traders on TradeLocker.";
+export const E8_POSITIONING = "Quicksilver is a TradeLocker desk for E8 Markets.";
+
+export const E8_HERO_SENTENCE =
+  "Quicksilver is a TradeLocker desk for E8 Markets — hard equity-stop and the Rule Desk are built to flatten before E8’s daily or max drawdown can tag the account.";
+
+export const HARD_FLAT_RECOMMENDATION = {
+  title: "Recommendation",
+  lead: "Always ARM Hard Equity-Stop at least $100–$200 away from E8’s actual drawdown limit.",
+  buffer:
+    "That buffer is for spread and slippage. The floor should trip before E8’s rule does.",
+  caveat: "This is a planning recommendation, not a guarantee.",
+  disclaimer:
+    "Educational tools only. High risk. No guaranteed pass. Official rules are set by E8 Markets.",
+} as const;
 
 export const E8_PARTNER_LINE = "Official E8 Markets Partner";
 export const E8_BAR_LINE =
@@ -104,7 +116,7 @@ export const E8_CARD_TABS: E8CenterTab[] = [
 export const E8_OVERVIEW = {
   title: "E8 Execution Center",
   subtitle:
-    "Account rules, direct registration, and preset risk configurations.",
+    "Hard equity-stop flatten, Rule Desk, and E8-mapped risk presets. Not a guaranteed pass.",
   stack: [
     "Plan → execute → enforce risk → journal → review",
     "E8-mapped risk presets (software guardrails)",
@@ -346,8 +358,8 @@ export const E8_WHY = {
       text: "Plan, risk, journal, and review in one TradeLocker workflow stack.",
     },
     {
-      title: "E8-mapped presets",
-      text: "Daily-loss and trailing-drawdown awareness as software guardrails.",
+      title: "Flatten first",
+      text: "Hard equity-stop and the Rule Desk are built to trip before E8’s daily or max drawdown tags the account. Not a guarantee.",
     },
     {
       title: "Manual traders welcome",
