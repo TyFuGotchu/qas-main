@@ -80,7 +80,7 @@ export function E8RulesDesk() {
       </p>
 
       <div className="grid gap-4 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.2fr)_minmax(0,0.95fr)]">
-        <div className="space-y-4 rounded-[6px] border border-white/[0.08] bg-[#141A24] p-4">
+        <div className="e8-hud-card space-y-4 p-4">
           <Field label="Product">
             <Switcher
               options={E8_PRODUCTS.map((p) => ({ id: p.id, label: p.name }))}
@@ -103,7 +103,7 @@ export function E8RulesDesk() {
           <RuleColumn title="Performance Rules" rows={performanceRows} />
         </div>
 
-        <div className="space-y-4 rounded-[6px] border border-white/[0.08] bg-[#141A24] p-4">
+        <div className="e8-hud-module space-y-4 p-4">
           <SideBlock title="Best for" body={product.bestFor} />
           <SideBlock title="Kill-rule" body={product.killRule} />
           <SideBlock
@@ -147,7 +147,7 @@ function Switcher({
   onChange: (id: string) => void;
 }) {
   return (
-    <div className="flex flex-wrap overflow-hidden rounded-[6px] border border-white/[0.28]">
+    <div className="flex flex-wrap overflow-hidden rounded-[16px] border border-white/15">
       {options.map((opt) => (
         <button
           key={opt.id}
@@ -156,7 +156,7 @@ function Switcher({
           className={cn(
             "flex-1 px-3 py-2 text-xs tracking-tight transition-colors sm:text-sm",
             value === opt.id
-              ? "bg-[#0B0712] text-white"
+              ? "bg-[#07060C] text-white shadow-[inset_0_-2px_0_#7DFFC4]"
               : "bg-transparent text-[#F5F3FA] hover:text-white"
           )}
         >
@@ -204,7 +204,7 @@ function ChipRow({
 
 function RuleColumn({ title, rows }: { title: string; rows: [string, string][] }) {
   return (
-    <div className="rounded-[6px] border border-white/[0.08] bg-[#141A24] p-4">
+    <div className="e8-hud-card p-4">
       <h3 className="text-sm font-semibold tracking-tight text-[#F3F5F7]">{title}</h3>
       <dl className="mt-3 space-y-2.5">
         {rows.map(([k, v]) => (

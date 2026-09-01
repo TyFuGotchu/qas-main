@@ -12,7 +12,7 @@ export function HardFlatRecommendation({
   return (
     <div
       className={cn(
-        "rounded-[6px] border border-[rgba(199,170,255,0.18)] bg-[#12081A] px-4 py-3",
+        "e8-hud-module px-4 py-3",
         className
       )}
     >

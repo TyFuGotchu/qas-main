@@ -181,7 +181,7 @@ function Field({
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="mt-1 h-10 w-full rounded-[6px] border border-[rgba(199,170,255,0.18)] bg-[#12081A] px-3 text-sm text-white placeholder:text-[#A89BB8] outline-none focus:border-[#E4D4FF]"
+        className="mt-1 h-10 w-full rounded-[16px] border border-white/15 bg-[#07060C] px-3 text-sm text-white placeholder:text-[#C9C2D6] outline-none focus:border-[#7DFFC4]"
       />
     </label>
   );
@@ -189,23 +189,29 @@ function Field({
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-[6px] border border-[rgba(199,170,255,0.18)] bg-[#12081A] px-3 py-2">
-      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#A89BB8]">{label}</p>
-      <p className="mt-1 text-sm font-medium text-white">{value}</p>
+    <div className="e8-hud-card px-3 py-2">
+      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#C9C2D6]">{label}</p>
+      <p className="mt-1 text-sm font-medium text-[#F5F3FA]">{value}</p>
     </div>
   );
 }
 
 function StatusPill({ status }: { status: GuardStatus }) {
   return (
-    <div className="rounded-[6px] border border-[rgba(199,170,255,0.18)] bg-[#12081A] px-3 py-2">
-      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#A89BB8]">Status</p>
+    <div
+      className={cn(
+        "e8-hud-module px-3 py-2",
+        status === "TIGHT" && "e8-hud-module--gold",
+        status === "BREACH RISK" && "e8-hud-module--rose"
+      )}
+    >
+      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#C9C2D6]">Status</p>
       <p
         className={cn(
           "mt-1 text-sm font-semibold",
-          status === "SAFE" && "text-emerald-300",
-          status === "TIGHT" && "text-amber-200",
-          status === "BREACH RISK" && "text-red-300"
+          status === "SAFE" && "text-[#7DFFC4]",
+          status === "TIGHT" && "text-[#F5C84C]",
+          status === "BREACH RISK" && "text-[#FF6B8A]"
         )}
       >
         {status}

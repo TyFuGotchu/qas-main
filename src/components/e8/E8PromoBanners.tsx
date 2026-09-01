@@ -95,7 +95,7 @@ export function E8PromoHeroStrip() {
 export function E8PromoDeskCard() {
   const live = getLiveE8Discounts();
   return (
-    <div className="rounded-[8px] border border-[#E4D4FF]/30 bg-[#0B0712] px-4 py-4">
+    <div className="e8-hud-module px-4 py-4">
       <div className="flex items-center gap-2">
         <E8Mark />
         <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#E4D4FF]">

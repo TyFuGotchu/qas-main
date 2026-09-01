@@ -88,7 +88,7 @@ function E8ExecutionCenterInner({
   return (
     <div
       className={cn(
-        "e8-desk overflow-hidden rounded-[8px] border",
+        "e8-desk overflow-hidden rounded-[18px] border",
         variant === "card" ? "p-5" : "p-0"
       )}
     >
@@ -105,7 +105,7 @@ function E8ExecutionCenterInner({
           </div>
           <Link
             href={context === "dashboard" ? E8_DASHBOARD_PATH : E8_PUBLIC_PATH}
-            className="font-mono text-xs text-[#E4D4FF] hover:text-white"
+            className="font-mono text-xs text-[#7DFFC4] hover:text-white"
           >
             Open full center →
           </Link>
@@ -125,8 +125,8 @@ function E8ExecutionCenterInner({
             className={cn(
               "-mb-px shrink-0 border-b px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors",
               active === item.id
-                ? "border-[#E4D4FF] text-[#E4D4FF]"
-                : "border-transparent text-[#A89BB8] hover:text-[#F5F3FA]"
+                ? "border-[#7DFFC4] text-[#F5F3FA]"
+                : "border-transparent text-[#C9C2D6] hover:text-[#F5F3FA]"
             )}
           >
             {item.label}

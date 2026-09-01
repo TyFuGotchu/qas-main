@@ -53,7 +53,7 @@ export const metadata: Metadata = rankingPageMetadata({
 
 export default function E8PublicPage() {
   return (
-    <article className="e8-desk mx-auto max-w-5xl rounded-[8px] px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <article className="e8-desk mx-auto max-w-5xl rounded-[18px] px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
       <JsonLdScript
         data={[
           breadcrumbJsonLd([

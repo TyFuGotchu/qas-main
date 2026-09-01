@@ -165,18 +165,18 @@ function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
                 className={cn(
                   "flex min-w-0 flex-1 items-center gap-3 rounded-[6px] border-l-2 px-3 py-2 text-[13px] tracking-tight transition-colors",
                   parentActive && item.featured
-                    ? "border-l-[#B794FF] bg-[#B794FF]/10 text-[#E4D4FF]"
+                    ? "e8-nav-item border-l-[#7DFFC4] bg-[#1a0f27] text-[#F5F3FA]"
                     : parentActive
                       ? "border-l-[#7FE7DC] bg-white/[0.04] text-[#F3F5F7]"
                       : item.featured
-                        ? "border-l-[#B794FF]/60 text-[#E4D4FF] hover:bg-[#B794FF]/10"
+                        ? "e8-nav-item border-l-[#1a0f27] text-[#C9C2D6] hover:bg-[#1a0f27]/80 hover:text-[#F5F3FA]"
                         : "border-l-transparent text-[#9AA3B2] hover:bg-white/[0.03] hover:text-[#F3F5F7]"
                 )}
               >
                 <Icon className="h-4 w-4 shrink-0" />
                 <span className="flex-1 truncate">{item.label}</span>
                 {item.badge && (
-                  <span className="rounded-[4px] border border-[#B794FF]/40 px-1.5 py-0.5 font-mono text-[8px] uppercase tracking-[0.14em] text-[#E4D4FF]">
+                  <span className="rounded-full border border-[#7DFFC4]/40 px-1.5 py-0.5 font-mono text-[8px] uppercase tracking-[0.14em] text-[#7DFFC4]">
                     {item.badge}
                   </span>
                 )}
@@ -209,9 +209,11 @@ function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
                         "block rounded-[4px] px-2 py-1.5 text-[12px] tracking-tight transition-colors",
                         childActive
                           ? item.featured
-                            ? "bg-[#B794FF]/15 text-[#E4D4FF]"
+                            ? "e8-nav-child is-active"
                             : "bg-white/[0.05] text-[#F3F5F7]"
-                          : "text-[#9AA3B2] hover:text-[#F3F5F7]"
+                          : item.featured
+                            ? "e8-nav-child text-[#C9C2D6] hover:text-[#F5F3FA]"
+                            : "text-[#9AA3B2] hover:text-[#F3F5F7]"
                       )}
                     >
                       {child.label}

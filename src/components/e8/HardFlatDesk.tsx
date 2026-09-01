@@ -175,7 +175,7 @@ export function HardFlatDesk() {
               value={selectedKey}
               disabled={locked}
               onChange={(e) => onAccountChange(e.target.value)}
-              className="mt-1 h-10 w-full rounded-[6px] border border-[rgba(199,170,255,0.18)] bg-[#12081A] px-3 text-sm text-white outline-none focus:border-[#E4D4FF] disabled:opacity-60"
+              className="mt-1 h-10 w-full rounded-[16px] border border-white/15 bg-[#07060C] px-3 text-sm text-white outline-none focus:border-[#7DFFC4] disabled:opacity-60"
             >
               {view.accounts.map((account) => (
                 <option
@@ -189,7 +189,7 @@ export function HardFlatDesk() {
               ))}
             </select>
           ) : (
-            <div className="mt-1 flex h-10 items-center rounded-[6px] border border-[rgba(199,170,255,0.18)] bg-[#12081A] px-3 text-sm text-[#C9C2D6]">
+            <div className="mt-1 flex h-10 items-center rounded-[16px] border border-white/15 bg-[#07060C] px-3 text-sm text-[#C9C2D6]">
               {view.accountLabel ?? "No TradeLocker connection"}
             </div>
           )}
@@ -251,13 +251,13 @@ export function HardFlatDesk() {
         </p>
       )}
 
-      <label className="flex items-start gap-3 rounded-[6px] border border-[rgba(199,170,255,0.18)] bg-[#12081A] px-3 py-3">
+      <label className="flex items-start gap-3 rounded-[18px] border border-white/15 bg-[#0B0912] px-3 py-3">
         <input
           type="checkbox"
           checked={confirm}
           onChange={(e) => setConfirm(e.target.checked)}
           disabled={locked}
-          className="mt-0.5 h-4 w-4 accent-[#B794FF]"
+          className="mt-0.5 h-4 w-4 accent-[#7DFFC4]"
         />
         <span className="text-sm leading-relaxed text-[#F5F3FA]">
           I understand this will close open positions if the floor is hit.
@@ -300,7 +300,7 @@ export function HardFlatDesk() {
           <button
             type="button"
             onClick={() => retryHardFlatTick()}
-            className="font-mono text-[#E4D4FF] hover:text-white"
+            className="font-mono text-[#7DFFC4] hover:text-white"
           >
             Retry
           </button>
@@ -329,6 +329,7 @@ export function HardFlatDesk() {
         <Button
           variant="e8Secondary"
           type="button"
+          className="e8-btn-disarm"
           onClick={() => {
             setArmError("");
             disarmHardFlat();
@@ -374,7 +375,7 @@ function Field({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         disabled={disabled}
-        className="mt-1 h-10 w-full rounded-[6px] border border-[rgba(199,170,255,0.18)] bg-[#12081A] px-3 text-sm text-white placeholder:text-[#A89BB8] outline-none focus:border-[#E4D4FF] disabled:opacity-60"
+        className="mt-1 h-10 w-full rounded-[16px] border border-white/15 bg-[#07060C] px-3 text-sm text-white placeholder:text-[#C9C2D6] outline-none focus:border-[#7DFFC4] disabled:opacity-60"
       />
     </label>
   );
@@ -382,29 +383,37 @@ function Field({
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-[6px] border border-[rgba(199,170,255,0.18)] bg-[#12081A] px-3 py-2">
-      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#A89BB8]">
+    <div className="e8-hud-card px-3 py-2">
+      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#C9C2D6]">
         {label}
       </p>
-      <p className="mt-1 text-sm font-medium text-white">{value}</p>
+      <p className="mt-1 text-sm font-medium text-[#F5F3FA]">{value}</p>
     </div>
   );
 }
 
 function StatusPill({ status }: { status: HardFlatStatus }) {
   return (
-    <div className="rounded-[6px] border border-[rgba(199,170,255,0.18)] bg-[#12081A] px-3 py-2">
-      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#A89BB8]">
+    <div
+      className={cn(
+        "e8-hud-module px-3 py-2",
+        status === "ARMED" && "e8-hud-module",
+        status === "TIGHT" && "e8-hud-module--gold",
+        (status === "TRIGGERED" || status === "ERROR") && "e8-hud-module--rose",
+        status === "DISARMED" && "e8-hud-module--muted"
+      )}
+    >
+      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#C9C2D6]">
         Status
       </p>
       <p
         className={cn(
           "mt-1 font-mono text-sm font-semibold tracking-[0.08em]",
-          status === "DISARMED" && "text-[#A89BB8]",
-          status === "ARMED" && "text-[#E4D4FF]",
-          status === "TIGHT" && "text-amber-200",
-          status === "TRIGGERED" && "text-red-300",
-          status === "ERROR" && "text-red-400"
+          status === "DISARMED" && "text-[#C9C2D6]",
+          status === "ARMED" && "text-[#7DFFC4]",
+          status === "TIGHT" && "text-[#F5C84C]",
+          status === "TRIGGERED" && "text-[#FF6B8A]",
+          status === "ERROR" && "text-[#FF6B8A]"
         )}
       >
         {status}
