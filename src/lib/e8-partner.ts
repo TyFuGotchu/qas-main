@@ -73,8 +73,21 @@ function publicEnv(name: string): string {
 export const E8_AFFILIATE_URL = "https://e8markets.com/d/C19F0A0D";
 export const E8_AFFILIATE_CODE = "C19F0A0D";
 
+function isE8TrackedAffiliateUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname.replace(/^www\./, "").toLowerCase();
+    return host === "e8markets.com" && parsed.pathname.startsWith("/d/");
+  } catch {
+    return false;
+  }
+}
+
+/** Live E8 signup path. Env override must be a tracked /d/ link, never the generic homepage. */
 export function getE8ReferralUrl(): string {
-  return publicEnv(E8_REFERRAL_LINK_ENV) || E8_AFFILIATE_URL;
+  const fromEnv = publicEnv(E8_REFERRAL_LINK_ENV);
+  if (fromEnv && isE8TrackedAffiliateUrl(fromEnv)) return fromEnv;
+  return E8_AFFILIATE_URL;
 }
 
 export function getE8YoutubeUrl(): string | null {
@@ -152,7 +165,7 @@ export const E8_SIGNUP = {
   cta: "Open E8 Account",
   liveBody:
     "Open your E8 account through the official Quicksilver referral path so attribution stays on this desk.",
-  codeHint: `Use code ${E8_AFFILIATE_CODE} at checkout if shown.`,
+  codeHint: `Use code ${E8_AFFILIATE_CODE} at E8 checkout if shown.`,
 } as const;
 
 export const E8_OVERVIEW_CHIPS = [

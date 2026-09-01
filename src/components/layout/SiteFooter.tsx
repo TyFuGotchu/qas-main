@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FOUNDER } from "@/lib/founder-social";
 import { FounderSocialIcons } from "@/components/marketing/FounderSocialIcons";
-import { E8_PUBLIC_PATH, getE8ReferralUrl } from "@/lib/e8-partner";
+import { E8AffiliateLink } from "@/components/e8/E8AffiliateLink";
+import { E8_PUBLIC_PATH } from "@/lib/e8-partner";
 import { useSession } from "@/providers/SessionProvider";
 
 const PRODUCT_LINKS = [
@@ -65,17 +66,12 @@ export function SiteFooter() {
         </FooterColumn>
 
         <FooterColumn title="Partner">
-          <FooterLink href={E8_PUBLIC_PATH} accent="e8">
+          <E8AffiliateLink className="flex h-6 items-center text-[13px] text-[#9AA3B2] transition-colors hover:text-[#C8ACFF]">
             E8 Markets Execution Center
-          </FooterLink>
-          <a
-            href={getE8ReferralUrl()}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex h-6 items-center text-[13px] text-[#9AA3B2] transition-colors hover:text-[#C8ACFF]"
-          >
+          </E8AffiliateLink>
+          <E8AffiliateLink className="flex h-6 items-center text-[13px] text-[#9AA3B2] transition-colors hover:text-[#C8ACFF]">
             Direct Signup
-          </a>
+          </E8AffiliateLink>
         </FooterColumn>
 
         <div>

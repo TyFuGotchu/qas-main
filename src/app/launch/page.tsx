@@ -5,6 +5,7 @@ import { PremiumValueStack } from "@/components/tools/PremiumValueStack";
 import { PropFirmTimeline } from "@/components/academy/PropFirmTimeline";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
+import { E8AffiliateLink } from "@/components/e8/E8AffiliateLink";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
 import {
   PLAYBOOK_LAUNCH_FAQS,
@@ -108,11 +109,11 @@ export default function PlaybookLaunchPage() {
               Free Playbook Preview
             </Button>
           </Link>
-          <Link href="/e8">
+          <E8AffiliateLink>
             <Button variant="ghost" size="lg">
               E8 Execution Center
             </Button>
-          </Link>
+          </E8AffiliateLink>
         </div>
         <p className="mt-4 font-mono text-xs text-slate-600">
           Already have an account?{" "}

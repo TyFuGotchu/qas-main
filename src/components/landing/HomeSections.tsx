@@ -27,11 +27,11 @@ import { CHART_ACADEMY_STATS } from "@/lib/premium-includes";
 import { PROP_FIRM_PLAYBOOK_HREF } from "@/lib/prop-firm-challenge-marketing";
 import {
   E8_PRESETS,
-  E8_PUBLIC_PATH,
   E8_WHY,
   getLiveDiscounts,
   getLiveGiveaways,
 } from "@/lib/e8-partner";
+import { E8AffiliateLink } from "@/components/e8/E8AffiliateLink";
 import { E8SignupButton } from "@/components/e8/E8SignupButton";
 import { cn } from "@/lib/utils";
 
@@ -128,9 +128,9 @@ export function HomePropModule() {
             {HOME_PROP_MODULE.subhead}
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href={E8_PUBLIC_PATH}>
+            <E8AffiliateLink>
               <Button variant="gold">Open E8 Execution Center</Button>
-            </Link>
+            </E8AffiliateLink>
             <Link href="/launch">
               <Button variant="secondary">Read the Playbook</Button>
             </Link>
@@ -218,9 +218,9 @@ export function HomeE8Presets() {
             </article>
           ))}
         </div>
-        <Link href={E8_PUBLIC_PATH} className="mt-8 inline-block font-mono text-sm text-indigo-300 hover:underline">
+        <E8AffiliateLink className="mt-8 inline-block font-mono text-sm text-indigo-300 hover:underline">
           Open E8 Execution Center →
-        </Link>
+        </E8AffiliateLink>
       </div>
     </SectionFrame>
   );
@@ -526,11 +526,11 @@ export function HomeFinalCta() {
           {` ${HOME_LANDING_CODE_HINT}`}
         </p>
         <div className="mt-8 flex flex-col items-center gap-3">
-          <Link href={E8_PUBLIC_PATH}>
+          <E8AffiliateLink>
             <Button variant="gold" size="lg">
               Open E8 Execution Center
             </Button>
-          </Link>
+          </E8AffiliateLink>
           <StartOfferCtas source="homepage_final_cta" premiumOnly />
         </div>
         <p className="mt-5 font-mono text-xs text-slate-500">

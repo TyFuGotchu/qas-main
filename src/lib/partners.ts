@@ -1,9 +1,9 @@
 import { HEROFX_PARTNER_URL } from "@/lib/constants";
 import {
+  E8_AFFILIATE_URL,
   E8_DASHBOARD_PATH,
   E8_EXCLUSIVE_LINE,
   E8_FIRM_NAME,
-  E8_PUBLIC_PATH,
 } from "@/lib/e8-partner";
 
 /**
@@ -30,7 +30,7 @@ export const EXCLUSIVE_PROP_PARTNER = {
   name: E8_FIRM_NAME,
   kind: "prop_firm" as const,
   kindLabel: "Exclusive prop partner",
-  href: E8_PUBLIC_PATH,
+  href: E8_AFFILIATE_URL,
   dashboardHref: E8_DASHBOARD_PATH,
 };
 
