@@ -1,13 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { HOME_HERO } from "@/lib/homepage-copy";
+import { HOME_HERO, HOME_LANDING_CODE_HINT } from "@/lib/homepage-copy";
 import { StartOfferCtas } from "@/components/marketing/StartOfferCtas";
 import { HomeHeroVideo } from "@/components/landing/HomeHeroVideo";
 import { HeroDeskMock } from "@/components/landing/HeroDeskMock";
 import Button from "@/components/ui/Button";
 import { E8_PUBLIC_PATH } from "@/lib/e8-partner";
-import { TRIAL_REQUEST_CTA, getTrialRequestMailto } from "@/lib/trial-request";
 import { Check } from "lucide-react";
 
 export function Hero() {
@@ -45,12 +44,7 @@ export function Hero() {
               </Link>
               <StartOfferCtas source="homepage_hero" premiumOnly className="justify-start" />
             </div>
-            <a
-              href={getTrialRequestMailto()}
-              className="font-mono text-sm text-slate-400 underline-offset-4 hover:text-gold-soft hover:underline"
-            >
-              {TRIAL_REQUEST_CTA}
-            </a>
+            <p className="font-mono text-xs text-slate-400">{HOME_LANDING_CODE_HINT}</p>
           </div>
           <p className="mt-5 max-w-xl font-mono text-xs leading-relaxed text-slate-500">
             {HOME_HERO.microcopy}

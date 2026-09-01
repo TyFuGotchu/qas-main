@@ -1,6 +1,6 @@
 import Button from "@/components/ui/Button";
 import { TrackedCheckoutLink } from "@/components/analytics/TrackedCheckoutLink";
-import { HOME_PRICING } from "@/lib/homepage-copy";
+import { HOME_LANDING_PREMIUM_CTA } from "@/lib/homepage-copy";
 import { TRIAL_REQUEST_CTA, getTrialRequestMailto } from "@/lib/trial-request";
 import { cn } from "@/lib/utils";
 
@@ -32,7 +32,7 @@ export function StartOfferCtas({
     >
       <TrackedCheckoutLink source={source} offer="discount">
         <Button variant="gold" size={size} className="w-full sm:w-auto">
-          {HOME_PRICING.discount.heroCta}
+          {HOME_LANDING_PREMIUM_CTA}
         </Button>
       </TrackedCheckoutLink>
       {!premiumOnly && (

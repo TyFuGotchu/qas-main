@@ -52,10 +52,10 @@ export function HeroDeskMock() {
           </div>
           <p className="mt-3 font-mono text-xs text-slate-300">Operator-supervised</p>
           <p className="mt-1 font-mono text-[10px] text-silver-muted">
-            Status: idle · not in free trial
+            Status: idle · Premium
           </p>
           <p className="mt-3 font-mono text-[10px] leading-relaxed text-slate-500">
-            Enable Quant Protocol with Premium. Bot not included in free trial.
+            Enable Quant Protocol with Premium.
           </p>
         </div>
       </div>

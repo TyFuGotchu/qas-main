@@ -11,12 +11,12 @@ export const HOME_HERO = {
   eyebrow: "Official E8 Markets Partner • TradeLocker Desktop • Trading OS",
   h1: "Trade with structure, not impulse.",
   subhead:
-    "Quicksilver is the execution + risk workflow stack for E8 Markets traders on TradeLocker — structure, risk presets, journaling, live growth tools, and optional supervised automation.",
+    "Quicksilver is an execution + risk workflow stack for E8 Markets traders on TradeLocker — structure, risk presets, journaling, live growth tools, and optional supervised automation.",
   bullets: [
     "E8-exclusive routing — one recommended prop firm, not a multi-firm marketplace",
     "Risk presets for evaluation discipline: daily-loss and trailing-drawdown awareness",
     "Live growth terminal for funded and live-account operators",
-    "Manual traders welcome. Optional Quant Protocol is Premium — bot not included in free trial.",
+    "Manual traders welcome. Optional Quant Protocol is Premium.",
   ],
   microcopy:
     "Educational tools only. Cancel anytime. Official E8 rules are set by E8 Markets. Quicksilver does not guarantee a pass, payout, or funded account. Trading is high risk. Not financial advice.",
@@ -92,8 +92,8 @@ export const HOME_TRADELOCKER = {
 export const HOME_QUANT = {
   title: "Quant Protocol — optional, operator-supervised",
   subhead:
-    "Automation is part of Premium, not the product identity. Quant Protocol is an optional layer for traders who already have a workflow. It is not set-and-forget. Bot not included in free trial.",
-  premiumNote: "Premium only / not in free trial",
+    "Automation is part of Premium, not the product identity. Quant Protocol is an optional layer for traders who already have a workflow. It is not set-and-forget.",
+  premiumNote: "Premium only",
   points: [
     "Optional Quant Protocol on TradeLocker Desktop",
     "Operator-supervised — you still own risk, sessions, and rules",
@@ -151,9 +151,13 @@ export const HOME_PRICING = {
     body: "Default Premium path including Quant Protocol access request on TradeLocker Desktop",
     extra: "Eligible for Quant Protocol on TradeLocker Desktop. Priority support included.",
     cta: "Start Premium — first month 30% off",
-    heroCta: "Start Premium — first month 30% off",
+    heroCta: "Start Premium — first month 30% off with code E8",
   },
 } as const;
+
+export const HOME_LANDING_PREMIUM_CTA =
+  "Start Premium — first month 30% off with code E8";
+export const HOME_LANDING_CODE_HINT = "Use code E8 on Quicksilver checkout.";
 
 export const HOME_FOR = [
   "Live-account traders who want a growth terminal, risk visibility, and a review loop",
@@ -185,9 +189,9 @@ export const HOME_FAQS: { question: string; answer: string }[] = [
       "No. It includes live growth terminal tools for live-account traders, plus the E8 Execution Center for evaluations. E8 Markets is the exclusive recommended prop firm — not the entire product.",
   },
   {
-    question: "Is the bot included in the free trial?",
+    question: "Is Quant Protocol included with Premium?",
     answer:
-      "No. 3-day trial available on request. Bot not included. The trial covers the workflow/manual stack. Quant Protocol requires Premium.",
+      "Yes. Quant Protocol access is part of Premium. It is optional, operator-supervised, and TradeLocker Desktop only.",
   },
   {
     question: "Can manual traders use Quicksilver without the bot?",
@@ -196,12 +200,11 @@ export const HOME_FAQS: { question: string; answer: string }[] = [
   },
   {
     question: "What is the first-month discount?",
-    answer: `30% off the first month (${DISCOUNT_FIRST_MONTH_PRICE}), then ${PREMIUM_PRICE}/mo.`,
+    answer: `30% off the first month (${DISCOUNT_FIRST_MONTH_PRICE}) with code E8 on Quicksilver checkout, then ${PREMIUM_PRICE}/mo.`,
   },
   {
-    question: "What is included in the 3-day free trial?",
-    answer:
-      "3-day trial available on request. Bot not included. Admin can grant trial access from the Users panel. Workflow, journal, planning, live growth, and prop tools as enabled for trial. Quant Protocol is Premium-only.",
+    question: "How do I start Premium?",
+    answer: `Start Premium — first month 30% off with code E8. Use code E8 on Quicksilver checkout (${DISCOUNT_FIRST_MONTH_PRICE} first month, then ${PREMIUM_PRICE}/mo).`,
   },
   {
     question: "Which prop firm does Quicksilver recommend?",
@@ -219,7 +222,7 @@ export const HOME_FAQS: { question: string; answer: string }[] = [
   },
   {
     question: "Do I buy the bot separately?",
-    answer: `No. Quant Protocol access is part of Premium Quant at ${PREMIUM_PRICE}/mo — not the free trial. Request access on the TradeLocker Hub with the same email you use for Desktop.`,
+    answer: `No. Quant Protocol access is part of Premium Quant at ${PREMIUM_PRICE}/mo. Request access on the TradeLocker Hub with the same email you use for Desktop.`,
   },
   {
     question: "Is this set and forget?",

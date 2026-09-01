@@ -4,12 +4,14 @@ import { Check, X } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { TrackedCheckoutLink } from "@/components/analytics/TrackedCheckoutLink";
 import { StartOfferCtas } from "@/components/marketing/StartOfferCtas";
-import { TRIAL_REQUEST_COPY, getTrialRequestMailto } from "@/lib/trial-request";
 import { TrustBox } from "@/components/marketing/TrustBox";
 import {
   HOME_COMPARISON,
   HOME_FAQS,
   HOME_FOR,
+  HOME_HERO,
+  HOME_LANDING_CODE_HINT,
+  HOME_LANDING_PREMIUM_CTA,
   HOME_LIVE_GROWTH,
   HOME_NOT_FOR,
   HOME_PRICING,
@@ -415,11 +417,11 @@ export function HomePricingChooser() {
       className="scroll-mt-28 border-t border-white/[0.05]"
     >
       <div id="pricing" className="mx-auto max-w-5xl scroll-mt-28">
-        <Eyebrow>{HOME_PRICING.chooserLabel}</Eyebrow>
+        <Eyebrow>First month 30% off with code E8</Eyebrow>
         <h2 className="mt-4 text-center text-2xl font-semibold tracking-tight text-[#F3F5F7] sm:text-4xl">
           {HOME_PRICING.title}
         </h2>
-        <div className="mt-12 grid gap-6 md:grid-cols-2">
+        <div className="mx-auto mt-12 max-w-lg">
           <article className="flex flex-col rounded-[8px] border border-gold-soft/35 bg-gold-soft/[0.05] p-7">
             <h3 className="font-mono text-xl font-bold text-white">
               {HOME_PRICING.discount.name}
@@ -434,42 +436,21 @@ export function HomePricingChooser() {
             <p className="mt-5 text-sm leading-relaxed text-slate-300">
               {HOME_PRICING.discount.body}
             </p>
+            <p className="mt-4 font-mono text-sm text-gold-soft">{HOME_LANDING_CODE_HINT}</p>
             <p className="mt-4 text-xs leading-relaxed text-slate-400">
               {HOME_PRICING.discount.extra}
             </p>
             <div className="mt-8">
               <TrackedCheckoutLink source="homepage_pricing" offer="discount">
                 <Button variant="gold" size="lg" className="w-full">
-                  {HOME_PRICING.discount.cta}
+                  {HOME_LANDING_PREMIUM_CTA}
                 </Button>
               </TrackedCheckoutLink>
             </div>
           </article>
-
-          <article className="flex flex-col rounded-[8px] border border-white/[0.08] bg-white/[0.02] p-7">
-            <h3 className="font-mono text-xl font-bold text-white">{HOME_PRICING.trial.name}</h3>
-            <p className="mt-4 font-mono text-4xl font-bold text-white">
-              {HOME_PRICING.trial.price}
-              <span className="ml-2 text-base font-normal text-slate-500">
-                {HOME_PRICING.trial.priceNote}
-              </span>
-            </p>
-            <p className="mt-5 text-sm leading-relaxed text-slate-300">{HOME_PRICING.trial.body}</p>
-            <p className="mt-4 rounded-lg border border-white/[0.08] px-3 py-2 font-mono text-xs text-slate-400">
-              {TRIAL_REQUEST_COPY}
-            </p>
-            <p className="mt-3 text-xs leading-relaxed text-slate-500">{HOME_PRICING.trial.extra}</p>
-            <div className="mt-8">
-              <a href={getTrialRequestMailto()}>
-                <Button variant="secondary" size="lg" className="w-full">
-                  {HOME_PRICING.trial.cta}
-                </Button>
-              </a>
-            </div>
-          </article>
         </div>
         <p className="mx-auto mt-8 max-w-xl text-center font-mono text-xs leading-relaxed text-slate-500">
-          {HOME_PRICING.microcopy}
+          {HOME_HERO.microcopy}
         </p>
       </div>
     </SectionFrame>
@@ -541,8 +522,8 @@ export function HomeFinalCta() {
           Start with structure. Add automation only if you need it.
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-slate-400">
-          Open the E8 Execution Center, or start Premium with first month 30% off. 3-day
-          trial available on request. Bot not included.
+          Open the E8 Execution Center, or start Premium with first month 30% off.
+          {` ${HOME_LANDING_CODE_HINT}`}
         </p>
         <div className="mt-8 flex flex-col items-center gap-3">
           <Link href={E8_PUBLIC_PATH}>
@@ -550,11 +531,10 @@ export function HomeFinalCta() {
               Open E8 Execution Center
             </Button>
           </Link>
-          <StartOfferCtas source="homepage_final_cta" />
+          <StartOfferCtas source="homepage_final_cta" premiumOnly />
         </div>
         <p className="mt-5 font-mono text-xs text-slate-500">
-          {TRIAL_REQUEST_COPY} Cancel anytime. Educational tools only. Official E8 rules are
-          set by E8 Markets. No pass or payout guarantee.
+          {HOME_HERO.microcopy}
         </p>
         <TrustBox className="mx-auto mt-10 max-w-2xl text-center" />
       </div>
