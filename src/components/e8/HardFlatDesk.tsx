@@ -113,7 +113,7 @@ export function HardFlatDesk() {
     }
   }
 
-  function useBuffer(bufferUsd: number) {
+  function applyBuffer(bufferUsd: number) {
     if (locked || e8Limits.e8Limit <= 0) return;
     const next = recommendedFloor(e8Limits.e8Limit, bufferUsd);
     setFloor(String(next));
@@ -235,7 +235,7 @@ export function HardFlatDesk() {
       <Button
         variant="e8Secondary"
         type="button"
-        onClick={() => useBuffer(HARD_FLAT_BUFFER_SAFE_USD)}
+        onClick={() => applyBuffer(HARD_FLAT_BUFFER_SAFE_USD)}
         disabled={locked || rec200 == null}
       >
         Use $200 buffer
