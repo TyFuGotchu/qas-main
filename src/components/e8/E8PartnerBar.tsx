@@ -1,16 +1,7 @@
-import { E8AffiliateLink } from "@/components/e8/E8AffiliateLink";
-import { E8_BAR_LINE, E8_PARTNER_LINE } from "@/lib/e8-partner";
+import { E8PromoRail } from "@/components/e8/E8PromoBanners";
 
 export function E8PartnerBar() {
-  return (
-    <E8AffiliateLink className="e8-bar flex w-full items-center justify-center gap-x-3 gap-y-1 border-b px-4 py-2 text-center transition-colors hover:brightness-110">
-      <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#E4D4FF] sm:text-[11px]">
-        {E8_PARTNER_LINE}
-      </span>
-      <span className="hidden h-3 w-px bg-[#B794FF]/40 sm:block" />
-      <span className="font-mono text-[10px] text-[#C9C2D6] sm:text-[11px]">{E8_BAR_LINE}</span>
-    </E8AffiliateLink>
-  );
+  return <E8PromoRail />;
 }
 
 export function E8DashboardPartnerBar() {

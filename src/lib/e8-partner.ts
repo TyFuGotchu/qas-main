@@ -90,6 +90,62 @@ export function getE8ReferralUrl(): string {
   return E8_AFFILIATE_URL;
 }
 
+export const E8_PROMO_COMPLIANCE =
+  "Educational only. High risk. Official rules and live prices are set by E8 Markets. Quicksilver does not guarantee a pass or payout.";
+
+export const E8_LIVE_DISCOUNTS = [
+  {
+    id: "one-pro-perps",
+    live: true,
+    short: "50%",
+    line: "E8 One & E8 Pro Perpetual Futures — up to 50% off first order, 30% off second",
+    button: "50% · One / Pro Perps",
+    railOffer: "Up to 50% off One / Pro Perpetual Futures",
+  },
+  {
+    id: "zero",
+    live: true,
+    short: "35%",
+    line: "E8 Zero — 35% off",
+    button: "35% · E8 Zero",
+    railOffer: "E8 Zero 35% off",
+  },
+  {
+    id: "sig-futures",
+    live: true,
+    short: "20%",
+    line: "E8 Signature Futures — 20% off",
+    button: "20% · Signature Futures",
+    railOffer: "Signature Futures 20% off",
+  },
+  {
+    id: "standard-book",
+    live: true,
+    short: "10%",
+    line: "E8 One / Pro / Signature (standard book) — 10% off",
+    button: "10% · Standard book",
+    railOffer: "Standard book 10% off",
+  },
+] as const;
+
+export function getLiveE8Discounts() {
+  return E8_LIVE_DISCOUNTS.filter((item) => item.live);
+}
+
+export const E8_PROMO_COPY = {
+  partnerMark: "E8",
+  partnerLine: "OFFICIAL E8 MARKETS PARTNER",
+  openThrough: "Open through Quicksilver",
+  hero:
+    "E8 accounts through our desk. Perps up to 50% off first order. Signature Futures 20% off. Zero 35% off.",
+  heroCta: "Open E8 with our link",
+  deskNote:
+    "Flatten and Rule Desk apply to TradeLocker FX / metals / indices. Perps and E8 Futures run on E8 Terminal.",
+  sidebarTitle: "E8 live discounts",
+  footerLead: "E8 Markets partner · Up to 50% off perpetual futures",
+  signupCta: "Get E8 account",
+} as const;
+
 export function getE8YoutubeUrl(): string | null {
   return publicEnv(E8_YOUTUBE_LINK_ENV) || null;
 }

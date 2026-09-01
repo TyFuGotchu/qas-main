@@ -26,11 +26,11 @@ import {
   getLiveGiveaways,
 } from "@/lib/e8-partner";
 import { E8ComplianceNote } from "@/components/e8/E8ComplianceNote";
-import { E8SignupButton } from "@/components/e8/E8SignupButton";
 import { E8RulesDesk } from "@/components/e8/E8RulesDesk";
 import { E8PresetDesk } from "@/components/e8/E8PresetDesk";
 import { HardFlatDesk } from "@/components/e8/HardFlatDesk";
 import { HardFlatRecommendation } from "@/components/e8/HardFlatRecommendation";
+import { E8PromoDeskCard, E8PromoSignupBlock } from "@/components/e8/E8PromoBanners";
 import { cn } from "@/lib/utils";
 
 interface E8ExecutionCenterProps {
@@ -111,6 +111,10 @@ function E8ExecutionCenterInner({
           </Link>
         </div>
       )}
+
+      <div className={variant === "card" ? "mb-5" : "border-b border-[rgba(199,170,255,0.18)] p-5 sm:px-6"}>
+        <E8PromoDeskCard />
+      </div>
 
       <div className="flex gap-0 overflow-x-auto border-b border-white/[0.08]">
         {tabs.map((item) => (
@@ -195,7 +199,7 @@ function SignupTab() {
       <h3 className="text-lg font-semibold tracking-tight text-[#F3F5F7]">{E8_SIGNUP.cta}</h3>
       <p className="mt-2 max-w-xl text-sm leading-relaxed text-[#C9C2D6]">{E8_SIGNUP.liveBody}</p>
       <div className="mt-6">
-        <E8SignupButton />
+        <E8PromoSignupBlock />
       </div>
     </div>
   );

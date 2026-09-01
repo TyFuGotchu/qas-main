@@ -6,6 +6,7 @@ import { HomeHeroVideo } from "@/components/landing/HomeHeroVideo";
 import { HeroDeskMock } from "@/components/landing/HeroDeskMock";
 import Button from "@/components/ui/Button";
 import { E8AffiliateLink } from "@/components/e8/E8AffiliateLink";
+import { E8PromoHeroStrip } from "@/components/e8/E8PromoBanners";
 import { Check } from "lucide-react";
 
 export function Hero() {
@@ -53,6 +54,10 @@ export function Hero() {
         <div className="lg:pt-4">
           <HeroDeskMock />
         </div>
+      </div>
+
+      <div className="relative mx-auto mt-10 max-w-6xl">
+        <E8PromoHeroStrip />
       </div>
 
       <div className="relative mx-auto mt-14 max-w-6xl">

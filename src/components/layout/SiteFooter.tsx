@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { FOUNDER } from "@/lib/founder-social";
 import { FounderSocialIcons } from "@/components/marketing/FounderSocialIcons";
 import { E8AffiliateLink } from "@/components/e8/E8AffiliateLink";
+import { E8PromoFooterStrip } from "@/components/e8/E8PromoBanners";
 import { E8_PUBLIC_PATH } from "@/lib/e8-partner";
 import { useSession } from "@/providers/SessionProvider";
 
@@ -97,6 +98,7 @@ export function SiteFooter() {
         </div>
       </div>
 
+      <E8PromoFooterStrip />
       <div className="border-t border-white/[0.08] px-6 py-3.5 sm:px-8 lg:px-10">
         <p className="text-center font-mono text-[10px] tracking-wide text-[#9AA3B2]/70">
           © {year} Quicksilver Algo Systems · Founded by {FOUNDER.legalName} · quicksilveralgo.com

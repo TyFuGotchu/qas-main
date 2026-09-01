@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { TRADING_BOTS_NAV } from "@/lib/trading-bots";
 import { E8_CENTER_TABS, E8_DASHBOARD_PATH } from "@/lib/e8-partner";
+import { E8PromoSidebarCard } from "@/components/e8/E8PromoBanners";
 
 interface NavChild {
   href: string;
@@ -269,7 +270,8 @@ export function Sidebar({ mobileOpen = false, onNavigate }: SidebarProps) {
         <SidebarNav onNavigate={onNavigate} />
       </Suspense>
 
-      <div className="border-t border-white/[0.08] p-4">
+      <div className="space-y-3 border-t border-white/[0.08] p-4">
+        <E8PromoSidebarCard />
         <div className="rounded-[6px] border border-white/[0.08] bg-[#141A24] p-3">
           <p className="font-mono text-[10px] uppercase tracking-widest text-slate-600">
             System Status
