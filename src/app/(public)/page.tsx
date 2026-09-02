@@ -31,7 +31,7 @@ import {
 import { E8_POSITIONING } from "@/lib/e8-partner";
 
 export const metadata: Metadata = rankingPageMetadata({
-  title: "E8 Markets Partner | TradeLocker Trading OS | Quicksilver Algo",
+  title: "TradeLocker Trading OS | E8 Markets Partner | Quicksilver Algo",
   description: `${E8_POSITIONING} First month 30% off Premium with code E8. Educational tools only.`,
   path: "/",
   modifiedAt: SEO_RECOVERY_REFRESHED,

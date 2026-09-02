@@ -5,8 +5,9 @@ import { StartOfferCtas } from "@/components/marketing/StartOfferCtas";
 import { HomeHeroVideo } from "@/components/landing/HomeHeroVideo";
 import { HeroDeskMock } from "@/components/landing/HeroDeskMock";
 import Button from "@/components/ui/Button";
-import { E8AffiliateLink } from "@/components/e8/E8AffiliateLink";
 import { E8PromoHeroStrip } from "@/components/e8/E8PromoBanners";
+import { E8_PUBLIC_PATH } from "@/lib/e8-partner";
+import Link from "next/link";
 import { Check } from "lucide-react";
 
 export function Hero() {
@@ -37,11 +38,11 @@ export function Hero() {
           </ul>
           <div className="mt-10 flex flex-col items-start gap-3">
             <div className="flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <E8AffiliateLink>
+              <Link href={E8_PUBLIC_PATH}>
                 <Button variant="gold" size="lg" className="w-full sm:w-auto">
-                  Open E8 Execution Center
+                  E8 Execution Center
                 </Button>
-              </E8AffiliateLink>
+              </Link>
               <StartOfferCtas source="homepage_hero" premiumOnly className="justify-start" />
             </div>
             <p className="font-mono text-xs text-slate-400">{HOME_LANDING_CODE_HINT}</p>

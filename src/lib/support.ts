@@ -67,7 +67,7 @@ export const SITE_FAQS: FaqItem[] = [
     category: "Getting Started",
     question: "Is Quicksilver only for prop traders?",
     answer:
-      "No. It includes live growth terminal tools for live-account traders, plus the E8 Execution Center for evaluations. E8 Markets is the exclusive recommended prop firm — not the entire product.",
+      "No. Any TradeLocker trader can use the desk. Live growth, academy, and tools do not require an E8 account. E8 Markets is the recommended prop firm; the E8 Execution Center is the hub if you want that path.",
   },
   {
     id: "manual-without-bot",
@@ -172,14 +172,14 @@ export const SITE_FAQS: FaqItem[] = [
     category: "Prop Firms",
     question: "Is E8 Markets the only recommended prop firm?",
     answer:
-      "Yes. E8 Markets is the exclusive recommended prop firm. The E8 Execution Center covers challenge rules, risk presets, and direct signup. HeroFX and Risen FX are live-account broker options only. Quicksilver does not list competing prop firms as equal recommendations.",
+      "E8 Markets is the recommended prop firm and in-house collab partner. The E8 Execution Center covers challenge rules, risk presets, and Direct Signup. You can use Quicksilver without an E8 account. HeroFX and Risen FX are live-account broker options only.",
   },
   {
     id: "recommended-partners",
     category: "Trading",
     question: "Which brokers or prop firms do you recommend?",
     answer:
-      "E8 Markets is the exclusive recommended prop firm. Open the E8 Execution Center at /e8 for rules, risk presets, and direct signup. HeroFX and Risen FX may be used as live-account brokers only — they are not competing prop recommendations. Quant Protocol remains optional Premium.",
+      "E8 Markets is the recommended prop firm. Open the E8 Execution Center at /e8 if you want that path. You do not need an E8 account to use live growth, academy, or tools. HeroFX and Risen FX are live-account brokers only. Quant Protocol remains optional Premium.",
   },
   {
     id: "tradelocker-setup",

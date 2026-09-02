@@ -9,10 +9,11 @@ export const E8_PUBLIC_PATH = "/e8";
 export const E8_DASHBOARD_PATH = "/dashboard/e8";
 export const E8_ALT_PUBLIC_PATH = "/e8-execution-center";
 
-export const E8_POSITIONING = "Quicksilver is a TradeLocker desk for E8 Markets.";
+export const E8_POSITIONING =
+  "Quicksilver is a TradeLocker desk for traders. E8 Markets is the recommended prop firm.";
 
 export const E8_HERO_SENTENCE =
-  "Quicksilver is a TradeLocker desk for E8 Markets — hard equity-stop and the Rule Desk are built to flatten before E8’s daily or max drawdown can tag the account.";
+  "The E8 Execution Center is the partner hub for E8 — Rule Desk, risk presets, and hard equity-stop flatten. You do not need an E8 account to use the rest of Quicksilver.";
 
 export const HARD_FLAT_RECOMMENDATION = {
   title: "Recommendation",
@@ -419,8 +420,8 @@ export const E8_WHY = {
   title: "Why E8 + Quicksilver together",
   points: [
     {
-      title: "Exclusive routing",
-      text: "One recommended prop firm. No generic multi-firm marketplace.",
+      title: "Recommended prop firm",
+      text: "E8 Markets is the in-house collab partner. Other TradeLocker traders can use Quicksilver with no E8 account.",
     },
     {
       title: "Structure first",

@@ -3,20 +3,20 @@ import {
   PREMIUM_PRICE,
   TRIAL_PRICE_TODAY,
 } from "@/lib/pricing-constants";
-import { E8_HERO_SENTENCE } from "@/lib/e8-partner";
 
 export const HOME_ANNOUNCEMENT =
   "Official E8 Markets Partner | E8 Execution Center — Challenges, Rules, Direct Signup";
 
 export const HOME_HERO = {
-  eyebrow: "Official E8 Markets Partner • TradeLocker Desktop • Trading OS",
-  h1: "Flatten before E8’s drawdown tags the account.",
-  subhead: E8_HERO_SENTENCE,
+  eyebrow: "TradeLocker Desktop • Trading OS • E8 Markets partner",
+  h1: "A TradeLocker desk for traders.",
+  subhead:
+    "Quicksilver is a TradeLocker desk — planning, risk, journal, live growth, and optional supervised automation. You do not need an E8 account. E8 Markets is the recommended prop firm if you want that path.",
   bullets: [
-    "Hard equity-stop flatten — trip before E8’s daily or max drawdown tags the account",
-    "Rule Desk for E8 One, Pro, and Signature — plan the floor, then ARM it",
+    "Works with any TradeLocker account — manual, funded, live, or another firm",
     "Live growth terminal for funded and live-account operators",
-    "Manual traders welcome. Optional Quant Protocol is Premium.",
+    "E8 Execution Center if you want the E8 path — Rule Desk, presets, hard equity-stop",
+    "Optional Quant Protocol is Premium — TradeLocker Desktop, not in a trial",
   ],
   microcopy:
     "Educational tools only. Cancel anytime. Official E8 rules are set by E8 Markets. Quicksilver does not guarantee a pass, payout, or funded account. Trading is high risk. Not financial advice.",
@@ -66,9 +66,9 @@ export const HOME_LIVE_GROWTH = {
 
 export const HOME_PROP_MODULE = {
   eyebrow: "Path A · E8 evaluation",
-  title: "E8 Execution Center — exclusive prop partner, not the whole product",
+  title: "E8 Execution Center — recommended prop partner, not the whole product",
   subhead:
-    "E8 Markets is the exclusive recommended prop firm. Challenge traders get E8-mapped risk presets, playbook, and rule-aware workflow. Live growth tools stay first-class for funded and live accounts.",
+    "E8 Markets is the recommended prop firm. The E8 Execution Center is the hub if you want that path. Live growth, academy, and tools stay available to any TradeLocker trader.",
   points: [
     "E8 Execution Center: rules, direct signup, risk presets",
     "Daily-loss and trailing-drawdown awareness as software guardrails",
@@ -186,7 +186,7 @@ export const HOME_FAQS: { question: string; answer: string }[] = [
   {
     question: "Is Quicksilver only for prop traders?",
     answer:
-      "No. It includes live growth terminal tools for live-account traders, plus the E8 Execution Center for evaluations. E8 Markets is the exclusive recommended prop firm — not the entire product.",
+      "No. Any TradeLocker trader can use the desk. Live growth, academy, and tools do not require an E8 account. E8 Markets is the recommended prop firm; the E8 Execution Center is the hub if you want that path.",
   },
   {
     question: "Is Quant Protocol included with Premium?",
@@ -209,12 +209,12 @@ export const HOME_FAQS: { question: string; answer: string }[] = [
   {
     question: "Which prop firm does Quicksilver recommend?",
     answer:
-      "E8 Markets is the exclusive recommended prop firm. Open the E8 Execution Center for rules, risk presets, and direct signup. Competing prop firms are not listed as equal options.",
+      "E8 Markets is the recommended prop firm. Open the E8 Execution Center for rules, risk presets, and Direct Signup. You can use Quicksilver without an E8 account.",
   },
   {
     question: "Is this a guaranteed way to pass a prop firm?",
     answer:
-      "No. It is a framework and tool stack. You can lose the evaluation fee and trading capital. Official account rules are set by E8 Markets. Quicksilver does not guarantee a pass, payout, or funded account.",
+      "No. It is a framework and tool stack. You can lose the evaluation fee and trading capital. Official E8 rules are set by E8 Markets. Quicksilver does not guarantee a pass, payout, or funded account.",
   },
   {
     question: "Does the bot work on TradeLocker Web?",

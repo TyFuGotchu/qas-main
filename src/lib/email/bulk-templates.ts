@@ -27,7 +27,7 @@ function signOff(): string {
   return `Ty
 Quicksilver Algo Systems
 
-Educational tools only. Trading and evaluations are high risk. Quicksilver does not guarantee a pass, payout, or funded account.`;
+Educational tools only. High risk. Official E8 rules are set by E8 Markets. Quicksilver does not guarantee a pass or payout.`;
 }
 
 function e8DiscountLines(): string {
@@ -51,24 +51,20 @@ Do not use Stripe code E8 on E8 checkout. That code is Quicksilver Premium only 
 function tradelockerBotAccessFullBody(): string {
   return `Hi,
 
-You asked about the bot. Here's the real product:
+You asked about the bot.
 
-Quicksilver is a TradeLocker desk for E8 Markets. The live piece is the E8 Execution Center — Rule Desk, risk presets, and hard equity-stop flatten.
+Quicksilver is a TradeLocker desk for traders. You do not need an E8 account to use it.
 
-Flatten and presets run on TradeLocker FX, metals, and indices. Perps and E8 Futures are on E8 Terminal, not this desk.
+Quant Protocol is Premium only. It is not in any free trial. It needs TradeLocker Desktop, not Web.
 
-Quant Protocol (the bot) is Premium only. It is not in any free trial. It needs TradeLocker Desktop, not Web.
-
-Live growth terminal is there if you're funded or on a live account.
-
-Start with the desk:
-${E8_CENTER}
-
-E8 account:
+If you want a prop firm, E8 Markets is the one we recommend:
 ${E8_SIGNUP}
+If E8 shows a code field, use ${E8_AFFILIATE_CODE}. Do not put Stripe code E8 on E8 checkout.
 
-Premium (bot + full stack) is ${PREMIUM_PRICE}/mo. First month 30% off with code E8 on Quicksilver checkout only:
+Premium is ${PREMIUM_PRICE}/mo. First month 30% off with code E8 on Quicksilver checkout only:
 ${CHECKOUT}
+
+Login: ${LOGIN}
 
 Questions? Reply or write ${SUPPORT_EMAIL}.
 
@@ -78,11 +74,11 @@ ${signOff()}`;
 function tradelockerBotAccessShortBody(): string {
   return `Thanks for the bot request.
 
-The desk is first: E8 Execution Center on TradeLocker (Rule Desk, presets, hard equity-stop). Bot is Premium, Desktop only, not in a trial.
+Quicksilver is a TradeLocker desk. The bot is Premium, Desktop only, not in a trial. No E8 account required.
 
-Desk: ${E8_CENTER}
-E8 account: ${E8_SIGNUP}
 Premium (${PREMIUM_PRICE}/mo, code E8 = first month 30% off on Quicksilver only): ${CHECKOUT}
+
+Want E8 as the prop path? ${E8_SIGNUP}
 
 Reply or ${SUPPORT_EMAIL} if you get stuck.
 
@@ -92,10 +88,11 @@ ${signOff()}`;
 function tradelockerBotFollowUpBody(): string {
   return `Following up on your Quant Protocol request.
 
-If you wanted a bot-only product, that's not what this is. The live tool is the E8 Execution Center. The bot is optional Premium on TradeLocker Desktop.
+The bot is optional Premium on TradeLocker Desktop. The rest of the desk works for any TradeLocker trader.
 
-Desk: ${E8_CENTER}
 Premium: ${CHECKOUT}
+
+If you want a recommended prop firm, E8 is the partner: ${E8_SIGNUP}
 
 One question blocking you? Reply or ${SUPPORT_EMAIL}.
 
@@ -110,7 +107,7 @@ export const BULK_EMAIL_TEMPLATES: BulkEmailTemplate[] = [
     description:
       "Primary template for people who requested Quant Protocol. Desk first, bot second.",
     defaultAudience: "custom",
-    subject: "The desk is live — bot is Premium, Desktop only",
+    subject: "Bot is Premium, Desktop only — desk is for any TradeLocker trader",
     body: tradelockerBotAccessFullBody(),
   },
   {
@@ -118,7 +115,7 @@ export const BULK_EMAIL_TEMPLATES: BulkEmailTemplate[] = [
     label: "TradeLocker bot requesters (short)",
     description: "Short version of the same offer.",
     defaultAudience: "custom",
-    subject: "Bot is Premium. Start on the E8 desk.",
+    subject: "Bot is Premium. Desk does not require E8.",
     body: tradelockerBotAccessShortBody(),
   },
   {
@@ -134,19 +131,18 @@ export const BULK_EMAIL_TEMPLATES: BulkEmailTemplate[] = [
     label: "Premium stack overview",
     description: "Premium as the full desk, not a bot SKU.",
     defaultAudience: "custom",
-    subject: "What's in Premium — desk, growth, optional bot",
+    subject: "What's in Premium — TradeLocker desk, growth, optional bot",
     body: `Hi,
 
-Premium is the full Quicksilver desk, not a bot-only plan.
+Premium is the full Quicksilver desk for TradeLocker traders. You do not need an E8 account.
 
-You get the E8 Execution Center (Rule Desk, presets, hard equity-stop), live growth terminal, journal, and playbook.
+You get live growth, journal, playbook, and tools. Quant Protocol is included. It needs TradeLocker Desktop. It is not in any free trial.
 
-Quant Protocol is included with Premium. It needs TradeLocker Desktop. It is not in any free trial.
+If you want the E8 path, the Execution Center is here:
+${E8_CENTER}
 
 ${PREMIUM_PRICE}/mo. First month 30% off with code E8 on Quicksilver checkout only:
 ${CHECKOUT}
-
-Desk: ${E8_CENTER}
 
 Reply or ${SUPPORT_EMAIL} if you need a straight answer.
 
@@ -157,17 +153,18 @@ ${signOff()}`,
     label: "Welcome — Premium access confirmed",
     description: "After you grant Premium in admin.",
     defaultAudience: "custom",
-    subject: "Premium is on — start at the E8 desk",
+    subject: "Premium is on — your TradeLocker desk is live",
     body: `Hi,
 
-Premium is live on your account.
+Premium is live on your account. You do not need an E8 account to use it.
 
 Start here:
-1) E8 Execution Center — Rule Desk, presets, hard equity-stop
-   ${SITE_URL}/dashboard/e8
-2) Live growth terminal if you're funded / live
-3) Quant Protocol only if you want the bot — TradeLocker Desktop required
+1) Dashboard — live growth, journal, tools
+   ${SITE_URL}/dashboard
+2) Quant Protocol if you want the bot — TradeLocker Desktop required
    ${SITE_URL}/dashboard/trading-bots
+3) E8 Execution Center only if you want that partner path
+   ${SITE_URL}/dashboard/e8
 
 Login: ${LOGIN}
 
@@ -186,11 +183,11 @@ ${signOff()}`,
 Quant Protocol will not show up or run on TradeLocker Web. Desktop only.
 
 1) Install TradeLocker Desktop
-2) Log in with your E8 / broker account
+2) Log in with your TradeLocker account
 3) Enable Quant Protocol from desktop
 4) Use Quicksilver → Trading Bots for settings
 
-The rest of the desk (flatten, presets, Rule Desk) runs on TradeLocker for FX, metals, and indices. Perps and E8 Futures stay on E8 Terminal.
+Works with any TradeLocker account. E8 is optional.
 
 ${SUPPORT_EMAIL} if you're stuck.
 
@@ -215,14 +212,12 @@ ${signOff()}`,
     label: "Billing — how to manage subscription",
     description: "Cancel / change / invoice.",
     defaultAudience: "custom",
-    subject: "Billing — Stripe, not E8 checkout",
+    subject: "Billing — Quicksilver is Stripe",
     body: `Hi,
 
-Quicksilver Premium is billed on Stripe. E8 challenge fees are billed on E8.
+Quicksilver Premium is billed on Stripe. Cancel or update the card from the portal link on your Stripe receipt, or reply with the email on your Quicksilver account.
 
-To cancel or update the card, use the portal link on your Stripe receipt, or reply with the email on your Quicksilver account.
-
-Code E8 is first month 30% off Quicksilver Premium on our checkout only. Do not enter it on E8's site.
+Code E8 is first month 30% off Quicksilver Premium on our checkout only. It is not an E8 Markets code.
 
 ${signOff()}`,
   },
@@ -245,20 +240,22 @@ ${signOff()}`,
   {
     id: "e8-center-start",
     label: "E8 Execution Center — start here",
-    description: "Point people at the live desk, not the bot.",
+    description: "Partner hub for people who want the E8 path.",
     defaultAudience: "custom",
     subject: "Start at the E8 Execution Center",
     body: `Hi,
 
-Quicksilver is a TradeLocker desk for E8 Markets. Start here:
+If you want the E8 path, start here:
 
 ${E8_CENTER}
 
 That's the Rule Desk, risk presets, and hard equity-stop flatten.
 
-Flatten applies to TradeLocker FX, metals, and indices. Perps and E8 Futures are on E8 Terminal.
+You do not need E8 to use the rest of Quicksilver. Flatten on this desk is for TradeLocker FX, metals, and indices. Perps and E8 Futures are on E8 Terminal.
 
-No pass or payout is guaranteed. Official rules and live E8 prices are set by E8 Markets.
+Open an E8 account through our link:
+${E8_SIGNUP}
+If E8 shows a code field, use ${E8_AFFILIATE_CODE}.
 
 Reply or ${SUPPORT_EMAIL} if you want a walkthrough.
 
