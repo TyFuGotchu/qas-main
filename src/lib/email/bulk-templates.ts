@@ -1,21 +1,17 @@
-import {
-  getPremiumCheckoutUrl,
-  PREMIUM_PRICE,
-} from "@/lib/pricing-constants";
-import { TRADELOCKER_BOT_URL } from "@/lib/constants";
-import { TOOL_COUNT } from "@/lib/tools-registry";
-import { CHART_ACADEMY_STATS } from "@/lib/premium-includes";
-import { PROP_FIRM_CHALLENGE_DAYS } from "@/lib/prop-firm-challenge-marketing";
+import { getPremiumCheckoutUrl, PREMIUM_PRICE } from "@/lib/pricing-constants";
 import { SUPPORT_EMAIL } from "@/lib/support";
+import {
+  E8_AFFILIATE_CODE,
+  E8_PUBLIC_PATH,
+  getE8ReferralUrl,
+  getLiveE8Discounts,
+} from "@/lib/e8-partner";
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  process.env.NEXT_PUBLIC_APP_URL ??
-  "https://quicksilveralgo.com";
-
-const QUANT_PROTOCOL_PATH = `${SITE_URL.replace(/\/$/, "")}/quant-protocol`;
-const LAUNCH_PATH = `${SITE_URL.replace(/\/$/, "")}/launch`;
+const SITE_URL = "https://quicksilveralgo.com";
+const E8_CENTER = `${SITE_URL}${E8_PUBLIC_PATH}`;
+const LOGIN = `${SITE_URL}/login`;
 const CHECKOUT = getPremiumCheckoutUrl();
+const E8_SIGNUP = getE8ReferralUrl();
 
 export interface BulkEmailTemplate {
   id: string;
@@ -27,108 +23,83 @@ export interface BulkEmailTemplate {
   body: string;
 }
 
+function signOff(): string {
+  return `Ty
+Quicksilver Algo Systems
+
+Educational tools only. Trading and evaluations are high risk. Quicksilver does not guarantee a pass, payout, or funded account.`;
+}
+
+function e8DiscountLines(): string {
+  const live = getLiveE8Discounts();
+  if (live.length === 0) {
+    return `Open an E8 account through our path:
+${E8_SIGNUP}
+
+If E8 shows a code field, use ${E8_AFFILIATE_CODE}.`;
+  }
+  const lines = live.map((item) => `• ${item.line}`).join("\n");
+  return `${lines}
+
+Open through our link (not the E8 homepage):
+${E8_SIGNUP}
+
+If E8 shows a code field, use ${E8_AFFILIATE_CODE}.
+Do not use Stripe code E8 on E8 checkout. That code is Quicksilver Premium only (first month 30% off).`;
+}
+
 function tradelockerBotAccessFullBody(): string {
   return `Hi,
 
-Thanks for requesting access to the Quicksilver Quant Protocol (Apex Institutional Engine) on TradeLocker.
+You asked about the bot. Here's the real product:
 
-Here's how access works:
+Quicksilver is a TradeLocker desk for E8 Markets. The live piece is the E8 Execution Center — Rule Desk, risk presets, and hard equity-stop flatten.
 
-Premium Quant unlocks the full Quicksilver stack — including the path to run Quant Protocol on your TradeLocker account — plus the prop-firm tools built around it.
+Flatten and presets run on TradeLocker FX, metals, and indices. Perps and E8 Futures are on E8 Terminal, not this desk.
 
-WHAT YOU GET WITH PREMIUM QUANT (${PREMIUM_PRICE}/mo)
+Quant Protocol (the bot) is Premium only. It is not in any free trial. It needs TradeLocker Desktop, not Web.
 
-1) Quicksilver Quant Protocol (TradeLocker)
-   • Flagship algo on the TradeLocker marketplace
-   • IMPORTANT: requires the TradeLocker DESKTOP app (not TradeLocker Web)
-   • Request access / enable the bot from desktop only
-   • Marketplace: ${TRADELOCKER_BOT_URL}
+Live growth terminal is there if you're funded or on a live account.
 
-2) ${PROP_FIRM_CHALLENGE_DAYS}-Day Prop Firm Playbook
-   • Day-by-day profit caps and consistency rules
-   • In-dashboard challenge tracker + daily task emails
-   • Built to hit target without blowing the 20% best-day rule
+Start with the desk:
+${E8_CENTER}
 
-3) Full planning toolkit (${TOOL_COUNT} engines)
-   • Risk Matrix, Prop Survival (Monte Carlo), Edge Confluence
-   • Expectancy, compounding, execution tools, and more
+E8 account:
+${E8_SIGNUP}
 
-4) Live TradeLocker terminal tools
-   • Live positions & P&L
-   • Risk Guard, Position Sizer, Growth Coach, Exposure Scanner
-
-5) Chart Academy + Prop OS
-   • ${CHART_ACADEMY_STATS.lessonCount} structured lessons
-   • Prop Command Center, journal, growth dashboard
-   • Trade Together community
-
-6) Priority support
-   • Direct email help when you're stuck
-
-PRICING
-${PREMIUM_PRICE}/mo — cancel anytime
-
-START HERE
-1. Subscribe to Premium Quant at checkout
-2. Create / log into your Quicksilver account
-3. Install TradeLocker Desktop (required — bot not on web platform)
-4. Open Trading Bots → Quant Protocol for setup + asset settings
-5. From desktop, enable Quant Protocol on your TradeLocker account
-
-Full details (built for bot access requests):
-${QUANT_PROTOCOL_PATH}
-
-Checkout:
+Premium (bot + full stack) is ${PREMIUM_PRICE}/mo. First month 30% off with code E8 on Quicksilver checkout only:
 ${CHECKOUT}
 
-Launch / playbook overview:
-${LAUNCH_PATH}
+Questions? Reply or write ${SUPPORT_EMAIL}.
 
-If you only wanted "a bot," know this: Premium isn't a separate upsell on top of the algo — it's how Quant Protocol fits into a full prop-aware trading system (risk, playbook, education, live tools).
-
-Questions? Reply to this email or write ${SUPPORT_EMAIL}
-
-— Quicksilver Algo`;
+${signOff()}`;
 }
 
 function tradelockerBotAccessShortBody(): string {
-  return `Thanks for requesting the Quicksilver Quant Protocol on TradeLocker.
+  return `Thanks for the bot request.
 
-Access is included with Premium Quant (${PREMIUM_PRICE}/mo).
+The desk is first: E8 Execution Center on TradeLocker (Rule Desk, presets, hard equity-stop). Bot is Premium, Desktop only, not in a trial.
 
-Same subscription also unlocks:
-• ${PROP_FIRM_CHALLENGE_DAYS}-Day Prop Firm Playbook + challenge tracker
-• Full planning tools (risk, survival sims, confluence, more)
-• Live TradeLocker terminal + Risk Guard / Position Sizer
-• Chart Academy (${CHART_ACADEMY_STATS.lessonCount} lessons) + Prop OS / journal
+Desk: ${E8_CENTER}
+E8 account: ${E8_SIGNUP}
+Premium (${PREMIUM_PRICE}/mo, code E8 = first month 30% off on Quicksilver only): ${CHECKOUT}
 
-1) Details: ${QUANT_PROTOCOL_PATH}
-2) Subscribe: ${CHECKOUT}
-3) Install TradeLocker Desktop (required — not web)
-4) Log in → Trading Bots → Quant Protocol (settings + setup)
-5) From desktop, enable the bot on your TradeLocker account
+Reply or ${SUPPORT_EMAIL} if you get stuck.
 
-Reply if you need help getting live, or write ${SUPPORT_EMAIL}.
-
-— Quicksilver Algo`;
+${signOff()}`;
 }
 
 function tradelockerBotFollowUpBody(): string {
-  return `Quick follow-up on your Quicksilver Quant Protocol (TradeLocker) access request.
+  return `Following up on your Quant Protocol request.
 
-Premium Quant = Quant Protocol on TradeLocker + the full prop-firm toolkit (playbook, risk tools, academy, live terminal).
+If you wanted a bot-only product, that's not what this is. The live tool is the E8 Execution Center. The bot is optional Premium on TradeLocker Desktop.
 
-Reminder: the bot requires the TradeLocker desktop app — it will not appear or run on TradeLocker Web.
+Desk: ${E8_CENTER}
+Premium: ${CHECKOUT}
 
- ${PREMIUM_PRICE}/mo:
-${CHECKOUT}
+One question blocking you? Reply or ${SUPPORT_EMAIL}.
 
-Full stack overview:
-${QUANT_PROTOCOL_PATH}
-
-Happy to answer one question if something's blocking you — reply or write ${SUPPORT_EMAIL}.
-
-— Quicksilver`;
+${signOff()}`;
 }
 
 /** Saved bulk-email templates for Admin Email Center */
@@ -137,155 +108,178 @@ export const BULK_EMAIL_TEMPLATES: BulkEmailTemplate[] = [
     id: "tradelocker-bot-access",
     label: "TradeLocker bot requesters (full)",
     description:
-      "Primary template for people who requested Quant Protocol access on TradeLocker.",
+      "Primary template for people who requested Quant Protocol. Desk first, bot second.",
     defaultAudience: "custom",
-    subject: "Your Quicksilver Quant Protocol access request",
+    subject: "The desk is live — bot is Premium, Desktop only",
     body: tradelockerBotAccessFullBody(),
   },
   {
     id: "tradelocker-bot-short",
     label: "TradeLocker bot requesters (short)",
-    description: "Shorter version — higher skim rate for the same offer.",
+    description: "Short version of the same offer.",
     defaultAudience: "custom",
-    subject: "Re: Quicksilver Quant Protocol (TradeLocker access)",
+    subject: "Bot is Premium. Start on the E8 desk.",
     body: tradelockerBotAccessShortBody(),
   },
   {
     id: "tradelocker-bot-followup",
     label: "TradeLocker bot follow-up (day 3–4)",
-    description: "Soft follow-up for non-converters from the bot-request list.",
+    description: "Follow-up for bot-request list.",
     defaultAudience: "custom",
-    subject: "Still need Quant Protocol on TradeLocker?",
+    subject: "Quick follow-up on your bot request",
     body: tradelockerBotFollowUpBody(),
   },
   {
     id: "premium-general",
     label: "Premium stack overview",
-    description: "General Premium pitch (not specific to bot requesters).",
+    description: "Premium as the full desk, not a bot SKU.",
     defaultAudience: "custom",
-    subject: `Premium Quant — bot, playbook & tools`,
+    subject: "What's in Premium — desk, growth, optional bot",
     body: `Hi,
 
-Premium Quant is the full Quicksilver system for prop-firm and manual traders:
+Premium is the full Quicksilver desk, not a bot-only plan.
 
-• Quicksilver Quant Protocol on TradeLocker
-• ${PROP_FIRM_CHALLENGE_DAYS}-Day Prop Firm Playbook + tracker
-• ${TOOL_COUNT} planning engines
-• Chart Academy (${CHART_ACADEMY_STATS.lessonCount} lessons)
-• Live terminal tools + Prop OS
+You get the E8 Execution Center (Rule Desk, presets, hard equity-stop), live growth terminal, journal, and playbook.
 
-${PREMIUM_PRICE}/mo
+Quant Protocol is included with Premium. It needs TradeLocker Desktop. It is not in any free trial.
 
+${PREMIUM_PRICE}/mo. First month 30% off with code E8 on Quicksilver checkout only:
 ${CHECKOUT}
 
-Or read the full stack: ${QUANT_PROTOCOL_PATH}
+Desk: ${E8_CENTER}
 
-Questions? Reply or write ${SUPPORT_EMAIL}
+Reply or ${SUPPORT_EMAIL} if you need a straight answer.
 
-— Quicksilver Algo`,
+${signOff()}`,
   },
   {
     id: "welcome-premium",
     label: "Welcome — Premium access confirmed",
-    description: "Single or small-batch note after you grant Premium in admin.",
+    description: "After you grant Premium in admin.",
     defaultAudience: "custom",
-    subject: "Welcome to Premium — your access is live",
+    subject: "Premium is on — start at the E8 desk",
     body: `Hi,
 
-Your Quicksilver Premium access is confirmed.
-
-What's unlocked:
-• Quant Protocol on TradeLocker (desktop app required — not web)
-• ${PROP_FIRM_CHALLENGE_DAYS}-Day Prop Firm Playbook
-• All planning engines + Trading Tools
-• Chart Academy + live terminal tools
+Premium is live on your account.
 
 Start here:
-1) Dashboard → Trading Bots → Quant Protocol (settings)
-2) Dashboard → Playbook
-3) Dashboard → Tools
+1) E8 Execution Center — Rule Desk, presets, hard equity-stop
+   ${SITE_URL}/dashboard/e8
+2) Live growth terminal if you're funded / live
+3) Quant Protocol only if you want the bot — TradeLocker Desktop required
+   ${SITE_URL}/dashboard/trading-bots
 
-Login: ${SITE_URL.replace(/\/$/, "")}/login
+Login: ${LOGIN}
 
-If anything looks wrong, reply to this email or write ${SUPPORT_EMAIL}.
+If something's missing, reply or write ${SUPPORT_EMAIL}.
 
-— Quicksilver Algo`,
+${signOff()}`,
   },
   {
     id: "bot-desktop-reminder",
     label: "Bot — desktop app required",
-    description: "Clarify Quant Protocol needs TradeLocker Desktop, not web.",
+    description: "Quant Protocol needs TradeLocker Desktop, not web.",
     defaultAudience: "custom",
-    subject: "Important: TradeLocker Desktop required for Quant Protocol",
+    subject: "Quant Protocol needs TradeLocker Desktop",
     body: `Hi,
 
-Quick clarification on Quicksilver Quant Protocol:
+Quant Protocol will not show up or run on TradeLocker Web. Desktop only.
 
-The bot is only available through the TradeLocker DESKTOP application.
-It will not appear or run on TradeLocker Web.
+1) Install TradeLocker Desktop
+2) Log in with your E8 / broker account
+3) Enable Quant Protocol from desktop
+4) Use Quicksilver → Trading Bots for settings
 
-Steps:
-1) Download / install TradeLocker Desktop
-2) Log in with your broker / prop account
-3) Request or enable Quant Protocol from the desktop marketplace
-4) Use Quicksilver → Trading Bots for asset settings
+The rest of the desk (flatten, presets, Rule Desk) runs on TradeLocker for FX, metals, and indices. Perps and E8 Futures stay on E8 Terminal.
 
-Marketplace: ${TRADELOCKER_BOT_URL}
-Setup guide: ${QUANT_PROTOCOL_PATH}
+${SUPPORT_EMAIL} if you're stuck.
 
-Questions? Reply or write ${SUPPORT_EMAIL}
-
-— Quicksilver Algo`,
+${signOff()}`,
   },
   {
     id: "support-received",
     label: "Support — we got your message",
-    description: "Acknowledge an inbound support ticket while you dig in.",
+    description: "Acknowledge inbound support.",
     defaultAudience: "custom",
-    subject: "We received your message — Quicksilver Support",
+    subject: "Got it — we'll reply",
     body: `Hi,
 
-Thanks for writing in. We received your message and will get back to you as soon as we can.
+Got your message. I'll come back as soon as I can.
 
-If you have screenshots, account email, or more detail, reply to this thread so everything stays in one place.
+If you have the account email, a screenshot, or more detail, reply on this thread.
 
-— Quicksilver Support (${SUPPORT_EMAIL})`,
+${signOff()}`,
   },
   {
     id: "billing-help",
     label: "Billing — how to manage subscription",
-    description: "Common reply for cancel / change / invoice questions.",
+    description: "Cancel / change / invoice.",
     defaultAudience: "custom",
-    subject: "Re: billing / subscription help",
+    subject: "Billing — Stripe, not E8 checkout",
     body: `Hi,
 
-Happy to help with billing.
+Quicksilver Premium is billed on Stripe. E8 challenge fees are billed on E8.
 
-Premium is billed through Stripe. To cancel or update payment:
-1) Reply with the email on your Quicksilver account (subject: Billing), or
-2) Use the customer portal link from your Stripe receipt email if you have one
+To cancel or update the card, use the portal link on your Stripe receipt, or reply with the email on your Quicksilver account.
 
-We can also confirm whether a promo applied to your first invoice.
+Code E8 is first month 30% off Quicksilver Premium on our checkout only. Do not enter it on E8's site.
 
-— Quicksilver Support (${SUPPORT_EMAIL})`,
+${signOff()}`,
   },
   {
     id: "access-login-help",
     label: "Access — login / password help",
-    description: "When someone can't get into the dashboard.",
+    description: "Can't get into the dashboard.",
     defaultAudience: "custom",
-    subject: "Re: login help",
+    subject: "Login help",
     body: `Hi,
 
-Sorry you're stuck on login.
+Try ${LOGIN} with the exact email you registered.
 
-Try:
-1) https://quicksilveralgo.com/login with the exact email you registered
-2) If you need a password reset, reply with that email and we'll set a temporary password for you (min 10 chars, upper + lower + number)
+Need a reset? Reply with that email and I'll set a temporary password (min 10 characters, upper + lower + number).
 
-If you paid but still see Free tier, reply with the payment email — we can grant Premium from admin.
+If you paid and still see Free, reply with the payment email and I'll switch Premium from admin.
 
-— Quicksilver Support (${SUPPORT_EMAIL})`,
+${signOff()}`,
+  },
+  {
+    id: "e8-center-start",
+    label: "E8 Execution Center — start here",
+    description: "Point people at the live desk, not the bot.",
+    defaultAudience: "custom",
+    subject: "Start at the E8 Execution Center",
+    body: `Hi,
+
+Quicksilver is a TradeLocker desk for E8 Markets. Start here:
+
+${E8_CENTER}
+
+That's the Rule Desk, risk presets, and hard equity-stop flatten.
+
+Flatten applies to TradeLocker FX, metals, and indices. Perps and E8 Futures are on E8 Terminal.
+
+No pass or payout is guaranteed. Official rules and live E8 prices are set by E8 Markets.
+
+Reply or ${SUPPORT_EMAIL} if you want a walkthrough.
+
+${signOff()}`,
+  },
+  {
+    id: "e8-account-path",
+    label: "E8 account path / discounts",
+    description: "Affiliate path only. Live E8 checkout discounts, not Stripe.",
+    defaultAudience: "custom",
+    subject: "E8 account — use our link",
+    body: `Hi,
+
+Open your E8 account through this path only.
+
+${e8DiscountLines()}
+
+The Quicksilver desk (flatten, presets, Rule Desk) is at:
+${E8_CENTER}
+
+${signOff()}`,
   },
 ];
 
