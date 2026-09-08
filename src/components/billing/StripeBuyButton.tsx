@@ -4,6 +4,7 @@ import { useEffect, type HTMLAttributes } from "react";
 import { STRIPE_BUY_PUBLISHABLE_KEY } from "@/lib/plans";
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace JSX {
     interface IntrinsicElements {
       "stripe-buy-button": React.DetailedHTMLProps<
