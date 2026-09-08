@@ -5,19 +5,19 @@
  */
 
 export const E8_FIRM_NAME = "E8 Markets";
-export const E8_PUBLIC_PATH = "/e8";
-export const E8_DASHBOARD_PATH = "/dashboard/e8";
+export const E8_PUBLIC_PATH = "/firms/e8";
+export const E8_DASHBOARD_PATH = "/dashboard/firms/e8";
 export const E8_ALT_PUBLIC_PATH = "/e8-execution-center";
 
 export const E8_POSITIONING =
-  "Quicksilver is a TradeLocker desk for traders. E8 Markets is the recommended prop firm.";
+  "Quicksilver is a TradeLocker desk for traders. E8 Markets is an optional recommended prop firm.";
 
 export const E8_HERO_SENTENCE =
   "The E8 Execution Center is the partner hub for E8 — Rule Desk, risk presets, and hard equity-stop flatten. You do not need an E8 account to use the rest of Quicksilver.";
 
 export const HARD_FLAT_RECOMMENDATION = {
   title: "Recommendation",
-  lead: "Always ARM Hard Equity-Stop at least $100–$200 away from E8’s actual drawdown limit.",
+  lead: "Always ARM Hard Equity-Stop at least $100–$200 away from the firm’s actual drawdown limit.",
   buffer:
     "That buffer is for spread and slippage. The floor should trip before E8’s rule does.",
   caveat: "This is a planning recommendation, not a guarantee.",
@@ -25,11 +25,11 @@ export const HARD_FLAT_RECOMMENDATION = {
     "Educational tools only. High risk. No guaranteed pass. Official rules are set by E8 Markets.",
 } as const;
 
-export const E8_PARTNER_LINE = "Official E8 Markets Partner";
+export const E8_PARTNER_LINE = "E8 Markets — optional firm pack";
 export const E8_BAR_LINE =
   "E8 Execution Center — Challenges, Rules, Direct Signup";
 export const E8_EXCLUSIVE_LINE =
-  "E8 Markets is Quicksilver’s exclusive recommended prop firm.";
+  "E8 Markets is a recommended prop option with a tracked signup link. You do not need E8 to use the Desk.";
 
 export const E8_COMPLIANCE = {
   educational: "Educational tools only.",
@@ -39,7 +39,7 @@ export const E8_COMPLIANCE = {
     "Quicksilver does not guarantee a pass, payout, or funded account.",
   officialRules:
     "Official account rules are set by E8 Markets. Always follow the current terms on E8’s site.",
-  bot: "Optional Quant Protocol is operator-supervised, TradeLocker Desktop only, and not set-and-forget. Bot not included in free trial.",
+  bot: "Optional Quant Protocol is operator-supervised, TradeLocker Desktop only, and not set-and-forget. It is not included in Tools.",
 } as const;
 
 export const E8_COMPLIANCE_BLOCK = [
@@ -135,7 +135,7 @@ export function getLiveE8Discounts() {
 
 export const E8_PROMO_COPY = {
   partnerMark: "E8",
-  partnerLine: "OFFICIAL E8 MARKETS PARTNER",
+  partnerLine: "E8 MARKETS — OPTIONAL FIRM PACK",
   openThrough: "Open through Quicksilver",
   hero:
     "E8 accounts through our desk. Perps up to 50% off first order. Signature Futures 20% off. Zero 35% off.",

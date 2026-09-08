@@ -7,22 +7,14 @@ import { cn } from "@/lib/utils";
 import Button from "@/components/ui/Button";
 import { useSession } from "@/providers/SessionProvider";
 import { Menu, X, Zap } from "lucide-react";
-import { AnnouncementBar } from "@/components/marketing/AnnouncementBar";
+import { PUBLIC_NAV } from "@/lib/site-ia";
 
 function isNavLinkActive(pathname: string, href: string): boolean {
   if (href === "/") return pathname === "/";
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-const navLinks = [
-  { href: "/e8", label: "E8 Center" },
-  { href: "/launch", label: "Playbook" },
-  { href: "/quant-protocol", label: "Quant Protocol" },
-  { href: "/tools", label: "Tools" },
-  { href: "/lessons", label: "Academy" },
-  { href: "/#premium-includes", label: "Pricing" },
-  { href: "/faq", label: "FAQ" },
-];
+const navLinks = [...PUBLIC_NAV];
 
 export function PublicNav() {
   const pathname = usePathname();
@@ -43,7 +35,6 @@ export function PublicNav() {
   return (
     <>
       <header className="qs-nav-glass fixed top-0 z-50 w-full">
-        <AnnouncementBar />
         <div className="mx-auto flex h-14 min-h-14 max-w-7xl items-center justify-between gap-3 px-4 sm:h-16 sm:px-6 lg:px-8">
           <Link href="/" className="group flex min-w-0 shrink items-center gap-2">
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[6px] border border-white/[0.08] bg-[#141A24]">
@@ -98,9 +89,9 @@ export function PublicNav() {
                     Create Profile
                   </Button>
                 </Link>
-                <Link href="/#pricing">
+                <Link href="/pricing">
                   <Button variant="gold" size="sm">
-                    Start Premium
+                    Pricing
                   </Button>
                 </Link>
               </>
@@ -177,11 +168,11 @@ export function PublicNav() {
                   Create Profile
                 </Link>
                 <Link
-                  href="/#pricing"
+                  href="/pricing"
                   onClick={() => setMobileOpen(false)}
                   className="rounded-lg px-4 py-3 font-mono text-sm uppercase tracking-widest text-gold-soft hover:bg-slate-800/50"
                 >
-                  Start Premium
+                  Pricing
                 </Link>
               </>
             )}

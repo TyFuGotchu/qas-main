@@ -353,17 +353,17 @@ export function organizationJsonLd() {
       height: 512,
     },
     description:
-      "Educational trading platform for prop firm challenges and TradeLocker automation: 7-day playbooks, planning tools, Chart Academy, and Quicksilver Quant Protocol.",
+      "TradeLocker risk desk for traders and white-label Arsenals for prop firms. Educational software. High risk. No guaranteed pass or payout.",
     email: "supportteam@quicksilveralgo.com",
     foundingDate: "2024",
     areaServed: "Worldwide",
     knowsAbout: [
-      "prop firm challenges",
-      "TradeLocker trading bots",
+      "TradeLocker risk desk",
+      "hard flatten",
+      "prop firm rule packs",
+      "TradingView webhook TradeLocker",
       "risk management",
-      "break of structure",
-      "FTMO challenge planning",
-      "funded trader education",
+      "funded trader tools",
     ],
     sameAs: FOUNDER_SAME_AS,
     founder: {

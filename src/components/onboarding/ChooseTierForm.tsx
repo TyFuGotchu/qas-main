@@ -144,8 +144,7 @@ export function ChooseTierForm() {
           Select Your <span className="text-cyan-terminal">Access Tier</span>
         </h1>
         <p className="mx-auto mt-3 max-w-xl font-mono text-sm text-slate-500">
-          Default offer is first month 30% off ({DISCOUNT_FIRST_MONTH_PRICE}, then{" "}
-          {PREMIUM_PRICE}/mo). 3-day trial available on request. Bot not included.
+          Tools $39.99, Copy $99, Full $119.99. Bot is a separate Desk flag. See /pricing.
         </p>
       </div>
 

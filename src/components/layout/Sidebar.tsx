@@ -12,14 +12,12 @@ import {
   BookOpen,
   Users,
   Target,
-  Bot,
   Building2,
   ChevronDown,
   X,
 } from "lucide-react";
 import { TRADING_BOTS_NAV } from "@/lib/trading-bots";
-import { E8_CENTER_TABS, E8_DASHBOARD_PATH } from "@/lib/e8-partner";
-import { E8PromoSidebarCard } from "@/components/e8/E8PromoBanners";
+import { E8_DASHBOARD_PATH } from "@/lib/e8-partner";
 
 interface NavChild {
   href: string;
@@ -40,52 +38,53 @@ interface NavItem {
 const navItems: NavItem[] = [
   { id: "dashboard", href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   {
-    id: "e8",
-    href: E8_DASHBOARD_PATH,
-    label: "E8 Execution Center",
-    icon: Building2,
-    badge: "Exclusive",
-    featured: true,
-    children: E8_CENTER_TABS.map((tab) => ({
-      href: `${E8_DASHBOARD_PATH}?tab=${tab.id}`,
-      label: tab.label,
-      tab: tab.id,
-    })),
-  },
-  { id: "playbook", href: "/dashboard/playbook", label: "7-Day Playbook", icon: Target },
-  { id: "academy", href: "/dashboard/academy", label: "Chart Academy", icon: BookOpen },
-  { id: "together", href: "/dashboard/trade-together", label: "Trade Together", icon: Users },
-  {
-    id: "bots",
-    href: TRADING_BOTS_NAV.hub,
-    label: "Trading Bots",
-    icon: Bot,
+    id: "desk",
+    href: "/dashboard/desk",
+    label: "Desk",
+    icon: LineChart,
     children: [
-      { href: TRADING_BOTS_NAV.hub, label: "Bots Overview" },
+      { href: "/dashboard/desk", label: "Hard flatten" },
+      { href: `${E8_DASHBOARD_PATH}?tab=rules`, label: "Rule Desk", tab: "rules" },
+      { href: `${E8_DASHBOARD_PATH}?tab=presets`, label: "Presets", tab: "presets" },
+      { href: "/dashboard/journal", label: "Journal" },
+      { href: "/dashboard/bot", label: "Live terminal" },
+      { href: "/dashboard/copy", label: "Master Suite / Copy" },
       { href: TRADING_BOTS_NAV.quantProtocol, label: "Quant Protocol" },
     ],
   },
   {
-    id: "live",
-    href: "/dashboard/bot",
-    label: "Live Trading",
-    icon: LineChart,
+    id: "arsenal",
+    href: "/dashboard/arsenal",
+    label: "Arsenal",
+    icon: Target,
     children: [
-      { href: "/dashboard/bot", label: "TradeLocker Terminal" },
-      { href: "/dashboard/live-growth", label: "Live Growth" },
-      { href: "/dashboard/prop-command", label: "Prop OS" },
-      { href: "/dashboard/journal", label: "Journal" },
+      { href: "/arsenal", label: "What firms get" },
+      { href: "/arsenal/modules", label: "Modules" },
+      { href: "/dashboard/arsenal", label: "Request a pack" },
     ],
   },
   {
-    id: "tools",
-    href: "/dashboard/tools",
-    label: "Tools & Account",
+    id: "firms",
+    href: "/dashboard/firms",
+    label: "Firms",
+    icon: Building2,
+    children: [
+      { href: "/dashboard/firms", label: "Overview" },
+      { href: E8_DASHBOARD_PATH, label: "E8 Markets" },
+      { href: "/dashboard/arsenal", label: "Add firm" },
+    ],
+  },
+  { id: "academy", href: "/dashboard/academy", label: "Chart Academy", icon: BookOpen },
+  { id: "together", href: "/dashboard/trade-together", label: "Trade Together", icon: Users },
+  {
+    id: "account",
+    href: "/dashboard/upgrade",
+    label: "Account",
     icon: Wrench,
     children: [
-      { href: "/dashboard/tools", label: "Trading Tools" },
+      { href: "/pricing", label: "Billing" },
+      { href: "/login", label: "Access" },
       { href: "/dashboard/support", label: "Support" },
-      { href: "/dashboard/upgrade", label: "Upgrade Tier" },
     ],
   },
 ];
@@ -109,12 +108,12 @@ function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
       for (const item of navItems) {
         if (!item.children) continue;
         const childActive = item.children.some((child) => {
-          if (item.id === "e8") {
-            return pathname.startsWith(E8_DASHBOARD_PATH);
+          if (item.id === "firms") {
+            return pathname.startsWith("/dashboard/firms") || pathname.startsWith(E8_DASHBOARD_PATH);
           }
           return pathActive(pathname, child.href);
         });
-        if (childActive || (item.id === "e8" && pathname.startsWith(E8_DASHBOARD_PATH))) {
+        if (childActive || (item.id === "firms" && pathname.startsWith("/dashboard/firms"))) {
           next[item.id] = true;
         }
       }
@@ -124,13 +123,17 @@ function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
 
   const expanded = useMemo(() => {
     const map: Record<string, boolean> = { ...open };
-    if (pathname.startsWith(E8_DASHBOARD_PATH)) map.e8 = true;
+    if (pathname.startsWith("/dashboard/firms")) map.firms = true;
+    if (pathname.startsWith("/dashboard/desk")) map.desk = true;
     return map;
   }, [open, pathname]);
 
   function isChildActive(item: NavItem, child: NavChild): boolean {
-    if (item.id === "e8") {
-      return pathname.startsWith(E8_DASHBOARD_PATH) && e8Tab === (child.tab ?? "overview");
+        if (item.id === "firms" && child.href.startsWith(E8_DASHBOARD_PATH)) {
+      return pathname.startsWith(E8_DASHBOARD_PATH) && (!child.tab || e8Tab === child.tab);
+    }
+    if (item.id === "desk" && child.tab) {
+      return pathname.startsWith(E8_DASHBOARD_PATH) && e8Tab === child.tab;
     }
     if (item.id === "bots" && child.href === TRADING_BOTS_NAV.hub) {
       return pathname === TRADING_BOTS_NAV.hub;
@@ -149,8 +152,8 @@ function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
       {navItems.map((item) => {
         const Icon = item.icon;
         const parentActive =
-          item.id === "e8"
-            ? pathname.startsWith(E8_DASHBOARD_PATH)
+          item.id === "firms"
+            ? pathname.startsWith("/dashboard/firms")
             : item.children
               ? item.children.some((c) => isChildActive(item, c))
               : pathActive(pathname, item.href);
@@ -273,7 +276,6 @@ export function Sidebar({ mobileOpen = false, onNavigate }: SidebarProps) {
       </Suspense>
 
       <div className="space-y-3 border-t border-white/[0.08] p-4">
-        <E8PromoSidebarCard />
         <div className="rounded-[6px] border border-white/[0.08] bg-[#141A24] p-3">
           <p className="font-mono text-[10px] uppercase tracking-widest text-slate-600">
             System Status

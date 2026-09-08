@@ -23,11 +23,11 @@ const siteUrl =
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "TradeLocker Prop-Challenge OS | Quicksilver Algo",
+    default: "Quicksilver Algo Systems | TradeLocker Desk & Prop Firm Arsenals",
     template: "%s | Quicksilver Algo",
   },
   description:
-    "7-Day Prop Firm Playbook, consistency & risk tools, Chart Academy, and TradeLocker Quant Protocol. Built for FTMO, Apex, FundedNext, and funded traders.",
+    "TradeLocker risk desk for traders. Arsenals for prop firms. Tools $39.99, Copy $99, Full $119.99. Educational software. High risk.",
   applicationName: "Quicksilver Algo Systems",
   authors: [{ name: "Quicksilver Algo Systems", url: siteUrl }],
   creator: "Quicksilver Algo Systems",

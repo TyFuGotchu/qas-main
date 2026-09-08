@@ -1,94 +1,100 @@
 import type { Metadata } from "next";
-import { Hero } from "@/components/landing/Hero";
-import {
-  HomeE8Presets,
-  HomeFaq,
-  HomeFinalCta,
-  HomeLiveGrowth,
-  HomePricingChooser,
-  HomeQuantProtocol,
-  HomeWhyE8,
-} from "@/components/landing/HomeSections";
-import { FounderConnect } from "@/components/marketing/FounderConnect";
-import { TraderFeedback } from "@/components/landing/TraderFeedback";
-import { StickyMobileCta } from "@/components/marketing/StickyMobileCta";
-import { JsonLdScript } from "@/components/seo/JsonLdScript";
-import {
-  organizationJsonLd,
-  websiteJsonLd,
-  breadcrumbJsonLd,
-  faqJsonLd,
-  moneyPageItemListJsonLd,
-  subscriptionProductJsonLd,
-} from "@/lib/seo/json-ld";
+import Link from "next/link";
+import Button from "@/components/ui/Button";
 import { rankingPageMetadata } from "@/lib/seo/page-metadata";
-import { MONEY_PAGES, SEO_RECOVERY_REFRESHED } from "@/lib/seo/money-pages";
-import { HOME_FAQS } from "@/lib/homepage-copy";
-import {
-  getDiscountCheckoutUrl,
-  PREMIUM_PRICE_NUMBER,
-} from "@/lib/pricing-constants";
-import { E8_POSITIONING } from "@/lib/e8-partner";
+import { SEO_RECOVERY_REFRESHED } from "@/lib/seo/money-pages";
+import { JsonLdScript } from "@/components/seo/JsonLdScript";
+import { organizationJsonLd, websiteJsonLd, breadcrumbJsonLd } from "@/lib/seo/json-ld";
+import { HOME_H1, LEGAL_FOOTER, SITE_POSITIONING } from "@/lib/site-ia";
+import { E8_PUBLIC_PATH } from "@/lib/e8-partner";
 
 export const metadata: Metadata = rankingPageMetadata({
-  title: "TradeLocker Trading OS | E8 Markets Partner | Quicksilver Algo",
-  description: `${E8_POSITIONING} First month 30% off Premium with code E8. Educational tools only.`,
+  title: "Quicksilver Algo Systems | TradeLocker Desk & Prop Firm Arsenals",
+  description: `${SITE_POSITIONING} Tools $39.99, Copy $99, Full $119.99. Educational software. High risk.`,
   path: "/",
   modifiedAt: SEO_RECOVERY_REFRESHED,
   keywords: [
-    "E8 Markets",
-    "E8 Execution Center",
-    "E8 One",
-    "E8 Pro",
-    "E8 Signature",
-    "TradeLocker Desktop trading OS",
-    "prop firm evaluation",
-    "trading journal and risk workflow",
-    "live growth terminal",
-    "Quicksilver Quant Protocol",
+    "TradeLocker risk desk",
+    "hard flatten",
+    "prop firm trading tools",
+    "white label TradeLocker",
+    "TradingView webhook TradeLocker",
   ],
 });
 
 export default function LandingPage() {
-  const jsonLd = [
-    websiteJsonLd(),
-    organizationJsonLd(),
-    breadcrumbJsonLd([{ name: "Home", path: "/" }]),
-    faqJsonLd(HOME_FAQS),
-    moneyPageItemListJsonLd(
-      MONEY_PAGES.filter((p) => p.priority === "core").map((p) => ({
-        name: p.title,
-        path: p.href === "/" ? "/" : p.href,
-        description: p.description,
-      }))
-    ),
-    subscriptionProductJsonLd({
-      name: "Premium Quant — Quicksilver Algo",
-      description: `${E8_POSITIONING} Workflow stack, live growth terminal, E8 Execution Center, optional Quant Protocol.`,
-      path: "/",
-      price: PREMIUM_PRICE_NUMBER,
-      checkoutUrl: getDiscountCheckoutUrl(),
-      category: "FinanceApplication",
-      datePublished: SEO_RECOVERY_REFRESHED,
-    }),
-  ];
-
   return (
     <>
-      <JsonLdScript data={jsonLd} />
-      <Hero />
-      <HomeWhyE8 />
-      <HomeE8Presets />
-      <HomeLiveGrowth />
-      <HomeQuantProtocol />
-      <HomePricingChooser />
-      <HomeFaq />
-      <TraderFeedback />
-      <HomeFinalCta />
-      <section className="border-t border-white/[0.05] px-4 py-10">
-        <FounderConnect compact />
+      <JsonLdScript
+        data={[
+          websiteJsonLd(),
+          organizationJsonLd(),
+          breadcrumbJsonLd([{ name: "Home", path: "/" }]),
+        ]}
+      />
+      <section className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+        <div className="mx-auto max-w-6xl">
+          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#9AA3B2]">
+            Quicksilver Algo Systems
+          </p>
+          <h1 className="mt-5 max-w-3xl text-3xl font-semibold tracking-tight text-[#F3F5F7] sm:text-5xl">
+            {HOME_H1}
+          </h1>
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-[#C9C2D6]">
+            {SITE_POSITIONING} You do not need an E8 account to use the Desk. E8 is an
+            optional firm pack with a tracked signup link.
+          </p>
+          <div className="mt-10 flex flex-wrap gap-3">
+            <Link href="/desk">
+              <Button variant="primary" size="lg">
+                Start on the Desk
+              </Button>
+            </Link>
+            <Link href="/arsenal">
+              <Button variant="secondary" size="lg">
+                Request an Arsenal
+              </Button>
+            </Link>
+            <Link href="/pricing">
+              <Button variant="ghost" size="lg">
+                Pricing
+              </Button>
+            </Link>
+          </div>
+          <div className="mt-16 grid gap-6 lg:grid-cols-2">
+            <article className="rounded-[16px] border border-white/[0.1] bg-[#0B0D12] p-6">
+              <h2 className="text-xl font-semibold text-[#F3F5F7]">Desk for traders</h2>
+              <p className="mt-3 text-sm leading-relaxed text-[#C9C2D6]">
+                Rule Desk, presets, hard flatten, journal, live terminal. Optional Master
+                Suite copy (TV webhook → TradeLocker). Optional Quant Protocol on Desktop.
+              </p>
+              <Link href="/desk" className="mt-4 inline-block font-mono text-sm text-[#7FE7DC] hover:underline">
+                Open Desk →
+              </Link>
+            </article>
+            <article className="rounded-[16px] border border-white/[0.1] bg-[#0B0D12] p-6">
+              <h2 className="text-xl font-semibold text-[#F3F5F7]">Arsenal for firms</h2>
+              <p className="mt-3 text-sm leading-relaxed text-[#C9C2D6]">
+                Map published rules into TradeLocker presets and flatten. White-label.
+                Quote-based. Brokers second.
+              </p>
+              <Link href="/arsenal" className="mt-4 inline-block font-mono text-sm text-[#7FE7DC] hover:underline">
+                Request a pack →
+              </Link>
+            </article>
+          </div>
+          <aside className="mt-12 rounded-[12px] border border-white/[0.08] px-4 py-4 text-sm text-[#C9C2D6]">
+            Firms strip:{" "}
+            <Link href={E8_PUBLIC_PATH} className="text-[#7FE7DC] hover:underline">
+              E8 Markets
+            </Link>{" "}
+            is an optional pack — not the brand.
+          </aside>
+          <p className="mt-10 max-w-2xl font-mono text-[11px] leading-relaxed text-[#9AA3B2]">
+            {LEGAL_FOOTER}
+          </p>
+        </div>
       </section>
-      <StickyMobileCta />
     </>
   );
 }

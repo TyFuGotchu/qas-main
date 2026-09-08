@@ -24,14 +24,14 @@ export const MONEY_PAGES: MoneyPageLink[] = [
     href: "/",
     title: "Quicksilver Algo home",
     description:
-      "Official E8 Markets partner. TradeLocker Desktop trading OS: workflow stack, live growth terminal, E8 Execution Center, optional Quant Protocol.",
+      "TradeLocker risk desk for traders and Arsenals for prop firms. Tools $39.99, Copy $99, Full $119.99.",
     priority: "core",
   },
   {
-    href: "/e8",
-    title: "E8 Execution Center",
+    href: "/firms/e8",
+    title: "E8 Markets on Quicksilver",
     description:
-      "TradeLocker workflow for E8 Markets: E8 One, E8 Pro, and E8 Signature rule maps, risk presets, and direct signup.",
+      "Optional E8 firm pack: rule maps, presets, hard flatten, Direct Signup. Not required to use the Desk.",
     priority: "core",
   },
   {
@@ -133,10 +133,10 @@ export const HOMEPAGE_AUTHORITY_BLOCKS: {
   paragraphs: string[];
 }[] = [
   {
-    heading: "Official E8 Markets partner — TradeLocker OS for evaluations and live accounts",
+    heading: "TradeLocker desk for traders. Arsenals for prop firms.",
     paragraphs: [
-      `Quicksilver is the execution + risk workflow stack for E8 Markets traders on TradeLocker. E8 is the exclusive recommended prop firm. Live-account operators still use the live growth terminal, journal, and review loop. Evaluation traders use the E8 Execution Center, a ${PROP_FIRM_CHALLENGE_DAYS}-day playbook, and E8-mapped risk presets. ${TOOL_COUNT} planning engines and Chart Academy sit in the same desk.`,
-      "Quant Protocol is optional and Premium-only. It is not included in the 3-day free trial and does not run on TradeLocker Web. Manual traders can use the full workflow stack without the bot. Quicksilver does not guarantee a pass, payout, or funded account.",
+      "Quicksilver is a TradeLocker risk desk. Live growth, journal, flatten, and academy do not require an E8 account. E8 Markets is an optional firm pack with a tracked signup link.",
+      "Quant Protocol is TradeLocker Desktop and a separate Desk flag. Copy trading is a TradingView webhook stub until the alert JSON is wired. Quicksilver does not guarantee a pass, payout, or profit.",
     ],
   },
   {

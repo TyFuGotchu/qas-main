@@ -22,8 +22,13 @@ const PROGRAMMATIC_UPDATED = new Date("2026-07-20");
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
     { url: SITE_URL, lastModified: SITE_UPDATED, changeFrequency: "weekly", priority: 1 },
+    { url: `${SITE_URL}/desk`, lastModified: SITE_UPDATED, changeFrequency: "weekly", priority: 0.96 },
+    { url: `${SITE_URL}/arsenal`, lastModified: SITE_UPDATED, changeFrequency: "weekly", priority: 0.97 },
+    { url: `${SITE_URL}/firms`, lastModified: SITE_UPDATED, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${SITE_URL}/pricing`, lastModified: SITE_UPDATED, changeFrequency: "weekly", priority: 0.95 },
+    { url: `${SITE_URL}/copy`, lastModified: SITE_UPDATED, changeFrequency: "weekly", priority: 0.9 },
     {
-      url: `${SITE_URL}/e8`,
+      url: `${SITE_URL}/firms/e8`,
       lastModified: SITE_UPDATED,
       changeFrequency: "weekly",
       priority: 0.97,

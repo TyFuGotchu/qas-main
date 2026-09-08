@@ -417,7 +417,7 @@ export function HomePricingChooser() {
       className="scroll-mt-28 border-t border-white/[0.05]"
     >
       <div id="pricing" className="mx-auto max-w-5xl scroll-mt-28">
-        <Eyebrow>First month 30% off with code E8</Eyebrow>
+        <Eyebrow>Tools $39.99 · Copy $99 · Full $119.99</Eyebrow>
         <h2 className="mt-4 text-center text-2xl font-semibold tracking-tight text-[#F3F5F7] sm:text-4xl">
           {HOME_PRICING.title}
         </h2>
@@ -522,7 +522,7 @@ export function HomeFinalCta() {
           Start with structure. Add automation only if you need it.
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-slate-400">
-          Use the TradeLocker desk, or start Premium with first month 30% off.
+          Use the TradeLocker desk, or open pricing.
           {` ${HOME_LANDING_CODE_HINT}`}
         </p>
         <div className="mt-8 flex flex-col items-center gap-3">

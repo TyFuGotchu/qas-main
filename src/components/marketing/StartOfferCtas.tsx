@@ -1,8 +1,6 @@
 import Button from "@/components/ui/Button";
-import { TrackedCheckoutLink } from "@/components/analytics/TrackedCheckoutLink";
-import { HOME_LANDING_PREMIUM_CTA } from "@/lib/homepage-copy";
-import { TRIAL_REQUEST_CTA, getTrialRequestMailto } from "@/lib/trial-request";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 type CtaSize = "sm" | "md" | "lg";
 
@@ -11,16 +9,13 @@ interface StartOfferCtasProps {
   size?: CtaSize;
   layout?: "row" | "stack";
   className?: string;
-  /** When true, only the Premium checkout (no trial request). */
   premiumOnly?: boolean;
 }
 
 export function StartOfferCtas({
-  source,
   size = "lg",
   layout = "row",
   className,
-  premiumOnly = false,
 }: StartOfferCtasProps) {
   return (
     <div
@@ -30,18 +25,11 @@ export function StartOfferCtas({
         className
       )}
     >
-      <TrackedCheckoutLink source={source} offer="discount">
+      <Link href="/pricing">
         <Button variant="gold" size={size} className="w-full sm:w-auto">
-          {HOME_LANDING_PREMIUM_CTA}
+          Pricing — $39.99 / $99 / $119.99
         </Button>
-      </TrackedCheckoutLink>
-      {!premiumOnly && (
-        <a href={getTrialRequestMailto()}>
-          <Button variant="ghost" size={size} className="w-full sm:w-auto">
-            {TRIAL_REQUEST_CTA}
-          </Button>
-        </a>
-      )}
+      </Link>
     </div>
   );
 }
