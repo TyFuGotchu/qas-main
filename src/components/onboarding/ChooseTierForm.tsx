@@ -9,7 +9,6 @@ import {
 } from "@/lib/pricing-tiers";
 import {
   type CheckoutOffer,
-  DISCOUNT_FIRST_MONTH_PRICE,
   DISCOUNT_FIRST_MONTH_PRICE_NUMBER,
   getCheckoutUrl,
 } from "@/lib/pricing-constants";

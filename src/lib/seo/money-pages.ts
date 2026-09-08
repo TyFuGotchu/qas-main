@@ -4,7 +4,6 @@
  */
 
 import { PREMIUM_PRICE } from "@/lib/pricing-constants";
-import { PROP_FIRM_CHALLENGE_DAYS } from "@/lib/prop-firm-challenge-marketing";
 import { TOOL_COUNT } from "@/lib/tools-registry";
 import { CHART_ACADEMY_STATS } from "@/lib/premium-includes";
 
