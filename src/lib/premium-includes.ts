@@ -3,9 +3,6 @@ import {
   PROP_FIRM_CHALLENGE_DAYS,
   PROP_FIRM_PLAYBOOK_HREF,
 } from "@/lib/prop-firm-challenge-marketing";
-import {
-  PREMIUM_PRICE,
-} from "@/lib/pricing-constants";
 import { countAcademyLessons } from "@/lib/academy/content";
 import { LOCAL_TOOL_COUNT, QS_TOOL_COUNT, TOOL_COUNT } from "@/lib/tools-registry";
 

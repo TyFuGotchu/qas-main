@@ -2,14 +2,7 @@ import { PricingGrid } from "@/components/pricing/PricingGrid";
 import { Card, CardContent } from "@/components/ui/Card";
 import { PropFirmChallengePromo } from "@/components/marketing/PropFirmChallengePromo";
 import { PremiumValueStack } from "@/components/tools/PremiumValueStack";
-import {
-  PROP_FIRM_CHALLENGE_DAYS,
-  PROP_FIRM_MARKETING_HEADLINE,
-} from "@/lib/prop-firm-challenge-marketing";
-import { ALL_TOOLS, LOCAL_TOOL_COUNT, QS_TOOL_COUNT } from "@/lib/tools-registry";
-import {
-  PREMIUM_PRICE,
-} from "@/lib/pricing-tiers";
+import { ALL_TOOLS } from "@/lib/tools-registry";
 import { SUPPORT_EMAIL } from "@/lib/support";
 import { Lock } from "lucide-react";
 
