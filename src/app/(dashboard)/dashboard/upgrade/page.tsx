@@ -15,11 +15,11 @@ import { Lock } from "lucide-react";
 
 const PAYWALL_MESSAGES: Record<string, string> = {
   academy:
-    `Chart Academy — lessons, guides, and the prop firm playbook — requires Premium (${PREMIUM_PRICE}/mo).`,
+    `Chart Academy — lessons, guides, and the playbook — unlock with a paid Desk plan. See /pricing.`,
   support:
-    `Priority email support at ${SUPPORT_EMAIL} is included with Premium (${PREMIUM_PRICE}/mo).`,
+    `Priority email support at ${SUPPORT_EMAIL} is included on paid plans.`,
   tools:
-    `The ${PROP_FIRM_CHALLENGE_DAYS}-Day Prop Firm Playbook and all ${QS_TOOL_COUNT + LOCAL_TOOL_COUNT} planning engines require Premium (${PREMIUM_PRICE}/mo).`,
+    `Playbook and planning engines unlock on Tools $39.99 / Full $119.99. Quant Protocol is a separate Desk flag.`,
 };
 
 export default function UpgradePage({
@@ -29,7 +29,7 @@ export default function UpgradePage({
 }) {
   const paywallNote =
     PAYWALL_MESSAGES[searchParams.paywall ?? ""] ??
-    `${PROP_FIRM_MARKETING_HEADLINE} — Premium (${PREMIUM_PRICE}/mo) unlocks the full playbook, all planning tools, TradeLocker bot, and priority support at ${SUPPORT_EMAIL}. `;
+    `Tools $39.99, Copy $99, Full $119.99. Bot is not inside Tools. Support: ${SUPPORT_EMAIL}.`;
 
   return (
     <div className="space-y-8">
@@ -51,9 +51,9 @@ export default function UpgradePage({
             </h3>
             <p className="mt-2 text-sm text-slate-500">{paywallNote}</p>
             <p className="mt-2 text-sm text-slate-500">
-              One Premium subscription unlocks the {PROP_FIRM_CHALLENGE_DAYS}-day prop firm
-              playbook, Chart Academy, all planning modules, TradeLocker bot, live dashboard, and
-              priority email support at {SUPPORT_EMAIL}. 
+              Tools is the risk desk. Copy is the TV→TradeLocker webhook (not live until
+              the alert JSON is wired). Full is both. Quant Protocol stays a separate
+              Desktop flag. {SUPPORT_EMAIL}
             </p>
             <ul className="mt-4 space-y-2 text-sm text-slate-400">
               {ALL_TOOLS.map((tool) => (

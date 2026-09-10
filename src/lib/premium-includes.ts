@@ -115,7 +115,8 @@ export const PREMIUM_INCLUDE_STRIP_ITEMS = [
 
 export const PREMIUM_INCLUDES_HEADLINE = "One plan. The full Quicksilver stack.";
 
-export const PREMIUM_INCLUDES_SUBHEADLINE = `Choose a 3-day free trial (bot not included) or first month 30% off, then ${PREMIUM_PRICE}/mo. Premium unlocks Quant Protocol on TradeLocker Desktop plus the workflow stack, live growth terminal, prop module, tools, and academy.`;
+export const PREMIUM_INCLUDES_SUBHEADLINE =
+  "Tools $39.99, Copy $99, Full $119.99. Quant Protocol is TradeLocker Desktop and a separate Desk flag — not inside Tools.";
 
 export const PREMIUM_INCLUDES_ONE_LINER =
   `Premium includes: Quicksilver Quant Protocol bot, ${PROP_FIRM_CHALLENGE_DAYS}-day playbook, ${TOOL_COUNT} tools, ${CHART_ACADEMY_STATS.lessonCount} lessons, live terminal & Prop OS.`;

@@ -3,7 +3,6 @@ import { canAccessToolsBySubscription } from "@/lib/tiers";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
-import { RecommendedBrokerCard } from "@/components/broker/RecommendedBrokerCard";
 import { AnnouncementBanner } from "@/components/announcements/AnnouncementBanner";
 import { PlaybookChallengeWidget } from "@/components/playbook/PlaybookChallengeWidget";
 import { TOOL_COUNT } from "@/lib/tools-registry";
@@ -105,8 +104,6 @@ export default async function DashboardPage() {
 
       <AnnouncementBanner />
 
-      <RecommendedBrokerCard />
-
       <PlaybookChallengeWidget variant="compact" />
 
       {user && !hasPremium && (
@@ -118,13 +115,13 @@ export default async function DashboardPage() {
                 Free tier — preview 1 lesson, 1 guide & Setup Scorer
               </p>
               <p className="mt-1 text-xs text-slate-500">
-                Premium unlocks the E8 workflow stack, playbook, live growth tools,
-                and Quant Protocol at $149.99/mo.
+                Tools $39.99, Copy $99, Full $119.99. Quant Protocol is a separate
+                Desk flag. E8 is optional.
               </p>
             </div>
-            <Link href="/dashboard/upgrade">
+            <Link href="/pricing">
               <Button variant="primary" size="sm">
-                Upgrade Now
+                See pricing
               </Button>
             </Link>
           </CardContent>

@@ -6,6 +6,11 @@ import { getAuthSecret, validateCoreProductionEnv } from "@/lib/env";
 
 const PUBLIC_ROUTES = [
   "/",
+  "/desk",
+  "/arsenal",
+  "/firms",
+  "/pricing",
+  "/copy",
   "/launch",
   "/quant-protocol",
   "/login",
@@ -20,6 +25,11 @@ const SEO_PUBLIC_PREFIXES = [
   "/offers",
   "/tools",
   "/prop-firm",
+  "/desk",
+  "/arsenal",
+  "/firms",
+  "/pricing",
+  "/copy",
 ];
 const AUTH_ROUTES = ["/login", "/register"];
 const ONBOARDING_ROUTES_PREFIX = "/onboarding";
@@ -108,10 +118,6 @@ function isDashboardRoute(pathname: string): boolean {
   return pathname.startsWith("/dashboard");
 }
 
-function isLegacyPricingRoute(pathname: string): boolean {
-  return pathname === "/pricing" || pathname.startsWith("/pricing/");
-}
-
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -138,6 +144,8 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith("/api/auth") ||
     pathname.startsWith("/api/webhooks/stripe") ||
     pathname.startsWith("/api/webhooks/resend") ||
+    pathname.startsWith("/api/webhooks/tradingview") ||
+    pathname.startsWith("/api/arsenal/request") ||
     pathname.startsWith("/api/engagement/capture")
   ) {
     return NextResponse.next();
@@ -149,18 +157,6 @@ export async function middleware(request: NextRequest) {
 
   if (pathname === "/api/onboarding/playbook-drip/run") {
     return NextResponse.next();
-  }
-
-  if (isLegacyPricingRoute(pathname)) {
-    if (!session) {
-      return NextResponse.redirect(new URL("/register", request.url));
-    }
-    if (!session.onboardingComplete) {
-      return NextResponse.redirect(
-        new URL("/onboarding/pricing", request.url)
-      );
-    }
-    return NextResponse.redirect(new URL("/dashboard/upgrade", request.url));
   }
 
   // Old public social-kit URL → admin-only location

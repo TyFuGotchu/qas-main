@@ -3,7 +3,6 @@
  * Keep this list short and high-quality — authority over volume.
  */
 
-import { PREMIUM_PRICE } from "@/lib/pricing-constants";
 import { TOOL_COUNT } from "@/lib/tools-registry";
 import { CHART_ACADEMY_STATS } from "@/lib/premium-includes";
 
@@ -101,7 +100,8 @@ export const MONEY_PAGES: MoneyPageLink[] = [
 export const HOMEPAGE_FAQS: { question: string; answer: string }[] = [
   {
     question: "What is Quicksilver Algo?",
-    answer: `Quicksilver is the TradeLocker Desktop operating system for structure, risk, journaling, live growth tracking, and optional supervised automation. It serves live-account traders and prop/evaluation traders. Premium Quant is ${PREMIUM_PRICE}/mo after trial or first-month discount. The 3-day free trial does not include Quant Protocol.`,
+    answer:
+      "Quicksilver is a TradeLocker desk for traders and Arsenals for prop firms. Plans: Tools $39.99, Copy $99, Full $119.99. You do not need an E8 account.",
   },
   {
     question: "How do I get the Quicksilver Quant Protocol bot on TradeLocker?",
@@ -119,11 +119,13 @@ export const HOMEPAGE_FAQS: { question: string; answer: string }[] = [
   },
   {
     question: "How much is Premium Quant?",
-    answer: `Premium Quant is ${PREMIUM_PRICE}/mo after trial or first-month discount. Start with a 3-day free trial of the workflow stack (bot not included) or first month 30% off ($104.99). Quant Protocol is Premium-only.`,
+    answer:
+      "Tools $39.99, Copy $99, Full $119.99. No public coupons. Quant Protocol is a separate TradeLocker Desktop flag.",
   },
   {
     question: "Can I cancel Premium anytime?",
-    answer: `Yes. Premium Quant is ${PREMIUM_PRICE}/mo and you can cancel anytime to stop future billing. Manage via support or your Stripe receipt portal. Trading involves risk — results are never guaranteed.`,
+    answer:
+      "Yes. Cancel via your Stripe receipt portal. Trading involves risk — results are never guaranteed.",
   },
 ];
 

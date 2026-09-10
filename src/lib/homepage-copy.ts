@@ -1,14 +1,10 @@
-import {
-  DISCOUNT_FIRST_MONTH_PRICE,
-  PREMIUM_PRICE,
-  TRIAL_PRICE_TODAY,
-} from "@/lib/pricing-constants";
+import { PREMIUM_PRICE } from "@/lib/pricing-constants";
 
 export const HOME_ANNOUNCEMENT =
-  "Official E8 Markets Partner | E8 Execution Center — Challenges, Rules, Direct Signup";
+  "TradeLocker desk for traders · Arsenals for prop firms";
 
 export const HOME_HERO = {
-  eyebrow: "TradeLocker Desktop • Trading OS • E8 Markets partner",
+  eyebrow: "TradeLocker Desktop • Trading OS",
   h1: "A TradeLocker desk for traders.",
   subhead:
     "Quicksilver is a TradeLocker desk — planning, risk, journal, live growth, and optional supervised automation. You do not need an E8 account. E8 Markets is the recommended prop firm if you want that path.",
@@ -128,36 +124,34 @@ export const HOME_COMPARISON = {
 
 export const HOME_PRICING = {
   title: "Choose how you want to start",
-  chooserLabel: "First month 30% off, or request a 3-day trial",
+  chooserLabel: "Tools $39.99 · Copy $99 · Full $119.99",
   microcopy:
-    "Cancel anytime. Educational tools only. Trading is high risk. Not financial advice. 3-day trial available on request. Bot not included.",
+    "Cancel anytime. Educational tools only. Trading is high risk. Not financial advice. Bot is a separate Desk flag.",
   trial: {
-    name: "3-Day Trial",
-    price: TRIAL_PRICE_TODAY,
-    priceNote: "on request",
-    then: `Then ${PREMIUM_PRICE}/mo if you continue`,
-    body: "3-day trial available on request. Bot not included.",
-    exclusion: "Bot not included in free trial",
-    extra:
-      "Workflow, journal, planning, live growth, and prop tools as enabled for trial. Admin grants access. Not a self-serve Stripe checkout.",
-    cta: "Request 3-day trial",
-    heroCta: "Request 3-day trial",
+    name: "Tools",
+    price: "$39.99",
+    priceNote: "/mo",
+    then: "Risk desk. Bot not included.",
+    body: "Rule Desk, presets, flatten, journal, live terminal.",
+    exclusion: "Bot not included in Tools",
+    extra: "Quant Protocol is a separate Desktop flag.",
+    cta: "Tools $39.99",
+    heroCta: "Tools $39.99",
   },
   discount: {
-    name: "First Month 30% Off",
-    price: DISCOUNT_FIRST_MONTH_PRICE,
-    priceNote: "first month",
-    then: `Then ${PREMIUM_PRICE}/mo`,
-    body: "Default Premium path including Quant Protocol access request on TradeLocker Desktop",
-    extra: "Eligible for Quant Protocol on TradeLocker Desktop. Priority support included.",
-    cta: "Start Premium — first month 30% off",
-    heroCta: "Start Premium — first month 30% off with code E8",
+    name: "Full",
+    price: PREMIUM_PRICE,
+    priceNote: "/mo",
+    then: "Tools + Copy",
+    body: "Risk desk plus TV→TradeLocker copy (not live until alert JSON is wired).",
+    extra: "No public coupons.",
+    cta: "See pricing",
+    heroCta: "See pricing",
   },
 } as const;
 
-export const HOME_LANDING_PREMIUM_CTA =
-  "Start Premium — first month 30% off with code E8";
-export const HOME_LANDING_CODE_HINT = "Use code E8 on Quicksilver checkout.";
+export const HOME_LANDING_PREMIUM_CTA = "See pricing — $39.99 / $99 / $119.99";
+export const HOME_LANDING_CODE_HINT = "No public coupons.";
 
 export const HOME_FOR = [
   "Live-account traders who want a growth terminal, risk visibility, and a review loop",
@@ -200,11 +194,11 @@ export const HOME_FAQS: { question: string; answer: string }[] = [
   },
   {
     question: "What is the first-month discount?",
-    answer: `30% off the first month (${DISCOUNT_FIRST_MONTH_PRICE}) with code E8 on Quicksilver checkout, then ${PREMIUM_PRICE}/mo.`,
+    answer: "There is no public 30% coupon. Plans are Tools $39.99, Copy $99, Full $119.99.",
   },
   {
-    question: "How do I start Premium?",
-    answer: `Start Premium — first month 30% off with code E8. Use code E8 on Quicksilver checkout (${DISCOUNT_FIRST_MONTH_PRICE} first month, then ${PREMIUM_PRICE}/mo).`,
+    question: "How do I start a paid plan?",
+    answer: "Open /pricing. Tools $39.99, Copy $99, Full $119.99. No public coupons.",
   },
   {
     question: "Which prop firm does Quicksilver recommend?",
@@ -222,7 +216,8 @@ export const HOME_FAQS: { question: string; answer: string }[] = [
   },
   {
     question: "Do I buy the bot separately?",
-    answer: `No. Quant Protocol access is part of Premium Quant at ${PREMIUM_PRICE}/mo. Request access on the TradeLocker Hub with the same email you use for Desktop.`,
+    answer:
+      "Quant Protocol is a separate TradeLocker Desktop flag. It is not bundled into Tools $39.99.",
   },
   {
     question: "Is this set and forget?",
@@ -247,13 +242,13 @@ export const QUANT_PROTOCOL_STEPS = [
   },
   {
     step: 2,
-    title: "Choose trial or first-month discount",
-    text: `3-day free trial is ${TRIAL_PRICE_TODAY} today, then ${PREMIUM_PRICE}/mo — bot not included. First month 30% off is ${DISCOUNT_FIRST_MONTH_PRICE}, then ${PREMIUM_PRICE}/mo — full Premium path.`,
+    title: "Pick a Desk plan",
+    text: "Tools $39.99 is the risk desk (bot not included). Copy $99 is the TV webhook. Full is $119.99. See /pricing.",
   },
   {
     step: 3,
-    title: "Request Quant Protocol on TradeLocker Hub (Premium)",
-    text: "Use the same email as TradeLocker Desktop — not Web. Not available on the free trial.",
+    title: "Request Quant Protocol on TradeLocker Hub",
+    text: "Desktop only — not Web. Bot is a separate Desk flag.",
   },
   {
     step: 4,

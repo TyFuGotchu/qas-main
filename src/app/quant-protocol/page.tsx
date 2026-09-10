@@ -3,7 +3,6 @@ import Link from "next/link";
 import { Bot, Check, ExternalLink, Zap } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
-import { TrackedCheckoutLink } from "@/components/analytics/TrackedCheckoutLink";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
 import { PremiumEverythingIncluded } from "@/components/marketing/PremiumEverythingIncluded";
 import { QuantProtocolDesktopNotice } from "@/components/trading-bots/QuantProtocolDesktopNotice";
@@ -15,7 +14,6 @@ import {
 } from "@/lib/premium-includes";
 import {
   getPremiumCheckoutUrl,
-  PREMIUM_PRICE,
 } from "@/lib/pricing-constants";
 import { PROP_FIRM_CHALLENGE_DAYS } from "@/lib/prop-firm-challenge-marketing";
 import { TOOL_COUNT } from "@/lib/tools-registry";
@@ -36,7 +34,7 @@ const PATH = QUANT_PROTOCOL_LANDING_PATH;
 export const metadata: Metadata = rankingPageMetadata({
   title: "Quicksilver Quant Protocol — TradeLocker Bot + Premium Stack",
   description:
-    "Requested TradeLocker bot access? Premium Quant unlocks Quicksilver Quant Protocol plus the 7-Day Playbook, planning tools, Chart Academy, and live terminal. $149.99/mo.",
+    "Quant Protocol is TradeLocker Desktop only. It is a separate Desk flag — not included in Tools $39.99. Full is $119.99/mo.",
   path: PATH,
   modifiedAt: SEO_CONTENT_REFRESHED,
   keywords: [
@@ -52,7 +50,8 @@ export const metadata: Metadata = rankingPageMetadata({
 const FAQS = [
   {
     question: "I requested the bot on TradeLocker — how do I get access?",
-    answer: `Premium Quant (${PREMIUM_PRICE}/mo) unlocks the full Quicksilver stack, including the workflow to enable Quicksilver Quant Protocol on your TradeLocker account.`,
+    answer:
+      "Quant Protocol needs TradeLocker Desktop. It is not inside Tools ($39.99). See /pricing for Tools / Copy / Full.",
   },
   {
     question: "Do I need TradeLocker Desktop, or does the web platform work?",
@@ -62,7 +61,7 @@ const FAQS = [
   {
     question: "Is the bot a separate purchase from Premium?",
     answer:
-      "No. Premium Quant is one subscription: Quant Protocol on TradeLocker, the 7-Day Prop Firm Playbook, planning engines, Chart Academy, live terminal tools, and Prop OS.",
+      "The bot is a separate Desk flag, not bundled into Tools. Copy is the TV webhook plan. Full is Tools + Copy at $119.99.",
   },
   {
     question: "What do I do after I subscribe?",
@@ -72,12 +71,12 @@ const FAQS = [
   {
     question: "Do I need a specific broker or prop firm?",
     answer:
-      "E8 Markets is the exclusive recommended prop firm. Open the E8 Execution Center for evaluation routing. HeroFX and Risen FX are live-account broker options only. Quant Protocol is TradeLocker Desktop, operator-supervised, and not included in the free trial.",
+      "No. Any TradeLocker account works. E8 is an optional firm pack if you want that path. Quant Protocol is Desktop only.",
   },
 ];
 
 export default function QuantProtocolLandingPage() {
-  const priceNum = Number.parseFloat(PREMIUM_PRICE.replace(/[^0-9.]/g, "")) || 149.99;
+  const priceNum = 119.99;
   const jsonLd = [
     breadcrumbJsonLd([
       { name: "Home", path: "/" },
@@ -92,7 +91,7 @@ export default function QuantProtocolLandingPage() {
       steps: [
         {
           name: "Subscribe to Premium Quant",
-          text: `Checkout for Premium Quant at ${PREMIUM_PRICE}/mo.`,
+          text: "Open /pricing. Tools $39.99, Copy $99, Full $119.99. Bot is a separate Desk flag.",
         },
         {
           name: "Create or log into Quicksilver",
@@ -140,24 +139,22 @@ export default function QuantProtocolLandingPage() {
           {QUICKSILVER_QUANT_PROTOCOL.subtitle} · {QUICKSILVER_QUANT_PROTOCOL.tagline}
         </p>
         <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-slate-400">
-          Access is included with <strong className="text-slate-300">Premium Quant</strong> —
-          the same plan unlocks the bot on TradeLocker <em>and</em> the full prop-firm trader
-          stack: playbook, planning engines, Chart Academy, and live terminal tools.
+          Quant Protocol is TradeLocker Desktop only. It is a separate Desk flag — not
+          inside Tools ($39.99). You do not need an E8 account.
         </p>
         <p className="mt-6 font-mono text-2xl font-bold text-slate-100">
-          {PREMIUM_PRICE}
-          <span className="text-base font-normal text-slate-500">/mo</span>
+          $39.99 / $99 / $119.99
         </p>
         <p className="mt-1 font-mono text-xs text-slate-600">
-          One plan · full Premium stack
+          Tools · Copy · Full
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <TrackedCheckoutLink source="quant_protocol_hero">
+          <Link href="/pricing">
             <Button variant="primary" size="lg">
               <Zap className="h-4 w-4" />
-              Unlock Premium Quant
+              See pricing
             </Button>
-          </TrackedCheckoutLink>
+          </Link>
           <a
             href={QUICKSILVER_QUANT_PROTOCOL.href}
             target="_blank"
@@ -275,7 +272,7 @@ export default function QuantProtocolLandingPage() {
         <ol className="mt-4 space-y-3 font-mono text-sm text-slate-400">
           <li className="flex gap-3">
             <span className="text-cyan-400">01.</span>
-            Checkout → {PREMIUM_PRICE}/mo
+            Open /pricing — Tools $39.99 / Copy $99 / Full $119.99
           </li>
           <li className="flex gap-3">
             <span className="text-cyan-400">02.</span>
@@ -291,11 +288,11 @@ export default function QuantProtocolLandingPage() {
           </li>
         </ol>
         <div className="mt-6 flex flex-wrap gap-3">
-          <TrackedCheckoutLink source="quant_protocol_steps">
+          <Link href="/pricing">
             <Button variant="primary" size="md">
-              Subscribe
+              See pricing
             </Button>
-          </TrackedCheckoutLink>
+          </Link>
           <Link href={TRADING_BOTS_NAV.quantProtocol}>
             <Button variant="secondary" size="md">
               Open bot settings (members)
@@ -336,11 +333,11 @@ export default function QuantProtocolLandingPage() {
           {PROP_FIRM_CHALLENGE_DAYS}-day playbook · {TOOL_COUNT} tools ·{" "}
           {CHART_ACADEMY_STATS.lessonCount} lessons · live terminal · Quant Protocol
         </p>
-        <TrackedCheckoutLink source="quant_protocol_footer" className="mt-6 inline-block">
+        <Link href="/pricing" className="mt-6 inline-block">
           <Button variant="primary" size="lg">
-            Get Premium Quant — {PREMIUM_PRICE}/mo
+            See pricing — $39.99 / $99 / $119.99
           </Button>
-        </TrackedCheckoutLink>
+        </Link>
       </section>
 
       <AuthorityCrossLinks currentPath={PATH} />

@@ -1,90 +1,40 @@
-import { PRICING_TIERS } from "@/lib/pricing-tiers";
-import { Card, CardContent, CardHeader } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
-import Button from "@/components/ui/Button";
-import { Check, ExternalLink } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { HOME_PRICING } from "@/lib/homepage-copy";
-import { TRIAL_REQUEST_COPY, TRIAL_REQUEST_CTA, getTrialRequestMailto } from "@/lib/trial-request";
-
+import { CONSUMER_PLANS } from "@/lib/plans";
+import { StripeBuyButton } from "@/components/billing/StripeBuyButton";
+import Link from "next/link";
 
 export function PricingGrid() {
   return (
-    <div className="space-y-6">
-    <div className="mx-auto grid max-w-3xl gap-8 sm:grid-cols-2">
-      {PRICING_TIERS.map((tier) => (
-        <Card
-          key={tier.id}
-          glow={tier.recommended}
-          className={cn(
-            "relative flex flex-col transition-transform hover:scale-[1.02]",
-            tier.recommended && "border-cyan-500/40"
-          )}
+    <div className="grid gap-6 lg:grid-cols-3">
+      {CONSUMER_PLANS.map((plan) => (
+        <article
+          key={plan.id}
+          className="flex flex-col rounded-[16px] border border-white/[0.1] bg-[#0B0D12] p-6"
         >
-          {tier.recommended && (
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-              <Badge variant="success">Highly Recommended</Badge>
-            </div>
-          )}
-
-          <CardHeader className="text-center">
-            <h3 className="font-mono text-lg font-bold text-slate-200">
-              {tier.name}
-            </h3>
-            <div className="mt-4">
-              <span className="font-mono text-4xl font-bold text-cyan-terminal">
-                {tier.price}
-              </span>
-              <span className="ml-1 font-mono text-sm text-slate-500">
-                {tier.period}
-              </span>
-            </div>
-          </CardHeader>
-
-          <CardContent className="flex flex-1 flex-col">
-            <ul className="mb-8 flex-1 space-y-3">
-              {tier.features.map((feature) => (
-                <li key={feature} className="flex items-start gap-2 text-sm text-slate-400">
-                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-terminal" />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-
-            {tier.ctaLink ? (
-              <>
-              <a
-                href={tier.ctaLink}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button
-                  variant={tier.recommended ? "gold" : "secondary"}
-                  size="lg"
-                  className="w-full"
-                >
-                  {HOME_PRICING.discount.cta}
-                  <ExternalLink className="h-4 w-4" />
-                </Button>
-              </a>
-              <a href={getTrialRequestMailto()} className="mt-3 block text-center">
-                <span className="font-mono text-xs text-slate-400 hover:text-gold-soft">
-                  {TRIAL_REQUEST_CTA}
-                </span>
-              </a>
-              <p className="mt-2 text-center font-mono text-[10px] text-slate-600">
-                {TRIAL_REQUEST_COPY}
-              </p>
-              </>
-            ) : (
-              <p className="text-center font-mono text-[10px] uppercase tracking-widest text-slate-600">
-                No payment required
-              </p>
-            )}
-          </CardContent>
-        </Card>
+          <h3 className="font-mono text-sm uppercase tracking-[0.14em] text-[#7FE7DC]">
+            {plan.name}
+          </h3>
+          <p className="mt-3 text-3xl font-semibold text-white">
+            {plan.price}
+            <span className="ml-1 text-base font-normal text-[#9AA3B2]">{plan.period}</span>
+          </p>
+          <p className="mt-3 text-sm text-[#C9C2D6]">{plan.summary}</p>
+          <ul className="mt-4 flex-1 space-y-2 text-sm text-[#C9C2D6]">
+            {plan.includes.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+          <div className="mt-6">
+            <StripeBuyButton buyButtonId={plan.buyButtonId} />
+          </div>
+        </article>
       ))}
-    </div>
+      <p className="lg:col-span-3 text-sm text-[#9AA3B2]">
+        No public coupons. Profit-split is request-only via{" "}
+        <Link href="/arsenal" className="text-[#7FE7DC] hover:underline">
+          Arsenal
+        </Link>
+        .
+      </p>
     </div>
   );
 }

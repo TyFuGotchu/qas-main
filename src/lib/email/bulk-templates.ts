@@ -26,12 +26,7 @@ function signOff(): string {
   return `Ty
 Quicksilver Algo Systems
 
-Educational tools only. High risk. Official E8 rules are set by E8 Markets. Quicksilver does not guarantee a pass or payout.`;
-}
-
-function e8Ps(): string {
-  return `P.S. If you want an E8 account, use this link only: ${E8_SIGNUP}
-If E8 shows a code field, use ${E8_AFFILIATE_CODE}.`;
+Educational tools only. High risk. Quicksilver does not guarantee a pass or payout.`;
 }
 
 export const BULK_EMAIL_TEMPLATES: BulkEmailTemplate[] = [
@@ -53,8 +48,6 @@ Desk: ${DESK}
 Pricing: ${PRICING}
 Login: ${LOGIN}
 
-${e8Ps()}
-
 Reply or ${SUPPORT_EMAIL}.
 
 ${signOff()}`,
@@ -71,8 +64,6 @@ Desk first: ${DESK}
 Pricing: ${PRICING}
 Bot is TradeLocker Desktop, not inside Tools $39.99.
 
-${e8Ps()}
-
 ${signOff()}`,
   },
   {
@@ -86,8 +77,6 @@ ${signOff()}`,
 The desk works for any TradeLocker trader. Bot is optional Desktop.
 
 ${PRICING}
-
-${e8Ps()}
 
 ${signOff()}`,
   },

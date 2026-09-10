@@ -3,8 +3,11 @@
 export const PREMIUM_CHECKOUT_URL =
   "https://buy.stripe.com/fZufZhcWo4XY4L7727co00c";
 
-export const PREMIUM_PRICE = "$149.99";
-export const PREMIUM_PRICE_NUMBER = 149.99;
+/** Full plan — Tools + Copy. Prefer CONSUMER_PLANS in new UI. */
+export const PREMIUM_PRICE = "$119.99";
+export const PREMIUM_PRICE_NUMBER = 119.99;
+export const TOOLS_PRICE = "$39.99";
+export const COPY_PRICE = "$99";
 
 /** 3-day free trial — $0 today, then Premium Quant. Bot not included. */
 export const TRIAL_DAYS = 3;

@@ -95,7 +95,7 @@ export const SITE_FAQS: FaqItem[] = [
     category: "Billing & Premium",
     question: "What is the first-month discount?",
     answer:
-      "30% off the first month ($104.99), then $149.99/mo. That path is the full Premium stack, including Quant Protocol access request on TradeLocker Desktop.",
+      "Tools $39.99, Copy $99, Full $119.99. Quant Protocol is a separate Desktop flag. No public 30% coupon.",
   },
   {
     id: "how-to-register",
@@ -109,7 +109,7 @@ export const SITE_FAQS: FaqItem[] = [
     category: "Billing & Premium",
     question: "How much does Premium cost?",
     answer:
-      "Default public offer is first month 30% off ($104.99), then $149.99/mo. That is the full Premium stack, including Quant Protocol access request on TradeLocker Desktop. 3-day trial available on request. Bot not included.",
+      "Public plans are Tools $39.99, Copy $99, Full $119.99. Bot is not in Tools. No 3-day trial on the public site.",
   },
   {
     id: "prop-firm-playbook",

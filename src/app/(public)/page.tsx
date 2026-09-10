@@ -83,12 +83,12 @@ export default function LandingPage() {
               </Link>
             </article>
           </div>
-          <aside className="mt-12 rounded-[12px] border border-white/[0.08] px-4 py-4 text-sm text-[#C9C2D6]">
-            Firms strip:{" "}
+          <aside className="mt-12 text-sm text-[#9AA3B2]">
+            Optional firm pack:{" "}
             <Link href={E8_PUBLIC_PATH} className="text-[#7FE7DC] hover:underline">
               E8 Markets
-            </Link>{" "}
-            is an optional pack — not the brand.
+            </Link>
+            . Not required.
           </aside>
           <p className="mt-10 max-w-2xl font-mono text-[11px] leading-relaxed text-[#9AA3B2]">
             {LEGAL_FOOTER}
