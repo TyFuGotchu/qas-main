@@ -12,17 +12,6 @@ function IconX({ className }: { className?: string }) {
   );
 }
 
-function IconTikTok({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} aria-hidden>
-      <path
-        fill="currentColor"
-        d="M14.5 3h2.12c.18 1.54 1.12 2.86 2.5 3.5V8.7c-1.16-.04-2.27-.4-3.22-1.02v6.46A6.14 6.14 0 1 1 9.4 8.14v2.2a3.94 3.94 0 1 0 2.88 3.8V3Z"
-      />
-    </svg>
-  );
-}
-
 function IconYouTube({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden>
@@ -47,7 +36,6 @@ function IconInstagram({ className }: { className?: string }) {
 
 const ICONS: Record<FounderSocialPlatform, typeof IconX> = {
   x: IconX,
-  tiktok: IconTikTok,
   youtube: IconYouTube,
   instagram: IconInstagram,
 };

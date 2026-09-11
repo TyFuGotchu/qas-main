@@ -15,7 +15,6 @@ export const FOUNDER = {
 
 export type FounderSocialPlatform =
   | "x"
-  | "tiktok"
   | "youtube"
   | "instagram";
 
@@ -32,12 +31,6 @@ export const FOUNDER_SOCIAL_LINKS: FounderSocialLink[] = [
     id: "x",
     label: "X",
     href: "https://x.com/tyfugotchu",
-    handle: "@tyfugotchu",
-  },
-  {
-    id: "tiktok",
-    label: "TikTok",
-    href: "https://www.tiktok.com/@tyfugotchu",
     handle: "@tyfugotchu",
   },
   {
