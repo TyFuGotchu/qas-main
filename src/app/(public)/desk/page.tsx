@@ -28,7 +28,7 @@ export default function DeskPage() {
       </h1>
       <p className="mt-4 max-w-2xl text-base leading-relaxed text-[#C9C2D6]">
         Rule Desk, presets, hard flatten, journal, live terminal. Works on any
-        TradeLocker account. You do not need an E8 account.
+        TradeLocker account.
       </p>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[#9AA3B2]">
         Flatten and presets apply to TradeLocker FX, metals, and indices. Arm flatten

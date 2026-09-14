@@ -12,6 +12,7 @@ import {
   BookOpen,
   Users,
   Target,
+  Trophy,
   Building2,
   ChevronDown,
   X,
@@ -52,6 +53,7 @@ const navItems: NavItem[] = [
       { href: TRADING_BOTS_NAV.quantProtocol, label: "Quant Protocol" },
     ],
   },
+  { id: "tournaments", href: "/dashboard/tournaments", label: "Tournaments", icon: Trophy },
   {
     id: "arsenal",
     href: "/dashboard/arsenal",

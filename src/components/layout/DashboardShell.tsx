@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { InstitutionalBackdrop } from "@/components/layout/InstitutionalBackdrop";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
+import { TournamentBanner } from "@/components/marketing/TournamentBanner";
 import { HardFlatWatcher } from "@/components/e8/HardFlatWatcher";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { ToastProvider } from "@/components/ui/Toast";
@@ -50,6 +51,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
             onMenuToggle={() => setMobileNavOpen((open) => !open)}
             menuOpen={mobileNavOpen}
           />
+          <TournamentBanner />
           <main className="qs-terminal-frame relative flex-1 overflow-x-hidden p-4 sm:p-6">
             <div
               className="pointer-events-none absolute inset-0 bg-gradient-to-br from-cyan-500/[0.06] via-transparent to-emerald-500/[0.05]"

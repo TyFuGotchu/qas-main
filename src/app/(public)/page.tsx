@@ -5,6 +5,7 @@ import { rankingPageMetadata } from "@/lib/seo/page-metadata";
 import { SEO_RECOVERY_REFRESHED } from "@/lib/seo/money-pages";
 import { JsonLdScript } from "@/components/seo/JsonLdScript";
 import { organizationJsonLd, websiteJsonLd, breadcrumbJsonLd } from "@/lib/seo/json-ld";
+import { TournamentBanner } from "@/components/marketing/TournamentBanner";
 import { HOME_H1, LEGAL_FOOTER, SITE_POSITIONING } from "@/lib/site-ia";
 import { E8_PUBLIC_PATH } from "@/lib/e8-partner";
 
@@ -32,6 +33,7 @@ export default function LandingPage() {
           breadcrumbJsonLd([{ name: "Home", path: "/" }]),
         ]}
       />
+      <TournamentBanner />
       <section className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
         <div className="mx-auto max-w-6xl">
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#9AA3B2]">
@@ -41,8 +43,7 @@ export default function LandingPage() {
             {HOME_H1}
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-[#C9C2D6]">
-            {SITE_POSITIONING} You do not need an E8 account to use the Desk. E8 is an
-            optional firm pack with a tracked signup link.
+            {SITE_POSITIONING} The Desk works on any TradeLocker account.
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
             <Link href="/desk">

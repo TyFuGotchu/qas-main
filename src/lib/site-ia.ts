@@ -8,6 +8,7 @@ export const LEGAL_FOOTER =
 
 export const PUBLIC_NAV = [
   { href: "/desk", label: "Desk" },
+  { href: "/tournaments", label: "Tournaments" },
   { href: "/arsenal", label: "Arsenal" },
   { href: "/firms", label: "Firms" },
   { href: "/pricing", label: "Pricing" },
@@ -15,6 +16,7 @@ export const PUBLIC_NAV = [
 
 export const FOOTER_NAV = [
   { href: "/desk", label: "Desk" },
+  { href: "/tournaments", label: "Tournaments" },
   { href: "/arsenal", label: "Arsenal" },
   { href: "/firms", label: "Firms" },
   { href: "/pricing", label: "Pricing" },

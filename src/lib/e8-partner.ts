@@ -17,12 +17,12 @@ export const E8_HERO_SENTENCE =
 
 export const HARD_FLAT_RECOMMENDATION = {
   title: "Recommendation",
-  lead: "Always ARM Hard Equity-Stop at least $100–$200 away from the firm’s actual drawdown limit.",
+  lead: "Always ARM Hard Equity-Stop at least $100–$200 away from the firm’s published daily / max DD.",
   buffer:
-    "That buffer is for spread and slippage. The floor should trip before E8’s rule does.",
+    "That buffer is for spread and slippage. The floor should trip before the firm’s official line.",
   caveat: "This is a planning recommendation, not a guarantee.",
   disclaimer:
-    "Educational tools only. High risk. No guaranteed pass. Official rules are set by E8 Markets.",
+    "Educational tools. High risk. No guaranteed pass. Official rules are set by each firm or broker.",
 } as const;
 
 export const E8_PARTNER_LINE = "E8 Markets — optional firm pack";

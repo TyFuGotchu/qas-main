@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { E8SignupButton } from "@/components/e8/E8SignupButton";
 import { HardFlatRecommendation } from "@/components/e8/HardFlatRecommendation";
 import Button from "@/components/ui/Button";
 import { useHardFlat } from "@/hooks/useHardFlat";
@@ -158,8 +157,8 @@ export function HardFlatDesk() {
           Software guardrail. Trader still supervises.
         </p>
         <p className="mt-2 text-sm leading-relaxed text-[#C9C2D6]">
-          Hard equity-stop flatten is live. Forced flatten at the desk-defined
-          equity floor. {HARD_FLAT_RECOMMENDATION.disclaimer}
+          Hard equity-stop flatten is live on any TradeLocker account. Forced
+          flatten at the desk-defined equity floor. {HARD_FLAT_RECOMMENDATION.disclaimer}
         </p>
       </div>
 
@@ -216,7 +215,7 @@ export function HardFlatDesk() {
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         <Stat
-          label="E8 limit $"
+          label="Published DD limit $"
           value={e8Limits.e8Limit > 0 ? money(e8Limits.e8Limit) : "—"}
         />
         <Stat
@@ -229,8 +228,9 @@ export function HardFlatDesk() {
         />
       </div>
       <p className="text-xs text-[#C9C2D6]">
-        E8 limit is the nearer of daily {e8Limits.dailyPct}% and max DD {e8Limits.ddPct}%
-        from starting equity. Floor = limit + buffer so flatten trips first.
+        Published DD limit is the nearer of daily {e8Limits.dailyPct}% and max DD{" "}
+        {e8Limits.ddPct}% from starting equity (the firm’s published daily / max DD).
+        Floor = limit + buffer so flatten trips first.
       </p>
       <Button
         variant="e8Secondary"
@@ -243,11 +243,8 @@ export function HardFlatDesk() {
 
       {!view.tlConnected && (
         <p className="text-xs text-[#C9C2D6]">
-          Connect TradeLocker in{" "}
-          <Link href="/dashboard/bot" className="text-[#E4D4FF] hover:text-white">
-            Live Trading
-          </Link>{" "}
-          before arming. Near-live equity refreshes every few seconds.
+          Connect TradeLocker before arming. Near-live equity refreshes every few
+          seconds.
         </p>
       )}
 
@@ -323,6 +320,11 @@ export function HardFlatDesk() {
       )}
 
       <div className="flex flex-wrap items-center gap-3">
+        <Link href="/dashboard/bot">
+          <Button variant="e8" type="button">
+            {view.tlConnected ? "Select account" : "Connect TradeLocker"}
+          </Button>
+        </Link>
         <Button variant="e8" type="button" onClick={onArm} disabled={locked}>
           ARM
         </Button>
@@ -349,7 +351,6 @@ export function HardFlatDesk() {
         >
           TEST CALCULATION
         </Button>
-        <E8SignupButton size="md" />
       </div>
     </div>
   );

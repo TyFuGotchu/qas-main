@@ -7,6 +7,7 @@ import { getAuthSecret, validateCoreProductionEnv } from "@/lib/env";
 const PUBLIC_ROUTES = [
   "/",
   "/desk",
+  "/tournaments",
   "/arsenal",
   "/firms",
   "/pricing",
@@ -26,6 +27,7 @@ const SEO_PUBLIC_PREFIXES = [
   "/tools",
   "/prop-firm",
   "/desk",
+  "/tournaments",
   "/arsenal",
   "/firms",
   "/pricing",
